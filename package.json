@@ -3,16 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "concurrently 'yarn run start:BE' 'yarn run serve'",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "start:BE": "node ./fake-be/index.js"
+    "start:BE": "node ./functions/fake-be/app.js",
+    "deploy": "firebase deploy"
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "body-parser": "^1.18.3",
-    "express": "^4.16.4",
     "vue": "^2.5.17",
     "vue-i18n": "^8.0.0",
     "vue-router": "^3.0.1",
@@ -28,6 +28,7 @@
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-eslint": "^10.0.1",
     "chai": "^4.1.2",
+    "concurrently": "^4.1.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
     "node-sass": "^4.9.0",
