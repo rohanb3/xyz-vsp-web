@@ -1,3 +1,10 @@
 {
-  "dashboard": "Дашборд"
+  "dashboard": "Дашборд",
+  "Welcome Back": "TBD Welcome Back",
+  "Username is required": "TBD Username is required",
+  "Password is required": "TBD Password is required",
+  "Forgot Password": "TBD Forgot Password",
+  "User wasn't found": "TBD User wasn't found",
+  "Close": "TBD Close",
+  "Login": "TBD Login"
 }

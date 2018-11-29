@@ -1,3 +1,10 @@
 {
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  "Welcome Back": "Welcome Back",
+  "Username is required": "Username is required",
+  "Password is required": "Password is required",
+  "Forgot Password": "Forgot Password",
+  "User wasn't found": "User wasn't found",
+  "Close": "Close",
+  "Login": "Login"
 }

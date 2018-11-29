@@ -15,8 +15,8 @@ module.exports = {
       'always',
       {
         js: 'never',
-        vue: 'never'
-      }
+        vue: 'never',
+      },
     ],
   },
   parserOptions: {
