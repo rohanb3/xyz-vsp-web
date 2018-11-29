@@ -4,13 +4,13 @@
       <router-link to="/login" active>Login</router-link> |
       <router-link to="/dashboard">Dashboard</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </v-app>
 </template>
 
 <style lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
