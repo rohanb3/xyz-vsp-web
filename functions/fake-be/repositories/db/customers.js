@@ -7,6 +7,13 @@ function getAllCustomers() {
   return collection.get().then(getQuerySnapshotItems);
 }
 
+function getCustomerById(id) {
+  return collection
+    .doc(id)
+    .get()
+    .then(doc => doc.data());
+}
+
 function insertCustomers(customers = []) {
   return insertElementsToCollection(collection, customers);
 }
@@ -16,5 +23,6 @@ function deleteAllCustomers() {
 }
 
 exports.getAllCustomers = getAllCustomers;
+exports.getCustomerById = getCustomerById;
 exports.insertCustomers = insertCustomers;
 exports.deleteAllCustomers = deleteAllCustomers;
