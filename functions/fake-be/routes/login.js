@@ -1,4 +1,4 @@
-module.exports = function login(req, res){
+module.exports = function login(req, res) {
   const { userName, password } = req.body;
 
   if (userName === 'Admin' && password) {
@@ -6,4 +6,4 @@ module.exports = function login(req, res){
   } else {
     res.status(403).send({ error: 'Not Authorized' });
   }
-}
+};

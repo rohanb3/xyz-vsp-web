@@ -7,6 +7,6 @@ const router = require('./router');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
-app.use('/v1', router);
+app.use('/api/v1', router);
 
 module.exports = app;
