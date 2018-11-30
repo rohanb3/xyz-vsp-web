@@ -1,6 +1,6 @@
-# xyz
+# XYZ VSP Web
 
-## Project setup
+### Project setup
 
 ```
 yarn install
@@ -9,31 +9,25 @@ yarn install
 ### Compiles and hot-reloads for development
 
 ```
-yarn run serve
+yarn start
 ```
 
 ### Compiles and minifies for production
 
 ```
-yarn run build
+yarn build
 ```
 
 ### Run your tests
 
 ```
-yarn run test
+yarn test
 ```
 
 ### Lints and fixes files
 
 ```
-yarn run lint
-```
-
-### Run your unit tests
-
-```
-yarn run test:unit
+yarn lint
 ```
 
 ### Run fake BE

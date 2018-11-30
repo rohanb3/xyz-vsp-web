@@ -1,9 +1,9 @@
 const functions = require('firebase-functions');
 
-const app = require('./fake-be');
+const fakeBeApp = require('./fake-be');
 
-const api = functions.https.onRequest(app);
+const fakeBe = functions.https.onRequest(fakeBeApp);
 
 module.exports = {
-  api,
+  fakeBe,
 };

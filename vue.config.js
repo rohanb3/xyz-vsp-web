@@ -7,4 +7,11 @@ module.exports = {
       enableInSFC: false,
     },
   },
+  devServer: {
+    proxy: {
+      '/api': {
+        target: 'https://ardas-xyz-vsp.firebaseapp.com',
+      },
+    },
+  },
 };
