@@ -8,7 +8,7 @@ const reset = require('./routes/reset');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
-app.use('/v1', router);
-app.get('/reset', reset);
+app.use('/api/v1', router);
+app.get('/api/reset', reset);
 
 module.exports = app;
