@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "id": "E2283538936849A3B956DDF2CF5193DE",
+      "company": "T-mobile",
+      "contactPerson": "Stuart Little",
+      "email": "stuart.little@gmail.com",
+      "phone": "+1 492 499 39 21",
+      "lastPayment": "2018-10-28T00:00:00",
+      "amount": "4.329"
+    },
+    {
+      "id": "E1D73F892A824B059FC92615FE01E723",
+      "company": "SpaceX",
+      "contactPerson": "Ilon Musk",
+      "email": "ilon.king@spacex.com",
+      "phone": "+1 322 209 10 11",
+      "lastPayment": "2018-10-26T00:00:00",
+      "amount": "2019"
+    },
+    {
+      "id": "54B80FF3A37C4DA68681DDC99B2E240C",
+      "company": "Burger King",
+      "contactPerson": "John Doe",
+      "email": "john.doe@bking.com",
+      "phone": "+1 333 222 21 21",
+      "lastPayment": "2018-10-14T00:00:00",
+      "amount": "3800"
+    },
+    {
+      "id": "FC730D97EBD14846999CA4D17EB5CDA1",
+      "company": "Zara",
+      "contactPerson": "Queen Mary",
+      "email": "mary-mary-mary@zara.es",
+      "phone": "+1 678 123 45 45",
+      "lastPayment": "2018-10-28T00:00:00",
+      "amount": "350"
+    },
+    {
+      "id": "96E683F5680C420198E705B4248223C1",
+      "company": "CNN",
+      "contactPerson": "James Porter",
+      "email": "james.porter@cnn.com",
+      "phone": "+1 100 200 30 40",
+      "lastPayment": "2018-09-26T00:00:00",
+      "amount": "1500"
+    },
+    {
+      "id": "B2E598DF83264FE4B9D08D2C6434A418",
+      "company": "Apple",
+      "contactPerson": "David Beckham",
+      "email": "d.beck@apple.com",
+      "phone": "+1 785 324 39 44",
+      "lastPayment": "2018-10-29T00:00:00",
+      "amount": "31859"
+    }
+  ]
+}

@@ -1,12 +1,15 @@
 const app = require('express')();
-const bodyParser = require('body-parser');
-const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const router = require('./router');
+const reset = require('./routes/reset');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cors({ origin: true }));
+const middlewares = fs.readdirSync(path.join(__dirname, 'middlewares')).sort();
+/* eslint-disable-next-line global-require, import/no-dynamic-require */
+middlewares.forEach(m => require(`./middlewares/${m}`)(app));
+
 app.use('/api/v1', router);
+app.get('/api/reset', reset);
 
 module.exports = app;
