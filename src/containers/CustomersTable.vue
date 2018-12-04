@@ -2,7 +2,7 @@
   <div class="customers-table">
       <div class="customers-table-toolbar">
         <div class="customers-amount">
-          389 Companies
+          {{ totalCustomersAmount }} Companies
         </div>
         <v-btn
           round
@@ -33,7 +33,7 @@
        :columns="columns"
        :item-height="50"
        :resize="false"
-       @bottomReached="test"
+       @bottomReached="insertCustomers"
      >
        <div
          slot="row"
@@ -74,6 +74,11 @@ import EmailCell from '@/components/EmailCell';
 import LastPaymentCell from '@/components/LastPaymentCell';
 import AdditionalCell from '@/components/AdditionalCell';
 import TableLoader from '@/components/TableLoader';
+
+import {
+  LOAD_CUSTOMERS,
+  LOAD_ALL_CUSTOMERS_LENGTH,
+} from '@/store/storage/actionTypes';
 
 export default {
   name: 'CustomersList',
@@ -146,6 +151,9 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.getAllCustomersLength().then(this.insertCustomers);
+  },
   computed: {
     rows() {
       return this.$store.state.storage.customers.map(item => ({
@@ -154,110 +162,24 @@ export default {
       }));
     },
     totalCustomersAmount() {
-      return 389;
+      return this.$store.state.storage.allCustomersLength;
+    },
+    allCustomersLoaded() {
+      return this.$store.getters.allCustomersLoaded;
     },
   },
   methods: {
-    test() {
-      this.loading = true;
-      setTimeout(() => {
-        this.insert();
-        this.loading = false;
-      }, 1000);
+    checkAndInsertCustomers() {
+      if (!this.allCustomersLoaded) {
+        this.insertCustomers();
+      }
     },
-    insert() {
-      this.$store.commit('INSERT_COMPANIES', [
-        {
-          id: '12E598DF83264FE4B9D08D2C6434A418',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-        {
-          id: 'B2E598DF83264FE4B9D08D2C6434A458',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-        {
-          id: 'B2E598DF3E264FE4B9D08D2C6434A418',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-        {
-          id: 'B2E598DF83264FE4B9D08Z1C6434A418',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-        {
-          id: 'B2E598DF83264FE4B9D08D2C6434A288',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-        {
-          id: 'B2E598DF83264FE4B9R08D2C6434A418',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-        {
-          id: 'B2E598DFDP264FE4B9D08D2C6434A418',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-        {
-          id: 'B2E598DF93264FE4B9D08D2C6434A418',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-        {
-          id: 'B2E598D483264FE4B9D08D2C6434A418',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-        {
-          id: 'B2E598DF83264FE4B9D08D2C1934A418',
-          company: 'Apple',
-          contactPerson: 'David Beckham',
-          email: 'd.beck@apple.com',
-          phone: '+1 785 324 39 44',
-          lastPayment: '2018-10-29T00:00:00',
-          amount: '31859',
-        },
-      ]);
+    insertCustomers() {
+      this.loading = true;
+      this.$store.dispatch(LOAD_CUSTOMERS).then(() => (this.loading = false));
+    },
+    getAllCustomersLength() {
+      return this.$store.dispatch(LOAD_ALL_CUSTOMERS_LENGTH);
     },
   },
 };

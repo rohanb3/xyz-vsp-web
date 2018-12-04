@@ -1,13 +1,12 @@
-import { INSERT_COMPANIES } from './mutationTypes';
+import { INSERT_CUSTOMERS, SET_ALL_CUSTOMERS_LENGTH } from './mutationTypes';
 
 export default {
-  [INSERT_COMPANIES](state, companies) {
-    /* eslint-disable-next-line no-param-reassign */
-    const test = companies.map(company => ({
-      ...company,
-      id: Date.now() + Math.random(),
-      amount: String(Math.random() * Date.now()).slice(0, 5),
-    }));
-    state.customers.push(...test);
+  /* eslint-disable no-param-reassign */
+  [INSERT_CUSTOMERS](state, customers) {
+    state.customers.push(...customers);
   },
+  [SET_ALL_CUSTOMERS_LENGTH](state, length) {
+    state.allCustomersLength = length;
+  },
+  /* eslint-enable no-param-reassign */
 };

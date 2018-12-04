@@ -1,4 +1,9 @@
-const { getAllCustomers, getCustomerById } = require('../repositories/db/customers');
+const {
+  getAllCustomers,
+  getCustomersRange,
+  getCustomerById,
+  getCustomersLength,
+} = require('../repositories/db/customers');
 
 function pickCustomerById(req, res, next, id) {
   getCustomerById(id)
@@ -23,7 +28,15 @@ function customerById(req, res) {
 }
 
 function customers(req, res) {
-  return getAllCustomers()
+  let { startFrom, count } = req.query;
+
+  startFrom = Number(startFrom);
+  count = Number(count);
+
+  const customersPromise =
+    startFrom || count ? getCustomersRange(startFrom, count) : getAllCustomers();
+
+  return customersPromise
     .then(items => {
       return res.send({ items });
     })
@@ -32,6 +45,13 @@ function customers(req, res) {
     });
 }
 
+function customersLength(req, res) {
+  return getCustomersLength()
+    .then(length => res.send({ length }))
+    .catch(error => res.status(500).send({ error }));
+}
+
 exports.pickCustomerById = pickCustomerById;
 exports.customerById = customerById;
 exports.customers = customers;
+exports.customersLength = customersLength;
