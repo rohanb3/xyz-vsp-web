@@ -1,0 +1,83 @@
+.wombat-table .cell {
+  box-sizing: border-box;
+  padding: 0 5px;
+
+  .row-cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.text {
+    text-align: left;
+  }
+
+  &.number,
+  &.date {
+    text-align: right;
+  }
+}
+
+.customers-table .wombat-table {
+  height: calc(100vh - #{$header-height} - 44px) !important;
+  font-family: Roboto;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+
+  .wombat-header {
+    height: 40px;
+    border-bottom: 2px solid $table-row-border-color;
+    font-size: 12px;
+    color: $table-header-text-color;
+  }
+
+  .row-wrapper {
+    color: $table-row-text-color;
+    font-size: 14px;
+    border-bottom: 2px solid $table-row-border-color;
+  }
+
+  .cell.column-company,
+  .cell.column-contactperson,
+  .cell.column-additional,
+  .cell.column-lastpayment {
+    text-align: center;
+  }
+
+  .wombat-row .column-lastpayment {
+    opacity: 0.56;
+    font-size: 14px;
+    color: #4a4a4a;
+  }
+
+  .row-cell {
+    line-height: 50px;
+  }
+
+  .customers-table-footer {
+    height: 40px;
+  }
+
+  .virtual-list {
+    height: calc(
+      100vh - #{$header-height} - 44px - 80px - 40px - 40px
+    ) !important;
+    position: relative;
+  }
+
+  // .infinite-loading-container {
+  //   height: 0px;
+  // }
+  //
+  // .infinite-status-prompt {
+  //   height: 0px;
+  //   padding: 0px !important;
+  //
+  //   i {
+  //     display: none;
+  //   }
+  // }
+}

@@ -1,0 +1,45 @@
+.wombat-header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  .cell.column-totalvalue {
+    text-align: center;
+  }
+}
+
+.cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+}
+
+.cell:hover {
+  background: #eee;
+}
+
+.content {
+  flex: 1;
+}
+
+.wombat-header .resizer {
+  /*background: #aaa;*/
+  height: 100% !important;
+  cursor: col-resize;
+}
+
+.resizer.dragging {
+  background: #ddd;
+}
+
+.header-column-ellipsis .content {
+  white-space: nowrap;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,11 @@
+@import './variables.scss';
+@import './fonts.scss';
+@import './table.scss';
+
+html {
+  overflow: hidden;
+}
+
+.customers-list {
+  height: calc(100vh - #{$header-height} - 44px) !important;
+}

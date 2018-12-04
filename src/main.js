@@ -8,7 +8,9 @@ import i18n from './i18n';
 
 Vue.config.productionTip = false;
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  primary: '#3c91f7',
+});
 
 new Vue({
   router,

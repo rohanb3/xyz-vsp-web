@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { login } from '@/services/repository';
+import { LOG_IN_USER } from '@/store/loggedInUser/actionTypes';
 
 export default {
   name: 'Login',
@@ -63,17 +63,20 @@ export default {
     };
   },
   methods: {
-    async submit() {
+    submit() {
       if (this.$refs.form.validate()) {
         const { userName, password } = this;
-        const response = await login(userName, password);
-
-        if (response === 'OK') {
-          this.$router.push({ name: 'dashboard', params: { userName } });
-        } else {
-          this.snackbar = true;
-        }
+        this.$store
+          .dispatch(LOG_IN_USER, { userName, password })
+          .then(this.onLoginSuccess)
+          .catch(this.onLoginFail);
       }
+    },
+    onLoginSuccess() {
+      this.$router.replace({ name: 'customers' });
+    },
+    onLoginFail() {
+      this.snackbar = true;
     },
     clear() {
       this.$refs.form.reset();

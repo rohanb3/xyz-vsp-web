@@ -14,3 +14,5 @@ export const login = async (userName, password) => {
     return e;
   }
 };
+
+export const logout = () => {};
