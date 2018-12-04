@@ -19,7 +19,7 @@ function insertCustomers(customers = []) {
 }
 
 function deleteAllCustomers() {
-  return deleteCollection(collection);
+  return deleteCollection(collection, 10);
 }
 
 exports.getAllCustomers = getAllCustomers;
