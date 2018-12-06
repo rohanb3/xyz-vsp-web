@@ -10,8 +10,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        // target: 'https://ardas-xyz-vsp.firebaseapp.com',
-        target: 'http://localhost:5000/ardas-xyz-vsp/us-central1/fakeBe',
+        target: process.env.VUE_APP_PROXY_URL || 'https://ardas-xyz-vsp.firebaseapp.com',
       },
     },
   },
