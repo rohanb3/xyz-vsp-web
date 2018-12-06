@@ -1,7 +1,7 @@
 <template>
   <div class="table-loader">
     <div class="spinner"></div>
-    <div class="text">Loading...</div>
+    <div class="text">{{ $t('Loading') }}...</div>
   </div>
 </template>
 

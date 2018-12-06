@@ -1,5 +1,3 @@
-import { RecycleScroller } from 'vue-virtual-scroller';
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import InfiniteLoading from 'vue-infinite-loading';
@@ -12,7 +10,6 @@ import WombatFooter from '../Footer';
 export default {
   name: 'wombat-table',
   components: {
-    RecycleScroller,
     WombatRow,
     WombatHeader,
     WombatFooter,
@@ -38,12 +35,18 @@ export default {
     },
     infiniteLoading: {
       type: Boolean,
-      default: true,
+      default: false,
+    },
+    scrollOnItemsUpdate: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
     return {
       rowWidth: '100%',
+      lastScrollTop: 0,
+      lastScrollHeight: 0,
     };
   },
   computed: {
@@ -64,15 +67,6 @@ export default {
     checkHeaderWidth() {
       this.rowWidth = this.$refs.scroller.$el.clientWidth;
     },
-    infiniteHandler(state) {
-      this.$emit('bottomReached');
-      const unwatch = this.$watch('items', () => {
-        unwatch();
-        state.loaded();
-        const prevScrollTop = this.$refs.scroller.$el.scrollTop;
-        this.$refs.scroller.setScrollTop(prevScrollTop + 100);
-      });
-    },
     updateScrollBar() {
       this.$nextTick(() => {
         if (this.scrollbar) {
@@ -83,9 +77,24 @@ export default {
         }
       });
     },
+    scrollToFirstUpdatedItem() {
+      const scrollTop = this.lastScrollTop + this.lastScrollHeight - this.itemHeight;
+      this.$refs.scroller.setScrollTop(scrollTop);
+    },
+    infiniteHandler(state) {
+      this.$emit('bottomReached', state);
+      const { scrollTop, clientHeight } = this.$refs.scroller.$el;
+      this.lastScrollTop = scrollTop;
+      this.lastScrollHeight = clientHeight;
+    },
   },
   watch: {
-    items() {
+    items(old) {
+      if (old.length) {
+        setTimeout(() => {
+          this.scrollToFirstUpdatedItem();
+        });
+      }
       this.updateScrollBar();
     },
   },

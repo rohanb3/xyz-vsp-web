@@ -1,4 +1,4 @@
-import { login } from '@/services/repository';
+import { login } from '@/services/auth';
 import { LOG_IN_USER } from './actionTypes';
 import { SET_LOGGED_IN_USER } from './mutationTypes';
 

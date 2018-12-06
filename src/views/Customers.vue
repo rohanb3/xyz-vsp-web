@@ -19,10 +19,10 @@ export default {
 @import '~@/assets/styles/variables.scss';
 
 .customers-page {
-  padding: 22px;
+  padding: $customers-list-padding;
 }
 
 .customers-table {
-  height: calc(100vh - #{$header-height} - 44px);
+  // height: calc(100vh - #{$header-height} - (2 * $customers-list-padding));
 }
 </style>

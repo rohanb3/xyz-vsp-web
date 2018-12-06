@@ -4,7 +4,7 @@ import mutations from './mutations';
 
 export default {
   state: {
-    customersToLoad: 10,
+    customersToLoad: 20,
     allCustomersLength: 0,
     customers: [],
   },

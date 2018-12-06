@@ -7,9 +7,6 @@ export default {
     },
   },
   computed: {
-    allDaysTotalValue() {
-      return Object.values(this.dayTotalValue).reduce((acc, current) => acc + current);
-    },
     preparedColumns() {
       const columns = this.columns.map((item, index) => {
         const style = {};

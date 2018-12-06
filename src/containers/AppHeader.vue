@@ -97,6 +97,7 @@ export default {
   height: 36px;
   border-radius: 50%;
   background-color: #f8c37a;
+  font-family: Roboto;
   font-size: 14px;
   font-weight: bold;
   font-style: normal;

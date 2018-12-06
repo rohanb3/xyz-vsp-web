@@ -6,5 +6,13 @@
   "Forgot Password": "Forgot Password",
   "User wasn't found": "User wasn't found",
   "Close": "Close",
-  "Login": "Login"
+  "Login": "Login",
+  "Companies": "Companies",
+  "Company": "Company",
+  "Contact person": "Contact Person",
+  "Email": "Email",
+  "Phone": "Phone",
+  "Last payment": "Last Payment",
+  "Amount": "Amount",
+  "Loading": "Loading"
 }

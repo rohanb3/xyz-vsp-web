@@ -2,40 +2,22 @@
   <div class="customers-table">
       <div class="customers-table-toolbar">
         <div class="customers-amount">
-          {{ totalCustomersAmount }} Companies
+          {{ totalCustomersAmount }} {{ $t('Companies') }}
         </div>
-        <v-btn
-          round
-          small
-          class="header-button"
-        >
-          <v-icon>add_circle</v-icon> <span>Add New</span>
-        </v-btn>
         <v-spacer></v-spacer>
-        <v-btn
-          round
-          small
-          class="header-button"
-        >
-          + Filters
-        </v-btn>
-        <v-btn
-          round
-          small
-          class="header-button"
-        >
-          View
-        </v-btn>
       </div>
     <wombat-table
-       v-if="rows && rows.length"
-       :items="rows"
-       :columns="columns"
-       :item-height="50"
-       :resize="false"
-       @bottomReached="insertCustomers"
+      v-if="rows && rows.length"
+      :items="rows"
+      :columns="columns"
+      :item-height="50"
+      :resize="false"
+      :infinite-loading="!allCustomersLoaded"
+      :scroll-on-items-update="true"
+      @bottomReached="checkAndInsertCustomers"
      >
        <div
+         v-if="rows && rows.length"
          slot="row"
          slot-scope="row"
        >
@@ -57,7 +39,7 @@
        </div>
        <div
          slot="footer"
-         class="customers-table-footer"
+         class="customers-table-footer wombat-footer"
        >
          <table-loader v-if="loading"/>
        </div>
@@ -69,7 +51,6 @@
 import WombatTable from '@/components/WombatTable/Table';
 import WombatRow from '@/components/WombatTable/Row';
 import DefaultCell from '@/components/DefaultCell';
-import DefaultHeaderCell from '@/components/DefaultHeaderCell';
 import EmailCell from '@/components/EmailCell';
 import LastPaymentCell from '@/components/LastPaymentCell';
 import AdditionalCell from '@/components/AdditionalCell';
@@ -86,7 +67,6 @@ export default {
     WombatTable,
     WombatRow,
     DefaultCell,
-    DefaultHeaderCell,
     EmailCell,
     AdditionalCell,
     LastPaymentCell,
@@ -101,43 +81,43 @@ export default {
         lastPayment: 'LastPaymentCell',
         additional: 'AdditionalCell',
       },
-      headerComponentsHash: {
-        defaultHeader: 'DefaultHeaderCell',
-      },
       columns: [
         {
           name: 'company',
           field: 'company',
-          title: 'Company',
+          title: this.$t('Company'),
           width: '300px',
         },
         {
           name: 'contactPerson',
           field: 'contactPerson',
-          title: 'Contact person',
+          class: 'text',
+          title: this.$t('Contact person'),
         },
         {
           name: 'email',
           field: 'email',
           fieldType: 'email',
-          title: 'Email',
+          class: 'text',
+          title: this.$t('Email'),
         },
         {
           name: 'phone',
           field: 'phone',
-          title: 'Phone',
+          class: 'text',
+          title: this.$t('Phone'),
           width: '150px',
         },
         {
           name: 'lastPayment',
           field: 'lastPayment',
           fieldType: 'lastPayment',
-          title: 'Last payment',
+          title: this.$t('Last payment'),
         },
         {
           name: 'amount',
           field: 'amount',
-          title: 'Amount',
+          title: this.$t('Amount'),
           class: 'number',
           width: '100px',
         },
@@ -169,14 +149,17 @@ export default {
     },
   },
   methods: {
-    checkAndInsertCustomers() {
+    async checkAndInsertCustomers(state) {
       if (!this.allCustomersLoaded) {
-        this.insertCustomers();
+        await this.insertCustomers();
+        state.loaded();
       }
     },
     insertCustomers() {
       this.loading = true;
-      this.$store.dispatch(LOAD_CUSTOMERS).then(() => (this.loading = false));
+      return this.$store.dispatch(LOAD_CUSTOMERS).then(() => {
+        this.loading = false;
+      });
     },
     getAllCustomersLength() {
       return this.$store.dispatch(LOAD_ALL_CUSTOMERS_LENGTH);
@@ -197,9 +180,8 @@ export default {
 .customers-table-toolbar {
   display: flex;
   flex-flow: row;
-  height: 60px;
+  height: $customers-table-header-height;
   align-items: center;
-  margin-bottom: 20px;
   padding: 0px 29px;
 }
 
