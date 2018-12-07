@@ -59,6 +59,9 @@ export default {
     footerCellStotPresent() {
       return !!this.$scopedSlots['footer-cell'] || !!this.$slots['footer-cell'];
     },
+    itemsLength() {
+      return this.items.length;
+    },
   },
   methods: {
     onGlobalResize() {
@@ -81,19 +84,18 @@ export default {
       const scrollTop = this.lastScrollTop + this.lastScrollHeight - this.itemHeight;
       this.$refs.scroller.setScrollTop(scrollTop);
     },
-    infiniteHandler(state) {
-      this.$emit('bottomReached', state);
+    infiniteHandler() {
+      this.$emit('bottomReached');
       const { scrollTop, clientHeight } = this.$refs.scroller.$el;
       this.lastScrollTop = scrollTop;
       this.lastScrollHeight = clientHeight;
     },
   },
   watch: {
-    items(old) {
-      if (old.length) {
-        setTimeout(() => {
-          this.scrollToFirstUpdatedItem();
-        });
+    itemsLength(next, old) {
+      const itemsInserted = next > old;
+      if (itemsInserted && this.scrollOnItemsUpdate) {
+        this.scrollToFirstUpdatedItem();
       }
       this.updateScrollBar();
     },

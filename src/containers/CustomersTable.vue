@@ -149,10 +149,9 @@ export default {
     },
   },
   methods: {
-    async checkAndInsertCustomers(state) {
+    async checkAndInsertCustomers() {
       if (!this.allCustomersLoaded) {
         await this.insertCustomers();
-        state.loaded();
       }
     },
     insertCustomers() {
