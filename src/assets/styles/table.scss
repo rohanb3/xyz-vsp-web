@@ -1,3 +1,5 @@
+@import './mixins.scss';
+
 .wombat-table .cell {
   box-sizing: border-box;
   padding: 0 5px;
@@ -19,7 +21,7 @@
   }
 }
 
-.customers-table .wombat-table {
+.wombat-table {
   font-family: Roboto;
   font-weight: normal;
   font-style: normal;
@@ -43,22 +45,40 @@
     }
   }
 
+  .column-date {
+    padding-left: 20px;
+  }
+
   .wombat-footer {
     height: $table-footer-height;
     border-top: 2px solid $table-row-border-color;
   }
 
-  .wombat-row .column-lastpayment {
-    opacity: 0.56;
-    font-size: 14px;
-    color: $table-inactive-color;
+  .wombat-row {
+    .column-lastpayment,
+    .column-date,
+    .column-disposition {
+      @include inactive-cell;
+    }
+
+    .column-disposition {
+      font-size: 12px;
+    }
+  }
+
+  .wombat-row.call-missed {
+    background-color: $calls-missed-call-background-color;
+
+    .column-type {
+      @include inactive-cell;
+    }
   }
 
   .row-cell {
     line-height: 50px;
   }
 
-  .customers-table-footer {
+  .wombat-footer {
     height: 40px;
   }
 

@@ -5,6 +5,7 @@ import Base from '@/views/Base';
 import Login from '@/views/Login';
 import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
+import Calls from '@/views/Calls';
 
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
@@ -52,6 +53,11 @@ const router = new Router({
               path: '/customers',
               name: 'customers',
               component: Customers,
+            },
+            {
+              path: '/calls',
+              name: 'calls',
+              component: Calls,
             },
           ],
         },

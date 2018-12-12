@@ -1,0 +1,7 @@
+@import './variables.scss';
+
+@mixin inactive-cell {
+  opacity: 0.56;
+  font-size: 14px;
+  color: $table-inactive-color;
+}

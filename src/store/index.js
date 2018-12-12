@@ -4,6 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 import loggedInUser from './loggedInUser';
 import storage from './storage';
+import media from './media';
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
   modules: {
     loggedInUser,
     storage,
+    media,
   },
   plugins: [persistedStatePlugin],
   strict: debug,

@@ -9,3 +9,13 @@ html {
 .customers-list {
   height: calc(100vh - #{$header-height} - 44px) !important;
 }
+
+#app .wombat-table {
+  .v-input.v-input--slider {
+    margin-top: 0px;
+
+    .v-messages {
+      display: none;
+    }
+  }
+}

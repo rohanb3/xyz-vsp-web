@@ -1,8 +1,8 @@
 <template>
-  <div class="customers-table">
-      <div class="customers-table-toolbar">
-        <div class="customers-amount">
-          {{ totalCustomersAmount }} {{ $t('Companies') }}
+  <div class="calls-table">
+      <div class="calls-table-toolbar">
+        <div class="calls-amount">
+          {{ totalCallsAmount }} {{ $t('Calls') }}
         </div>
         <v-spacer></v-spacer>
       </div>
@@ -12,9 +12,9 @@
       :columns="columns"
       :item-height="50"
       :resize="false"
-      :infinite-loading="!allCustomersLoaded"
+      :infinite-loading="!allCallsLoaded"
       :scroll-on-items-update="true"
-      @bottomReached="checkAndInsertCustomers"
+      @bottomReached="checkAndInsertCalls"
      >
        <div
          v-if="rows && rows.length"
@@ -25,6 +25,7 @@
            :item="row.item"
            :columns="row.columns"
            :height="row.item.height"
+           :class="`call-${row.item.type}`"
          >
            <component
              slot="row-cell"
@@ -39,7 +40,7 @@
        </div>
        <div
          slot="footer"
-         class="customers-table-footer wombat-footer"
+         class="calls-table-footer wombat-footer"
        >
          <table-loader v-if="loading"/>
        </div>
@@ -50,73 +51,84 @@
 <script>
 import WombatTable from '@/components/WombatTable/Table';
 import WombatRow from '@/components/WombatTable/Row';
-import DefaultCell from '@/components/tableCells/DefaultCell';
-import EmailCell from '@/components/tableCells/EmailCell';
-import LastPaymentCell from '@/components/tableCells/LastPaymentCell';
-import AdditionalCell from '@/components/tableCells/AdditionalCell';
 import TableLoader from '@/components/TableLoader';
+import DefaultCell from '@/components/tableCells/DefaultCell';
+import DateCell from '@/components/tableCells/DateCell';
+import CallTypeCell from '@/components/tableCells/CallTypeCell';
+import WaitTimeCell from '@/components/tableCells/WaitTimeCell';
+import DurationCell from '@/components/tableCells/DurationCell';
+import RatingCell from '@/components/tableCells/RatingCell';
+import StatusCell from '@/components/tableCells/StatusCell';
+import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
+import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
 
-import {
-  LOAD_CUSTOMERS,
-  LOAD_ALL_CUSTOMERS_LENGTH,
-} from '@/store/storage/actionTypes';
-
-import { getCustomersTableColumns } from '@/services/tableColumns';
+import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
+import { getCallsTableColumns } from '@/services/tableColumns';
 
 export default {
-  name: 'CustomersTable',
+  name: 'CallsTable',
   components: {
     WombatTable,
     WombatRow,
     DefaultCell,
-    EmailCell,
-    AdditionalCell,
-    LastPaymentCell,
+    DateCell,
+    CallTypeCell,
+    WaitTimeCell,
+    DurationCell,
+    RatingCell,
+    StatusCell,
+    ClientFeedbackCell,
+    OperatorFeedbackCell,
     TableLoader,
   },
   data() {
     return {
       loading: false,
-      columns: getCustomersTableColumns(),
+      columns: getCallsTableColumns(),
       rowComponentsHash: {
         default: 'DefaultCell',
-        email: 'EmailCell',
-        lastPayment: 'LastPaymentCell',
-        additional: 'AdditionalCell',
+        date: 'DateCell',
+        type: 'CallTypeCell',
+        waitTime: 'WaitTimeCell',
+        duration: 'DurationCell',
+        rating: 'RatingCell',
+        status: 'StatusCell',
+        clientFeedback: 'ClientFeedbackCell',
+        operatorFeedback: 'OperatorFeedbackCell',
       },
     };
   },
   mounted() {
-    this.getAllCustomersLength().then(this.insertCustomers);
+    this.getAllCallsLength().then(this.insertCalls);
   },
   computed: {
     rows() {
-      return this.$store.state.storage.customers.map(item => ({
+      return this.$store.state.storage.calls.map(item => ({
         ...item,
         height: '50px',
       }));
     },
-    totalCustomersAmount() {
-      return this.$store.state.storage.allCustomersLength;
+    totalCallsAmount() {
+      return this.$store.state.storage.allCallsLength;
     },
-    allCustomersLoaded() {
-      return this.$store.getters.allCustomersLoaded;
+    allCallsLoaded() {
+      return this.$store.getters.allCallsLoaded;
     },
   },
   methods: {
-    async checkAndInsertCustomers() {
-      if (!this.allCustomersLoaded) {
-        await this.insertCustomers();
+    async checkAndInsertCalls() {
+      if (!this.allCallsLoaded) {
+        await this.insertCalls();
       }
     },
-    insertCustomers() {
+    insertCalls() {
       this.loading = true;
-      return this.$store.dispatch(LOAD_CUSTOMERS).then(() => {
+      return this.$store.dispatch(LOAD_CALLS).then(() => {
         this.loading = false;
       });
     },
-    getAllCustomersLength() {
-      return this.$store.dispatch(LOAD_ALL_CUSTOMERS_LENGTH);
+    getAllCallsLength() {
+      return this.$store.dispatch(LOAD_ALL_CALLS_LENGTH);
     },
   },
 };
@@ -125,21 +137,21 @@ export default {
 <style lang="scss" scoped>
 @import '~@/assets/styles/variables.scss';
 
-.customers-table {
+.calls-table {
   width: 100%;
   border-radius: 8px;
   box-shadow: 0 2px 4px 0 $table-shadow-color;
 }
 
-.customers-table-toolbar {
+.calls-table-toolbar {
   display: flex;
   flex-flow: row;
-  height: $customers-table-header-height;
+  height: $calls-table-header-height;
   align-items: center;
   padding: 0px 29px;
 }
 
-.customers-amount {
+.calls-amount {
   font-family: Roboto;
   font-size: 20px;
   font-weight: bold;
@@ -161,7 +173,7 @@ export default {
   }
 }
 
-.customers-table-footer {
+.calls-table-footer {
   display: flex;
   flex-flow: row;
   justify-content: center;
