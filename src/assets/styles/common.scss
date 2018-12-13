@@ -6,6 +6,11 @@ html {
   overflow: hidden;
 }
 
-.customers-list {
-  height: calc(100vh - #{$header-height} - 44px) !important;
+#app .customers-table {
+  .virtual-list {
+    max-height: calc(
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-header-height} -
+        #{$table-header-height} - #{$table-footer-height}
+    );
+  }
 }

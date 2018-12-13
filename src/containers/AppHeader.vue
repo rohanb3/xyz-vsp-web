@@ -4,7 +4,7 @@
       color="primary"
       height="56px">
       <v-toolbar-side-icon class="side-icon">P</v-toolbar-side-icon>
-      <v-toolbar-title class="platform-name">{{ platform }}</v-toolbar-title>
+      <v-toolbar-title class="platform-name">{{ $t('App Title') }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
@@ -50,11 +50,6 @@
 <script>
 export default {
   name: 'AppHeader',
-  computed: {
-    platform() {
-      return 'XYZies VSP Platform';
-    },
-  },
 };
 </script>
 
@@ -96,7 +91,7 @@ export default {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #f8c37a;
+  background-color: $header-photo-background-color;
   font-family: Roboto;
   font-size: 14px;
   font-weight: bold;

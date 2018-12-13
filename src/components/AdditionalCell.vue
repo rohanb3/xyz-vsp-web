@@ -4,7 +4,7 @@
       icon
       small
     >
-      <v-icon color="#398ffb">more_horiz</v-icon>
+      <v-icon class="cell-icon">more_horiz</v-icon>
     </v-btn>
   </div>
 </template>
@@ -21,10 +21,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.email-cell {
-  a {
-    color: #398ffb;
-    text-decoration: none;
+@import '~@/assets/styles/variables.scss';
+
+.additional-cell {
+  .cell-icon {
+    color: $customers-table-additional-cell-color;
   }
 }
 </style>

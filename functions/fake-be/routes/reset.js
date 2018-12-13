@@ -2,11 +2,8 @@ const { insertCustomers, deleteAllCustomers } = require('../repositories/db/cust
 const customers = require('../fixtures/customers').items;
 
 module.exports = function reset(req, res) {
-  const preparedCustomers = customers.map((customer, index) =>
-    Object.assign({}, customer, { order: index })
-  );
   return deleteAllCustomers()
-    .then(() => insertCustomers(preparedCustomers))
+    .then(() => insertCustomers(customers))
     .then(() => {
       return res.send({ data: 'Success' });
     })

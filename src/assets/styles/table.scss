@@ -19,7 +19,7 @@
   }
 }
 
-.customers-table .wombat-table {
+.wombat-table {
   font-family: Roboto;
   font-weight: normal;
   font-style: normal;
@@ -48,24 +48,11 @@
     border-top: 2px solid $table-row-border-color;
   }
 
-  .wombat-row .column-lastpayment {
-    opacity: 0.56;
-    font-size: 14px;
-    color: $table-inactive-color;
-  }
-
   .row-cell {
     line-height: 50px;
   }
 
-  .customers-table-footer {
+  .wombat-footer {
     height: 40px;
-  }
-
-  .virtual-list {
-    max-height: calc(
-      100vh - #{$header-height} - 2 * #{$customers-list-padding} - #{$customers-table-header-height} -
-        #{$table-header-height} - #{$table-footer-height}
-    ) !important;
   }
 }

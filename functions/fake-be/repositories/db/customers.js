@@ -10,18 +10,13 @@ const collection = firestore.collection('customers');
 
 function getAllCustomers() {
   return collection
-    .orderBy('order')
+    .orderBy('company')
     .get()
     .then(getQuerySnapshotItems);
 }
 
 function getCustomersRange(startFrom, count) {
-  return collection
-    .orderBy('order')
-    .startAt(startFrom)
-    .limit(count)
-    .get()
-    .then(getQuerySnapshotItems);
+  return getAllCustomers().then(customers => customers.slice(startFrom, startFrom + count));
 }
 
 function getCustomersLength() {
