@@ -95,7 +95,7 @@ export default {
     itemsLength(next, old) {
       const itemsInserted = next > old;
       if (itemsInserted && this.scrollOnItemsUpdate) {
-        this.scrollToFirstUpdatedItem();
+        this.$nextTick(this.scrollToFirstUpdatedItem);
       }
       this.updateScrollBar();
     },

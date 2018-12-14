@@ -66,7 +66,7 @@ export default {
   display: flex;
   flex-flow: column;
   align-items: center;
-  box-shadow: 3px 0 4px 0 rgba(184, 184, 184, 0.5);
+  box-shadow: 3px 0 4px 0 $lhs-shadow-color;
 }
 
 .lhs-item {
@@ -90,11 +90,11 @@ export default {
 }
 
 .lhs-item:not(:last-child) {
-  border-bottom: 2px solid #dfdfdf;
+  border-bottom: 2px solid $lhs-delimiter-color;
 }
 
 .lhs-item:last-child {
-  border-top: 2px solid #dfdfdf;
+  border-top: 2px solid $lhs-delimiter-color;
 }
 
 .lhs-item.call {

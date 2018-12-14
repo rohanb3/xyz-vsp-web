@@ -23,10 +23,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.email-cell {
-  a {
-    color: #398ffb;
-    text-decoration: none;
-  }
+@import '~@/assets/styles/variables.scss';
+
+.last-payment-cell {
+  opacity: 0.56;
+  font-size: 14px;
+  color: $table-inactive-color;
 }
 </style>

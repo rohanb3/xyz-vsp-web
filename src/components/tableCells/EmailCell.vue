@@ -21,9 +21,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~@/assets/styles/variables.scss';
+
 .email-cell {
   a {
-    color: #398ffb;
+    color: $customers-table-email-cell-color;
     text-decoration: none;
   }
 }
