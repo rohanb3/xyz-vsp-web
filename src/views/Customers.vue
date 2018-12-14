@@ -1,0 +1,24 @@
+<template>
+  <div class="customers-page">
+    <customers-table class="customers-table" />
+  </div>
+</template>
+
+<script>
+import CustomersTable from '@/containers/CustomersTable';
+
+export default {
+  name: 'CustomersList',
+  components: {
+    CustomersTable,
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import '~@/assets/styles/variables.scss';
+
+.customers-page {
+  padding: $table-list-padding;
+}
+</style>

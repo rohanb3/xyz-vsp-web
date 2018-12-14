@@ -13,6 +13,10 @@ function insertElementsToCollection(collection, elements = []) {
   return Promise.all(promises);
 }
 
+function getCollectionSize(collection) {
+  return collection.get().then(snap => snap.size);
+}
+
 function getQuerySnapshotItems(querySnapshot, idField = 'id') {
   const items = [];
 
@@ -55,4 +59,5 @@ function deleteQueryBatch(query, batchSize = 10) {
 
 exports.deleteCollection = deleteCollection;
 exports.insertElementsToCollection = insertElementsToCollection;
+exports.getCollectionSize = getCollectionSize;
 exports.getQuerySnapshotItems = getQuerySnapshotItems;

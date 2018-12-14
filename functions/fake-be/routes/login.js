@@ -2,7 +2,7 @@ module.exports = function login(req, res) {
   const { userName, password } = req.body;
 
   if (userName === 'Admin' && password) {
-    res.send({ role: 'admin' });
+    res.send({ role: 'admin', name: userName });
   } else if (userName === 'Operator' && password) {
     res.send({ role: 'operator' });
   } else if (userName === 'Supervisor' && password) {

@@ -10,7 +10,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://ardas-xyz-vsp.firebaseapp.com',
+        target: process.env.VUE_APP_PROXY_URL || 'https://ardas-xyz-vsp.firebaseapp.com',
       },
     },
   },
