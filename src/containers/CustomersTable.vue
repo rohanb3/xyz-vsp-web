@@ -150,17 +150,6 @@ export default {
   color: $table-row-text-color;
 }
 
-.header-button {
-  padding-left: 1px;
-  padding-right: 10px;
-  color: $table-icon-color;
-  background-color: #fff;
-
-  span {
-    margin-left: 5px;
-  }
-}
-
 .customers-table-footer {
   display: flex;
   flex-flow: row;
