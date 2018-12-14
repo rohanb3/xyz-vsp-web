@@ -3,7 +3,7 @@
     <div class="operator-feedback-card call-feedback-card">
 
       <div class="card-header">
-        <h3>{{ $t('Operator feedback') }}</h3>
+        <h3>{{ $t('operator.feedback') }}</h3>
         <v-icon
           class="close-icon"
           @click="close"
@@ -13,7 +13,7 @@
       </div>
 
       <div class="labelled-description call-type">
-        <div class="label">{{ $t('Type of call') }}</div>
+        <div class="label">{{ $t('type.of.call') }}</div>
         <div class="description">{{ type }}</div>
       </div>
 
@@ -21,12 +21,12 @@
         v-if="disposition"
         class="labelled-description disposition"
       >
-        <div class="label">{{ $t('Disposition') }}</div>
+        <div class="label">{{ $t('disposition') }}</div>
         <div class="description">{{ disposition }}</div>
       </div>
 
       <div class="labelled-description system-quality">
-        <div class="label">{{ $t('System quality rating') }}</div>
+        <div class="label">{{ $t('system.quality.rating') }}</div>
         <div class="description">
           <v-rating
             color="#ff941b"
@@ -40,7 +40,7 @@
         v-if="message"
         class="labelled-description note"
       >
-        <div class="label">{{ $t('Note') }}</div>
+        <div class="label">{{ $t('note') }}</div>
         <div class="description">{{ message }}</div>
       </div>
 

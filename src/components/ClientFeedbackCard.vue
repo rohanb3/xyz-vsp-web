@@ -3,7 +3,7 @@
     <div class="client-feedback-card call-feedback-card">
 
       <div class="card-header">
-        <h3>{{ $t('Client feedback') }}</h3>
+        <h3>{{ $t('client.feedback') }}</h3>
         <v-icon
           class="close-icon"
           @click="close"
@@ -13,12 +13,12 @@
       </div>
 
       <div class="labelled-description rate-and-experience">
-        <div class="label">{{ $t('Rate and experience with operator') }}</div>
+        <div class="label">{{ $t('rate.and.experience.with.operator') }}</div>
         <div class="description">{{ rate }}</div>
       </div>
 
       <div class="labelled-description call-quality">
-        <div class="label">{{ $t('Quality of audio and video') }}</div>
+        <div class="label">{{ $t('quality.of.audio.and.video') }}</div>
         <div class="description">
           <v-rating
             color="#ff941b"
@@ -32,24 +32,24 @@
         v-if="message"
         class="labelled-description note"
       >
-        <div class="label">{{ $t('Note') }}</div>
+        <div class="label">{{ $t('note') }}</div>
         <div class="description">{{ message }}</div>
       </div>
 
       <div class="technical-details">
 
         <div class="technical-detail">
-          <div class="detail-title">{{ $t('Retailer') }}</div>
+          <div class="detail-title">{{ $t('retailer') }}</div>
           <div class="detail-value">{{ retailer }}</div>
         </div>
 
         <div class="technical-detail">
-          <div class="detail-title">{{ $t('VSP ID') }}</div>
+          <div class="detail-title">{{ $t('vsp.id') }}</div>
           <div class="detail-value">{{ vspId }}</div>
         </div>
 
         <div class="technical-detail">
-          <div class="detail-title">{{ $t('Location') }}</div>
+          <div class="detail-title">{{ $t('location') }}</div>
           <div class="detail-value">{{ location }}</div>
         </div>
 

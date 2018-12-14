@@ -2,7 +2,7 @@
   <div class="customers-table">
       <div class="customers-table-toolbar">
         <div class="customers-amount">
-          {{ totalCustomersAmount }} {{ $t('Companies') }}
+          {{ totalCustomersAmount }} {{ $t('companies') }}
         </div>
         <v-spacer></v-spacer>
       </div>

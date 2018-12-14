@@ -2,7 +2,7 @@
   <div class="calls-table">
     <div class="calls-table-toolbar">
       <div class="calls-amount">
-        {{ totalCallsAmount }} {{ $t('Calls') }}
+        {{ totalCallsAmount }} {{ $t('calls') }}
       </div>
       <v-spacer></v-spacer>
     </div>
