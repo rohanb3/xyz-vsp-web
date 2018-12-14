@@ -33,5 +33,20 @@
   "help": "Help",
   "missed": "Missed",
   "success": "Success",
-  "fail": "Fail"
+  "fail": "Fail",
+  "Client feedback": "Client Feedback",
+  "Operator feedback": "Operator Feedback",
+  "Type of call": "Type Of Call",
+  "System quality rating": "System Quality Rating",
+  "Rate and experience with operator": "Rate and experience with operator",
+  "Quality of audio and video": "Quality of audio and video",
+  "Note": "Note",
+  "Retailer": "Retailer",
+  "VSP ID": "VSP ID",
+  "Location": "Location",
+  "excellent": "Excellent",
+  "good": "Good",
+  "average": "Average",
+  "below average": "Below Average",
+  "poor": "Poor"
 }

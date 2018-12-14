@@ -6,7 +6,7 @@ export function secondsToHuman(duration = 0) {
 
   let seconds = parseInt(duration % 60, 10);
   let minutes = parseInt((duration / 60) % 60, 10);
-  let hours = parseInt((duration / 3600) % 24, 10);
+  let hours = parseInt(Math.floor(duration / 3600), 10);
 
   hours = hours < 10 ? `0${hours}` : hours;
   minutes = minutes < 10 ? `0${minutes}` : minutes;

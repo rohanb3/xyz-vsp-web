@@ -16,12 +16,7 @@ function getAllCalls() {
 }
 
 function getCallsRange(startFrom, count) {
-  return collection
-    .orderBy('order')
-    .startAt(startFrom)
-    .limit(count)
-    .get()
-    .then(getQuerySnapshotItems);
+  return getAllCalls().then(calls => calls.slice(startFrom, startFrom + count));
 }
 
 function getCallsLength() {

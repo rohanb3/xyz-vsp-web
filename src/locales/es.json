@@ -33,5 +33,20 @@
   "help": "TBD Help",
   "missed": "TBD Missed",
   "success": "TBD Success",
-  "fail": "TBD Fail"
+  "fail": "TBD Fail",
+  "Client feedback": "TBD Client Feedback",
+  "Operator feedback": "TBD Operator Feedback",
+  "Type of call": "TBD Type Of Call",
+  "System quality rating": "TBD System Quality Rating",
+  "Rate and experience with operator": "TBD Rate and experience with operator",
+  "Quality of audio and video": "TBD Quality of audio and video",
+  "Note": "TBD Note",
+  "Retailer": "TBD Retailer",
+  "VSP ID": "TBD VSP ID",
+  "Location": "TBD Location",
+  "excellent": "TBD Excellent",
+  "good": "TBD Good",
+  "average": "TBD Average",
+  "below average": "TBD Below Average",
+  "poor": "TBD Poor"
 }
