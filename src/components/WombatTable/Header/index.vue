@@ -1,38 +1,45 @@
 <template>
-  <div
+  <!-- <div
     class="wombat-header"
     :style="globalStyles"
-  >
-    <div
-      class="cell header-column"
-      v-for="column in preparedColumns"
-      :key="column.name"
-      :ref="column._machineName"
-      :title="column.title"
-      :class="[column.class, column._className, isColumnsEllipsisModeAlways
-      ? 'header-column-ellipsis' : '']"
+  > -->
+    <vue-draggable
+      v-model="preparedColumns"
+      class="wombat-header"
+      :style="globalStyles"
+      @start="test"
     >
-      <div class="content">
-        <slot
-          name="header-cell"
-          :column="column"
-        >
-          {{ column.title }}
-        </slot>
+      <div
+        class="cell header-column"
+        v-for="column in preparedColumns"
+        :key="column.name"
+        :ref="column._machineName"
+        :title="column.title"
+        :class="[column.class, column._className, isColumnsEllipsisModeAlways
+        ? 'header-column-ellipsis' : '']"
+      >
+        <div class="content">
+          <slot
+            name="header-cell"
+            :column="column"
+          >
+            {{ column.title }}
+          </slot>
+        </div>
+        <vue-draggable-resizable
+          v-if="resize && resizerPositions[column.name]"
+          class="resizer"
+          :resizable="false"
+          :w="RESIZER_WIDTH"
+          :x="resizerPositions[column.name]"
+          :z="50"
+          :minw="RESIZER_WIDTH"
+          axis="x"
+          @dragstop="(left) => onResizeFinish(column, left)"
+        />
       </div>
-      <vue-draggable-resizable
-        v-if="resize && resizerPositions[column.name]"
-        class="resizer"
-        :resizable="false"
-        :w="RESIZER_WIDTH"
-        :x="resizerPositions[column.name]"
-        :z="50"
-        :minw="RESIZER_WIDTH"
-        axis="x"
-        @dragstop="(left) => onResizeFinish(column, left)"
-      />
-    </div>
-  </div>
+    </vue-draggable>
+  <!-- </div> -->
 </template>
 
 <script src="./Header.js">

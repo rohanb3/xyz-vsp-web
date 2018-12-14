@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import VueDraggableResizable from 'vue-draggable-resizable';
+import VueDraggable from 'vuedraggable';
 
 const RESIZER_WIDTH = 5;
 const COLUMN_DEFAULT_MIN_WIDTH = 50;
@@ -12,6 +13,7 @@ export default {
   name: 'configurable-header',
   components: {
     VueDraggableResizable,
+    VueDraggable,
   },
   props: {
     columns: {
@@ -44,36 +46,41 @@ export default {
     isColumnsEllipsisModeAlways() {
       return this.columnsEllipsisMode === HEADER_CELL_ELLIPSIS_ALWAYS;
     },
-    preparedColumns() {
-      const columns = this.columns.map((item, index) => {
-        const _style = {};
-        let _width;
-        let _widthProportion;
+    preparedColumns: {
+      get() {
+        const columns = this.columns.map((item, index) => {
+          const _style = {};
+          let _width;
+          let _widthProportion;
 
-        if (item.width && String(item.width).indexOf('px') >= 0) {
-          _style.width = item.width;
-          _width = parseInt(item.width, 10);
-        } else {
-          _style.flex = item.width || 1;
-          _widthProportion = _style.flex;
-        }
-        const _minWidth = parseInt(item.minWidth || COLUMN_DEFAULT_MIN_WIDTH, 10);
-        _style['min-width'] = `${_minWidth}px`;
+          if (item.width && String(item.width).indexOf('px') >= 0) {
+            _style.width = item.width;
+            _width = parseInt(item.width, 10);
+          } else {
+            _style.flex = item.width || 1;
+            _widthProportion = _style.flex;
+          }
+          const _minWidth = parseInt(item.minWidth || COLUMN_DEFAULT_MIN_WIDTH, 10);
+          _style['min-width'] = `${_minWidth}px`;
 
-        const _machineName = (item.name || `column${index}`).toLowerCase().replace(/\W/g, '');
-        const _className = `column-${_machineName}`;
+          const _machineName = (item.name || `column${index}`).toLowerCase().replace(/\W/g, '');
+          const _className = `column-${_machineName}`;
 
-        return {
-          ...item,
-          _machineName,
-          _className,
-          _minWidth,
-          _width,
-          _widthProportion,
-          _style,
-        };
-      });
-      return columns;
+          return {
+            ...item,
+            _machineName,
+            _className,
+            _minWidth,
+            _width,
+            _widthProportion,
+            _style,
+          };
+        });
+        return columns;
+      },
+      set(columns) {
+        this.$emit('columnsReordered', columns);
+      },
     },
     columnsWidths() {
       const widths = {};
@@ -118,6 +125,11 @@ export default {
     width: 'checkColumnsWidth',
   },
   methods: {
+    test(ev) {
+      console.log('start', ev);
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+    },
     compileColumnsStyles() {
       const compiledStyles = Object.keys(this.columnsStyles)
         .map(className => {

@@ -6,6 +6,7 @@
       :width="rowWidth"
       :resize ="resize"
       @columnsResized="data => $emit('columnsResized', data)"
+      @columnsReordered="data => $emit('columnsReordered', data)"
     >
       <div
         :slot="headerCellStotPresent ? 'header-cell' : 'header-cell-disabled'"

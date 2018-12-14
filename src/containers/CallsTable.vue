@@ -12,10 +12,12 @@
       :items="rows"
       :columns="columns"
       :item-height="50"
-      :resize="false"
+      :resize="true"
       :infinite-loading="!allCallsLoaded"
       :scroll-on-items-update="true"
       @bottomReached="checkAndInsertCalls"
+      @columnsResized="onColumnsResized"
+      @columnsReordered="onColumnsReordered"
      >
        <div
          v-if="rows && rows.length"
@@ -79,7 +81,8 @@ import ClientFeedbackCard from '@/components/ClientFeedbackCard';
 import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
 
 import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
-import { getCallsTableColumns } from '@/services/tableColumns';
+import { SET_COLUMNS } from '@/store/table/mutationTypes';
+import { CALLS_TABLE } from '@/store/table/constants';
 
 export default {
   name: 'CallsTable',
@@ -102,7 +105,6 @@ export default {
   data() {
     return {
       loading: false,
-      columns: getCallsTableColumns(),
       rowComponentsHash: {
         default: 'DefaultCell',
         date: 'DateCell',
@@ -123,6 +125,9 @@ export default {
     this.getAllCallsLength().then(this.insertCalls);
   },
   computed: {
+    columns() {
+      return this.$store.state.table[CALLS_TABLE].columns;
+    },
     rows() {
       return this.$store.state.storage.calls.map(item => ({
         ...item,
@@ -170,6 +175,26 @@ export default {
     selectCallById(id) {
       const call = this.rows.find(row => row.id === id);
       this.selectedCall = call;
+    },
+    onColumnsResized(data) {
+      const updatedColumns = this.columns.map(column => {
+        const updated = { ...column };
+        if (data[column.name]) {
+          updated.width = data[column.name];
+        }
+        return updated;
+      });
+
+      this.$store.commit(SET_COLUMNS, {
+        tableName: CALLS_TABLE,
+        columns: updatedColumns,
+      });
+    },
+    onColumnsReordered(columns) {
+      this.$store.commit(SET_COLUMNS, {
+        tableName: CALLS_TABLE,
+        columns,
+      });
     },
   },
 };
