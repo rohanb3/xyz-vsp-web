@@ -4,7 +4,7 @@
       color="primary"
       height="56px">
       <v-toolbar-side-icon class="side-icon">P</v-toolbar-side-icon>
-      <v-toolbar-title class="platform-name">{{ $t('App Title') }}</v-toolbar-title>
+      <v-toolbar-title class="platform-name">{{ $t('app.title') }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn

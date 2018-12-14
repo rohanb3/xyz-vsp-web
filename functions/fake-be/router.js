@@ -7,11 +7,14 @@ const {
   customerById,
   customersLength,
 } = require('./routes/customers');
+const { calls, callsLength } = require('./routes/calls');
 
 router.param('customerId', pickCustomerById);
 router.post('/login', login);
 router.get('/customers/:customerId', customerById);
 router.get('/customers', customers);
 router.get('/customers-length', customersLength);
+router.get('/calls', calls);
+router.get('/calls-length', callsLength);
 
 module.exports = router;

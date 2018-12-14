@@ -1,0 +1,171 @@
+{
+  "items": [
+    {
+      "id": "62749C3B6DFF48208E2D52AF67694629",
+      "date": 1539200340000,
+      "operator": "Stuart Little",
+      "retailers": "Walmart",
+      "type": "info",
+      "disposition": "Did not find the settings.",
+      "waitTime": 40,
+      "duration": 232,
+      "record": "/samples_1w72b820/292.mp3",
+      "rating": 4,
+      "status": "success",
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
+      "clientFeedback": {
+        "rate": "excellent",
+        "quality": 4
+      },
+      "operatorFeedback": {
+        "quality": 5,
+        "message": "Very good."
+      }
+    },
+    {
+      "id": "32DC8FC7413441FFBC2D27DC4F9AA6CA",
+      "date": 1539113940000,
+      "operator": "David Beckham",
+      "retailers": "Walmart",
+      "type": "info",
+      "disposition": "Did not understand the tariffs.",
+      "waitTime": 3,
+      "duration": 428,
+      "record": "/samples_1w72b820/199.mp3",
+      "rating": 5,
+      "status": null,
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
+      "clientFeedback": {
+        "rate": "good",
+        "quality": 3,
+        "message": "Nothing to tell more."
+      },
+      "operatorFeedback": {
+        "quality": 4
+      }
+    },
+    {
+      "id": "A5F93A5C1E9A46A7922B45F9B212CB79",
+      "date": 1539109320000,
+      "operator": "Leonardo da Vinci",
+      "retailers": "Reneissance",
+      "type": "sale",
+      "disposition": "Bought a package for a month.",
+      "waitTime": 77,
+      "duration": 845,
+      "record": "/samples_1w72b820/2514.mp3",
+      "rating": 2,
+      "status": "fail",
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
+      "clientFeedback": {
+        "rate": "average",
+        "quality": 3,
+        "record": "Not so fast reaction."
+      },
+      "operatorFeedback": {
+        "quality": 3,
+        "message": "Wrong language",
+        "record": "Wrong language"
+      }
+    },
+    {
+      "id": "EBACC4BE189C4E38A8FB295F3393689A",
+      "date": 1539009000000,
+      "operator": "Lemmy Killmister",
+      "retailers": "Motorhead",
+      "type": "missed",
+      "disposition": null,
+      "waitTime": 272,
+      "duration": 0,
+      "record": null,
+      "rating": null,
+      "status": null,
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
+      "clientFeedback": {
+        "rate": "below average",
+        "quality": 5,
+        "message": "Who is working there?",
+        "record": "traaaa"
+      },
+      "operatorFeedback": {
+        "quality": 5,
+        "record": "Very good"
+      }
+    },
+    {
+      "id": "07D9D7C31B934F6095E4B6A26D33064B",
+      "date": 1544606956000,
+      "operator": "Ozzy Osbourne",
+      "retailers": "Black Sabbath",
+      "type": "info",
+      "disposition": "Can not get how the system works.",
+      "waitTime": 45,
+      "duration": 453,
+      "record": null,
+      "rating": 4,
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
+      "status": "success",
+      "clientFeedback": {
+        "rate": "poor",
+        "quality": 3,
+        "message": "I will never call again.",
+        "record": "traaaa"
+      },
+      "operatorFeedback": {
+        "quality": "4",
+        "record": "Sorry, it was my mistake to be at work that day."
+      }
+    },
+    {
+      "id": "F876FEB77EED49CFA67F569F9AB86B53",
+      "date": 1544602996000,
+      "operator": "Kurt Vonnegut",
+      "retailers": "Blue Bird",
+      "type": "sale",
+      "disposition": "Characteristics of the device.",
+      "waitTime": 122,
+      "duration": 156,
+      "record": null,
+      "rating": 5,
+      "status": "success",
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
+      "clientFeedback": {
+        "rate": "excellent",
+        "quality": 5,
+        "message": "Wow! Amazing service."
+      },
+      "operatorFeedback": {
+        "quality": 5,
+        "record": "Very good"
+      }
+    },
+    {
+      "id": "B329C33F1B054D0C94C338F439BFCF86",
+      "date": 1544535900000,
+      "operator": "Lev Tolstoy",
+      "retailers": "War & Peace",
+      "type": "sale",
+      "disposition": "Number of pages.",
+      "waitTime": 13,
+      "duration": 24,
+      "record": null,
+      "rating": 3,
+      "status": "success",
+      "location":
+        "32 Ohio 22th Street, Floor 8 Los Angeles, LA 40039 United States",
+      "clientFeedback": {
+        "rate": "average",
+        "quality": 5
+      },
+      "operatorFeedback": {
+        "quality": 5
+      }
+    }
+  ]
+}

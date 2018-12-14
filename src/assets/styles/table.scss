@@ -1,3 +1,5 @@
+@import './mixins.scss';
+
 .wombat-table .cell {
   box-sizing: border-box;
   padding: 0 5px;
@@ -41,6 +43,10 @@
     &:not(:last-child) {
       border-bottom: 2px solid $table-row-border-color;
     }
+  }
+
+  .column-date {
+    padding-left: 20px;
   }
 
   .wombat-footer {

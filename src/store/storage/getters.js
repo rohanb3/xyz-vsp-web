@@ -5,4 +5,10 @@ export default {
   allCustomersLoaded({ allCustomersLength }, { loadedCustomersAmount }) {
     return allCustomersLength <= loadedCustomersAmount;
   },
+  loadedCallsAmount(state) {
+    return state.calls.length;
+  },
+  allCallsLoaded({ allCustomersLength }, { loadedCustomersAmount }) {
+    return allCustomersLength <= loadedCustomersAmount;
+  },
 };

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'default-cell',
+  name: 'DefaultCell',
   props: {
     item: {
       type: Object,

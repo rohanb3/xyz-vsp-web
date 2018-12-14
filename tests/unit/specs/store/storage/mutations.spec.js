@@ -1,5 +1,10 @@
 import mutations from '@/store/storage/mutations';
-import { INSERT_CUSTOMERS, SET_ALL_CUSTOMERS_LENGTH } from '@/store/storage/mutationTypes';
+import {
+  INSERT_CUSTOMERS,
+  SET_ALL_CUSTOMERS_LENGTH,
+  INSERT_CALLS,
+  SET_ALL_CALLS_LENGTH,
+} from '@/store/storage/mutationTypes';
 
 describe('storage mutations: ', () => {
   describe('INSERT_CUSTOMERS: ', () => {
@@ -17,7 +22,7 @@ describe('storage mutations: ', () => {
   });
 
   describe('SET_ALL_CUSTOMERS_LENGTH: ', () => {
-    it('should set logged in user', () => {
+    it('should set llength', () => {
       const state = {
         allCustomersLength: 0,
       };
@@ -25,6 +30,32 @@ describe('storage mutations: ', () => {
       mutations[SET_ALL_CUSTOMERS_LENGTH](state, 4);
 
       expect(state.allCustomersLength).toBe(4);
+    });
+  });
+
+  describe('INSERT_CALLS: ', () => {
+    it('should insert calls', () => {
+      const state = {
+        calls: [{ id: 123 }],
+      };
+
+      const expectedCalls = [{ id: 123 }, { id: 321 }];
+
+      mutations[INSERT_CALLS](state, [{ id: 321 }]);
+
+      expect(state.calls).toEqual(expectedCalls);
+    });
+  });
+
+  describe('SET_ALL_CALLS_LENGTH: ', () => {
+    it('should set length', () => {
+      const state = {
+        allCallsLength: 0,
+      };
+
+      mutations[SET_ALL_CALLS_LENGTH](state, 4);
+
+      expect(state.allCallsLength).toBe(4);
     });
   });
 });

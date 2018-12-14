@@ -2,7 +2,7 @@
   <div class="customers-table">
       <div class="customers-table-toolbar">
         <div class="customers-amount">
-          {{ totalCustomersAmount }} {{ $t('Companies') }}
+          {{ totalCustomersAmount }} {{ $t('companies') }}
         </div>
         <v-spacer></v-spacer>
       </div>
@@ -50,10 +50,10 @@
 <script>
 import WombatTable from '@/components/WombatTable/Table';
 import WombatRow from '@/components/WombatTable/Row';
-import DefaultCell from '@/components/DefaultCell';
-import EmailCell from '@/components/EmailCell';
-import LastPaymentCell from '@/components/LastPaymentCell';
-import AdditionalCell from '@/components/AdditionalCell';
+import DefaultCell from '@/components/tableCells/DefaultCell';
+import EmailCell from '@/components/tableCells/EmailCell';
+import LastPaymentCell from '@/components/tableCells/LastPaymentCell';
+import AdditionalCell from '@/components/tableCells/AdditionalCell';
 import TableLoader from '@/components/TableLoader';
 
 import {
@@ -61,8 +61,10 @@ import {
   LOAD_ALL_CUSTOMERS_LENGTH,
 } from '@/store/storage/actionTypes';
 
+import { getCustomersTableColumns } from '@/services/tableColumns';
+
 export default {
-  name: 'CustomersList',
+  name: 'CustomersTable',
   components: {
     WombatTable,
     WombatRow,
@@ -75,60 +77,13 @@ export default {
   data() {
     return {
       loading: false,
+      columns: getCustomersTableColumns(),
       rowComponentsHash: {
         default: 'DefaultCell',
         email: 'EmailCell',
         lastPayment: 'LastPaymentCell',
         additional: 'AdditionalCell',
       },
-      columns: [
-        {
-          name: 'company',
-          field: 'company',
-          title: this.$t('Company'),
-          width: '300px',
-        },
-        {
-          name: 'contactPerson',
-          field: 'contactPerson',
-          class: 'text',
-          title: this.$t('Contact person'),
-        },
-        {
-          name: 'email',
-          field: 'email',
-          fieldType: 'email',
-          class: 'text',
-          title: this.$t('Email'),
-        },
-        {
-          name: 'phone',
-          field: 'phone',
-          class: 'text',
-          title: this.$t('Phone'),
-          width: '150px',
-        },
-        {
-          name: 'lastPayment',
-          field: 'lastPayment',
-          fieldType: 'lastPayment',
-          title: this.$t('Last payment'),
-        },
-        {
-          name: 'amount',
-          field: 'amount',
-          title: this.$t('Amount'),
-          class: 'number',
-          width: '100px',
-        },
-        {
-          name: 'additional',
-          field: null,
-          fieldType: 'additional',
-          title: '',
-          width: '100px',
-        },
-      ],
     };
   },
   mounted() {
