@@ -11,10 +11,13 @@
       :items="rows"
       :columns="columns"
       :item-height="50"
-      :resize="false"
+      :resize="true"
+      :reorder="true"
       :infinite-loading="!allCustomersLoaded"
-      :scroll-on-items-update="true"
+      :scroll-on-items-insert="true"
       @bottomReached="checkAndInsertCustomers"
+      @columnsResized="onColumnsResized"
+      @columnsReordered="onColumnsReordered"
      >
        <div
          v-if="rows && rows.length"
@@ -56,12 +59,14 @@ import LastPaymentCell from '@/components/tableCells/LastPaymentCell';
 import AdditionalCell from '@/components/tableCells/AdditionalCell';
 import TableLoader from '@/components/TableLoader';
 
+import smartTable from '@/mixins/smartTable';
+
 import {
   LOAD_CUSTOMERS,
   LOAD_ALL_CUSTOMERS_LENGTH,
 } from '@/store/storage/actionTypes';
-
-import { getCustomersTableColumns } from '@/services/tableColumns';
+import { SET_COLUMNS } from '@/store/tables/mutationTypes';
+import { CUSTOMERS_TABLE } from '@/store/tables/constants';
 
 export default {
   name: 'CustomersTable',
@@ -74,10 +79,11 @@ export default {
     LastPaymentCell,
     TableLoader,
   },
+  mixins: [smartTable],
   data() {
     return {
+      tableName: CUSTOMERS_TABLE,
       loading: false,
-      columns: getCustomersTableColumns(),
       rowComponentsHash: {
         default: 'DefaultCell',
         email: 'EmailCell',
@@ -90,6 +96,9 @@ export default {
     this.getAllCustomersLength().then(this.insertCustomers);
   },
   computed: {
+    columns() {
+      return this.$store.state.tables[CUSTOMERS_TABLE].columns;
+    },
     rows() {
       return this.$store.state.storage.customers.map(item => ({
         ...item,
@@ -104,9 +113,9 @@ export default {
     },
   },
   methods: {
-    async checkAndInsertCustomers() {
+    checkAndInsertCustomers() {
       if (!this.allCustomersLoaded) {
-        await this.insertCustomers();
+        this.insertCustomers();
       }
     },
     insertCustomers() {

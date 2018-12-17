@@ -1,13 +1,13 @@
 <template>
-  <!-- <div
+  <div
     class="wombat-header"
     :style="globalStyles"
-  > -->
+  >
     <vue-draggable
       v-model="preparedColumns"
       class="wombat-header"
       :style="globalStyles"
-      @start="test"
+      :options="{ handle: '.allow-redorder' }"
     >
       <div
         class="cell header-column"
@@ -16,7 +16,7 @@
         :ref="column._machineName"
         :title="column.title"
         :class="[column.class, column._className, isColumnsEllipsisModeAlways
-        ? 'header-column-ellipsis' : '']"
+        ? 'header-column-ellipsis' : '', reorder ? 'allow-redorder' : '']"
       >
         <div class="content">
           <slot
@@ -35,11 +35,12 @@
           :z="50"
           :minw="RESIZER_WIDTH"
           axis="x"
+          @mousedown.native="preventColumnDragging"
           @dragstop="(left) => onResizeFinish(column, left)"
         />
       </div>
     </vue-draggable>
-  <!-- </div> -->
+  </div>
 </template>
 
 <script src="./Header.js">

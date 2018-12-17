@@ -13,8 +13,9 @@
       :columns="columns"
       :item-height="50"
       :resize="true"
+      :reorder="true"
       :infinite-loading="!allCallsLoaded"
-      :scroll-on-items-update="true"
+      :scroll-on-items-insert="true"
       @bottomReached="checkAndInsertCalls"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
@@ -80,9 +81,11 @@ import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
 import ClientFeedbackCard from '@/components/ClientFeedbackCard';
 import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
 
+import smartTable from '@/mixins/smartTable';
+
 import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
-import { SET_COLUMNS } from '@/store/table/mutationTypes';
-import { CALLS_TABLE } from '@/store/table/constants';
+import { SET_COLUMNS } from '@/store/tables/mutationTypes';
+import { CALLS_TABLE } from '@/store/tables/constants';
 
 export default {
   name: 'CallsTable',
@@ -102,8 +105,10 @@ export default {
     ClientFeedbackCard,
     OperatorFeedbackCard,
   },
+  mixins: [smartTable],
   data() {
     return {
+      tableName: CALLS_TABLE,
       loading: false,
       rowComponentsHash: {
         default: 'DefaultCell',
@@ -126,7 +131,7 @@ export default {
   },
   computed: {
     columns() {
-      return this.$store.state.table[CALLS_TABLE].columns;
+      return this.$store.state.tables[CALLS_TABLE].columns;
     },
     rows() {
       return this.$store.state.storage.calls.map(item => ({
@@ -142,9 +147,9 @@ export default {
     },
   },
   methods: {
-    async checkAndInsertCalls() {
+    checkAndInsertCalls() {
       if (!this.allCallsLoaded) {
-        await this.insertCalls();
+        this.insertCalls();
       }
     },
     insertCalls() {
@@ -175,26 +180,6 @@ export default {
     selectCallById(id) {
       const call = this.rows.find(row => row.id === id);
       this.selectedCall = call;
-    },
-    onColumnsResized(data) {
-      const updatedColumns = this.columns.map(column => {
-        const updated = { ...column };
-        if (data[column.name]) {
-          updated.width = data[column.name];
-        }
-        return updated;
-      });
-
-      this.$store.commit(SET_COLUMNS, {
-        tableName: CALLS_TABLE,
-        columns: updatedColumns,
-      });
-    },
-    onColumnsReordered(columns) {
-      this.$store.commit(SET_COLUMNS, {
-        tableName: CALLS_TABLE,
-        columns,
-      });
     },
   },
 };

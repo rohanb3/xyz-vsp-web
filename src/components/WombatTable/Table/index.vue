@@ -5,6 +5,7 @@
       :columns="columns"
       :width="rowWidth"
       :resize ="resize"
+      :reorder="reorder"
       @columnsResized="data => $emit('columnsResized', data)"
       @columnsReordered="data => $emit('columnsReordered', data)"
     >

@@ -25,6 +25,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    reorder: {
+      type: Boolean,
+      default: true,
+    },
     columnsEllipsisMode: {
       type: String,
       default: HEADER_CELL_ELLIPSIS_SMART,
@@ -125,11 +129,6 @@ export default {
     width: 'checkColumnsWidth',
   },
   methods: {
-    test(ev) {
-      console.log('start', ev);
-      ev.preventDefault();
-      ev.stopImmediatePropagation();
-    },
     compileColumnsStyles() {
       const compiledStyles = Object.keys(this.columnsStyles)
         .map(className => {
@@ -284,6 +283,10 @@ export default {
           columnRef.classList.add('header-column-ellipsis');
         }
       });
+    },
+    preventColumnDragging(ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
     },
   },
   mounted() {
