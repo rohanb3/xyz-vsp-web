@@ -1,5 +1,8 @@
 <template>
-  <div class='client-feedback-cell'>
+  <div
+    class='client-feedback-cell'
+    @click="onClick"
+  >
     <call-feedback-icon
       :feedback="feedback"
       :color="color" />
@@ -24,11 +27,19 @@ export default {
       return this.item.clientFeedback;
     },
     color() {
-      return this.feedback && this.feedback.message ? '#ff941b' : null;
+      return this.feedback.message ? '#ff941b' : null;
+    },
+  },
+  methods: {
+    onClick() {
+      this.$emit('clientFeedbackClick', this.item.id);
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
+.client-feedback-cell {
+  cursor: pointer;
+}
 </style>

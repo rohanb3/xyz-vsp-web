@@ -2,7 +2,7 @@
   <div class="customers-table">
       <div class="customers-table-toolbar">
         <div class="customers-amount">
-          {{ totalCustomersAmount }} {{ $t('Companies') }}
+          {{ totalCustomersAmount }} {{ $t('companies') }}
         </div>
         <v-spacer></v-spacer>
       </div>
@@ -56,10 +56,7 @@ import LastPaymentCell from '@/components/tableCells/LastPaymentCell';
 import AdditionalCell from '@/components/tableCells/AdditionalCell';
 import TableLoader from '@/components/TableLoader';
 
-import {
-  LOAD_CUSTOMERS,
-  LOAD_ALL_CUSTOMERS_LENGTH,
-} from '@/store/storage/actionTypes';
+import { LOAD_CUSTOMERS, LOAD_ALL_CUSTOMERS_LENGTH } from '@/store/storage/actionTypes';
 
 import { getCustomersTableColumns } from '@/services/tableColumns';
 
@@ -148,17 +145,6 @@ export default {
   line-height: normal;
   letter-spacing: normal;
   color: $table-row-text-color;
-}
-
-.header-button {
-  padding-left: 1px;
-  padding-right: 10px;
-  color: $table-icon-color;
-  background-color: #fff;
-
-  span {
-    margin-left: 5px;
-  }
 }
 
 .customers-table-footer {

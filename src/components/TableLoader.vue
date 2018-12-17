@@ -1,7 +1,7 @@
 <template>
   <div class="table-loader">
     <div class="spinner"></div>
-    <div class="text">{{ $t('Loading') }}...</div>
+    <div class="text">{{ $t('loading') }}...</div>
   </div>
 </template>
 
@@ -12,6 +12,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~@/assets/styles/variables.scss';
+
 .table-loader {
   display: flex;
   flex-flow: row;
@@ -28,7 +30,7 @@ export default {
   font-stretch: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #398ffb;
+  color: $table-loader-accent-color;
 }
 
 .spinner,
@@ -42,8 +44,8 @@ export default {
   font-size: 13px;
   position: relative;
   text-indent: -9999em;
-  border: 2px solid rgba(57, 143, 251, 0.2);
-  border-left: 2px solid #398ffb;
+  border: 2px solid $table-loader-main-color;
+  border-left: 2px solid $table-loader-accent-color;
   transform: translateZ(0);
   animation: load 1.1s infinite linear;
 }

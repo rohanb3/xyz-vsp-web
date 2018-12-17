@@ -6,6 +6,7 @@
 import secondsToHuman from '@/filters/secondsToHuman';
 
 export default {
+  name: 'FormattedDuration',
   props: {
     duration: {
       type: Number,

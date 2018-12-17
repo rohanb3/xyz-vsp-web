@@ -4,14 +4,10 @@ const customers = require('../fixtures/customers').items;
 const calls = require('../fixtures/calls').items;
 
 module.exports = function reset(req, res) {
-  const preparedCustomers = customers.map((customer, index) =>
-    Object.assign({}, customer, { order: index })
-  );
-
   const deletionPromises = [deleteAllCustomers(), deleteAllCalls()];
   return Promise.all(deletionPromises)
     .then(() => {
-      const creationPromises = [insertCustomers(preparedCustomers), insertCalls(calls)];
+      const creationPromises = [insertCustomers(customers), insertCalls(calls)];
       return Promise.all(creationPromises);
     })
     .then(() => {

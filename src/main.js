@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
+import VueHotKey from 'v-hotkey';
 import App from './App';
 import router from './router';
 import store from './store';
@@ -11,6 +12,8 @@ Vue.config.productionTip = false;
 Vue.use(Vuetify, {
   primary: '#3c91f7',
 });
+
+Vue.use(VueHotKey);
 
 new Vue({
   router,

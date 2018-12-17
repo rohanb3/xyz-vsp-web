@@ -1,9 +1,12 @@
 $header-background-color: #3c91f7;
 $header-text-color: #fff;
 $header-height: 56px;
+$header-photo-background-color: #f8c37a;
 
 $lhs-width: 45px;
 $lhs-background-color: #fff;
+$lhs-shadow-color: rgba(184, 184, 184, 0.5);
+$lhs-delimiter-color: #dfdfdf;
 $lhs-icon-color: #9b9b9b;
 $lhs-active-icon-color: #3c91f7;
 
@@ -17,9 +20,12 @@ $table-shadow-color: rgba(0, 0, 0, 0.22);
 $table-inactive-color: #4a4a4a;
 $table-header-height: 40px;
 $table-footer-height: 40px;
-
-$customers-list-padding: 22px;
+$table-loader-main-color: rgba(57, 143, 251, 0.2);
+$table-loader-accent-color: #398ffb;
+$table-list-padding: 22px;
 $customers-table-header-height: 60px;
+$customers-table-email-cell-color: #398ffb;
+$customers-table-additional-cell-color: #398ffb;
 
 $calls-list-padding: 22px;
 $calls-table-header-height: 60px;
@@ -39,3 +45,12 @@ $settings-blue: #398ffb;
 $settings-light-blue: #6d8aaf;
 $settings-light-grey: #dadada;
 $settings-grey: #4a4a4a;
+
+$calls-record-icon-shadow-color: rgba(28, 83, 152, 0.53);
+$calls-record-icon-background-color: #fafafa;
+$calls-record-icon-arrow-color: #398ffb;
+$calls-feedback-card-width: 270px;
+$calls-feedback-card-background-color: #fff;
+$calls-feedback-card-shadow-color: rgba(184, 184, 184, 0.5);
+$calls-feedback-card-primary-color: #4a4a4a;
+$calls-feedback-card-secondary-color: #999999;

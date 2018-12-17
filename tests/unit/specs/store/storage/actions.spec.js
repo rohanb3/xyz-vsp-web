@@ -26,9 +26,6 @@ describe('storage actions: ', () => {
         getters: {
           loadedCustomersAmount: 10,
         },
-        state: {
-          customersToLoad: 5,
-        },
       };
 
       repository.getCustomers = jest.fn(() => Promise.resolve(customers));
@@ -36,7 +33,7 @@ describe('storage actions: ', () => {
       await actions[LOAD_CUSTOMERS](fakeStore);
 
       expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_CUSTOMERS, customers);
-      expect(repository.getCustomers).toHaveBeenCalledWith(10, 5);
+      expect(repository.getCustomers).toHaveBeenCalledWith(10, 20);
     });
   });
 
@@ -62,9 +59,6 @@ describe('storage actions: ', () => {
         getters: {
           loadedCallsAmount: 10,
         },
-        state: {
-          callsToLoad: 5,
-        },
       };
 
       repository.getCalls = jest.fn(() => Promise.resolve(calls));
@@ -72,7 +66,7 @@ describe('storage actions: ', () => {
       await actions[LOAD_CALLS](fakeStore);
 
       expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_CALLS, calls);
-      expect(repository.getCustomers).toHaveBeenCalledWith(10, 5);
+      expect(repository.getCustomers).toHaveBeenCalledWith(10, 20);
     });
   });
 

@@ -4,7 +4,7 @@
       <v-flex xs12 sm4 elevation-6>
         <v-toolbar class="pt-5 blue darken-4">
           <v-toolbar-title class="white--text">
-            <h4>{{ $t("Welcome Back") }}</h4>
+            <h4>{{ $t("welcome.back") }}</h4>
           </v-toolbar-title>
         </v-toolbar>
         <v-card>
@@ -30,13 +30,13 @@
                   <v-btn
                     @click="submit"
                     :class=" { 'blue darken-4 white--text' : valid, disabled: !valid }"
-                  >{{ $t("Login") }}</v-btn>
-                  <a href>{{ $t("Forgot Password") }}</a>
+                  >{{ $t("login") }}</v-btn>
+                  <a href>{{ $t("forgot.password") }}</a>
                 </v-layout>
               </v-form>
               <v-snackbar v-model="snackbar" :timeout="5000">
-                {{ $t("User wasn't found") }}.
-                <v-btn dark flat @click="snackbar = false">{{ $t("Close") }}</v-btn>
+                {{ $t("user.not.found") }}.
+                <v-btn dark flat @click="snackbar = false">{{ $t("close") }}</v-btn>
               </v-snackbar>
             </div>
           </v-card-text>
@@ -57,9 +57,9 @@ export default {
       snackbar: false,
       e1: false,
       password: '',
-      passwordRules: [v => !!v || this.$t('Password is required')],
+      passwordRules: [v => !!v || this.$t('password.is.required')],
       userName: '',
-      userNameRules: [v => !!v || this.$t('Username is required')],
+      userNameRules: [v => !!v || this.$t('username.is.required')],
     };
   },
   methods: {

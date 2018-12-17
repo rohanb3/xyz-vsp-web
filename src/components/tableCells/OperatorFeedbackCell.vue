@@ -1,5 +1,7 @@
 <template>
-  <div class='operator-feedback-cell'>
+  <div
+    class='operator-feedback-cell'
+    @click="onClick">
     <call-feedback-icon
       :feedback="feedback"
       :color="color" />
@@ -24,11 +26,19 @@ export default {
       return this.item.operatorFeedback;
     },
     color() {
-      return this.feedback && this.feedback.message ? '#398ffb' : null;
+      return this.feedback.message ? '#398ffb' : null;
+    },
+  },
+  methods: {
+    onClick() {
+      this.$emit('operatorFeedbackClick', this.item.id);
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
+.operator-feedback-cell {
+  cursor: pointer;
+}
 </style>

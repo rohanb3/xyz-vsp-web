@@ -1,21 +1,105 @@
 @import './variables.scss';
 @import './fonts.scss';
 @import './table.scss';
+@import './mixins.scss';
 
 html {
   overflow: hidden;
 }
 
-.customers-list {
-  height: calc(100vh - #{$header-height} - 44px) !important;
+#app .customers-table {
+  .virtual-list {
+    max-height: calc(
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-header-height} -
+        #{$table-header-height} - #{$table-footer-height}
+    );
+  }
 }
 
-#app .wombat-table {
-  .v-input.v-input--slider {
-    margin-top: 0px;
+#app .calls-table {
+  .table-full-height-balloon {
+    box-shadow: 0 2px 4px 0 $calls-feedback-card-shadow-color;
+  }
 
-    .v-messages {
-      display: none;
+  .wombat-row {
+    .column-lastpayment,
+    .column-date,
+    .column-disposition {
+      @include inactive-cell;
+    }
+
+    .column-disposition {
+      font-size: 12px;
+    }
+  }
+
+  .wombat-row.call-missed {
+    background-color: $calls-missed-call-background-color;
+
+    .column-type {
+      @include inactive-cell;
+    }
+  }
+}
+
+#app .call-feedback-card {
+  width: $calls-feedback-card-width;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  padding: 24px 10px 10px 27px;
+  background-color: $calls-feedback-card-background-color;
+
+  .card-header {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
+    color: $calls-feedback-card-primary-color;
+    margin-bottom: 15px;
+
+    .close-icon {
+      cursor: pointer;
+      color: $calls-feedback-card-primary-color;
+      opacity: 0.2;
+      font-weight: bold;
+    }
+  }
+
+  .labelled-description {
+    margin-bottom: 5px;
+
+    .label,
+    .description {
+      margin-bottom: 8px;
+    }
+
+    .label {
+      font-size: 12px;
+      color: $calls-feedback-card-secondary-color;
+    }
+
+    .description {
+      font-size: 14px;
+      color: $calls-feedback-card-primary-color;
+    }
+  }
+
+  .technical-details {
+    margin-top: 10px;
+  }
+
+  .technical-detail {
+    font-size: 11px;
+    margin-bottom: 15px;
+
+    .detail-title {
+      color: $calls-feedback-card-primary-color;
+    }
+
+    .detail-value {
+      color: $calls-feedback-card-secondary-color;
     }
   }
 }

@@ -6,7 +6,7 @@
   >
     <v-icon :color="color || 'rgba(153, 153, 153, 0.3)'">message</v-icon>
     <div
-      v-if="feedback && feedback.record"
+      v-if="feedback.record"
       class="record-icon"
     >
       <div class="arrow-wrapper">
@@ -34,6 +34,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~@/assets/styles/variables.scss';
+
 .feedback-button {
   position: relative;
 }
@@ -44,8 +46,8 @@ export default {
   height: 11px;
   bottom: 2px;
   right: 2px;
-  box-shadow: 0 1px 2px 0 rgba(28, 83, 152, 0.53);
-  background-color: #fafafa;
+  box-shadow: 0 1px 2px 0 $calls-record-icon-shadow-color;
+  background-color: $calls-record-icon-background-color;
   border-radius: 50%;
 }
 
@@ -57,7 +59,7 @@ export default {
 
 .arrow-icon {
   position: absolute;
-  color: #398ffb;
+  color: $calls-record-icon-arrow-color;
   transform: scale(0.45);
   top: -6px;
   right: -7px;

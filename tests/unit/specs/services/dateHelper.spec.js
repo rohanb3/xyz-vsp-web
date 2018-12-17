@@ -21,5 +21,9 @@ describe('dateHelper', () => {
     it('should return "01:01:01" if 3661 was passed', () => {
       expect(secondsToHuman(3661)).toBe('01:01:01');
     });
+
+    it('should return "25:01:01" if 90061 was passed', () => {
+      expect(secondsToHuman(90061)).toBe('25:01:01');
+    });
   });
 });

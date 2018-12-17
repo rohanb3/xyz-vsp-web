@@ -2,12 +2,12 @@
   <div
     class='wait-time-cell'
     :class="{ overwaited: overwaited }">
-    <human-duration :duration="duration" />
+    <formatted-duration :duration="duration" />
   </div>
 </template>
 
 <script>
-import HumanDuration from '@/components/HumanDuration';
+import FormattedDuration from '@/components/FormattedDuration';
 
 const OVERWAITED_DURATION = 120;
 
@@ -19,7 +19,7 @@ export default {
     },
   },
   components: {
-    HumanDuration,
+    FormattedDuration,
   },
   computed: {
     duration() {

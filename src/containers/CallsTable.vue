@@ -1,11 +1,12 @@
 <template>
   <div class="calls-table">
-      <div class="calls-table-toolbar">
-        <div class="calls-amount">
-          {{ totalCallsAmount }} {{ $t('Calls') }}
-        </div>
-        <v-spacer></v-spacer>
+    <div class="calls-table-toolbar">
+      <div class="calls-amount">
+        {{ totalCallsAmount }} {{ $t('calls') }}
       </div>
+      <v-spacer></v-spacer>
+    </div>
+
     <wombat-table
       v-if="rows && rows.length"
       :items="rows"
@@ -34,10 +35,13 @@
              :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
              :item="rowCell.item"
              :column="rowCell.column"
+             @clientFeedbackClick="showClientFeedback"
+             @operatorFeedbackClick="showOperatorFeedback"
            />
          </wombat-row>
 
        </div>
+
        <div
          slot="footer"
          class="calls-table-footer wombat-footer"
@@ -45,6 +49,16 @@
          <table-loader v-if="loading"/>
        </div>
      </wombat-table>
+     <client-feedback-card
+       v-if="clientFeedbackShown"
+       :call="selectedCall"
+       @close="closeClientFeedback"
+     />
+     <operator-feedback-card
+       v-if="operatorFeedbackShown"
+       :call="selectedCall"
+       @close="closeOperatorFeedback"
+     />
   </div>
 </template>
 
@@ -61,6 +75,8 @@ import RatingCell from '@/components/tableCells/RatingCell';
 import StatusCell from '@/components/tableCells/StatusCell';
 import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
 import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
+import ClientFeedbackCard from '@/components/ClientFeedbackCard';
+import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
 
 import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
 import { getCallsTableColumns } from '@/services/tableColumns';
@@ -80,6 +96,8 @@ export default {
     ClientFeedbackCell,
     OperatorFeedbackCell,
     TableLoader,
+    ClientFeedbackCard,
+    OperatorFeedbackCard,
   },
   data() {
     return {
@@ -96,6 +114,9 @@ export default {
         clientFeedback: 'ClientFeedbackCell',
         operatorFeedback: 'OperatorFeedbackCell',
       },
+      clientFeedbackShown: false,
+      operatorFeedbackShown: false,
+      selectedCall: null,
     };
   },
   mounted() {
@@ -130,6 +151,26 @@ export default {
     getAllCallsLength() {
       return this.$store.dispatch(LOAD_ALL_CALLS_LENGTH);
     },
+    showClientFeedback(id) {
+      this.selectCallById(id);
+      this.clientFeedbackShown = true;
+    },
+    closeClientFeedback() {
+      this.selectedCall = null;
+      this.clientFeedbackShown = false;
+    },
+    showOperatorFeedback(id) {
+      this.selectCallById(id);
+      this.operatorFeedbackShown = true;
+    },
+    closeOperatorFeedback() {
+      this.selectedCall = null;
+      this.operatorFeedbackShown = false;
+    },
+    selectCallById(id) {
+      const call = this.rows.find(row => row.id === id);
+      this.selectedCall = call;
+    },
   },
 };
 </script>
@@ -160,17 +201,6 @@ export default {
   line-height: normal;
   letter-spacing: normal;
   color: $table-row-text-color;
-}
-
-.header-button {
-  padding-left: 1px;
-  padding-right: 10px;
-  color: $table-icon-color;
-  background-color: #fff;
-
-  span {
-    margin-left: 5px;
-  }
 }
 
 .calls-table-footer {

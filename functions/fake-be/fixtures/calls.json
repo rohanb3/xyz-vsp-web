@@ -12,9 +12,15 @@
       "record": "/samples_1w72b820/292.mp3",
       "rating": 4,
       "status": "success",
-      "clientFeedback": null,
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
+      "clientFeedback": {
+        "rate": "excellent",
+        "quality": 4
+      },
       "operatorFeedback": {
-        "message": "Very good"
+        "quality": 5,
+        "message": "Very good."
       }
     },
     {
@@ -29,10 +35,16 @@
       "record": "/samples_1w72b820/199.mp3",
       "rating": 5,
       "status": null,
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
       "clientFeedback": {
-        "message": "tratata"
+        "rate": "good",
+        "quality": 3,
+        "message": "Nothing to tell more."
       },
-      "operatorFeedback": null
+      "operatorFeedback": {
+        "quality": 4
+      }
     },
     {
       "id": "A5F93A5C1E9A46A7922B45F9B212CB79",
@@ -46,12 +58,17 @@
       "record": "/samples_1w72b820/2514.mp3",
       "rating": 2,
       "status": "fail",
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
       "clientFeedback": {
-        "record": "Very good"
+        "rate": "average",
+        "quality": 3,
+        "record": "Not so fast reaction."
       },
       "operatorFeedback": {
-        "message": "Very good",
-        "record": "lalala"
+        "quality": 3,
+        "message": "Wrong language",
+        "record": "Wrong language"
       }
     },
     {
@@ -66,11 +83,16 @@
       "record": null,
       "rating": null,
       "status": null,
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
       "clientFeedback": {
-        "message": "oooph",
+        "rate": "below average",
+        "quality": 5,
+        "message": "Who is working there?",
         "record": "traaaa"
       },
       "operatorFeedback": {
+        "quality": 5,
         "record": "Very good"
       }
     },
@@ -85,13 +107,18 @@
       "duration": 453,
       "record": null,
       "rating": 4,
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
       "status": "success",
       "clientFeedback": {
-        "message": "oooph",
+        "rate": "poor",
+        "quality": 3,
+        "message": "I will never call again.",
         "record": "traaaa"
       },
       "operatorFeedback": {
-        "record": "Very good"
+        "quality": "4",
+        "record": "Sorry, it was my mistake to be at work that day."
       }
     },
     {
@@ -106,10 +133,15 @@
       "record": null,
       "rating": 5,
       "status": "success",
+      "location":
+        "32 Uta 24th Street, Floor 8 Los Angeles, LA 40039 United States",
       "clientFeedback": {
-        "message": "oooph"
+        "rate": "excellent",
+        "quality": 5,
+        "message": "Wow! Amazing service."
       },
       "operatorFeedback": {
+        "quality": 5,
         "record": "Very good"
       }
     },
@@ -125,8 +157,15 @@
       "record": null,
       "rating": 3,
       "status": "success",
-      "clientFeedback": null,
-      "operatorFeedback": null
+      "location":
+        "32 Ohio 22th Street, Floor 8 Los Angeles, LA 40039 United States",
+      "clientFeedback": {
+        "rate": "average",
+        "quality": 5
+      },
+      "operatorFeedback": {
+        "quality": 5
+      }
     }
   ]
 }

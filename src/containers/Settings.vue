@@ -41,7 +41,7 @@
               <p class="text">Smith</p>
             </div>
             <div class="personal-data__section">
-              <p class="label">{{$t("Email")}}</p>
+              <p class="label">{{$t("email")}}</p>
               <p class="text">robert_smith@gmail.com</p>
             </div>
             <a @click="changeData('password')" class="link">{{$t("Change password")}}</a>

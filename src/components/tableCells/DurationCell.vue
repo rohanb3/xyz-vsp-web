@@ -1,11 +1,11 @@
 <template>
   <div class='duration-cell'>
-    <human-duration :duration="duration" />
+    <formatted-duration :duration="duration" />
   </div>
 </template>
 
 <script>
-import HumanDuration from '@/components/HumanDuration';
+import FormattedDuration from '@/components/FormattedDuration';
 
 export default {
   name: 'DurationCell',
@@ -15,7 +15,7 @@ export default {
     },
   },
   components: {
-    HumanDuration,
+    FormattedDuration,
   },
   computed: {
     duration() {
