@@ -33,5 +33,16 @@
   "help": "Help",
   "missed": "Missed",
   "success": "Success",
-  "fail": "Fail"
+  "fail": "Fail",
+  "Your Profile": "Your Profile",
+  "An overview of you current plan and your profile photo that will be shown to users when messaging them": "An overview of you current plan and your profile photo that will be shown to users when messaging them",
+  "Change Photo": "Change Photo",
+  "Personal Details": "Personal Details",
+  "Your first name will be to customers when messaging": "Your first name will be to customers when messaging",
+  "Calling Photo": "Calling Photo",
+  "Change call image": "Change call image",
+  "First Name": "First Name",
+  "Last Name": "Last Name",
+  "Change password": "Change password",
+  "Save": "Save"
 }

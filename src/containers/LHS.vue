@@ -1,5 +1,6 @@
 <template>
   <nav class="lhs">
+    <router-link to="/customers">
     <div
       class="lhs-item"
       :class="{ active: activeIndex === 0 }"
@@ -7,6 +8,7 @@
     >
       <v-icon class="item-icon">account_box</v-icon>
     </div>
+    </router-link>
     <div
       class="lhs-item"
       :class="{ active: activeIndex === 1 }"
@@ -37,9 +39,14 @@
       <v-icon class="item-icon">credit_card</v-icon>
     </div>
     <v-spacer/>
-    <div class="lhs-item">
+    <router-link to="/settings">
+    <div class="lhs-item"
+      :class="{ active: activeIndex === 5 }"
+      @click="setActive(5)"
+    >
       <v-icon class="item-icon">settings</v-icon>
     </div>
+    </router-link>
   </nav>
 </template>
 
