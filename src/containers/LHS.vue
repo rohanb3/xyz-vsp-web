@@ -75,7 +75,7 @@ export default {
   align-items: center;
   box-shadow: 3px 0 4px 0 $lhs-shadow-color;
 
-  li a {
+  a {
     text-decoration: none;
   }
 }

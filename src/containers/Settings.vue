@@ -2,15 +2,15 @@
   <div class="settings-container">
     <div class="your-profile">
       <div class="description">
-        <p class="description-title">{{$t("Your Profile")}}</p>
-        <p class="description-content">{{$t("An overview of you current plan and your profile photo that will be shown to users when messaging them")}}.</p>
+        <p class="description-title">{{$t("your.profile")}}</p>
+        <p class="description-content">{{$t("settings.your.profile.description")}}.</p>
       </div>
       <div class="main">
         <div class="content">
           <img src="https://i.stack.imgur.com/x8PhM.png" class="avatar" alt="user">
           <div class="user">
             <p class="title">Robert Smith</p>
-            <a @click="changeData('photo')" class="link">{{$t("Change Photo")}}</a>
+            <a @click="changeData('photo')" class="link">{{$t("change.photo")}}</a>
           </div>
         </div>
         <div class="plan">
@@ -21,34 +21,34 @@
     </div>
     <div class="personal-details">
       <div class="description">
-        <p class="description-title">{{$t("Personal Details")}}</p>
-        <p class="description-content">{{$t("Your first name will be to customers when messaging")}}.</p>
+        <p class="description-title">{{$t("personal.details")}}</p>
+        <p class="description-content">{{$t("settings.personal.details.description")}}.</p>
       </div>
       <div class="main">
         <div class="content">
           <div class="photo">
-            <p class="label">{{$t("Calling Photo")}}</p>
+            <p class="label">{{$t("calling.photo")}}</p>
             <img src="https://wallpaperbrowse.com/media/images/3848765-wallpaper-images-download.jpg" class="calling-photo" alt="calling-photo">
-            <a @click="changeData('call-image')" class="link">{{$t("Change call image")}}</a>
+            <a @click="changeData('call-image')" class="link">{{$t("change.call.image")}}</a>
           </div>
           <div class="personal-data">
             <div class="personal-data__section">
-              <p class="label">{{$t("First Name")}}</p>
+              <p class="label">{{$t("first.name")}}</p>
               <p class="text">Robert</p>
             </div>
             <div class="personal-data__section">
-              <p class="label">{{$t("Last Name")}}</p>
+              <p class="label">{{$t("last.name")}}</p>
               <p class="text">Smith</p>
             </div>
             <div class="personal-data__section">
               <p class="label">{{$t("email")}}</p>
               <p class="text">robert_smith@gmail.com</p>
             </div>
-            <a @click="changeData('password')" class="link">{{$t("Change password")}}</a>
+            <a @click="changeData('password')" class="link">{{$t("change.password")}}</a>
           </div>
         </div>
         <div class="controls">
-          <button @click="saveSettings" class="button">{{$t("Save")}}</button>
+          <button @click="saveSettings" class="button">{{$t("save")}}</button>
         </div>
       </div>
     </div>
@@ -83,12 +83,12 @@ export default {
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
 .link {
-  color: $settings-blue;
+  color: $settings-link-color;
   font-size: 12px;
 }
 .user-name,
 .plan-name {
-  color: $settings-grey;
+  color: $settings-user-name-color;
   font-size: 18px;
 }
 .settings-container {
@@ -103,8 +103,8 @@ export default {
     padding: 21px 67px 20px 18px;
     display: flex;
     border-radius: 8px;
-    background-color: $settings-white;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.22);
+    background-color: $settings-main-background-color;
+    box-shadow: $settings-box-shadow;
   }
 }
 .your-profile {
@@ -117,7 +117,7 @@ export default {
 
     .plan {
       padding-left: 42px;
-      border-left: 1px solid $settings-light-grey;
+      border-left: 1px solid $settings-divider-color;
       display: flex;
       justify-content: flex-end;
       flex-direction: column;
@@ -131,7 +131,7 @@ export default {
       .title {
         padding-bottom: 3px;
         font-size: 18px;
-        color: $settings-grey;
+        color: $settings-title-color;
       }
 
       .avatar {
@@ -179,7 +179,7 @@ export default {
 
       .personal-data {
         padding-left: 25px;
-        border-left: 1px solid $settings-light-grey;
+        border-left: 1px solid $settings-divider-color;
         margin-bottom: 13px;
         display: flex;
         flex-direction: column;
@@ -192,7 +192,7 @@ export default {
             padding-left: 9px;
             padding-bottom: 17px;
             font-size: 14px;
-            color: $settings-grey;
+            color: $settings-text-color;
           }
         }
       }
@@ -205,9 +205,9 @@ export default {
   .button {
     padding: 6px 15px;
     font-size: 14px;
-    color: $settings-white;
+    color: $settings-button-color;
     border-radius: 4px;
-    background-color: $settings-blue;
+    background-color: $settings-button-background-color;
   }
 }
 
@@ -219,19 +219,19 @@ export default {
   .description-title {
     margin-bottom: 7px;
     font-size: 16px;
-    color: $settings-grey;
+    color: $settings-description-title-color;
     font-weight: bold;
   }
   .description-content {
     max-width: 70%;
     font-size: 12px;
-    color: $settings-light-blue;
+    color: $settings-description-content-color;
   }
 }
 
 .label {
   padding-bottom: 8px;
   font-size: 12px;
-  color: $settings-light-blue;
+  color: $settings-label-color;
 }
 </style>
