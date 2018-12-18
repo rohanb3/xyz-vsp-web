@@ -139,7 +139,7 @@ export default {
 .customers-table-toolbar {
   display: flex;
   flex-flow: row;
-  height: $customers-table-header-height;
+  height: $customers-table-toolbar-height;
   align-items: center;
   padding: 0px 29px;
 }

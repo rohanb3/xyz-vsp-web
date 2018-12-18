@@ -222,7 +222,7 @@ export default {
 .calls-table-toolbar {
   display: flex;
   flex-flow: row;
-  height: $calls-table-header-height;
+  height: $calls-table-toolbar-height;
   align-items: center;
   padding: 0px 29px;
 }
