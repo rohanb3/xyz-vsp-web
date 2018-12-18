@@ -6,6 +6,7 @@ import Login from '@/views/Login';
 import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
+import SettingsPage from '@/views/SettingsPage';
 
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
@@ -58,6 +59,11 @@ const router = new Router({
               path: '/calls',
               name: 'calls',
               component: Calls,
+            },
+            {
+              path: '/settings',
+              name: 'settings',
+              component: SettingsPage,
             },
           ],
         },

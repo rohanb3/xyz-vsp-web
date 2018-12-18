@@ -56,10 +56,7 @@ import LastPaymentCell from '@/components/tableCells/LastPaymentCell';
 import AdditionalCell from '@/components/tableCells/AdditionalCell';
 import TableLoader from '@/components/TableLoader';
 
-import {
-  LOAD_CUSTOMERS,
-  LOAD_ALL_CUSTOMERS_LENGTH,
-} from '@/store/storage/actionTypes';
+import { LOAD_CUSTOMERS, LOAD_ALL_CUSTOMERS_LENGTH } from '@/store/storage/actionTypes';
 
 import { getCustomersTableColumns } from '@/services/tableColumns';
 
