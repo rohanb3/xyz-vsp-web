@@ -88,12 +88,6 @@ import ColumnsListEditor from '@/components/ColumnsListEditor';
 import smartTable from '@/mixins/smartTable';
 
 import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
-import {
-  SET_COLUMNS,
-  RESET_COLUMNS,
-  SHOW_COLUMN,
-  HIDE_COLUMN,
-} from '@/store/tables/mutationTypes';
 import { CALLS_TABLE } from '@/store/tables/constants';
 
 import { getCallsTableColumns } from '@/store/tables/columnsList';

@@ -58,10 +58,7 @@ import TableLoader from '@/components/TableLoader';
 
 import smartTable from '@/mixins/smartTable';
 
-import {
-  LOAD_CUSTOMERS,
-  LOAD_ALL_CUSTOMERS_LENGTH,
-} from '@/store/storage/actionTypes';
+import { LOAD_CUSTOMERS, LOAD_ALL_CUSTOMERS_LENGTH } from '@/store/storage/actionTypes';
 import { CUSTOMERS_TABLE } from '@/store/tables/constants';
 
 export default {
