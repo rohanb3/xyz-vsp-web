@@ -25,7 +25,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    reorder: {
+    columnsReorder: {
       type: Boolean,
       default: true,
     },

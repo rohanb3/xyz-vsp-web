@@ -11,10 +11,7 @@
       :items="rows"
       :columns="columns"
       :item-height="50"
-      :resize="true"
-      :reorder="true"
       :infinite-loading="!allCustomersLoaded"
-      :scroll-on-items-insert="true"
       @bottomReached="checkAndInsertCustomers"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
@@ -65,7 +62,6 @@ import {
   LOAD_CUSTOMERS,
   LOAD_ALL_CUSTOMERS_LENGTH,
 } from '@/store/storage/actionTypes';
-import { SET_COLUMNS } from '@/store/tables/mutationTypes';
 import { CUSTOMERS_TABLE } from '@/store/tables/constants';
 
 export default {

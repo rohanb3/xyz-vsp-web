@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import TableFullHeightBalloon from '@/components/TableFullHeightBalloon.vue';
+import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
 
 export default {
   name: 'OperatorFeedbackCard',
