@@ -10,13 +10,20 @@ html {
 #app .customers-table {
   .virtual-list {
     max-height: calc(
-      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-header-height} -
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-toolbar-height} -
         #{$table-header-height} - #{$table-footer-height}
     );
   }
 }
 
 #app .calls-table {
+  .virtual-list {
+    max-height: calc(
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$calls-table-toolbar-height} -
+        #{$table-header-height} - #{$table-footer-height}
+    );
+  }
+
   .table-full-height-balloon {
     box-shadow: 0 2px 4px 0 $calls-feedback-card-shadow-color;
   }
@@ -38,6 +45,27 @@ html {
 
     .column-type {
       @include inactive-cell;
+    }
+  }
+
+  .v-input--selection-controls {
+    .v-messages {
+      display: none;
+    }
+
+    .v-icon.material-icons {
+      color: $popper-chechkbox-color !important;
+    }
+
+    .v-label {
+      color: $popper-text-color;
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
     }
   }
 }
@@ -101,5 +129,15 @@ html {
     .detail-value {
       color: $calls-feedback-card-secondary-color;
     }
+  }
+}
+
+#app .popper[x-placement^='bottom'] {
+  border-radius: 8px;
+  box-shadow: 0 2px 24px 0 $popper-shadow-color;
+
+  .popper__arrow {
+    border-width: 0 10px 10px 10px !important;
+    top: -10px !important;
   }
 }

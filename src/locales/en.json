@@ -59,5 +59,6 @@
   "good": "Good",
   "average": "Average",
   "below average": "Below Average",
-  "poor": "Poor"
+  "poor": "Poor",
+  "revert.to.default": "Revert to default"
 }

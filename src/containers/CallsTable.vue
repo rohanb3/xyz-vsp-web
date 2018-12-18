@@ -5,6 +5,12 @@
         {{ totalCallsAmount }} {{ $t('calls') }}
       </div>
       <v-spacer></v-spacer>
+      <columns-list-editor
+        :columns="columnsVisibilityData"
+        :boundariesSelector="'.calls-page'"
+        @visibilityChanged="onColumnVisibilityChanged"
+        @revertToDefault="setDefaultColumns"
+      />
     </div>
 
     <wombat-table
@@ -77,12 +83,21 @@ import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
 import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
 import ClientFeedbackCard from '@/components/ClientFeedbackCard';
 import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
+import ColumnsListEditor from '@/components/ColumnsListEditor';
 
 import smartTable from '@/mixins/smartTable';
 
 import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
-import { SET_COLUMNS } from '@/store/tables/mutationTypes';
 import { CALLS_TABLE } from '@/store/tables/constants';
+
+import { getCallsTableColumns } from '@/store/tables/columnsList';
+
+const allColumns = getCallsTableColumns()
+  .map(({ name, title }) => ({
+    name,
+    title,
+  }))
+  .sort((first, second) => (first.title < second.title ? -1 : 1));
 
 export default {
   name: 'CallsTable',
@@ -101,6 +116,7 @@ export default {
     TableLoader,
     ClientFeedbackCard,
     OperatorFeedbackCard,
+    ColumnsListEditor,
   },
   mixins: [smartTable],
   data() {
@@ -129,6 +145,12 @@ export default {
   computed: {
     columns() {
       return this.$store.state.tables[CALLS_TABLE].columns;
+    },
+    columnsVisibilityData() {
+      return allColumns.map(column => ({
+        ...column,
+        visible: !!this.columns.find(c => c.name === column.name),
+      }));
     },
     rows() {
       return this.$store.state.storage.calls.map(item => ({
@@ -194,7 +216,7 @@ export default {
 .calls-table-toolbar {
   display: flex;
   flex-flow: row;
-  height: $calls-table-header-height;
+  height: $calls-table-toolbar-height;
   align-items: center;
   padding: 0px 29px;
 }
