@@ -10,13 +10,20 @@ html {
 #app .customers-table {
   .virtual-list {
     max-height: calc(
-      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-header-height} -
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-toolbar-height} -
         #{$table-header-height} - #{$table-footer-height}
     );
   }
 }
 
 #app .calls-table {
+  .virtual-list {
+    max-height: calc(
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$calls-table-toolbar-height} -
+        #{$table-header-height} - #{$table-footer-height}
+    );
+  }
+
   .table-full-height-balloon {
     box-shadow: 0 2px 4px 0 $calls-feedback-card-shadow-color;
   }

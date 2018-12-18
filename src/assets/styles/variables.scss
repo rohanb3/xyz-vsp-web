@@ -24,12 +24,13 @@ $table-footer-height: 40px;
 $table-loader-main-color: rgba(57, 143, 251, 0.2);
 $table-loader-accent-color: #398ffb;
 $table-list-padding: 22px;
-$customers-table-header-height: 60px;
+
+$customers-table-toolbar-height: 60px;
 $customers-table-email-cell-color: #398ffb;
 $customers-table-additional-cell-color: #398ffb;
 
 $calls-list-padding: 22px;
-$calls-table-header-height: 60px;
+$calls-table-toolbar-height: 60px;
 $calls-missed-call-background-color: rgba(208, 2, 27, 0.01);
 $calls-duration-normal-color: #62a816;
 $calls-duration-overwaited-color: #d0021b;
@@ -48,6 +49,19 @@ $calls-feedback-card-background-color: #fff;
 $calls-feedback-card-shadow-color: rgba(184, 184, 184, 0.5);
 $calls-feedback-card-primary-color: #4a4a4a;
 $calls-feedback-card-secondary-color: #999999;
+
+$settings-main-background-color: #fff;
+$settings-button-color: #fff;
+$settings-link-color: #398ffb;
+$settings-button-background-color: #398ffb;
+$settings-description-content-color: #6d8aaf;
+$settings-label-color: #6d8aaf;
+$settings-divider-color: #dadada;
+$settings-user-name-color: #4a4a4a;
+$settings-title-color: #4a4a4a;
+$settings-text-color: #4a4a4a;
+$settings-description-title-color: #4a4a4a;
+$settings-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.22);
 
 $popper-shadow-color: rgba(0, 0, 0, 0.13);
 $popper-text-color: #4a4a4a;

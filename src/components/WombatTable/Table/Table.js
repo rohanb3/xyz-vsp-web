@@ -33,7 +33,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    reorder: {
+    columnsReorder: {
       type: Boolean,
       default: true,
     },
@@ -43,7 +43,7 @@ export default {
     },
     scrollOnItemsInsert: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   data() {

@@ -11,10 +11,7 @@
       :items="rows"
       :columns="columns"
       :item-height="50"
-      :resize="true"
-      :reorder="true"
       :infinite-loading="!allCustomersLoaded"
-      :scroll-on-items-insert="true"
       @bottomReached="checkAndInsertCustomers"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
@@ -61,11 +58,7 @@ import TableLoader from '@/components/TableLoader';
 
 import smartTable from '@/mixins/smartTable';
 
-import {
-  LOAD_CUSTOMERS,
-  LOAD_ALL_CUSTOMERS_LENGTH,
-} from '@/store/storage/actionTypes';
-import { SET_COLUMNS } from '@/store/tables/mutationTypes';
+import { LOAD_CUSTOMERS, LOAD_ALL_CUSTOMERS_LENGTH } from '@/store/storage/actionTypes';
 import { CUSTOMERS_TABLE } from '@/store/tables/constants';
 
 export default {
@@ -143,7 +136,7 @@ export default {
 .customers-table-toolbar {
   display: flex;
   flex-flow: row;
-  height: $customers-table-header-height;
+  height: $customers-table-toolbar-height;
   align-items: center;
   padding: 0px 29px;
 }

@@ -58,7 +58,10 @@ export default {
       type: Array,
       default: () => [],
     },
-    boundariesSelector: true,
+    boundariesSelector: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {

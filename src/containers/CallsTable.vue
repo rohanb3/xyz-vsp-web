@@ -18,10 +18,7 @@
       :items="rows"
       :columns="columns"
       :item-height="50"
-      :resize="true"
-      :reorder="true"
       :infinite-loading="!allCallsLoaded"
-      :scroll-on-items-insert="true"
       @bottomReached="checkAndInsertCalls"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
@@ -91,12 +88,6 @@ import ColumnsListEditor from '@/components/ColumnsListEditor';
 import smartTable from '@/mixins/smartTable';
 
 import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
-import {
-  SET_COLUMNS,
-  RESET_COLUMNS,
-  SHOW_COLUMN,
-  HIDE_COLUMN,
-} from '@/store/tables/mutationTypes';
 import { CALLS_TABLE } from '@/store/tables/constants';
 
 import { getCallsTableColumns } from '@/store/tables/columnsList';
@@ -225,7 +216,7 @@ export default {
 .calls-table-toolbar {
   display: flex;
   flex-flow: row;
-  height: $calls-table-header-height;
+  height: $calls-table-toolbar-height;
   align-items: center;
   padding: 0px 29px;
 }
