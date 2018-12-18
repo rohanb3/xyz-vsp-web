@@ -62,7 +62,6 @@ import {
   LOAD_CUSTOMERS,
   LOAD_ALL_CUSTOMERS_LENGTH,
 } from '@/store/storage/actionTypes';
-import { SET_COLUMNS } from '@/store/tables/mutationTypes';
 import { CUSTOMERS_TABLE } from '@/store/tables/constants';
 
 export default {
