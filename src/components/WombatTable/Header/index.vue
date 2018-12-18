@@ -16,7 +16,7 @@
         :ref="column._machineName"
         :title="column.title"
         :class="[column.class, column._className, isColumnsEllipsisModeAlways
-        ? 'header-column-ellipsis' : '', reorder ? 'allow-redorder' : '']"
+        ? 'header-column-ellipsis' : '', columnsReorder ? 'allow-redorder' : '']"
       >
         <div class="content">
           <slot
