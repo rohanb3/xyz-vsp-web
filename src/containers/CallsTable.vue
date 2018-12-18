@@ -12,10 +12,10 @@
       :items="rows"
       :columns="columns"
       :item-height="50"
-      :resize="false"
       :infinite-loading="!allCallsLoaded"
-      :scroll-on-items-update="true"
       @bottomReached="checkAndInsertCalls"
+      @columnsResized="onColumnsResized"
+      @columnsReordered="onColumnsReordered"
      >
        <div
          v-if="rows && rows.length"
@@ -78,8 +78,11 @@ import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
 import ClientFeedbackCard from '@/components/ClientFeedbackCard';
 import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
 
+import smartTable from '@/mixins/smartTable';
+
 import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
-import { getCallsTableColumns } from '@/services/tableColumns';
+import { SET_COLUMNS } from '@/store/tables/mutationTypes';
+import { CALLS_TABLE } from '@/store/tables/constants';
 
 export default {
   name: 'CallsTable',
@@ -99,10 +102,11 @@ export default {
     ClientFeedbackCard,
     OperatorFeedbackCard,
   },
+  mixins: [smartTable],
   data() {
     return {
+      tableName: CALLS_TABLE,
       loading: false,
-      columns: getCallsTableColumns(),
       rowComponentsHash: {
         default: 'DefaultCell',
         date: 'DateCell',
@@ -123,6 +127,9 @@ export default {
     this.getAllCallsLength().then(this.insertCalls);
   },
   computed: {
+    columns() {
+      return this.$store.state.tables[CALLS_TABLE].columns;
+    },
     rows() {
       return this.$store.state.storage.calls.map(item => ({
         ...item,
@@ -137,9 +144,9 @@ export default {
     },
   },
   methods: {
-    async checkAndInsertCalls() {
+    checkAndInsertCalls() {
       if (!this.allCallsLoaded) {
-        await this.insertCalls();
+        this.insertCalls();
       }
     },
     insertCalls() {
