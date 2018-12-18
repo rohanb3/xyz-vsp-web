@@ -9763,6 +9763,11 @@ uuid@^3.0.1, uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
+v-click-outside@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/v-click-outside/-/v-click-outside-2.0.2.tgz#7312e80ef72b979ff5144a08f36ebab24b5a2f8b"
+  integrity sha512-4dDekJloLi7WbVUM6IC/Gdv8qYaE+a2LY3sLUkzJc2WBf92kL0VPHGCTxVkTzZjHLVdkcjX0haiLXofrhZfHXA==
+
 v-hotkey@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/v-hotkey/-/v-hotkey-0.3.0.tgz#42fe7967d19d9d6a27ff0cefb0ac8246e7c94804"
@@ -9801,6 +9806,13 @@ vm-browserify@0.0.4:
   integrity sha1-XX6kW7755Kb/ZflUOOCofDV9WnM=
   dependencies:
     indexof "0.0.1"
+
+vue-airbnb-style-datepicker@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/vue-airbnb-style-datepicker/-/vue-airbnb-style-datepicker-2.4.1.tgz#56225af65d50e3af5bf422c20fc88b17251ce94f"
+  integrity sha512-nST6MVLfeqGTf4eAfdpFi4u3VjLb1zX2b8p6i9ekWY0mBUs1ZRlIEVwiMDIcLM8ELeegNecTuMQzUtghnCKlyQ==
+  dependencies:
+    v-click-outside "^2.0.1"
 
 vue-cli-plugin-i18n@^0.5.1:
   version "0.5.1"

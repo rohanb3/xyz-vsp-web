@@ -6,6 +6,7 @@ import App from './App';
 import router from './router';
 import store from './store';
 import i18n from './i18n';
+import './datepicker';
 
 Vue.config.productionTip = false;
 
