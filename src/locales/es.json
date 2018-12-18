@@ -48,5 +48,6 @@
   "good": "TBD Good",
   "average": "TBD Average",
   "below average": "TBD Below Average",
-  "poor": "TBD Poor"
+  "poor": "TBD Poor",
+  "revert.to.default": "TBD Revert to default"
 }

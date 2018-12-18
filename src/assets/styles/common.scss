@@ -40,6 +40,27 @@ html {
       @include inactive-cell;
     }
   }
+
+  .v-input--selection-controls {
+    .v-messages {
+      display: none;
+    }
+
+    .v-icon.material-icons {
+      color: $popper-chechkbox-color !important;
+    }
+
+    .v-label {
+      color: $popper-text-color;
+      font-family: Roboto;
+      font-size: 14px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: normal;
+    }
+  }
 }
 
 #app .call-feedback-card {
@@ -101,5 +122,15 @@ html {
     .detail-value {
       color: $calls-feedback-card-secondary-color;
     }
+  }
+}
+
+#app .popper[x-placement^='bottom'] {
+  border-radius: 8px;
+  box-shadow: 0 2px 24px 0 $popper-shadow-color;
+
+  .popper__arrow {
+    border-width: 0 10px 10px 10px !important;
+    top: -10px !important;
   }
 }
