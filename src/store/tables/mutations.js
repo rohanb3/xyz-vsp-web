@@ -1,4 +1,4 @@
-import { getCallsTableColumns } from '@/services/tableColumns';
+import { getCallsTableColumns } from './columnsList';
 import * as types from './mutationTypes';
 import { CALLS_TABLE } from './constants';
 

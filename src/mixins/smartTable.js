@@ -32,7 +32,7 @@ export default {
         columns,
       });
     },
-    onColumnsVisibilityChanged({ name, value }) {
+    onColumnVisibilityChanged({ name, value }) {
       const mutation = value ? SHOW_COLUMN : HIDE_COLUMN;
       this.$store.commit(mutation, {
         tableName: this.tableName,

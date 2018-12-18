@@ -8,7 +8,7 @@
       <columns-list-editor
         :columns="columnsVisibilityData"
         :boundariesSelector="'.calls-page'"
-        @visibilityChanged="onColumnsVisibilityChanged"
+        @visibilityChanged="onColumnVisibilityChanged"
         @revertToDefault="setDefaultColumns"
       />
     </div>
@@ -99,7 +99,7 @@ import {
 } from '@/store/tables/mutationTypes';
 import { CALLS_TABLE } from '@/store/tables/constants';
 
-import { getCallsTableColumns } from '@/services/tableColumns';
+import { getCallsTableColumns } from '@/store/tables/columnsList';
 
 const allColumns = getCallsTableColumns()
   .map(({ name, title }) => ({
