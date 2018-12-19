@@ -135,7 +135,6 @@ export default {
         if (!this.validatePassword()) return;
       }
       const response = await changeProfileData(this.user);
-      console.log('resp', response);
       if (response.status === 'success') {
         this.message = this.$t('data.were.successfully changed');
         this.snackbar = true;
@@ -178,10 +177,6 @@ export default {
   color: $settings-link-color;
   font-size: 12px;
 }
-
-/* .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) .v-input__slot {
-  box-shadow: 0 1px 3px 0 rgba(109, 138, 175, 0.67);
-} */
 .input {
   font-size: 14px;
 }
