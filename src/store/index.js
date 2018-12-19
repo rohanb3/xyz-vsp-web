@@ -4,14 +4,14 @@ import createPersistedState from 'vuex-persistedstate';
 
 import loggedInUser from './loggedInUser';
 import storage from './storage';
-import media from './media';
+import tables from './tables';
 
 Vue.use(Vuex);
 
 const debug = process.env.NODE_ENV !== 'production';
 
 const persistedStatePlugin = createPersistedState({
-  paths: ['loggedInUser'],
+  paths: ['loggedInUser', 'tables'],
 });
 
 export default new Vuex.Store({
@@ -21,7 +21,7 @@ export default new Vuex.Store({
   modules: {
     loggedInUser,
     storage,
-    media,
+    tables,
   },
   plugins: [persistedStatePlugin],
   strict: debug,

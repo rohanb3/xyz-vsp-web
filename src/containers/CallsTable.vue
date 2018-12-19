@@ -5,6 +5,12 @@
         {{ totalCallsAmount }} {{ $t('calls') }}
       </div>
       <v-spacer></v-spacer>
+      <columns-list-editor
+        :columns="columnsVisibilityData"
+        :boundariesSelector="'.calls-page'"
+        @visibilityChanged="onColumnVisibilityChanged"
+        @revertToDefault="setDefaultColumns"
+      />
     </div>
 
     <wombat-table
@@ -12,10 +18,10 @@
       :items="rows"
       :columns="columns"
       :item-height="50"
-      :resize="false"
       :infinite-loading="!allCallsLoaded"
-      :scroll-on-items-update="true"
       @bottomReached="checkAndInsertCalls"
+      @columnsResized="onColumnsResized"
+      @columnsReordered="onColumnsReordered"
      >
        <div
          v-if="rows && rows.length"
@@ -77,9 +83,21 @@ import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
 import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
 import ClientFeedbackCard from '@/components/ClientFeedbackCard';
 import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
+import ColumnsListEditor from '@/components/ColumnsListEditor';
+
+import smartTable from '@/mixins/smartTable';
 
 import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
-import { getCallsTableColumns } from '@/services/tableColumns';
+import { CALLS_TABLE } from '@/store/tables/constants';
+
+import { getCallsTableColumns } from '@/store/tables/columnsList';
+
+const allColumns = getCallsTableColumns()
+  .map(({ name, title }) => ({
+    name,
+    title,
+  }))
+  .sort((first, second) => (first.title < second.title ? -1 : 1));
 
 export default {
   name: 'CallsTable',
@@ -98,11 +116,13 @@ export default {
     TableLoader,
     ClientFeedbackCard,
     OperatorFeedbackCard,
+    ColumnsListEditor,
   },
+  mixins: [smartTable],
   data() {
     return {
+      tableName: CALLS_TABLE,
       loading: false,
-      columns: getCallsTableColumns(),
       rowComponentsHash: {
         default: 'DefaultCell',
         date: 'DateCell',
@@ -123,6 +143,15 @@ export default {
     this.getAllCallsLength().then(this.insertCalls);
   },
   computed: {
+    columns() {
+      return this.$store.state.tables[CALLS_TABLE].columns;
+    },
+    columnsVisibilityData() {
+      return allColumns.map(column => ({
+        ...column,
+        visible: !!this.columns.find(c => c.name === column.name),
+      }));
+    },
     rows() {
       return this.$store.state.storage.calls.map(item => ({
         ...item,
@@ -137,9 +166,9 @@ export default {
     },
   },
   methods: {
-    async checkAndInsertCalls() {
+    checkAndInsertCalls() {
       if (!this.allCallsLoaded) {
-        await this.insertCalls();
+        this.insertCalls();
       }
     },
     insertCalls() {
@@ -187,7 +216,7 @@ export default {
 .calls-table-toolbar {
   display: flex;
   flex-flow: row;
-  height: $calls-table-header-height;
+  height: $calls-table-toolbar-height;
   align-items: center;
   padding: 0px 29px;
 }

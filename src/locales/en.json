@@ -65,5 +65,6 @@
   "password.dont.match": "Password doesn't match",
   "confirm.password": "Сonfirm password",
   "new.password": "New password",
-  "old.password": "Old password"
+  "old.password": "Old password",
+  "revert.to.default": "Revert to default"
 }

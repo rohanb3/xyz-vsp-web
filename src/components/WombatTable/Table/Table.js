@@ -33,13 +33,17 @@ export default {
       type: Boolean,
       default: true,
     },
+    columnsReorder: {
+      type: Boolean,
+      default: true,
+    },
     infiniteLoading: {
       type: Boolean,
       default: false,
     },
-    scrollOnItemsUpdate: {
+    scrollOnItemsInsert: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
   data() {
@@ -94,7 +98,7 @@ export default {
   watch: {
     itemsLength(next, old) {
       const itemsInserted = next > old;
-      if (itemsInserted && this.scrollOnItemsUpdate) {
+      if (itemsInserted && this.scrollOnItemsInsert) {
         this.$nextTick(this.scrollToFirstUpdatedItem);
       }
       this.updateScrollBar();
