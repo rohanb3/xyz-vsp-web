@@ -178,6 +178,10 @@ export default {
   color: $settings-link-color;
   font-size: 12px;
 }
+
+/* .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) .v-input__slot {
+  box-shadow: 0 1px 3px 0 rgba(109, 138, 175, 0.67);
+} */
 .input {
   font-size: 14px;
 }
