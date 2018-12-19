@@ -60,5 +60,11 @@
   "average": "TBD Average",
   "below average": "TBD Below Average",
   "poor": "TBD Poor",
+  "image.was.successfully uploaded": "TBD Image was successfully uploaded",
+  "data.were.successfully changed": "TBD Data were successfully changed",
+  "password.dont.match": "TBD Password doesn't match",
+  "confirm.password": "TBD Сonfirm password",
+  "new.password": "TBD New password",
+  "old.password": "TBD Old password",
   "revert.to.default": "TBD Revert to default"
 }

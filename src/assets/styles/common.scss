@@ -132,6 +132,17 @@ html {
   }
 }
 
+// Overriding vuetify text-input styles
+.settings-container {
+  .v-input__slot {
+    min-height: 26px !important;
+  }
+  .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) .v-input__slot {
+    box-shadow: $settings-input-box-shadow;
+  }
+}
+
+
 #app .popper[x-placement^='bottom'] {
   border-radius: 8px;
   box-shadow: 0 2px 24px 0 $popper-shadow-color;
