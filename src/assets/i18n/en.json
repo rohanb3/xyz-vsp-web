@@ -35,10 +35,12 @@
   "success": "Success",
   "fail": "Fail",
   "your.profile": "Your Profile",
-  "settings.your.profile.description": "An overview of you current plan and your profile photo that will be shown to users when messaging them",
+  "settings.your.profile.description":
+    "An overview of you current plan and your profile photo that will be shown to users when messaging them",
   "change.photo": "Change Photo",
   "personal.details": "Personal Details",
-  "settings.personal.details.description": "Your first name will be to customers when messaging",
+  "settings.personal.details.description":
+    "Your first name will be to customers when messaging",
   "calling.photo": "Calling Photo",
   "change.call.image": "Change call image",
   "first.name": "First Name",
@@ -60,5 +62,11 @@
   "average": "Average",
   "below average": "Below Average",
   "poor": "Poor",
-  "revert.to.default": "Revert to default"
+  "revert.to.default": "Revert to default",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "last.7.days": "Last 7 days",
+  "last.30.days": "Last 30 days",
+  "all.time": "All time",
+  "apply": "Apply"
 }

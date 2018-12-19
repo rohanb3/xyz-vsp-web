@@ -1,0 +1,67 @@
+#app .inline-datepicker .asd__wrapper {
+  font-family: Roboto;
+  border: none;
+
+  .asd__month {
+    margin-top: 5px;
+  }
+
+  .asd__month-name {
+    height: 24px;
+    font-size: 14px;
+  }
+
+  .asd__days-legend {
+    z-index: 1;
+  }
+
+  .asd__day {
+    height: 21px;
+    line-height: 21px;
+    border: none !important;
+    border-top: 4px double #fff !important;
+    border-bottom: 4px double #fff !important;
+  }
+
+  .asd__day-title {
+    font-size: 14px;
+    color: $datepicker-day-color;
+    opacity: 0.5;
+    text-transform: capitalize;
+    border-bottom: 2px solid $datepicker-days-legend-border-color;
+  }
+
+  .asd__selected-date-one,
+  .asd__selected-date-two {
+    display: inline-table;
+    border: none !important;
+
+    .asd__day-button {
+      color: $datepicker-selected-day-color;
+    }
+  }
+
+  .asd__selected-date-one {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  .asd__selected-date-two {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
+  .asd__day-button {
+    font-family: Roboto;
+    font-size: 12px;
+    color: $datepicker-day-color;
+    outline: none;
+    border: none;
+  }
+
+  .asd__change-month-button {
+    button {
+      border: none;
+    }
+  }
+}

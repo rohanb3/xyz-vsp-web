@@ -3,6 +3,7 @@ import { getCustomersTableColumns, getCallsTableColumns } from './columnsList';
 import { CUSTOMERS_TABLE, CALLS_TABLE } from './constants';
 
 import mutations from './mutations';
+import getters from './getters';
 
 const state = {
   [CUSTOMERS_TABLE]: {
@@ -10,15 +11,22 @@ const state = {
   },
   [CALLS_TABLE]: {
     columns: getCallsTableColumns(),
-    startDate: moment
-      .utc()
-      .subtract(1, 'month')
-      .format(),
-    endDate: moment.utc().format(),
+    dateRange: {
+      startDate: moment
+        .utc()
+        .subtract(1, 'month')
+        .startOf('day')
+        .format(),
+      endDate: moment
+        .utc()
+        .endOf('day')
+        .format(),
+    },
   },
 };
 
 export default {
   state,
   mutations,
+  getters,
 };
