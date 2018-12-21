@@ -8,6 +8,8 @@ import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import SettingsPage from '@/views/SettingsPage';
 
+import OperatorFeedback from '@/containers/OperatorFeedback';
+
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
 import AppContent from '@/views/AppContent';
@@ -64,6 +66,11 @@ const router = new Router({
               path: '/settings',
               name: 'settings',
               component: SettingsPage,
+            },
+            {
+              path: '/feedback',
+              name: 'feedback',
+              component: OperatorFeedback,
             },
           ],
         },

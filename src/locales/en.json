@@ -66,5 +66,12 @@
   "confirm.password": "Сonfirm password",
   "new.password": "New password",
   "old.password": "Old password",
-  "revert.to.default": "Revert to default"
+  "revert.to.default": "Revert to default",
+  "audio.feedback": "Audio Feedback",
+  "start.recording": "Start recording",
+  "note.feedback": "Note feedback",
+  "start.typing": "Start typing",
+  "save.feedback": "Save feedback",
+  "call.back": "Call Back",
+  "call.info": "Call info"
 }

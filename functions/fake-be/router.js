@@ -9,6 +9,8 @@ const {
 } = require('./routes/customers');
 const { calls, callsLength } = require('./routes/calls');
 const { getProfileData, changeProfileData } = require('./routes/profile');
+const { getCallInfo, callBack } = require('./routes/call');
+const { getCallsTypes, saveFeedback } = require('./routes/operatorFeedback');
 
 router.param('customerId', pickCustomerById);
 router.post('/login', login);
@@ -19,5 +21,8 @@ router.get('/calls', calls);
 router.get('/calls-length', callsLength);
 router.get('/profile', getProfileData);
 router.post('/profile', changeProfileData);
-
+router.get('/call/info', getCallInfo);
+router.get('/call', callBack);
+router.get('/operator-feedback/calls-type', getCallsTypes);
+router.post('/operator-feedback', saveFeedback);
 module.exports = router;
