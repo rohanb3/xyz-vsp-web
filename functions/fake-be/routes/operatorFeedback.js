@@ -1,6 +1,6 @@
 function getCallsTypes(req, res) {
   const types = ['info', 'help', 'sale'];
-  const dispositions = ['long.name'];
+  const dispositions = ['Long Name', 'Another Name', 'One more'];
 
   res.send({ types, dispositions });
 }

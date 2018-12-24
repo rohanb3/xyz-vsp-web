@@ -16,7 +16,7 @@
           <p class="title">
             {{$t("type.of.call")}}
           </p>
-          <v-radio-group class="types" row v-model="callType">
+          <v-radio-group class="types" row v-model="feedback.callType">
             <v-radio
               v-for="type in callTypes"
               :key="type"
@@ -26,16 +26,20 @@
             ></v-radio>
           </v-radio-group>
         </div>
-        <div v-show="!!callType" class="disposition section">
+        <div v-show="isDispositionShown" class="disposition section">
           <p class="title">
             {{$t("disposition")}}
           </p>
-          <v-flex xs12 sm6 d-flex>
-            <v-select
-              :items="callDispositions"
-              solo
-            ></v-select>
-          </v-flex>
+          <v-select
+            class="dispositions-select"
+            v-model="feedback.disposition"
+            :items="callDispositions"
+            solo
+            background-color="rgba(0, 0, 0, 0.4)"
+            color="white"
+            append-icon="keyboard_arrow_down"
+            :placeholder="$t('select.something')"
+          ></v-select>
         </div>
         <div class="rating section">
           <p class="title">
@@ -44,7 +48,7 @@
            <v-rating
             color="#fff"
             background-color="grey lighten-1"
-            v-model="rating"
+            v-model="feedback.rating"
             />
         </div>
         <div class="audio-feedback section">
@@ -52,9 +56,10 @@
             {{$t("audio.feedback")}}
           </p>
           <div class="audio">
-            <div @click="stopRecording" class="stop-record-icon"></div>
-            <p>Start recording</p>
-            <v-icon @click="srartRecording" color="white">mic</v-icon>
+            <div @click="handleRecord" class="record-icon" :class="{'stop-record-icon': isRecordingAudio}"></div>
+            <p v-if="!recorder">Start recording</p>
+            <p class="record-time" v-else>{{recordTime}}</p>
+            <v-icon class="icon-mic" color="white">mic</v-icon>
           </div>
         </div>
         <div class="note-feedback section">
@@ -64,7 +69,7 @@
           <textarea
             name="input-7-1"
             :placeholder="$t('start.typing')"
-            v-model="text"
+            v-model="feedback.text"
             class="note"
           ></textarea>
         </div>
@@ -79,8 +84,8 @@
         <div
           v-else
           class="button button-save"
+          :class="{disabled: isButtonDisabled}"
           @click="saveFeedback"
-          :disabled="isButtonDisabled"
         >
           {{$t("save.feedback")}}
         </div>
@@ -109,6 +114,10 @@ export default {
       callTypes: [],
       callDispositions: [],
       callDuration: null,
+      recorder: null,
+      isRecordingAudio: false,
+      recordAudioCounter: 0,
+      recordAudioTimer: null,
     };
   },
   computed: {
@@ -116,12 +125,20 @@ export default {
       return !Object.values(this.feedback).some(value => !!value);
     },
     isButtonDisabled() {
-      return !this.callType || !this.rating || !this.disposition;
+      return !this.feedback.callType || !this.feedback.rating || !this.feedback.disposition;
+    },
+    isDispositionShown() {
+      return !!this.feedback.callType;
     },
     time() {
-      console.log(this.callDuration, 'this.callDuration');
-      console.log(moment(this.callDuration).format('mm:ss'), 'dfsds');
       return moment(this.callDuration).format('mm:ss');
+    },
+    recordTime() {
+      return moment()
+        .minute(0)
+        .second(0)
+        .millisecond(this.recordAudioCounter)
+        .format('mm:ss, SS');
     },
   },
   async mounted() {
@@ -133,6 +150,7 @@ export default {
   },
   methods: {
     saveFeedback() {
+      if (this.isButtonDisabled) return;
       saveFeedback(this.feedback);
       this.dialog = false;
     },
@@ -140,11 +158,48 @@ export default {
       callBack();
       this.dialog = false;
     },
-    stopRecording() {
-
+    handleRecord() {
+      // eslint-disable-next-line no-unused-expressions
+      this.isRecordingAudio ? this.stopRecording() : this.startRecording();
     },
-    srartRecording() {
+    async stopRecording() {
+      const audio = await this.recorder.stop();
+      clearInterval(this.recordAudioTimer);
+      this.feedback.audio = audio.audioBlob;
+      this.isRecordingAudio = false;
+    },
+    async startRecording() {
+      this.recorder = await this.recordAudio();
+      // eslint-disable-next-line no-return-assign
+      this.recordAudioTimer = setInterval(() => (this.recordAudioCounter += 10), 10);
+      this.recorder.start();
+      this.isRecordingAudio = true;
+    },
+    recordAudio() {
+      return new Promise(async resolve => {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mediaRecorder = new MediaRecorder(stream);
+        const audioChunks = [];
 
+        mediaRecorder.addEventListener('dataavailable', event => {
+          audioChunks.push(event.data);
+        });
+
+        const start = () => mediaRecorder.start();
+
+        const stop = () =>
+          // eslint-disable-next-line no-shadow
+          new Promise(resolve => {
+            mediaRecorder.addEventListener('stop', () => {
+              const audioBlob = new Blob(audioChunks, { type: 'audio/mpeg-3' });
+              resolve({ audioBlob });
+            });
+
+            mediaRecorder.stop();
+          });
+
+        resolve({ start, stop });
+      });
     },
   },
 };
@@ -154,10 +209,9 @@ export default {
 @import '~@/assets/styles/variables.scss';
 .operator-feedback {
   width: 250px;
-  height: 470px;
   border-radius: 11px;
-  background-image: radial-gradient(circle at 50% 0, #737373, #4a4a4a 85%, #3b3b3b);
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  background-image: $operator-feedback-background-image;
+  box-shadow: $operator-feedback-box-shadow;
   display: flex;
   flex-direction: column;
 
@@ -178,7 +232,7 @@ export default {
 
     .name {
       font-size: 22px;
-      color: #fff;
+      color: $operator-feedback-header-name-color;
       font-weight: 500;
     }
     .call-duration {
@@ -192,16 +246,16 @@ export default {
 
       .time {
         font-size: 16px;
-        color: #fff;
+        color: $operator-feedback-header-time-color;
       }
     }
   }
 
   .call-type {
     .theme--light .accent--text {
-      background-color: #fff;
+      background-color: $operator-feedback-call-type-background-color;
       label {
-        color: #3b3b3b !important;
+        color: $operator-feedback-call-type-color !important;
       }
     }
     .title {
@@ -210,14 +264,43 @@ export default {
     .types {
       justify-content: flex-start;
       .type {
-        padding: 4px 5px;
+        padding: 5px 11px;
         border-radius: 3px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: $operator-feedback-call-type-border;
         font-size: 14px;
         font-weight: 500;
 
         label {
-          color: #fff;
+          color: $operator-feedback-call-type-selected-color;
+        }
+      }
+    }
+  }
+
+  .disposition {
+    .title {
+      padding-bottom: 9px;
+    }
+    .dispositions-select {
+      margin-right: 33px;
+      font-size: 14px;
+      border-radius: 3px;
+
+      .v-text-field.v-text-field--enclosed .v-input__slot,
+      .v-text-field.v-text-field--enclosed .v-text-field__details {
+        padding: 0 8px;
+      }
+
+      .v-input__control {
+        min-height: 28px;
+      }
+
+      .v-select__selection.v-select__selection--comma {
+        color: $operator-feedback-disposition-color;
+      }
+      .v-input__icon {
+        .theme--light.v-icon {
+          color: $operator-feedback-disposition-icon-color;
         }
       }
     }
@@ -236,39 +319,58 @@ export default {
     .audio {
       padding: 2px 10px 3px 5px;
       border-radius: 14.5px;
-      color: rgba(255, 255, 255, 0.5);
-      background-color: rgba(0, 0, 0, 0.4);
+      font-size: 14px;
+      color: $operator-feedback-audio-color;
+      background-color: $operator-feedback-audio-background-color;
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      .record-time {
+        color: $operator-feedback-record-time-color;
+      }
+
+      .record-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background-color: $operator-feedback-record-icon-background-color;
+        position: relative;
+        &:before {
+          content: '';
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background-color: $operator-feedback-record-icon-internal-background-color;
+          position: absolute;
+          top: 1px;
+          left: 1px;
+          z-index: 3;
+          border: $operator-feedback-record-icon-border;
+        }
+      }
+
+      .icon-mic {
+        margin-left: 15px;
+      }
 
       .stop-record-icon {
         width: 22px;
         height: 22px;
         border-radius: 50%;
-        background-color: white;
+        background-color: transparent;
         position: relative;
-        &:after {
-          content: '';
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background-color: black;
-          position: absolute;
-          top: 1px;
-          left: 1px;
-          z-index: 2;
-        }
+        border: $operator-feedback-stop-record-icon-border;
         &:before {
           content: '';
-          width: 17px;
-          height: 17px;
-          border-radius: 50%;
-          background-color: #cf0020;
+          width: 12px;
+          height: 12px;
+          background-color: $operator-feedback-record-icon-internal-background-color;
           position: absolute;
-          top: 3px;
-          left: 3px;
+          top: 4px;
+          left: 4px;
           z-index: 3;
+          border-radius: 4px;
         }
       }
     }
@@ -282,18 +384,22 @@ export default {
     }
     .note {
       padding: 4px 7px;
-      color: rgba(255, 255, 255, 0.5);
+      color: $operator-feedback-note-color;
       font-size: 14px;
       border-radius: 3px;
-      background-color: rgba(0, 0, 0, 0.4);
+      background-color: $operator-feedback-note-background-color;
       resize: none;
+
+      &::placeholder {
+        color: $operator-feedback-note-placeholder-color;
+      }
     }
   }
 
   .title {
     font-size: 12px !important;
     font-weight: 400 !important;
-    color: rgba(255, 255, 255, 0.4);
+    color: $operator-feedback-title-color;
   }
   .button {
     height: auto;
@@ -304,16 +410,42 @@ export default {
     border: inherit;
     width: 100%;
     font-size: 24px;
-    color: white;
+    font-weight: 500;
+    color: $operator-feedback-button-color;
+    display: flex;
+    align-items: center;
     .icon-call {
-      margin-right: 27px;
+      margin-right: 25px;
+      color: $operator-feedback-icon-call-color;
+      width: 37px;
+      height: 37px;
     }
   }
   .button-callback {
-    background-color: #ff941b;
+    background-color: $operator-feedback-button-callback-background-color;
+    justify-content: flex-start;
   }
   .button-save {
-    background-color: green;
+    background-color: $operator-feedback-button-save-background-color;
+    justify-content: center;
+  }
+  .disabled {
+    opacity: 0.5;
+  }
+}
+
+.v-select-list.v-card.theme--light {
+  .v-list__tile.v-list__tile--link.v-list__tile--active.theme--light.white--text {
+    color: $operator-feedback-disposition-selected-color !important;
+    background-color: $operator-feedback-disposition-selected-background-color;
+  }
+}
+.v-select__selections {
+  input {
+    &::placeholder {
+      font-size: 14px;
+      color: $operator-feedback-disposition-placeholder-color !important;
+    }
   }
 }
 </style>
