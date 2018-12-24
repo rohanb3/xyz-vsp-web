@@ -5,6 +5,7 @@ import createPersistedState from 'vuex-persistedstate';
 import loggedInUser from './loggedInUser';
 import storage from './storage';
 import tables from './tables';
+import call from './call';
 
 Vue.use(Vuex);
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     loggedInUser,
     storage,
     tables,
+    call,
   },
   plugins: [persistedStatePlugin],
   strict: debug,

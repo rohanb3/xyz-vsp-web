@@ -11,6 +11,9 @@
         class="app-content"
         name="main"/>
     </div>
+    <router-view
+      class="incoming-call"
+      name="incomingCall"/>
   </div>
 </template>
 
@@ -45,5 +48,9 @@
   flex-grow: 1;
   flex-shrink: 1;
   background-color: $content-background-color;
+}
+
+.incoming-call {
+  // position: absolute;
 }
 </style>

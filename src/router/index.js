@@ -3,14 +3,16 @@ import Router from 'vue-router';
 
 import Base from '@/views/Base';
 import Login from '@/views/Login';
+import AppContent from '@/views/AppContent';
 import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import SettingsPage from '@/views/SettingsPage';
+import Call from '@/views/Call';
 
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
-import AppContent from '@/views/AppContent';
+import IncomingCall from '@/containers/IncomingCall';
 
 import store from '@/store';
 
@@ -43,6 +45,7 @@ const router = new Router({
             header: AppHeader,
             lhs: LHS,
             main: AppContent,
+            incomingCall: IncomingCall,
           },
           children: [
             {
@@ -64,6 +67,11 @@ const router = new Router({
               path: '/settings',
               name: 'settings',
               component: SettingsPage,
+            },
+            {
+              path: '/call',
+              name: 'call',
+              component: Call,
             },
           ],
         },
