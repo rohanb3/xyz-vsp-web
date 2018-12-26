@@ -24,21 +24,21 @@
 
 <script>
 import moment from 'moment';
-import { getProfileData } from '@/services/profile';
 
 export default {
-  name: 'OperatorCall',
+  name: 'IncomingCallPopup',
   data() {
     return {
       dialog: true,
-      imageSrc: null,
       counter: 0,
       interval: null,
     };
   },
   computed: {
     backgroundImage() {
-      return `url(${this.imageSrc})`;
+      const imageSrc = this.$store.getters.userData.callingPhoto;
+
+      return imageSrc ? `url(${imageSrc})` : 'none';
     },
     callDuration() {
       return moment()
@@ -49,8 +49,6 @@ export default {
     },
   },
   async mounted() {
-    const data = await getProfileData();
-    this.imageSrc = data.callingPhoto;
     this.interval = setInterval(this.updateCurrentTime, 1000);
   },
   destroyed() {

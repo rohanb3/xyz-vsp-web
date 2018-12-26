@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { LOG_IN_USER } from '@/store/loggedInUser/actionTypes';
+import { LOG_IN_USER, GET_USER_DATA } from '@/store/loggedInUser/actionTypes';
 
 export default {
   name: 'Login',
@@ -72,7 +72,8 @@ export default {
           .catch(this.onLoginFail);
       }
     },
-    onLoginSuccess() {
+    async onLoginSuccess() {
+      await this.$store.dispatch(GET_USER_DATA);
       this.$router.replace({ name: 'customers' });
     },
     onLoginFail() {

@@ -1,17 +1,17 @@
 <template>
   <div class="app-content">
     <router-view></router-view>
-    <operator-call/>
+    <incoming-call-popup/>
   </div>
 </template>
 
 <script>
-import OperatorCall from '@/containers/OperatorCall';
+import IncomingCallPopup from '@/containers/IncomingCallPopup';
 
 export default {
   name: 'AppContent',
   components: {
-    OperatorCall,
+    IncomingCallPopup,
   },
 };
 </script>
