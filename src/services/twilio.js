@@ -1,25 +1,29 @@
 /* eslint-disable no-use-before-define */
 import Video from 'twilio-video';
 
-import { subscribe, emit } from '@/services/emitter';
+import { subscribeMultiple, emit } from '@/services/emitter';
 
 let previewTracks = null;
 let activeRoom = null;
-let connectedToRoom = false;
+let localMediaSelector = null;
+let remoteMediaSelector = null;
 
-const PARTICIPANT_CONNECTED = 'participantConnected';
-const TRACK_ADDED = 'trackAdded';
-const TRACK_REMOVED = 'trackRemoved';
+const TRACK_SUBSCRIBED = 'trackSubscribed';
+const TRACK_UNSUBSCRIBED = 'trackUnsubscribed';
 const PARTICIPANT_DISCONNECTED = 'participantDisconnected';
 const DISCONNECTED = 'disconnected';
 
 const ROOM_DISCONNECTED = 'roomDisconnected';
 const ROOM_JOINED = 'roomJoined';
-const LOCAL_TRACK = 'localTrack';
-const REMOTE_TRACK = 'remoteTrack';
+
+export function initTwilio(mediaSelectors = {}, listeners = {}) {
+  localMediaSelector = mediaSelectors.local;
+  remoteMediaSelector = mediaSelectors.remote;
+  subscribeMultiple(listeners);
+}
 
 export function connectToRoom(name, token) {
-  if (!connectedToRoom) {
+  if (!activeRoom) {
     const connectOptions = {
       name,
       // logLevel: 'debug',
@@ -29,12 +33,13 @@ export function connectToRoom(name, token) {
       connectOptions.tracks = previewTracks;
     }
 
-    console.log(123);
-
-    return Video.connect(
-      token,
-      connectOptions
-    )
+    return initLocalPreview()
+      .then(() =>
+        Video.connect(
+          token,
+          connectOptions
+        )
+      )
       .then(onRoomJoined)
       .catch(onRoomConnectionFailed);
   }
@@ -42,70 +47,29 @@ export function connectToRoom(name, token) {
   return Promise.reject();
 }
 
-export function listenRoomJoining(listener) {
-  subscribe(ROOM_JOINED, listener);
-}
-
-export function listenParticipantConnection(listener) {
-  subscribe(PARTICIPANT_CONNECTED, listener);
-}
-
-export function listenTrackAdding(listener) {
-  subscribe(TRACK_ADDED, listener);
-}
-
-export function listenTrackRemoving(listener) {
-  subscribe(TRACK_REMOVED, listener);
-}
-
-export function listenParticipantDisconnection(listener) {
-  subscribe(PARTICIPANT_DISCONNECTED, listener);
-}
-
-export function listenToRoomDisconnection(listener) {
-  subscribe(ROOM_DISCONNECTED, listener);
-}
-
 function onRoomJoined(room) {
-  console.log('roomJoined');
   activeRoom = room;
-  connectedToRoom = true;
+
   if (!previewTracks || !previewTracks.length) {
-    handleParticipantTracksAdding(room.localParticipant, LOCAL_TRACK);
+    handleLocalParticipantAdding(room.localParticipant);
   }
 
-  room.participants.forEach(participant =>
-    handleParticipantTracksAdding(participant, REMOTE_TRACK)
-  );
+  room.participants.forEach(handleRemoteParticipantAdding);
 
-  room.on(PARTICIPANT_CONNECTED, onParticipantConnected);
-  room.on(TRACK_ADDED, onTrackAdded);
-  room.on(TRACK_REMOVED, onTrackRemoved);
+  room.on(TRACK_SUBSCRIBED, onTrackSubscribed);
+  room.on(TRACK_UNSUBSCRIBED, onTrackUnsubscribed);
   room.on(PARTICIPANT_DISCONNECTED, onParticipantDisconnected);
   room.on(DISCONNECTED, onRoomDisconnected);
 
   emit(ROOM_JOINED, room);
 
-  console.log(room);
   return room;
 }
 
-function onRoomConnectionFailed(err) {
-  console.log(err);
+function onRoomConnectionFailed() {
   activeRoom = null;
-  connectedToRoom = false;
-}
 
-export function attachTracks(tracks, container) {
-  tracks.forEach(track => container.appendChild(track.attach()));
-}
-
-export function detachTracks(tracks) {
-  tracks.forEach(track => {
-    track.detach().forEach(detachedElement => {
-      detachedElement.remove();
-    });
-  });
+  return Promise.reject();
 }
 
 function onRoomDisconnected() {
@@ -118,41 +82,65 @@ function onRoomDisconnected() {
   emit(ROOM_DISCONNECTED);
 }
 
-function handleParticipantTracksAdding(participant, role) {
+function handleLocalParticipantAdding(participant) {
   const tracks = Array.from(participant.tracks.values());
+  attachLocalTracks(tracks);
 }
 
-function onParticipantConnected(participant) {
-  emit(PARTICIPANT_CONNECTED, participant);
+function handleRemoteParticipantAdding(participant) {
+  const tracks = Array.from(participant.tracks.values());
+  attachRemoteTracks(tracks);
 }
 
-function onTrackAdded(track) {
-  emit(TRACK_ADDED, track);
+function attachLocalTracks(tracks) {
+  const container = document.querySelector(localMediaSelector);
+  attachTracks(tracks, container);
 }
 
-function onTrackRemoved(track) {
-  emit(TRACK_REMOVED, track);
+function attachRemoteTracks(tracks) {
+  const container = document.querySelector(remoteMediaSelector);
+  attachTracks(tracks, container);
 }
 
-function onParticipantDisconnected(participant) {
-  emit(PARTICIPANT_DISCONNECTED, participant);
-  leaveRoomIfJoined();
+function attachTracks(tracks, container) {
+  tracks.forEach(track => container.appendChild(track.attach()));
 }
 
-export function initLocalPreview() {
-  const promise = previewTracks ? Promise.resolve(previewTracks) : Video.createLocalTracks();
-
-  return promise.then(tracks => {
-    previewTracks = tracks;
+function detachTracks(tracks) {
+  tracks.forEach(track => {
+    track.detach().forEach(detachedElement => {
+      detachedElement.remove();
+    });
   });
+}
+
+function onTrackSubscribed(track) {
+  attachRemoteTracks([track]);
+}
+
+function onTrackUnsubscribed(track) {
+  detachTracks([track]);
+}
+
+function onParticipantDisconnected() {
+  leaveRoomIfJoined();
 }
 
 function leaveRoomIfJoined() {
   if (activeRoom) {
-    activeRoom = null;
-    connectedToRoom = false;
     activeRoom.disconnect();
+    activeRoom = null;
+    previewTracks = null;
   }
+}
+
+function initLocalPreview() {
+  const promise = previewTracks ? Promise.resolve(previewTracks) : Video.createLocalTracks();
+
+  return promise.then(tracks => {
+    previewTracks = tracks;
+    attachLocalTracks(tracks);
+  });
 }
 
 window.addEventListener('beforeunload', leaveRoomIfJoined);

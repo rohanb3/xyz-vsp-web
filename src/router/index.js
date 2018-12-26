@@ -15,6 +15,7 @@ import LHS from '@/containers/LHS';
 import IncomingCall from '@/containers/IncomingCall';
 
 import store from '@/store';
+import { callStatuses } from '@/store/call/constants';
 
 Vue.use(Router);
 
@@ -72,6 +73,13 @@ const router = new Router({
               path: '/call',
               name: 'call',
               component: Call,
+              beforeEnter: (to, from, next) => {
+                if (store.state.call.callStatus === callStatuses.ACCEPTED) {
+                  next();
+                } else {
+                  next({ name: 'calls' });
+                }
+              },
             },
           ],
         },

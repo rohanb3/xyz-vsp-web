@@ -6,55 +6,55 @@ import { SET_CALL_STATUS, SET_TOKEN } from '@/store/call/mutationTypes';
 import { callStatuses } from '@/store/call/constants';
 import {
   initSocket,
-  // listenIncomingCall,
   acceptCall,
+  declineCall,
   notifyPeerAboutJoiningRoom,
-  // getToken,
-  // listenRoomCreation,
   events as socketEvents,
 } from '@/services/operatorSocket';
-import { connectToRoom } from '@/services/twilio';
+import { initTwilio, connectToRoom } from '@/services/twilio';
 
-export const events = {
-  ...socketEvents,
+let acceptCallUnwatch = null;
+
+const mediaSelectors = {
+  local: '#localMedia',
+  remote: '#remoteMedia',
 };
 
 export function initializeOperator(authData) {
-  const subscribers = {
+  const socketListeners = {
     [socketEvents.INCOMING_CALL]: onIncomingCall,
     [socketEvents.ROOM_CREATED]: onRoomCreated,
     [socketEvents.AUTHENTICATED]: setToken,
   };
-  // listenIncomingCall(onIncomingCall);
-  // listenRoomCreation(onRoomCreated);
-  // getToken(setToken);
-  initSocket(authData, subscribers);
+
+  initSocket(authData, socketListeners);
+  initTwilio(mediaSelectors);
 }
 
-function onIncomingCall(customerId) {
+function onIncomingCall() {
+  if (acceptCallUnwatch) {
+    acceptCallUnwatch();
+  }
   return notifyUserAboutIncomingCall()
-    .then(() =>
-      acceptCall({
-        query: {
-          customerId,
-        },
-      })
-    )
-    .catch(console.error);
+    .then(acceptCall)
+    .catch(declineCall);
 }
 
 function onRoomCreated(roomName) {
-  return connectToRoom(roomName, store.state.call.token).then(() => onRoomConnected(roomName));
+  return goToCallScreen()
+    .then(() => connectToRoom(roomName, store.state.call.token))
+    .then(() => onRoomConnected(roomName));
 }
 
 function notifyUserAboutIncomingCall() {
   setIncomingCallStatus();
 
   return new Promise((resolve, reject) => {
-    const unwatch = store.watch(
+    acceptCallUnwatch = store.watch(
       state => state.call.callStatus,
       value => {
-        unwatch();
+        acceptCallUnwatch();
+        acceptCallUnwatch = null;
         if (value === callStatuses.ACCEPTED) {
           resolve();
         } else {
@@ -67,7 +67,6 @@ function notifyUserAboutIncomingCall() {
 
 function onRoomConnected(roomName) {
   setWaitingForPeerStatus();
-  goToCallScreen();
   notifyPeerAboutJoiningRoom(roomName);
 }
 
@@ -75,6 +74,7 @@ function onRoomConnected(roomName) {
 
 function goToCallScreen() {
   router.push({ name: 'call' });
+  return new Promise(setTimeout);
 }
 
 // store actors

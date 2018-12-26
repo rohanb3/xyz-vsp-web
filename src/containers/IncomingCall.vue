@@ -96,33 +96,6 @@ export default {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @import '~@/assets/styles/variables.scss';
 
 .main {

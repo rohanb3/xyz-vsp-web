@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define, import/prefer-default-export */
 import io from 'socket.io-client';
 
-import { subscribe, emit, subscribeMultiple } from '@/services/emitter';
+import { emit, subscribeMultiple } from '@/services/emitter';
 
 let socket = null;
 let operatorId = null;
@@ -17,11 +17,11 @@ const JOIN_ROOM = 'join.room';
 const ACCEPT_CALL = 'accept.call';
 const DECLINE_CALL = 'decline.call';
 
-export function initSocket(authData, subscribers = {}) {
+export function initSocket(authData, listeners = {}) {
   socket = socket || io('/operators');
   operatorId = operatorId || socket.id;
 
-  subscribeMultiple(subscribers);
+  subscribeMultiple(listeners);
 
   socket.on(CONNECT, () => {
     authenticate(authData);
@@ -38,20 +38,8 @@ export const events = {
   ROOM_CREATED,
 };
 
-export function listenIncomingCall(listener) {
-  subscribe(INCOMING_CALL, listener);
-}
-
-export function listenRoomCreation(listener) {
-  subscribe(ROOM_CREATED, listener);
-}
-
-export function getToken(listener) {
-  subscribe(AUTHENTICATED, listener);
-}
-
-export function acceptCall(data) {
-  socket.emit(ACCEPT_CALL, data);
+export function acceptCall() {
+  socket.emit(ACCEPT_CALL);
 }
 
 export function declineCall() {
@@ -82,8 +70,8 @@ function onRoomCreated(roomName) {
   emit(ROOM_CREATED, roomName);
 }
 
-function onIncomingCall({ customerId }) {
-  emit(INCOMING_CALL, customerId);
+function onIncomingCall() {
+  emit(INCOMING_CALL);
 }
 
 function onAuthorizationFailed() {
