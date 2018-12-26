@@ -62,11 +62,17 @@
   "average": "TBD Average",
   "below average": "TBD Below Average",
   "poor": "TBD Poor",
-  "revert.to.default": "TBD Revert to default",
   "today": "TBD Today",
   "yesterday": "TBD Yesterday",
   "last.7.days": "TBD Last 7 days",
   "last.30.days": "TBD Last 30 days",
   "all.time": "TBD All time",
-  "apply": "TBD Apply"
+  "apply": "TBD Apply",
+  "image.was.successfully uploaded": "TBD Image was successfully uploaded",
+  "data.were.successfully changed": "TBD Data were successfully changed",
+  "password.dont.match": "TBD Password doesn't match",
+  "confirm.password": "TBD Сonfirm password",
+  "new.password": "TBD New password",
+  "old.password": "TBD Old password",
+  "revert.to.default": "TBD Revert to default"
 }

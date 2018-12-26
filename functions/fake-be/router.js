@@ -8,6 +8,7 @@ const {
   customersLength,
 } = require('./routes/customers');
 const { calls, callsLength } = require('./routes/calls');
+const { getProfileData, changeProfileData } = require('./routes/profile');
 
 router.param('customerId', pickCustomerById);
 router.post('/login', login);
@@ -16,5 +17,7 @@ router.get('/customers', customers);
 router.get('/customers-length', customersLength);
 router.get('/calls', calls);
 router.get('/calls-length', callsLength);
+router.get('/profile', getProfileData);
+router.post('/profile', changeProfileData);
 
 module.exports = router;

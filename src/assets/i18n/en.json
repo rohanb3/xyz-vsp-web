@@ -62,11 +62,17 @@
   "average": "Average",
   "below average": "Below Average",
   "poor": "Poor",
-  "revert.to.default": "Revert to default",
   "today": "Today",
   "yesterday": "Yesterday",
   "last.7.days": "Last 7 days",
   "last.30.days": "Last 30 days",
   "all.time": "All time",
-  "apply": "Apply"
+  "apply": "Apply",
+  "image.was.successfully uploaded": "Image was successfully uploaded",
+  "data.were.successfully changed": "Data were successfully changed",
+  "password.dont.match": "Password doesn't match",
+  "confirm.password": "Сonfirm password",
+  "new.password": "New password",
+  "old.password": "Old password",
+  "revert.to.default": "Revert to default"
 }
