@@ -37,16 +37,8 @@ export default {
       required: true,
     },
   },
-  methods: {
-    test(val) {
-      console.log(val);
-    },
-  },
   mounted() {
     this.$refs.datePicker.selectDate(this.startDate);
   },
 };
 </script>
-
-<style lang="css">
-</style>
