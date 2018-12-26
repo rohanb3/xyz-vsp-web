@@ -72,7 +72,7 @@ export default {
           .catch(this.onLoginFail);
       }
     },
-    onLoginSuccess() {
+    async onLoginSuccess() {
       this.$router.replace({ name: 'customers' });
     },
     onLoginFail() {

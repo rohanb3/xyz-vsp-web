@@ -11,4 +11,10 @@ export default {
   allCallsLoaded({ allCustomersLength }, { loadedCustomersAmount }) {
     return allCustomersLength <= loadedCustomersAmount;
   },
+  callTypes(state) {
+    return state.callTypes;
+  },
+  dispositions(state) {
+    return state.dispositions;
+  },
 };

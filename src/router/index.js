@@ -8,7 +8,7 @@ import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import SettingsPage from '@/views/SettingsPage';
 
-import OperatorFeedback from '@/containers/OperatorFeedback';
+import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
@@ -70,7 +70,7 @@ const router = new Router({
             {
               path: '/feedback',
               name: 'feedback',
-              component: OperatorFeedback,
+              component: CallFeedbackPopup,
             },
           ],
         },
