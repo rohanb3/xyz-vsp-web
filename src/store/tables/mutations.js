@@ -23,5 +23,8 @@ export default {
       column => column.name !== columnName
     );
   },
+  [types.SET_DATE_RANGE](state, { tableName, dateRange }) {
+    state[tableName].dateRange = dateRange;
+  },
   /* eslint-enable no-param-reassign */
 };
