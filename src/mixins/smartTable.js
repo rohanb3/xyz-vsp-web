@@ -1,4 +1,10 @@
-import { SET_COLUMNS, RESET_COLUMNS, SHOW_COLUMN, HIDE_COLUMN } from '@/store/tables/mutationTypes';
+import {
+  SET_COLUMNS,
+  RESET_COLUMNS,
+  SHOW_COLUMN,
+  HIDE_COLUMN,
+  SET_DATE_RANGE,
+} from '@/store/tables/mutationTypes';
 
 export default {
   data() {
@@ -8,10 +14,16 @@ export default {
   },
   computed: {
     columns() {
-      return [];
+      return this.$store.state.tables[this.tableName].columns;
     },
   },
   methods: {
+    setDateRange(dateRange) {
+      this.$store.commit(SET_DATE_RANGE, {
+        tableName: this.tableName,
+        dateRange,
+      });
+    },
     onColumnsResized(data) {
       const updatedColumns = this.columns.map(column => {
         const updated = { ...column };

@@ -1,3 +1,5 @@
+import { filterByDateRange } from '@/services/dateHelper';
+
 export default {
   loadedCustomersAmount(state) {
     return state.customers.length;
@@ -16,5 +18,11 @@ export default {
   },
   dispositions(state) {
     return state.dispositions;
+  },
+  callsInDateRange({ calls }, { callsTableDateRange }) {
+    return filterByDateRange(calls, callsTableDateRange);
+  },
+  filteredCallsLength(state, { callsInDateRange }) {
+    return callsInDateRange.length;
   },
 };

@@ -2,12 +2,12 @@
   <div
     v-hotkey="keymap"
     class="columns-list-editor"
+    @click="checkAndShow"
   >
     <img
       alt="Columns list editor"
       class="columns-list-icon"
-      :src="icon"
-      @click="checkAndShow">
+      :src="icon">
     <popper
       trigger="click"
       ref="popper"
@@ -43,69 +43,27 @@
 </template>
 
 <script>
-import Popper from 'vue-popperjs';
-import 'vue-popperjs/dist/css/vue-popper.css';
 import CheckboxList from '@/components/CheckboxList';
+import tableToolbarBalloon from '@/mixins/tableToolbarBalloon';
 import icon from '@/assets/icons/group.svg';
 
 export default {
   components: {
-    Popper,
     CheckboxList,
   },
+  mixins: [tableToolbarBalloon],
   props: {
     columns: {
       type: Array,
       default: () => [],
     },
-    boundariesSelector: {
-      type: String,
-      default: null,
-    },
   },
   data() {
     return {
       icon,
-      isShown: false,
-      keymap: {
-        esc: this.checkAndHide,
-      },
     };
   },
-  computed: {
-    options() {
-      return {
-        modifiers: {
-          offset: {
-            offset: '0, 5px',
-          },
-        },
-      };
-    },
-  },
   methods: {
-    checkAndShow() {
-      if (!this.isShown) {
-        this.$nextTick(this.show);
-      }
-    },
-    checkAndHide() {
-      if (this.isShown) {
-        this.$nextTick(this.hide);
-      }
-    },
-    show() {
-      this.$refs.popper.doShow();
-    },
-    hide() {
-      this.$refs.popper.doClose();
-    },
-    onShow() {
-      this.isShown = true;
-    },
-    onHide() {
-      this.isShown = false;
-    },
     revertToDefault() {
       this.$emit('revertToDefault');
       this.$refs.popper.doClose();
