@@ -66,5 +66,6 @@
   "confirm.password": "Сonfirm password",
   "new.password": "New password",
   "old.password": "Old password",
-  "revert.to.default": "Revert to default"
+  "revert.to.default": "Revert to default",
+  "video.off": "Video off"
 }

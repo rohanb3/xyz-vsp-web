@@ -142,6 +142,25 @@ html {
   }
 }
 
+#app .call{
+
+  .v-slider__thumb {
+    visibility: hidden;
+  }
+  .v-input--slider {
+    margin-top: 0;
+  }
+}
+
+#app .v-slider__track__container {
+  height: 6px;
+  background-color: rgba(216, 216, 216, 0.2);
+  border-radius: 4px;
+}
+
+#app .v-slider__track-fill {
+  height: 20px;
+}
 
 #app .popper[x-placement^='bottom'] {
   border-radius: 8px;
