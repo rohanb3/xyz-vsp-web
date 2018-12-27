@@ -2,9 +2,15 @@
   <div class="calls-table">
     <div class="calls-table-toolbar">
       <div class="calls-amount">
-        {{ totalCallsAmount }} {{ $t('calls') }}
+        {{ filteredCallsLength }} {{ $t('calls') }}
       </div>
       <v-spacer></v-spacer>
+      <table-dates-editor
+        :startDate="startDate"
+        :endDate="endDate"
+        :boundariesSelector="'.calls-page'"
+        @applyDateRange="setDateRange"
+      />
       <columns-list-editor
         :columns="columnsVisibilityData"
         :boundariesSelector="'.calls-page'"
@@ -83,6 +89,7 @@ import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
 import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
 import ClientFeedbackCard from '@/components/ClientFeedbackCard';
 import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
+import TableDatesEditor from '@/components/TableDatesEditor';
 import ColumnsListEditor from '@/components/ColumnsListEditor';
 
 import smartTable from '@/mixins/smartTable';
@@ -116,6 +123,7 @@ export default {
     TableLoader,
     ClientFeedbackCard,
     OperatorFeedbackCard,
+    TableDatesEditor,
     ColumnsListEditor,
   },
   mixins: [smartTable],
@@ -143,9 +151,6 @@ export default {
     this.getAllCallsLength().then(this.insertCalls);
   },
   computed: {
-    columns() {
-      return this.$store.state.tables[CALLS_TABLE].columns;
-    },
     columnsVisibilityData() {
       return allColumns.map(column => ({
         ...column,
@@ -153,16 +158,22 @@ export default {
       }));
     },
     rows() {
-      return this.$store.state.storage.calls.map(item => ({
+      return this.$store.getters.callsInDateRange.map(item => ({
         ...item,
         height: '50px',
       }));
     },
-    totalCallsAmount() {
-      return this.$store.state.storage.allCallsLength;
+    filteredCallsLength() {
+      return this.$store.getters.filteredCallsLength;
     },
     allCallsLoaded() {
       return this.$store.getters.allCallsLoaded;
+    },
+    startDate() {
+      return this.$store.getters.callsTableDateRange.startDate;
+    },
+    endDate() {
+      return this.$store.getters.callsTableDateRange.endDate;
     },
   },
   methods: {

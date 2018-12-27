@@ -94,4 +94,29 @@ describe('tables mutations', () => {
       expect(state[CALLS_TABLE].columns).toEqual(expectedColumns);
     });
   });
+
+  describe('SET_DATE_RANGE', () => {
+    it('should set date range', () => {
+      const dateRange = {
+        startDate: '2018-12-19T00:00:00Z',
+        endDate: '2018-12-19T00:00:00Z',
+      };
+
+      const state = {
+        [CALLS_TABLE]: {
+          dateRange: {
+            startDate: null,
+            endDate: null,
+          },
+        },
+      };
+
+      mutations[types.SET_DATE_RANGE](state, {
+        tableName: CALLS_TABLE,
+        dateRange,
+      });
+
+      expect(state[CALLS_TABLE].dateRange).toEqual(dateRange);
+    });
+  });
 });

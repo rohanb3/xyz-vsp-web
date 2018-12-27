@@ -1,2 +1,4 @@
-/* eslint-disable-next-line import/prefer-default-export */
 export const DEFAULT_DATE_FORMAT = 'DD MMM YYYY, hh:mm';
+export const DAY_FULL_MONTH = 'DD MMMM';
+export const FULL_YEAR_SHORT_MONTH_SHORT_DAY = 'YYYY-MM-DD';
+export const MONTH_ONLY = 'MMMM';
