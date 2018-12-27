@@ -9,6 +9,7 @@
       <v-icon class="item-icon">account_box</v-icon>
     </div>
     </router-link>
+    <router-link to="/operators">
     <div
       class="lhs-item"
       :class="{ active: activeIndex === 1 }"
@@ -16,6 +17,7 @@
     >
       <v-icon class="item-icon">group</v-icon>
     </div>
+    </router-link>
     <div
       class="lhs-item call"
       :class="{ active: activeIndex === 2 }"

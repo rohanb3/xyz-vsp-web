@@ -74,5 +74,6 @@
   "confirm.password": "TBD Сonfirm password",
   "new.password": "TBD New password",
   "old.password": "TBD Old password",
-  "revert.to.default": "TBD Revert to default"
+  "revert.to.default": "TBD Revert to default",
+  "operators": "TBD Operators"
 }

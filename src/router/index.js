@@ -7,6 +7,7 @@ import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import SettingsPage from '@/views/SettingsPage';
+import Operators from '@/views/Operators';
 
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
@@ -59,6 +60,11 @@ const router = new Router({
               path: '/calls',
               name: 'calls',
               component: Calls,
+            },
+            {
+              path: '/operators',
+              name: 'operators',
+              component: Operators,
             },
             {
               path: '/settings',

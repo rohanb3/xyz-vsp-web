@@ -128,3 +128,83 @@ export const getCallsTableColumns = () => [
     width: '80px',
   },
 ];
+
+export const getOperatorsTableColumns = () => [
+  {
+    name: 'date',
+    field: 'date',
+    fieldType: 'date',
+    title: i18n.t('date'),
+    class: 'text',
+  },
+  {
+    name: 'operator',
+    field: 'operator',
+    class: 'text',
+    title: i18n.t('operator'),
+  },
+  {
+    name: 'retailers',
+    field: 'retailers',
+    class: 'text',
+    title: i18n.t('retailers'),
+  },
+  {
+    name: 'type',
+    field: 'type',
+    fieldType: 'type',
+    class: 'text',
+    title: i18n.t('type'),
+    width: '100px',
+  },
+  {
+    name: 'disposition',
+    field: 'disposition',
+    fieldType: 'disposition',
+    class: 'text',
+    title: i18n.t('disposition'),
+  },
+  {
+    name: 'waitTime',
+    field: 'waitTime',
+    fieldType: 'waitTime',
+    title: i18n.t('wait.time'),
+    class: 'number',
+  },
+  {
+    name: 'duration',
+    field: 'duration',
+    fieldType: 'duration',
+    title: i18n.t('duration'),
+    width: '100px',
+  },
+  {
+    name: 'rating',
+    field: 'rating',
+    fieldType: 'rating',
+    title: i18n.t('rating'),
+    width: '60px',
+  },
+  {
+    name: 'status',
+    field: 'status',
+    fieldType: 'status',
+    title: i18n.t('status'),
+    class: 'text',
+    width: '100px',
+  },
+  {
+    name: 'clientFeedback',
+    field: 'clientFeedback',
+    fieldType: 'clientFeedback',
+    title: i18n.t('client'),
+    width: '80px',
+  },
+  {
+    name: 'operatorFeedback',
+    field: 'operatorFeedback',
+    fieldType: 'operatorFeedback',
+    title: i18n.t('operator'),
+    width: '80px',
+  },
+];
