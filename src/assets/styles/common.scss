@@ -1,6 +1,7 @@
 @import './variables.scss';
 @import './fonts.scss';
 @import './table.scss';
+@import './datepicker.scss';
 @import './mixins.scss';
 
 html {
@@ -137,7 +138,8 @@ html {
   .v-input__slot {
     min-height: 26px !important;
   }
-  .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) .v-input__slot {
+  .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)
+    .v-input__slot {
     box-shadow: $settings-input-box-shadow;
   }
 }
@@ -149,12 +151,18 @@ html {
   justify-content: flex-start;
 }
 
-#app .popper[x-placement^='bottom'] {
+#app .popper {
+  background-color: $popper-background-color;
   border-radius: 8px;
+  border: none;
   box-shadow: 0 2px 24px 0 $popper-shadow-color;
+  padding: 0px;
 
-  .popper__arrow {
-    border-width: 0 10px 10px 10px !important;
-    top: -10px !important;
+  &[x-placement^='bottom'] {
+    .popper__arrow {
+      border-width: 0 10px 10px 10px !important;
+      top: -10px !important;
+      border-bottom-color: $popper-background-color;
+    }
   }
 }

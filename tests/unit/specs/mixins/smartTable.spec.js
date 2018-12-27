@@ -1,5 +1,11 @@
 import smartTable from '@/mixins/smartTable';
-import { SET_COLUMNS, RESET_COLUMNS, SHOW_COLUMN, HIDE_COLUMN } from '@/store/tables/mutationTypes';
+import {
+  SET_COLUMNS,
+  RESET_COLUMNS,
+  SHOW_COLUMN,
+  HIDE_COLUMN,
+  SET_DATE_RANGE,
+} from '@/store/tables/mutationTypes';
 
 let fakeThis;
 
@@ -91,6 +97,21 @@ describe('smartTable mixin', () => {
     it('should commit to store', () => {
       smartTable.methods.setDefaultColumns.call(fakeThis);
       expect(fakeThis.$store.commit).toHaveBeenCalledWith(RESET_COLUMNS, 'hawkwind');
+    });
+  });
+
+  describe('setDateRange()', () => {
+    it('should commit to store', () => {
+      const dateRange = {
+        startDate: '2018-12-19T00:00:00Z',
+        endDate: '2018-12-19T00:00:00Z',
+      };
+
+      smartTable.methods.setDateRange.call(fakeThis, dateRange);
+      expect(fakeThis.$store.commit).toHaveBeenCalledWith(SET_DATE_RANGE, {
+        tableName: 'hawkwind',
+        dateRange,
+      });
     });
   });
 });
