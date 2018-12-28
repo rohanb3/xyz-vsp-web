@@ -4,6 +4,6 @@ export default {
     return state.user ? state.user.name : '';
   },
   userData(state) {
-    return state.user ? state.user.data : {};
+    return state.user;
   },
 };

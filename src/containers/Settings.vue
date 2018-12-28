@@ -116,7 +116,6 @@ export default {
   name: 'Settings',
   data() {
     return {
-      user: {},
       isPasswordFormShown: false,
       newPassword: '',
       confirmPassword: '',
@@ -126,20 +125,17 @@ export default {
     };
   },
   computed: {
-    userData() {
+    user() {
       return this.$store.getters.userData;
     },
   },
-  async mounted() {
-    this.user = { ...this.userData };
-  },
   methods: {
-    saveSettings() {
+    async saveSettings() {
       if (this.newPassword) {
         if (!this.validatePassword()) return;
       }
       this.user.password = this.newPassword;
-      this.$store.dispatch(CHANGE_USER_DATA, this.user);
+      await this.$store.dispatch(CHANGE_USER_DATA, this.user);
       this.message = this.$t('data.were.successfully changed');
       this.snackbar = true;
     },

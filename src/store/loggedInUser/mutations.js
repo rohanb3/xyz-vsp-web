@@ -9,8 +9,8 @@ export default {
     state.user = null;
   },
   [SET_USER_DATA](state, data) {
-    state.user.data = {
-      ...state.user.data,
+    state.user = {
+      ...state.user,
       ...data,
     };
   },
