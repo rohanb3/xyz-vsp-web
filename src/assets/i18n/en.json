@@ -82,5 +82,7 @@
   "save.feedback": "Save feedback",
   "call.back": "Call Back",
   "call.info": "Call info",
-  "select.something": "Select something"
+  "select.something": "Select something",
+  "incoming": "Incoming",
+  "pick.up": "Pick Up"
 }

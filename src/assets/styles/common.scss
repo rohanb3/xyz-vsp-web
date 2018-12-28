@@ -158,6 +158,13 @@ html {
   padding-top: 0;
 }
 
+.v-dialog  {
+  width: auto;
+}
+.v-btn__content {
+  justify-content: flex-start;
+}
+
 #app .popper {
   background-color: $popper-background-color;
   border-radius: 8px;
