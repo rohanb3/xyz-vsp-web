@@ -23,9 +23,7 @@ export default {
   methods: {
     prepareChartData(data) {
       this.chartData = {
-        labels: data.map(item => {
-          return moment(item.date).format('D MMM');
-        }),
+        labels: data.map(item => moment(item.date).format('D MMM')),
         datasets: [
           {
             label: 'Efficiency',
