@@ -1,9 +1,6 @@
 <template>
-    <v-layout row justify-center>
-    <v-dialog
-      v-model="dialog"
-      persistent
-    >
+  <v-layout row justify-center>
+    <v-dialog v-model="dialog" persistent>
       <div class="main" :style="{backgroundImage: backgroundImage}">
         <div class="reject-call">
           <v-icon color="white" class="icon-reject" @click="rejectCall">call_end</v-icon>
@@ -17,7 +14,7 @@
           <p class="text">{{$t('incoming')}}</p>
           <p class="time">{{callDuration}}</p>
         </div>
-        </div>
+      </div>
     </v-dialog>
   </v-layout>
 </template>
@@ -101,7 +98,7 @@ export default {
     height: 52px;
     position: absolute;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     background-color: $call-dialogue-accept-button-background-color !important;
     color: $call-dialogue-accept-button-color;
     font-size: 24px;

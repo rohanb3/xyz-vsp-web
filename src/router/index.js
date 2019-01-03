@@ -6,6 +6,7 @@ import Login from '@/views/Login';
 import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
+import OperatorReview from '@/views/OperatorReview';
 import SettingsPage from '@/views/SettingsPage';
 
 import AppHeader from '@/containers/AppHeader';
@@ -59,6 +60,11 @@ const router = new Router({
               path: '/calls',
               name: 'calls',
               component: Calls,
+            },
+            {
+              path: '/operator-review',
+              name: 'operatorReview',
+              component: OperatorReview,
             },
             {
               path: '/settings',
