@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <OperatorReviewChart :chartData="this.chartData"/>
+    <OperatorReviewChart :chartData="chartData"/>
   </div>
 </template>
 
