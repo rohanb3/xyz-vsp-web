@@ -75,5 +75,14 @@
   "new.password": "TBD New password",
   "old.password": "TBD Old password",
   "revert.to.default": "TBD Revert to default",
-  "operators": "TBD Operators"
+  "operators": "TBD Operators",
+  "id": "TBD ID",
+  "name": "TBD Name",
+  "department": "TBD Department",
+  "score": "TBD Score",
+  "wrap.up.time": "TBD Wrap up Time",
+  "positive": "TBD Positive",
+  "negative": "TBD Negative",
+  "qty.of.reviews": "TBD QTY of Reviews",
+  "last.review": "TBD Last Review"
 }

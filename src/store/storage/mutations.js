@@ -3,6 +3,8 @@ import {
   SET_ALL_CUSTOMERS_LENGTH,
   INSERT_CALLS,
   SET_ALL_CALLS_LENGTH,
+  INSERT_OPERATORS,
+  SET_ALL_OPERATORS_LENGTH,
 } from './mutationTypes';
 
 export default {
@@ -18,6 +20,12 @@ export default {
   },
   [SET_ALL_CALLS_LENGTH](state, length) {
     state.allCallsLength = length;
+  },
+  [INSERT_OPERATORS](state, operators) {
+    state.operators.push(...operators);
+  },
+  [SET_ALL_OPERATORS_LENGTH](state, length) {
+    state.allOperatorsLength = length;
   },
   /* eslint-enable no-param-reassign */
 };

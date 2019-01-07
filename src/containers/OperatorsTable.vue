@@ -65,6 +65,8 @@ import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
 import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
 import TableDatesEditor from '@/components/TableDatesEditor';
 import ColumnsListEditor from '@/components/ColumnsListEditor';
+import AdditionalCell from '@/components/tableCells/AdditionalCell';
+import LastReviewCell from '@/components/tableCells/LastReviewCell';
 
 import smartTable from '@/mixins/smartTable';
 
@@ -97,6 +99,8 @@ export default {
     TableLoader,
     TableDatesEditor,
     ColumnsListEditor,
+    AdditionalCell,
+    LastReviewCell,
   },
   mixins: [smartTable],
   data() {
@@ -113,6 +117,8 @@ export default {
         status: 'StatusCell',
         clientFeedback: 'ClientFeedbackCell',
         operatorFeedback: 'OperatorFeedbackCell',
+        additional: 'AdditionalCell',
+        lastReview: 'LastReviewCell',
       },
     };
   },

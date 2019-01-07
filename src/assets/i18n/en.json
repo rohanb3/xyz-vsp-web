@@ -75,5 +75,14 @@
   "new.password": "New password",
   "old.password": "Old password",
   "revert.to.default": "Revert to default",
-  "operators": "Operators"
+  "operators": "Operators",
+  "id": "ID",
+  "name": "Name",
+  "department": "Department",
+  "score": "Score",
+  "wrap.up.time": "Wrap up Time",
+  "positive": "Positive",
+  "negative": "Negative",
+  "qty.of.reviews": "QTY of Reviews",
+  "last.review": "Last Review"
 }

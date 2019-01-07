@@ -8,6 +8,15 @@ html {
   overflow: hidden;
 }
 
+#app .operators-table {
+  .virtual-list {
+    max-height: calc(
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$operators-table-toolbar-height} -
+        #{$table-header-height} - #{$table-footer-height}
+    );
+  }
+}
+
 #app .customers-table {
   .virtual-list {
     max-height: calc(
