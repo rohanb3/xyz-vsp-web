@@ -1,12 +1,14 @@
+const IDLE = 'IDLE';
 const INCOMING = 'INCOMING';
 const ACCEPTED = 'ACCEPTED';
-const WAITING_FOR_PEER = 'WAITING_FOR_PEER';
+const CONNECTING = 'CONNECTING';
 const ACTIVE = 'ACTIVE';
 
 /* eslint-disable-next-line import/prefer-default-export */
 export const callStatuses = {
+  IDLE,
   INCOMING,
   ACCEPTED,
-  WAITING_FOR_PEER,
+  CONNECTING,
   ACTIVE,
 };

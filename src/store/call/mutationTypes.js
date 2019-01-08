@@ -1,2 +1,2 @@
-export const SET_CALL_STATUS = 'SET_INCOMING_CALL_STATUS';
-export const SET_TOKEN = 'SET_TOKEN';
+export const SET_CALL_STATUS = 'SET_CALL_STATUS';
+export const SET_CALL_TOKEN = 'SET_CALL_TOKEN';

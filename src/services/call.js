@@ -2,7 +2,7 @@
 
 import store from '@/store';
 import router from '@/router';
-import { SET_CALL_STATUS, SET_TOKEN } from '@/store/call/mutationTypes';
+import { SET_CALL_STATUS, SET_CALL_TOKEN } from '@/store/call/mutationTypes';
 import { callStatuses } from '@/store/call/constants';
 import {
   initSocket,
@@ -11,14 +11,9 @@ import {
   notifyPeerAboutJoiningRoom,
   events as socketEvents,
 } from '@/services/operatorSocket';
-import { initTwilio, connectToRoom } from '@/services/twilio';
+import { connectToRoom } from '@/services/twilio';
 
 let acceptCallUnwatch = null;
-
-const mediaSelectors = {
-  local: '#localMedia',
-  remote: '#remoteMedia',
-};
 
 export function initializeOperator(authData) {
   const socketListeners = {
@@ -28,7 +23,6 @@ export function initializeOperator(authData) {
   };
 
   initSocket(authData, socketListeners);
-  initTwilio(mediaSelectors);
 }
 
 function onIncomingCall() {
@@ -66,7 +60,7 @@ function notifyUserAboutIncomingCall() {
 }
 
 function onRoomConnected(roomName) {
-  setWaitingForPeerStatus();
+  setConnectingStatus();
   notifyPeerAboutJoiningRoom(roomName);
 }
 
@@ -83,10 +77,10 @@ function setIncomingCallStatus() {
   store.commit(SET_CALL_STATUS, callStatuses.INCOMING);
 }
 
-function setWaitingForPeerStatus() {
-  store.commit(SET_CALL_STATUS, callStatuses.WAITING_FOR_PEER);
+function setConnectingStatus() {
+  store.commit(SET_CALL_STATUS, callStatuses.CONNECTING);
 }
 
 function setToken(token) {
-  store.commit(SET_TOKEN, token);
+  store.commit(SET_CALL_TOKEN, token);
 }

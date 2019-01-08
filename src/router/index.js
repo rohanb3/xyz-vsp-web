@@ -8,14 +8,11 @@ import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import SettingsPage from '@/views/SettingsPage';
-import Call from '@/views/Call';
 
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
-import IncomingCall from '@/containers/IncomingCall';
 
 import store from '@/store';
-import { callStatuses } from '@/store/call/constants';
 
 Vue.use(Router);
 
@@ -46,7 +43,6 @@ const router = new Router({
             header: AppHeader,
             lhs: LHS,
             main: AppContent,
-            incomingCall: IncomingCall,
           },
           children: [
             {
@@ -68,18 +64,6 @@ const router = new Router({
               path: '/settings',
               name: 'settings',
               component: SettingsPage,
-            },
-            {
-              path: '/call',
-              name: 'call',
-              component: Call,
-              beforeEnter: (to, from, next) => {
-                if (store.state.call.callStatus === callStatuses.ACCEPTED) {
-                  next();
-                } else {
-                  next({ name: 'calls' });
-                }
-              },
             },
           ],
         },

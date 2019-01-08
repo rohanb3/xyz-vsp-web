@@ -1,26 +1,15 @@
 /* eslint-disable no-use-before-define */
 import Video from 'twilio-video';
 
-import { subscribeMultiple, emit } from '@/services/emitter';
+import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 
 let previewTracks = null;
 let activeRoom = null;
-let localMediaSelector = null;
-let remoteMediaSelector = null;
 
 const TRACK_SUBSCRIBED = 'trackSubscribed';
 const TRACK_UNSUBSCRIBED = 'trackUnsubscribed';
 const PARTICIPANT_DISCONNECTED = 'participantDisconnected';
 const DISCONNECTED = 'disconnected';
-
-const ROOM_DISCONNECTED = 'roomDisconnected';
-const ROOM_JOINED = 'roomJoined';
-
-export function initTwilio(mediaSelectors = {}, listeners = {}) {
-  localMediaSelector = mediaSelectors.local;
-  remoteMediaSelector = mediaSelectors.remote;
-  subscribeMultiple(listeners);
-}
 
 export function connectToRoom(name, token) {
   if (!activeRoom) {
@@ -33,19 +22,41 @@ export function connectToRoom(name, token) {
       connectOptions.tracks = previewTracks;
     }
 
-    return initLocalPreview()
-      .then(() =>
-        Video.connect(
-          token,
-          connectOptions
-        )
-      )
+    return Video.connect(
+      token,
+      connectOptions
+    )
       .then(onRoomJoined)
       .catch(onRoomConnectionFailed);
   }
 
-  return Promise.reject();
+  return Promise.resolve(activeRoom);
 }
+
+export function initLocalPreview() {
+  const promise = previewTracks ? Promise.resolve(previewTracks) : Video.createLocalTracks();
+
+  return promise.then(tracks => {
+    previewTracks = tracks;
+    emitLocalTracksAdding(previewTracks);
+  });
+}
+
+export function convertTracksToAttachable(tracks = []) {
+  return tracks.map(track => track.attach());
+}
+
+export function detachTracks(tracks) {
+  tracks.forEach(track => {
+    track.detach().forEach(detachedElement => detachedElement.remove());
+  });
+}
+
+// private methods
+
+/**
+ ** room handlers start
+ */
 
 function onRoomJoined(room) {
   activeRoom = room;
@@ -61,8 +72,6 @@ function onRoomJoined(room) {
   room.on(PARTICIPANT_DISCONNECTED, onParticipantDisconnected);
   room.on(DISCONNECTED, onRoomDisconnected);
 
-  emit(ROOM_JOINED, room);
-
   return room;
 }
 
@@ -75,51 +84,29 @@ function onRoomConnectionFailed() {
 function onRoomDisconnected() {
   if (previewTracks) {
     previewTracks.forEach(track => track.stop());
+    emitLocalTracksRemoving(previewTracks);
+    previewTracks = null;
   }
 
   activeRoom = null;
-
-  emit(ROOM_DISCONNECTED);
 }
 
 function handleLocalParticipantAdding(participant) {
   const tracks = Array.from(participant.tracks.values());
-  attachLocalTracks(tracks);
+  emitLocalTracksAdding(tracks);
 }
 
 function handleRemoteParticipantAdding(participant) {
   const tracks = Array.from(participant.tracks.values());
-  attachRemoteTracks(tracks);
-}
-
-function attachLocalTracks(tracks) {
-  const container = document.querySelector(localMediaSelector);
-  attachTracks(tracks, container);
-}
-
-function attachRemoteTracks(tracks) {
-  const container = document.querySelector(remoteMediaSelector);
-  attachTracks(tracks, container);
-}
-
-function attachTracks(tracks, container) {
-  tracks.forEach(track => container.appendChild(track.attach()));
-}
-
-function detachTracks(tracks) {
-  tracks.forEach(track => {
-    track.detach().forEach(detachedElement => {
-      detachedElement.remove();
-    });
-  });
+  emitRemoteTracksAdding(tracks);
 }
 
 function onTrackSubscribed(track) {
-  attachRemoteTracks([track]);
+  emitRemoteTracksAdding([track]);
 }
 
 function onTrackUnsubscribed(track) {
-  detachTracks([track]);
+  emitRemoteTracksRemoving([track]);
 }
 
 function onParticipantDisconnected() {
@@ -129,18 +116,33 @@ function onParticipantDisconnected() {
 function leaveRoomIfJoined() {
   if (activeRoom) {
     activeRoom.disconnect();
-    activeRoom = null;
-    previewTracks = null;
   }
 }
 
-function initLocalPreview() {
-  const promise = previewTracks ? Promise.resolve(previewTracks) : Video.createLocalTracks();
+/**
+ ** room handlers finish
+ */
 
-  return promise.then(tracks => {
-    previewTracks = tracks;
-    attachLocalTracks(tracks);
-  });
+/**
+ ** twilio actions start
+ */
+
+function emitLocalTracksAdding(tracks) {
+  twilioEvents.emit(TWILIO_EVENTS.LOCAL_TRACKS_ADDED, tracks);
 }
 
-window.addEventListener('beforeunload', leaveRoomIfJoined);
+function emitLocalTracksRemoving(tracks) {
+  twilioEvents.emit(TWILIO_EVENTS.LOCAL_TRACKS_REMOVED, tracks);
+}
+
+function emitRemoteTracksAdding(tracks) {
+  twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACKS_ADDED, tracks);
+}
+
+function emitRemoteTracksRemoving(tracks) {
+  twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACK_REMOVED, tracks);
+}
+
+/**
+ ** twilio actions finish
+ */
