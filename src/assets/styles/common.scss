@@ -1,6 +1,7 @@
 @import './variables.scss';
 @import './fonts.scss';
 @import './table.scss';
+@import './datepicker.scss';
 @import './mixins.scss';
 
 html {
@@ -143,20 +144,38 @@ html {
   }
 }
 
-#app .popper[x-placement^='bottom'] {
-  border-radius: 8px;
-  box-shadow: 0 2px 24px 0 $popper-shadow-color;
-
-  .popper__arrow {
-    border-width: 0 10px 10px 10px !important;
-    top: -10px !important;
+#app .video-call {
+  .v-slider__thumb {
+    visibility: hidden;
   }
 }
 
-#app .call-page {
-  .local-media video {
-    max-width: 15vw;
-    max-height: 10vw;
-    border-radius: 5px;
+#app .v-slider__track__container {
+  height: 6px;
+  background-color: rgba(216, 216, 216, 0.2);
+  border-radius: 4px;
+}
+
+#app .v-slider__track-fill {
+  height: 20px;
+}
+
+.v-dialog {
+  width: auto;
+}
+
+#app .popper {
+  background-color: $popper-background-color;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 2px 24px 0 $popper-shadow-color;
+  padding: 0px;
+
+  &[x-placement^='bottom'] {
+    .popper__arrow {
+      border-width: 0 10px 10px 10px !important;
+      top: -10px !important;
+      border-bottom-color: $popper-background-color;
+    }
   }
 }

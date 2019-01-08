@@ -1,5 +1,5 @@
 {
-  "app.title": "XYZies VSP Platform",
+  "app.title": "XYZ VSP Platform",
   "dashboard": "Tablero",
   "welcome.back": "TBD Welcome Back",
   "username.is.required": "TBD Username is required",
@@ -35,10 +35,12 @@
   "success": "TBD Success",
   "fail": "TBD Fail",
   "your.profile": "TBD Your Profile",
-  "settings.your.profile.description": "TBD An overview of you current plan and your profile photo that will be shown to users when messaging them",
+  "settings.your.profile.description":
+    "TBD An overview of you current plan and your profile photo that will be shown to users when messaging them",
   "change.photo": "TBD Change Photo",
   "personal.details": "TBD Personal Details",
-  "settings.personal.details.description": "TBD Your first name will be to customers when messaging",
+  "settings.personal.details.description":
+    "TBD Your first name will be to customers when messaging",
   "calling.photo": "TBD Calling Photo",
   "change.call.image": "TBD Change call image",
   "first.name": "TBD First Name",
@@ -60,11 +62,20 @@
   "average": "TBD Average",
   "below average": "TBD Below Average",
   "poor": "TBD Poor",
+  "today": "TBD Today",
+  "yesterday": "TBD Yesterday",
+  "last.7.days": "TBD Last 7 days",
+  "last.30.days": "TBD Last 30 days",
+  "all.time": "TBD All time",
+  "apply": "TBD Apply",
   "image.was.successfully uploaded": "TBD Image was successfully uploaded",
   "data.were.successfully changed": "TBD Data were successfully changed",
   "password.dont.match": "TBD Password doesn't match",
   "confirm.password": "TBD Сonfirm password",
   "new.password": "TBD New password",
   "old.password": "TBD Old password",
-  "revert.to.default": "TBD Revert to default"
+  "revert.to.default": "TBD Revert to default",
+  "video.off": "TBD Video off",
+  "incoming": "TBD Incoming",
+  "pick.up": "TBD Pick Up"
 }

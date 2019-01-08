@@ -89,9 +89,6 @@ export default {
     this.getAllCustomersLength().then(this.insertCustomers);
   },
   computed: {
-    columns() {
-      return this.$store.state.tables[CUSTOMERS_TABLE].columns;
-    },
     rows() {
       return this.$store.state.storage.customers.map(item => ({
         ...item,
