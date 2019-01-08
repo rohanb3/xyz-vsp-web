@@ -1,5 +1,5 @@
 <template>
-  <div class="call">
+  <div class="video-call">
     <div class="video-screen">
      <div class="myself-view">
        <p v-if="!isCameraOn" class="video-off">{{ $t('video.off') }}</p>
@@ -133,7 +133,7 @@ export default {
 
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
-.call {
+.video-call {
   margin: 17px 20px 27px 20px;
   border-radius: 8px;
 
@@ -227,6 +227,9 @@ export default {
       font-size: 18px;
       font-weight: 500;
     }
+  }
+  .v-input--slider {
+    margin-top: 0;
   }
 }
 </style>
