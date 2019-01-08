@@ -5,6 +5,12 @@
         {{ $t('operators') }}
       </div>
        <v-spacer></v-spacer>
+      <columns-list-editor
+        :columns="columnsVisibilityData"
+        :boundariesSelector="'.operators-page'"
+        @visibilityChanged="onColumnVisibilityChanged"
+        @revertToDefault="setDefaultColumns"
+      />
     </div>
 
     <wombat-table
@@ -54,19 +60,17 @@
 import WombatTable from '@/components/WombatTable/Table';
 import WombatRow from '@/components/WombatTable/Row';
 import TableLoader from '@/components/TableLoader';
-import DefaultCell from '@/components/tableCells/DefaultCell';
-import DateCell from '@/components/tableCells/DateCell';
-import CallTypeCell from '@/components/tableCells/CallTypeCell';
-import WaitTimeCell from '@/components/tableCells/WaitTimeCell';
-import DurationCell from '@/components/tableCells/DurationCell';
-import RatingCell from '@/components/tableCells/RatingCell';
-import StatusCell from '@/components/tableCells/StatusCell';
-import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
-import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
-import TableDatesEditor from '@/components/TableDatesEditor';
-import ColumnsListEditor from '@/components/ColumnsListEditor';
+import WrapUpTimeCell from '@/components/tableCells/WrapUpTimeCell';
 import AdditionalCell from '@/components/tableCells/AdditionalCell';
 import LastReviewCell from '@/components/tableCells/LastReviewCell';
+import QtyOfReviewsCell from '@/components/tableCells/QtyOfReviewsCell';
+import ColumnsListEditor from '@/components/ColumnsListEditor';
+import DefaultCell from '@/components/tableCells/DefaultCell';
+import RatingCell from '@/components/tableCells/RatingCell';
+import ScoreCell from '@/components/tableCells/ScoreCell';
+import CallsCell from '@/components/tableCells/CallsCell';
+import NameCell from '@/components/tableCells/NameCell';
+import IdCell from '@/components/tableCells/IdCell';
 
 import smartTable from '@/mixins/smartTable';
 
@@ -85,22 +89,20 @@ const allColumns = getOperatorsTableColumns()
 export default {
   name: 'OperatorsTable',
   components: {
-    WombatTable,
-    WombatRow,
-    DefaultCell,
-    DateCell,
-    CallTypeCell,
-    WaitTimeCell,
-    DurationCell,
-    RatingCell,
-    StatusCell,
-    ClientFeedbackCell,
-    OperatorFeedbackCell,
-    TableLoader,
-    TableDatesEditor,
     ColumnsListEditor,
-    AdditionalCell,
+    QtyOfReviewsCell,
+    WrapUpTimeCell,
     LastReviewCell,
+    AdditionalCell,
+    DefaultCell,
+    TableLoader,
+    WombatTable,
+    RatingCell,
+    WombatRow,
+    ScoreCell,
+    CallsCell,
+    NameCell,
+    IdCell,
   },
   mixins: [smartTable],
   data() {
@@ -108,17 +110,16 @@ export default {
       tableName: OPERATORS_TABLE,
       loading: false,
       rowComponentsHash: {
-        default: 'DefaultCell',
-        date: 'DateCell',
-        type: 'CallTypeCell',
-        waitTime: 'WaitTimeCell',
-        duration: 'DurationCell',
-        rating: 'RatingCell',
-        status: 'StatusCell',
-        clientFeedback: 'ClientFeedbackCell',
-        operatorFeedback: 'OperatorFeedbackCell',
+        qtyOfReviews: 'QtyOfReviewsCell',
         additional: 'AdditionalCell',
         lastReview: 'LastReviewCell',
+        wrapUpTime: 'WrapUpTimeCell',
+        default: 'DefaultCell',
+        rating: 'RatingCell',
+        calls: 'CallsCell',
+        score: 'ScoreCell',
+        name: 'NameCell',
+        id: 'IdCell',
       },
     };
   },

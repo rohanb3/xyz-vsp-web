@@ -8,15 +8,6 @@ html {
   overflow: hidden;
 }
 
-#app .operators-table {
-  .virtual-list {
-    max-height: calc(
-      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$operators-table-toolbar-height} -
-        #{$table-header-height} - #{$table-footer-height}
-    );
-  }
-}
-
 #app .customers-table {
   .virtual-list {
     max-height: calc(
@@ -26,7 +17,7 @@ html {
   }
 }
 
-#app .calls-table {
+#app .calls-table, .operators-table {
   .virtual-list {
     max-height: calc(
       100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$calls-table-toolbar-height} -
@@ -166,5 +157,19 @@ html {
       top: -10px !important;
       border-bottom-color: $popper-background-color;
     }
+  }
+}
+
+.operators-table {
+  .wombat-header {
+    .column-name {
+      .content {
+        padding-left: 46px;
+      }
+    }
+  }
+
+  .wombat-table .column-id {
+    padding-left: 20px;
   }
 }

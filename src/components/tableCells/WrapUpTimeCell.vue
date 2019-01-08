@@ -1,7 +1,8 @@
 <template>
   <div
     class='wrap-up-time-cell'
-    :class="{ overwaited: overwaited }">
+    :class="mark"
+    >
     <formatted-duration :duration="duration" />
   </div>
 </template>
@@ -9,7 +10,8 @@
 <script>
 import FormattedDuration from '@/components/FormattedDuration';
 
-const OVERWAITED_DURATION = 120;
+const FAST_TOP_CAP = 30;
+const SLOW_LOW_CAP = 120;
 
 export default {
   name: 'WrapUpTimeCell',
@@ -23,10 +25,11 @@ export default {
   },
   computed: {
     duration() {
-      return this.item.wrapUpTime;
+      return parseFloat(this.item.wrapUpTime);
     },
-    overwaited() {
-      return this.duration > OVERWAITED_DURATION;
+    mark() {
+      // eslint-disable-next-line no-nested-ternary
+      return this.duration <= FAST_TOP_CAP ? 'fast' : this.duration >= SLOW_LOW_CAP ? 'slow' : '';
     },
   },
 };
@@ -36,10 +39,14 @@ export default {
 @import '~@/assets/styles/variables.scss';
 
 .wrap-up-time-cell {
-  color: $calls-duration-normal-color;
+  color: $operators-table-wrap-up-time-cell-color;
 
-  &.overwaited {
-    color: $calls-duration-overwaited-color;
+  &.fast {
+    color: $operators-table-wrap-up-time-cell-fast-color;
+  }
+
+  &.slow {
+    color: $operators-table-wrap-up-time-cell-slow-color;
   }
 }
 </style>
