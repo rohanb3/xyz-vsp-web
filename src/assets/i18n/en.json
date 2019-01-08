@@ -75,5 +75,7 @@
   "new.password": "New password",
   "old.password": "Old password",
   "revert.to.default": "Revert to default",
-  "video.off": "Video off"
+  "video.off": "Video off",
+  "incoming": "Incoming",
+  "pick.up": "Pick Up"
 }

@@ -75,5 +75,7 @@
   "new.password": "TBD New password",
   "old.password": "TBD Old password",
   "revert.to.default": "TBD Revert to default",
-  "video.off": "TBD Video off"
+  "video.off": "TBD Video off",
+  "incoming": "TBD Incoming",
+  "pick.up": "TBD Pick Up"
 }

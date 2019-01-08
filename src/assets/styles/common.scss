@@ -161,6 +161,11 @@ html {
   height: 20px;
 }
 
+.v-dialog {
+  width: auto;
+}
+
+
 #app .popper {
   background-color: $popper-background-color;
   border-radius: 8px;

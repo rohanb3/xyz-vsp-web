@@ -17,3 +17,6 @@ export const getAllCallsLength = () => api.get('/calls-length').then(({ data }) 
 
 export const getAudioBuffer = url =>
   api.get(url, { responseType: 'arraybuffer' }).then(response => response.data);
+
+export const getOperatorReview = () =>
+  api.get('/operator-review').then(response => response.data.items);

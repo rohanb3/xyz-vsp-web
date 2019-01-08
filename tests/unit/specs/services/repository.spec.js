@@ -4,6 +4,7 @@ import {
   getAllCustomersLength,
   getCalls,
   getAllCallsLength,
+  getOperatorReview,
 } from '@/services/repository';
 
 describe('repository', () => {
@@ -80,6 +81,21 @@ describe('repository', () => {
 
       expect(response).toEqual(length);
       expect(api.get).toHaveBeenCalledWith('/calls-length');
+    });
+  });
+
+  describe('getOperatorReview', () => {
+    it('should call api.get and return corect data', async () => {
+      const data = {
+        items: [1, 2, 3],
+      };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+
+      const response = await getOperatorReview();
+
+      expect(response).toEqual(data.items);
+      expect(api.get).toHaveBeenCalledWith('/operator-review');
     });
   });
 });
