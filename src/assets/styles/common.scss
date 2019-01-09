@@ -143,6 +143,20 @@ html {
     box-shadow: $settings-input-box-shadow;
   }
 }
+.v-dialog {
+  width: auto;
+}
+.v-radio {
+  margin-right: 0;
+}
+
+.v-input--selection-controls__input {
+  display: none;
+}
+.v-input--selection-controls {
+  margin-top: 0;
+  padding-top: 0;
+}
 
 #app .video-call{
 

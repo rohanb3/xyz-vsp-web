@@ -10,6 +10,8 @@ import OperatorReview from '@/views/OperatorReview';
 import SettingsPage from '@/views/SettingsPage';
 import CallPage from '@/views/CallPage';
 
+import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
+
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
 import AppContent from '@/views/AppContent';
@@ -71,6 +73,11 @@ const router = new Router({
               path: '/settings',
               name: 'settings',
               component: SettingsPage,
+            },
+            {
+              path: '/feedback',
+              name: 'feedback',
+              component: CallFeedbackPopup,
             },
             {
               path: '/call',
