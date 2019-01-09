@@ -1,12 +1,13 @@
 <template>
   <v-dialog
+    content-class="call-feedback-popup-wrapper"
     v-model="dialog"
     persistent
   >
-    <div class="operator-feedback">
+    <div class="call-feedback-popup">
       <div class="header section">
         <div class="name">{{$t("call.info")}}</div>
-        <div class="call-duration">
+        <div v-show="callDuration" class="call-duration">
           <p class="title">{{$t("duration")}}</p>
           <p class="time">{{time}}</p>
         </div>
@@ -144,12 +145,12 @@ export default {
         .format('mm:ss, SS');
     },
   },
-  async mounted() {
-    const callInfo = await getCallInfo();
-    this.callDuration = callInfo.duration;
-    if (!this.callTypes.length) {
-      await this.$store.dispatch(LOAD_CALL_TYPES_AND_DISPOSITIONS);
-    }
+  mounted() {
+    Promise.all([getCallInfo(), this.$store.dispatch(LOAD_CALL_TYPES_AND_DISPOSITIONS)]).then(
+      values => {
+        this.callDuration = values[0].duration;
+      }
+    );
   },
   methods: {
     saveFeedback() {
@@ -208,13 +209,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~@/assets/styles/variables.scss';
-.operator-feedback {
+.call-feedback-popup {
   width: 250px;
   border-radius: 11px;
-  background-image: $operator-feedback-background-image;
-  box-shadow: $operator-feedback-box-shadow;
+  background-image: $call-feedback-popup-background-image;
+  box-shadow: $call-feedback-popup-box-shadow;
   display: flex;
   flex-direction: column;
 
@@ -235,7 +236,7 @@ export default {
 
     .name {
       font-size: 22px;
-      color: $operator-feedback-header-name-color;
+      color: $call-feedback-popup-header-name-color;
       font-weight: 500;
     }
     .call-duration {
@@ -249,18 +250,12 @@ export default {
 
       .time {
         font-size: 16px;
-        color: $operator-feedback-header-time-color;
+        color: $call-feedback-popup-header-time-color;
       }
     }
   }
 
   .call-type {
-    .theme--light .accent--text {
-      background-color: $operator-feedback-call-type-background-color;
-      label {
-        color: $operator-feedback-call-type-color !important;
-      }
-    }
     .title {
       padding-bottom: 9px;
     }
@@ -269,13 +264,153 @@ export default {
       .type {
         padding: 5px 11px;
         border-radius: 3px;
-        border: $operator-feedback-call-type-border;
+        border: $call-feedback-popup-call-type-border;
         font-size: 14px;
         font-weight: 500;
+      }
+    }
+  }
 
-        label {
-          color: $operator-feedback-call-type-selected-color;
+  .rating {
+    padding-bottom: 15px;
+  }
+
+  .audio-feedback {
+    padding-right: 33px;
+    padding-bottom: 30px;
+    .title {
+      padding-bottom: 8px;
+    }
+    .audio {
+      padding: 2px 10px 3px 5px;
+      border-radius: 14.5px;
+      font-size: 14px;
+      color: $call-feedback-popup-audio-color;
+      background-color: $call-feedback-popup-audio-background-color;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .record-time {
+        color: $call-feedback-popup-record-time-color;
+      }
+
+      .record-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background-color: $call-feedback-popup-record-icon-background-color;
+        position: relative;
+        &:before {
+          content: '';
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background-color: $call-feedback-popup-record-icon-internal-background-color;
+          position: absolute;
+          top: 1px;
+          left: 1px;
+          z-index: 3;
+          border: $call-feedback-popup-record-icon-border;
         }
+      }
+
+      .icon-mic {
+        margin-left: 15px;
+      }
+
+      .stop-record-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background-color: transparent;
+        position: relative;
+        border: $call-feedback-popup-stop-record-icon-border;
+        &:before {
+          content: '';
+          width: 12px;
+          height: 12px;
+          background-color: $call-feedback-popup-record-icon-internal-background-color;
+          position: absolute;
+          top: 4px;
+          left: 4px;
+          z-index: 3;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+
+  .button {
+    height: auto;
+    margin: 0;
+    border-bottom-left-radius: 11px;
+    border-bottom-right-radius: 11px;
+    padding: 20px 25px;
+    border: inherit;
+    width: 100%;
+    font-size: 24px;
+    font-weight: 500;
+    color: $call-feedback-popup-button-color;
+    display: flex;
+    align-items: center;
+    .icon-call {
+      margin-right: 25px;
+      color: $call-feedback-popup-icon-call-color;
+      width: 37px;
+      height: 37px;
+    }
+  }
+  .button-callback {
+    background-color: $call-feedback-popup-button-callback-background-color;
+    justify-content: flex-start;
+  }
+  .button-save {
+    background-color: $call-feedback-popup-button-save-background-color;
+    justify-content: center;
+  }
+  .disabled {
+    opacity: 0.5;
+  }
+
+  .note-feedback {
+    padding-right: 33px;
+    padding-bottom: 30px;
+    .title {
+      padding-bottom: 8px;
+    }
+    .note {
+      padding: 4px 7px;
+      color: $call-feedback-popup-note-color;
+      font-size: 14px;
+      border-radius: 3px;
+      background-color: $call-feedback-popup-note-background-color;
+      resize: none;
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+@import '~@/assets/styles/variables.scss';
+
+.v-dialog.call-feedback-popup-wrapper {
+  border-radius: 11px;
+}
+
+.call-feedback-popup {
+  .call-type {
+    .types {
+      .type {
+        label {
+          color: $call-feedback-popup-call-type-selected-color;
+        }
+      }
+    }
+    .theme--light .accent--text {
+      background-color: $call-feedback-popup-call-type-background-color;
+      label {
+        color: $call-feedback-popup-call-type-color !important;
       }
     }
   }
@@ -299,155 +434,41 @@ export default {
       }
 
       .v-select__selection.v-select__selection--comma {
-        color: $operator-feedback-disposition-color;
+        color: $call-feedback-popup-disposition-color;
       }
       .v-input__icon {
         .theme--light.v-icon {
-          color: $operator-feedback-disposition-icon-color;
-        }
-      }
-    }
-  }
-
-  .rating {
-    padding-bottom: 15px;
-  }
-
-  .audio-feedback {
-    padding-right: 33px;
-    padding-bottom: 30px;
-    .title {
-      padding-bottom: 8px;
-    }
-    .audio {
-      padding: 2px 10px 3px 5px;
-      border-radius: 14.5px;
-      font-size: 14px;
-      color: $operator-feedback-audio-color;
-      background-color: $operator-feedback-audio-background-color;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      .record-time {
-        color: $operator-feedback-record-time-color;
-      }
-
-      .record-icon {
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        background-color: $operator-feedback-record-icon-background-color;
-        position: relative;
-        &:before {
-          content: '';
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background-color: $operator-feedback-record-icon-internal-background-color;
-          position: absolute;
-          top: 1px;
-          left: 1px;
-          z-index: 3;
-          border: $operator-feedback-record-icon-border;
-        }
-      }
-
-      .icon-mic {
-        margin-left: 15px;
-      }
-
-      .stop-record-icon {
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        background-color: transparent;
-        position: relative;
-        border: $operator-feedback-stop-record-icon-border;
-        &:before {
-          content: '';
-          width: 12px;
-          height: 12px;
-          background-color: $operator-feedback-record-icon-internal-background-color;
-          position: absolute;
-          top: 4px;
-          left: 4px;
-          z-index: 3;
-          border-radius: 4px;
+          color: $call-feedback-popup-disposition-icon-color;
         }
       }
     }
   }
 
   .note-feedback {
-    padding-right: 33px;
-    padding-bottom: 30px;
-    .title {
-      padding-bottom: 8px;
-    }
     .note {
-      padding: 4px 7px;
-      color: $operator-feedback-note-color;
-      font-size: 14px;
-      border-radius: 3px;
-      background-color: $operator-feedback-note-background-color;
-      resize: none;
-
       &::placeholder {
-        color: $operator-feedback-note-placeholder-color;
+        color: $call-feedback-popup-note-placeholder-color;
       }
     }
   }
-
-  .title {
-    font-size: 12px !important;
-    font-weight: 400 !important;
-    color: $operator-feedback-title-color;
-  }
-  .button {
-    height: auto;
-    margin: 0;
-    border-bottom-left-radius: 11px;
-    border-bottom-right-radius: 11px;
-    padding: 20px 25px;
-    border: inherit;
-    width: 100%;
-    font-size: 24px;
-    font-weight: 500;
-    color: $operator-feedback-button-color;
-    display: flex;
-    align-items: center;
-    .icon-call {
-      margin-right: 25px;
-      color: $operator-feedback-icon-call-color;
-      width: 37px;
-      height: 37px;
-    }
-  }
-  .button-callback {
-    background-color: $operator-feedback-button-callback-background-color;
-    justify-content: flex-start;
-  }
-  .button-save {
-    background-color: $operator-feedback-button-save-background-color;
-    justify-content: center;
-  }
-  .disabled {
-    opacity: 0.5;
-  }
+}
+.title {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: $call-feedback-popup-title-color;
 }
 
 .v-select-list.v-card.theme--light {
   .v-list__tile.v-list__tile--link.v-list__tile--active.theme--light.white--text {
-    color: $operator-feedback-disposition-selected-color !important;
-    background-color: $operator-feedback-disposition-selected-background-color;
+    color: $call-feedback-popup-disposition-selected-color !important;
+    background-color: $call-feedback-popup-disposition-selected-background-color;
   }
 }
 .v-select__selections {
   input {
     &::placeholder {
       font-size: 14px;
-      color: $operator-feedback-disposition-placeholder-color !important;
+      color: $call-feedback-popup-disposition-placeholder-color !important;
     }
   }
 }
