@@ -122,16 +122,24 @@ export default {
       this.volume = this.isSoundOn ? 50 : 0;
     },
     turnCameraOn() {
-      enableLocalVideo().then(() => (this.isCameraOn = true));
+      enableLocalVideo().then(() => {
+        this.isCameraOn = true;
+      });
     },
     turnCameraOff() {
-      disableLocalVideo().then(() => (this.isCameraOn = false));
+      disableLocalVideo().then(() => {
+        this.isCameraOn = false;
+      });
     },
     turnMicrophoneOn() {
-      enableLocalAudio().then(() => (this.isMicrophoneOn = true));
+      enableLocalAudio().then(() => {
+        this.isMicrophoneOn = true;
+      });
     },
     turnMicrophoneOff() {
-      disableLocalAudio().then(() => (this.isMicrophoneOn = false));
+      disableLocalAudio().then(() => {
+        this.isMicrophoneOn = false;
+      });
     },
     changeVolumeLevel(value) {
       this.volume = value;
