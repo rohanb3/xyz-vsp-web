@@ -13,6 +13,7 @@ import CallPage from '@/views/CallPage';
 
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
+import IncomingCallPopup from '@/containers/IncomingCallPopup';
 
 import store from '@/store';
 
@@ -45,6 +46,7 @@ const router = new Router({
             header: AppHeader,
             lhs: LHS,
             main: AppContent,
+            incomingCall: IncomingCallPopup,
           },
           children: [
             {

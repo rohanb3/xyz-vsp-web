@@ -1,10 +1,7 @@
 /* eslint-disable no-use-before-define, import/prefer-default-export */
 import io from 'socket.io-client';
 
-import { emit, subscribeMultiple } from '@/services/emitter';
-
 let socket = null;
-let operatorId = null;
 
 const CONNECT = 'connect';
 const AUTHENTICATION = 'authentication';
@@ -15,65 +12,34 @@ const ROOM_CREATED = 'room.created';
 const FINISH_CALL = 'finish.call';
 const JOIN_ROOM = 'join.room';
 const ACCEPT_CALL = 'accept.call';
-const DECLINE_CALL = 'decline.call';
 
-export function initSocket(authData, listeners = {}) {
-  socket = socket || io('/operators');
-  operatorId = operatorId || socket.id;
+export function authenticate(authData) {
+  return new Promise((resolve, reject) => {
+    socket = socket || io('/operators');
 
-  subscribeMultiple(listeners);
-
-  socket.on(CONNECT, () => {
-    authenticate(authData);
-    socket.on(AUTHENTICATED, initImcomingCallsListening);
-    socket.on(UNAUTHORIZED, onAuthorizationFailed);
+    socket.on(CONNECT, () => {
+      socket.emit(AUTHENTICATION, authData);
+      socket.on(AUTHENTICATED, resolve);
+      socket.on(UNAUTHORIZED, reject);
+    });
   });
-
-  return () => socket.disconnect();
 }
 
-export const events = {
-  AUTHENTICATED,
-  INCOMING_CALL,
-  ROOM_CREATED,
-};
-
-export function acceptCall() {
-  socket.emit(ACCEPT_CALL);
+export function initImcomingCallsListening(onIncomingCall) {
+  socket.on(INCOMING_CALL, onIncomingCall);
 }
 
-export function declineCall() {
-  socket.emit(DECLINE_CALL, { operatorId });
+export function notifyAboutAcceptingCall() {
+  return new Promise(resolve => {
+    socket.emit(ACCEPT_CALL);
+    socket.once(ROOM_CREATED, resolve);
+  });
 }
 
-export function notifyPeerAboutJoiningRoom(roomName) {
+export function notifyAboutJoiningRoom(roomName) {
   socket.emit(JOIN_ROOM, roomName);
 }
 
-export function finishCall() {
+export function notiyAboutFinishingCall() {
   socket.emit(FINISH_CALL);
-}
-
-// private methods
-
-function authenticate(data) {
-  socket.emit(AUTHENTICATION, data);
-}
-
-function initImcomingCallsListening(token) {
-  emit(AUTHENTICATED, token);
-  socket.on(INCOMING_CALL, onIncomingCall);
-  socket.on(ROOM_CREATED, onRoomCreated);
-}
-
-function onRoomCreated(roomName) {
-  emit(ROOM_CREATED, roomName);
-}
-
-function onIncomingCall() {
-  emit(INCOMING_CALL);
-}
-
-function onAuthorizationFailed() {
-  emit(UNAUTHORIZED);
 }

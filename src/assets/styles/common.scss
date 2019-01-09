@@ -148,6 +148,12 @@ html {
   .v-slider__thumb {
     visibility: hidden;
   }
+
+  .local-media video {
+    max-width: $call-local-media-width;
+    max-height: $call-local-media-height;
+    border-radius: 8px;
+  }
 }
 
 #app .v-slider__track__container {

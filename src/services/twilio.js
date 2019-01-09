@@ -3,11 +3,12 @@ import Video from 'twilio-video';
 
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 
-let previewTracks = null;
+let previewTracks = {};
 let activeRoom = null;
 
 const TRACK_SUBSCRIBED = 'trackSubscribed';
 const TRACK_UNSUBSCRIBED = 'trackUnsubscribed';
+const PARTICIPANT_CONNECTED = 'participantConnected';
 const PARTICIPANT_DISCONNECTED = 'participantDisconnected';
 const DISCONNECTED = 'disconnected';
 
@@ -18,8 +19,8 @@ export function connectToRoom(name, token) {
       // logLevel: 'debug',
     };
 
-    if (previewTracks) {
-      connectOptions.tracks = previewTracks;
+    if (Object.keys(previewTracks).length) {
+      connectOptions.tracks = Object.values(previewTracks);
     }
 
     return Video.connect(
@@ -33,13 +34,50 @@ export function connectToRoom(name, token) {
   return Promise.resolve(activeRoom);
 }
 
-export function initLocalPreview() {
-  const promise = previewTracks ? Promise.resolve(previewTracks) : Video.createLocalTracks();
+export function enableLocalPreview() {
+  return Promise.all([enableLocalVideo(), enableLocalAudio()]);
+}
 
-  return promise.then(tracks => {
-    previewTracks = tracks;
-    emitLocalTracksAdding(previewTracks);
+export function enableLocalVideo() {
+  const promise = previewTracks.video
+    ? Promise.resolve(previewTracks.video)
+    : Video.createLocalVideoTrack();
+
+  return promise.then(track => {
+    previewTracks.video = track;
+    publishTrack(track);
+    emitLocalTracksAdding([track]);
   });
+}
+
+export function enableLocalAudio() {
+  const promise = previewTracks.audio
+    ? Promise.resolve(previewTracks.audio)
+    : Video.createLocalAudioTrack();
+
+  return promise.then(track => {
+    previewTracks.audio = track;
+    publishTrack(track);
+    emitLocalTracksAdding([track]);
+  });
+}
+
+export function disableLocalVideo() {
+  const track = previewTracks.video;
+  stopTracks([track]);
+  unpublishTrack(track);
+  emitLocalTracksRemoving([track]);
+  delete previewTracks.video;
+  return Promise.resolve();
+}
+
+export function disableLocalAudio() {
+  const track = previewTracks.audio;
+  stopTracks([track]);
+  unpublishTrack(track);
+  emitLocalTracksRemoving([track]);
+  delete previewTracks.audio;
+  return Promise.resolve();
 }
 
 export function convertTracksToAttachable(tracks = []) {
@@ -52,6 +90,12 @@ export function detachTracks(tracks) {
   });
 }
 
+export function disconnectFromRoom() {
+  if (activeRoom) {
+    activeRoom.disconnect();
+  }
+}
+
 // private methods
 
 /**
@@ -61,7 +105,7 @@ export function detachTracks(tracks) {
 function onRoomJoined(room) {
   activeRoom = room;
 
-  if (!previewTracks || !previewTracks.length) {
+  if (!Object.keys(previewTracks).length) {
     handleLocalParticipantAdding(room.localParticipant);
   }
 
@@ -69,6 +113,7 @@ function onRoomJoined(room) {
 
   room.on(TRACK_SUBSCRIBED, onTrackSubscribed);
   room.on(TRACK_UNSUBSCRIBED, onTrackUnsubscribed);
+  room.on(PARTICIPANT_CONNECTED, onParticipantConnected);
   room.on(PARTICIPANT_DISCONNECTED, onParticipantDisconnected);
   room.on(DISCONNECTED, onRoomDisconnected);
 
@@ -82,10 +127,11 @@ function onRoomConnectionFailed() {
 }
 
 function onRoomDisconnected() {
-  if (previewTracks) {
-    previewTracks.forEach(track => track.stop());
-    emitLocalTracksRemoving(previewTracks);
-    previewTracks = null;
+  if (Object.keys(previewTracks).length) {
+    const tracks = Object.values(previewTracks);
+    stopTracks(tracks);
+    emitLocalTracksRemoving(tracks);
+    previewTracks = {};
   }
 
   activeRoom = null;
@@ -109,13 +155,29 @@ function onTrackUnsubscribed(track) {
   emitRemoteTracksRemoving([track]);
 }
 
-function onParticipantDisconnected() {
-  leaveRoomIfJoined();
+function onParticipantConnected() {
+  emitParticpantConnecting();
 }
 
-function leaveRoomIfJoined() {
+function onParticipantDisconnected() {
+  emitParticpantDisconnecting();
+  disconnectFromRoom();
+}
+
+function stopTracks(tracks = []) {
+  tracks.forEach(track => track.stop());
+}
+
+function publishTrack(track) {
   if (activeRoom) {
-    activeRoom.disconnect();
+    console.log('activeRoom', track);
+    activeRoom.localParticipant.publishTrack(track);
+  }
+}
+
+function unpublishTrack(track) {
+  if (activeRoom) {
+    activeRoom.localParticipant.unpublishTrack(track);
   }
 }
 
@@ -124,7 +186,7 @@ function leaveRoomIfJoined() {
  */
 
 /**
- ** twilio actions start
+ ** twilio events start
  */
 
 function emitLocalTracksAdding(tracks) {
@@ -143,6 +205,14 @@ function emitRemoteTracksRemoving(tracks) {
   twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACK_REMOVED, tracks);
 }
 
+function emitParticpantConnecting() {
+  twilioEvents.emit(TWILIO_EVENTS.PARTICIPANT_CONNECTED);
+}
+
+function emitParticpantDisconnecting() {
+  twilioEvents.emit(TWILIO_EVENTS.PARTICIPANT_DISCONNECTED);
+}
+
 /**
- ** twilio actions finish
+ ** twilio events finish
  */
