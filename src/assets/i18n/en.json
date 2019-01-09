@@ -84,5 +84,8 @@
   "positive": "Positive",
   "negative": "Negative",
   "qty.of.reviews": "QTY of Reviews",
-  "last.review": "Last Review"
+  "last.review": "Last Review",
+  "video.off": "Video off",
+  "incoming": "Incoming",
+  "pick.up": "Pick Up"
 }

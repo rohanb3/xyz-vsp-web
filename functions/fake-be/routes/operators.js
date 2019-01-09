@@ -1,7 +1,18 @@
 const { getAllOperators, getOperatorsLength } = require('../repositories/db/operators');
+const { getAllReviews } = require('../repositories/db/operatorReview');
 
 function operators(req, res) {
   return getAllOperators()
+    .then(items => {
+      return res.send({ items });
+    })
+    .catch(error => {
+      return res.status(500).send({ error });
+    });
+}
+
+function getOperatorReviewData(req, res) {
+  return getAllReviews()
     .then(items => {
       return res.send({ items });
     })
@@ -18,3 +29,4 @@ function operatorsLength(req, res) {
 
 exports.operators = operators;
 exports.operatorsLength = operatorsLength;
+exports.getOperatorReviewData = getOperatorReviewData;

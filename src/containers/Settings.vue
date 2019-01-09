@@ -110,13 +110,12 @@
 </template>
 
 <script>
-import { changeProfileData, getProfileData } from '@/services/profile';
+import { CHANGE_USER_DATA } from '@/store/loggedInUser/actionTypes';
 
 export default {
   name: 'Settings',
   data() {
     return {
-      user: {},
       isPasswordFormShown: false,
       newPassword: '',
       confirmPassword: '',
@@ -125,20 +124,20 @@ export default {
       message: '',
     };
   },
-  async mounted() {
-    const data = await getProfileData();
-    this.user = data;
+  computed: {
+    user() {
+      return this.$store.getters.userData;
+    },
   },
   methods: {
     async saveSettings() {
       if (this.newPassword) {
         if (!this.validatePassword()) return;
       }
-      const response = await changeProfileData(this.user);
-      if (response.status === 'success') {
-        this.message = this.$t('data.were.successfully changed');
-        this.snackbar = true;
-      }
+      this.user.password = this.newPassword;
+      await this.$store.dispatch(CHANGE_USER_DATA, this.user);
+      this.message = this.$t('data.were.successfully changed');
+      this.snackbar = true;
     },
     // eslint-disable-next-line no-unused-vars
     showPasswordForm() {

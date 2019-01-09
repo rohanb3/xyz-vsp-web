@@ -9,7 +9,7 @@ const {
 } = require('./routes/customers');
 const { calls, callsLength } = require('./routes/calls');
 const { getProfileData, changeProfileData } = require('./routes/profile');
-const { operators, operatorsLength } = require('./routes/operators');
+const { operators, operatorsLength, getOperatorReviewData } = require('./routes/operators');
 
 router.param('customerId', pickCustomerById);
 router.post('/login', login);
@@ -22,5 +22,6 @@ router.get('/profile', getProfileData);
 router.post('/profile', changeProfileData);
 router.get('/operators', operators);
 router.get('/operators-length', operatorsLength);
+router.get('/operator-review', getOperatorReviewData);
 
 module.exports = router;
