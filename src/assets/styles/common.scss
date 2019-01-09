@@ -158,12 +158,27 @@ html {
   padding-top: 0;
 }
 
-.v-dialog  {
+#app .video-call{
+
+  .v-slider__thumb {
+    visibility: hidden;
+  }
+}
+
+#app .v-slider__track__container {
+  height: 6px;
+  background-color: rgba(216, 216, 216, 0.2);
+  border-radius: 4px;
+}
+
+#app .v-slider__track-fill {
+  height: 20px;
+}
+
+.v-dialog {
   width: auto;
 }
-.v-btn__content {
-  justify-content: flex-start;
-}
+
 
 #app .popper {
   background-color: $popper-background-color;

@@ -11,6 +11,7 @@ const { calls, callsLength } = require('./routes/calls');
 const { getProfileData, changeProfileData } = require('./routes/profile');
 const { getCallInfo, callBack } = require('./routes/call');
 const { getCallsTypes, saveFeedback } = require('./routes/operatorFeedback');
+const { getOperatorReviewData } = require('./routes/operators');
 
 router.param('customerId', pickCustomerById);
 router.post('/login', login);
@@ -25,4 +26,6 @@ router.get('/call/info', getCallInfo);
 router.get('/call', callBack);
 router.get('/operator-feedback/calls-type', getCallsTypes);
 router.post('/operator-feedback', saveFeedback);
+router.get('/operator-review', getOperatorReviewData);
+
 module.exports = router;

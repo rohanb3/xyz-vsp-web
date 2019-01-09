@@ -6,7 +6,9 @@ import Login from '@/views/Login';
 import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
+import OperatorReview from '@/views/OperatorReview';
 import SettingsPage from '@/views/SettingsPage';
+import CallPage from '@/views/CallPage';
 
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 
@@ -63,6 +65,11 @@ const router = new Router({
               component: Calls,
             },
             {
+              path: '/operator-review',
+              name: 'operatorReview',
+              component: OperatorReview,
+            },
+            {
               path: '/settings',
               name: 'settings',
               component: SettingsPage,
@@ -71,6 +78,11 @@ const router = new Router({
               path: '/feedback',
               name: 'feedback',
               component: CallFeedbackPopup,
+            },
+            {
+              path: '/call',
+              name: 'call',
+              component: CallPage,
             },
           ],
         },
