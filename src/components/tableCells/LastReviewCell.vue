@@ -1,5 +1,5 @@
 <template>
-  <div class='last-payment-cell'>
+  <div class='last-review-cell'>
     {{ formattedDate }}
   </div>
 </template>
@@ -9,7 +9,7 @@ import moment from 'moment';
 import { SHORT_DAY_SHORT_MONTH_FULL_YEAR } from '../../constants/dateFormats';
 
 export default {
-  name: 'EmailCell',
+  name: 'LastReviewCell',
   props: {
     item: {
       type: Object,
@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     formattedDate() {
-      return moment.utc(this.item.lastPayment).format(SHORT_DAY_SHORT_MONTH_FULL_YEAR);
+      return moment.utc(this.item.lastReview).format(SHORT_DAY_SHORT_MONTH_FULL_YEAR);
     },
   },
 };
@@ -26,7 +26,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
 
-.last-payment-cell {
+.last-review-cell {
   opacity: 0.56;
   font-size: 14px;
   color: $table-inactive-color;
