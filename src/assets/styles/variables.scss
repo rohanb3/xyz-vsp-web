@@ -66,6 +66,7 @@ $popper-shadow-color: rgba(0, 0, 0, 0.13);
 $popper-background-color: #fff;
 $popper-text-color: #4a4a4a;
 $popper-chechkbox-color: #398ffb;
+$popper-revert-to-default-border: 2px solid rgba(151, 151, 151, 0.1);
 
 $call-feedback-popup-background-image: radial-gradient(circle at 50% 0, #737373, #4a4a4a 85%, #3b3b3b);
 $call-feedback-popup-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
@@ -130,3 +131,18 @@ $datepicker-selected-day-color: #fff;
 $datepicker-days-legend-border-color: rgba(151, 151, 151, 0.2);
 
 $base-text-color: #4a4a4a;
+
+$operators-table-toolbar-height: 60px;
+
+$operators-table-calls-cell-color: #4a4a4a;
+$operators-table-negative-calls-cell-color: #d0021b;
+$operators-table-positive-calls-cell-color: #62a816;
+$operators-table-id-cell-color: rgba(74, 74, 74, 0.5);
+$operators-table-name-cell-color: #4a4a4a;
+$operators-table-qty-cell-total-color: #4a4a4a;
+$operators-table-qty-cell-positive-color: #62a816;
+$operators-table-qty-cell-negative-color: #d0021b;
+$operators-table-score-cell-color: #398ffb;
+$operators-table-wrap-up-time-cell-color: #999999;
+$operators-table-wrap-up-time-cell-fast-color: #62a816;
+$operators-table-wrap-up-time-cell-slow-color: #d0021b;

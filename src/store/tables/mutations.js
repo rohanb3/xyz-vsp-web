@@ -1,9 +1,10 @@
-import { getCallsTableColumns } from './columnsList';
+import { getCallsTableColumns, getOperatorsTableColumns } from './columnsList';
 import * as types from './mutationTypes';
-import { CALLS_TABLE } from './constants';
+import { CALLS_TABLE, OPERATORS_TABLE } from './constants';
 
 const allColumns = {
   [CALLS_TABLE]: getCallsTableColumns(),
+  [OPERATORS_TABLE]: getOperatorsTableColumns(),
 };
 
 export default {

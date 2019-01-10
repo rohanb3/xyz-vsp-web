@@ -8,6 +8,7 @@ import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import OperatorReview from '@/views/OperatorReview';
 import SettingsPage from '@/views/SettingsPage';
+import Operators from '@/views/Operators';
 import CallPage from '@/views/CallPage';
 
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
@@ -63,6 +64,11 @@ const router = new Router({
               path: '/calls',
               name: 'calls',
               component: Calls,
+            },
+            {
+              path: '/operators',
+              name: 'operators',
+              component: Operators,
             },
             {
               path: '/operator-review',

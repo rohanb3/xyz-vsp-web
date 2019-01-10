@@ -10,6 +10,12 @@ export default {
   loadedCallsAmount(state) {
     return state.calls.length;
   },
+  loadedOperatorsAmount(state) {
+    return state.operators.length;
+  },
+  allOperatorsLoaded({ allOperatorsLength }, { loadedOperatorsAmount }) {
+    return allOperatorsLength <= loadedOperatorsAmount;
+  },
   allCallsLoaded({ allCustomersLength }, { loadedCustomersAmount }) {
     return allCustomersLength <= loadedCustomersAmount;
   },

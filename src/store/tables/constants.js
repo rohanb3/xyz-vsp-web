@@ -1,2 +1,3 @@
 export const CUSTOMERS_TABLE = 'CUSTOMERS_TABLE';
 export const CALLS_TABLE = 'CALLS_TABLE';
+export const OPERATORS_TABLE = 'OPERATORS_TABLE';

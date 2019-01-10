@@ -4,8 +4,10 @@ import mutations from './mutations';
 
 export default {
   state: {
+    allOperatorsLength: 0,
     allCustomersLength: 0,
     allCallsLength: 0,
+    operators: [],
     customers: [],
     calls: [],
     callTypes: [],

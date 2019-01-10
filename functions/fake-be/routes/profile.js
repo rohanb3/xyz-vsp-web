@@ -14,7 +14,6 @@ function getProfileData(req, res) {
 }
 
 function changeProfileData(req, res) {
-  console.log(req.body);
   res.send({ status: 'success' });
 }
 
