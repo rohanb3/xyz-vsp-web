@@ -1,4 +1,6 @@
 import Popper from 'vue-popperjs';
+import PerfectScrollbar from 'perfect-scrollbar';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 export default {
   name: 'TableDatesEditor',
@@ -23,12 +25,14 @@ export default {
     options() {
       return {
         modifiers: {
-          offset: {
-            offset: '0, 10px',
-          },
+          preventOverflow: { boundariesElement: 'scrollParent' },
+          placement: 'bottom',
         },
       };
     },
+  },
+  mounted() {
+    this.scrollBbr = new PerfectScrollbar(this.$refs.popper2);
   },
   methods: {
     checkAndShow() {
