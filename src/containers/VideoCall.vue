@@ -1,80 +1,36 @@
 <template>
   <div class="video-call">
     <div class="video-screen">
-     <div class="myself-view">
-       <p v-if="!isCameraOn" class="video-off">{{ $t('video.off') }}</p>
-     </div>
-    <div class="controls">
-      <v-icon
-        v-if="isCameraOn"
-        class="icon"
-        @click="toggleVideo"
-        color="#fff"
-      >
-        videocam
-      </v-icon>
-      <v-icon
-        v-else
-        class="icon icon-off"
-        @click="toggleVideo"
-        color="#fff"
-      >
-        videocam_off
-      </v-icon>
-      <v-icon
-        v-if="isMicrophoneOn"
-        class="icon"
-        @click="toggleAudio"
-        color="#fff"
-      >
-        mic
-      </v-icon>
-      <v-icon
-        v-else
-        class="icon icon-off"
-        @click="toggleAudio"
-        color="#fff"
-      >
-        mic_off
-      </v-icon>
-      <div class="sound">
-        <v-icon
-          v-if="isSoundOn"
-          class="icon-sound"
-          @click="toggleSound"
-          color="#fff"
-        >
-        volume_down
-      </v-icon>
-      <v-icon
-          v-else
-          class="icon-sound"
-          @click="toggleSound"
-          color="#fff"
-        >
-        volume_off
-      </v-icon>
-      <div class=volume>
-          <v-slider
-            class="volume-range"
-            track-color="transparent"
-            hide-details
-            color="#d8d8d8"
-            height="6px"
-            v-model="volume"
-            :max="100"
-            :min="0"
-            background-color="rgba(216, 216, 216, 0.2)"
-          >
-          </v-slider>
+      <div class="myself-view">
+        <p v-if="!isCameraOn" class="video-off">{{ $t('video.off') }}</p>
       </div>
-         </div>
-      <div class="call-duration">
-        <v-icon color="white" class="end-call" @click="endCall">call_end</v-icon>
-        <p class="time">{{callDuration}}</p>
+      <div class="controls">
+        <v-icon v-if="isCameraOn" class="icon" @click="toggleVideo" color="#fff">videocam</v-icon>
+        <v-icon v-else class="icon icon-off" @click="toggleVideo" color="#fff">videocam_off</v-icon>
+        <v-icon v-if="isMicrophoneOn" class="icon" @click="toggleAudio" color="#fff">mic</v-icon>
+        <v-icon v-else class="icon icon-off" @click="toggleAudio" color="#fff">mic_off</v-icon>
+        <div class="sound">
+          <v-icon v-if="isSoundOn" class="icon-sound" @click="toggleSound" color="#fff">volume_down</v-icon>
+          <v-icon v-else class="icon-sound" @click="toggleSound" color="#fff">volume_off</v-icon>
+          <div class="volume">
+            <v-slider
+              class="volume-range"
+              track-color="transparent"
+              hide-details
+              color="#d8d8d8"
+              height="6px"
+              v-model="volume"
+              :max="100"
+              :min="0"
+              background-color="rgba(216, 216, 216, 0.2)"
+            ></v-slider>
+          </div>
+        </div>
+        <div class="call-duration">
+          <v-icon color="white" class="end-call" @click="endCall">call_end</v-icon>
+          <p class="time">{{callDuration}}</p>
+        </div>
       </div>
-
-    </div>
     </div>
   </div>
 </template>
@@ -125,7 +81,9 @@ export default {
       this.volume = this.isSoundOn ? 50 : 0;
     },
     endCall() {
+      /* eslint-disable no-console */
       console.log('end call');
+      /* eslint-enable no-console */
     },
   },
 };

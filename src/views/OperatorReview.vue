@@ -1,53 +1,36 @@
 <template>
   <div class="block">
-    <OperatorReviewChart :chartData="chartData"/>
+    <MultipleLinesChartHeader
+      :rowChartData="rowChartData"
+      @processedChartDataChanged="onProcessedChartDataChanged"
+    ></MultipleLinesChartHeader>
+    <MultipleLinesChart :chartData="processedChartData"/>
   </div>
 </template>
 
 <script>
-import OperatorReviewChart from '@/components/OperatorReviewChart';
-import moment from 'moment';
-import { getOperatorReview } from '@/services/repository';
+import MultipleLinesChart from '@/components/charts/MultipleLinesChart';
+import MultipleLinesChartHeader from '@/components/charts/MultipleLinesChartHeader';
+// import { getOperatorReview } from '@/services/repository';
+
+const rowChartData = require('../../functions/fake-be/fixtures/operatorReview.json');
 
 export default {
   name: 'OperatorReview',
-  components: { OperatorReviewChart },
+  components: { MultipleLinesChart, MultipleLinesChartHeader },
   mounted() {
-    getOperatorReview().then(this.prepareChartData);
+    this.rowChartData = rowChartData.items;
+    // getOperatorReview().then(data => {this.chartData = data.items});
   },
   data() {
     return {
-      chartData: {},
+      rowChartData: [],
+      processedChartData: {},
     };
   },
   methods: {
-    prepareChartData(data) {
-      this.chartData = {
-        labels: data.map(item => moment(item.date).format('D MMM')),
-        datasets: [
-          {
-            label: 'Efficiency',
-            borderColor: '#398ffb',
-            backgroundColor: 'transparent',
-            lineTension: 0,
-            data: data.map(item => item.efficiency),
-          },
-          {
-            label: 'Duration',
-            borderColor: '#b0b0b0',
-            backgroundColor: 'transparent',
-            lineTension: 0,
-            data: data.map(item => item.duration),
-          },
-          {
-            label: 'Bonus',
-            borderColor: '#7ed321',
-            backgroundColor: 'transparent',
-            lineTension: 0,
-            data: data.map(item => item.bonus),
-          },
-        ],
-      };
+    onProcessedChartDataChanged(data) {
+      this.processedChartData = data;
     },
   },
 };

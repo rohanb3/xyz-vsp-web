@@ -8,7 +8,10 @@ export default {
     chartData: Object,
     options: {
       type: Object,
-      default: () => ({ responsive: true, maintainAspectRatio: false }),
+      default: () => ({
+        responsive: true,
+        maintainAspectRatio: false,
+      }),
     },
   },
   mounted() {
