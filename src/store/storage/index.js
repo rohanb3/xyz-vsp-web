@@ -8,6 +8,8 @@ export default {
     allCallsLength: 0,
     customers: [],
     calls: [],
+    callTypes: [],
+    dispositions: [],
   },
   getters,
   actions,
