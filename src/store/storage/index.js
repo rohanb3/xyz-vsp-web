@@ -10,6 +10,8 @@ export default {
     operators: [],
     customers: [],
     calls: [],
+    callTypes: [],
+    dispositions: [],
   },
   getters,
   actions,
