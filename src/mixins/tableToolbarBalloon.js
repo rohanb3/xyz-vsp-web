@@ -32,7 +32,9 @@ export default {
     },
   },
   mounted() {
-    this.scrollBbr = new PerfectScrollbar(this.$refs.popper2);
+    if (this.$refs.popper2) {
+      this.scrollBbr = new PerfectScrollbar(this.$refs.popper2);
+    }
   },
   methods: {
     checkAndShow() {
