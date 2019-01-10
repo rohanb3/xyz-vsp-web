@@ -7,7 +7,7 @@
        <v-spacer></v-spacer>
       <columns-list-editor
         :columns="columnsVisibilityData"
-        :boundariesSelector="'.operators-page'"
+        :boundariesSelector="'.operators-table'"
         @visibilityChanged="onColumnVisibilityChanged"
         @revertToDefault="setDefaultColumns"
       />
@@ -68,8 +68,8 @@ import ColumnsListEditor from '@/components/ColumnsListEditor';
 import DefaultCell from '@/components/tableCells/DefaultCell';
 import RatingCell from '@/components/tableCells/RatingCell';
 import ScoreCell from '@/components/tableCells/ScoreCell';
-import CallsCell from '@/components/tableCells/CallsCell';
-import NameCell from '@/components/tableCells/NameCell';
+import CallsAmountCell from '@/components/tableCells/CallsAmountCell';
+import OperatorNameCell from '@/components/tableCells/OperatorNameCell';
 import IdCell from '@/components/tableCells/IdCell';
 
 import smartTable from '@/mixins/smartTable';
@@ -100,8 +100,8 @@ export default {
     RatingCell,
     WombatRow,
     ScoreCell,
-    CallsCell,
-    NameCell,
+    CallsAmountCell,
+    OperatorNameCell,
     IdCell,
   },
   mixins: [smartTable],
@@ -116,9 +116,9 @@ export default {
         wrapUpTime: 'WrapUpTimeCell',
         default: 'DefaultCell',
         rating: 'RatingCell',
-        calls: 'CallsCell',
+        calls: 'CallsAmountCell',
         score: 'ScoreCell',
-        name: 'NameCell',
+        name: 'OperatorNameCell',
         id: 'IdCell',
       },
     };
@@ -128,7 +128,8 @@ export default {
   },
   computed: {
     columnsVisibilityData() {
-      return allColumns.map(column => ({
+      // at first exclude additional column
+      return allColumns.filter(column => column.name !== 'additional').map(column => ({
         ...column,
         visible: !!this.columns.find(c => c.name === column.name),
       }));

@@ -1,23 +1,26 @@
 <template>
-  <div class='calls-cell' :class="{total: this.type === 'calls', positive: this.type === 'positive', negative: this.type === 'negative'}">
+  <div class='calls-amount-cell' :class="{total: type === 'calls', positive: type === 'positive', negative: type === 'negative'}">
     <span>{{ calls }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'CallsCell',
+  name: 'CallsAmountCell',
   props: {
     item: {
+      type: Object,
+    },
+    column: {
       type: Object,
     },
   },
   computed: {
     type() {
-      return this.$attrs.column.field;
+      return this.column.field;
     },
     calls() {
-      return this.item[this.type].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return new Intl.NumberFormat().format(this.item[this.type]);
     },
   },
 };
@@ -26,7 +29,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
 
-.calls-cell {
+.calls-amount-cell {
   font-size: 14px;
   color: $operators-table-calls-cell-color;
 

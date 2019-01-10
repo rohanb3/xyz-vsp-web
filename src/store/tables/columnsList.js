@@ -136,6 +136,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'id',
     class: 'text',
     title: i18n.t('id'),
+    width: '100px',
   },
   {
     name: 'name',
@@ -143,12 +144,14 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'name',
     class: 'text',
     title: i18n.t('name'),
+    width: '250px',
   },
   {
     name: 'department',
     field: 'department',
     class: 'text',
     title: i18n.t('department'),
+    width: '200px',
   },
   {
     name: 'score',
@@ -156,6 +159,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'score',
     class: 'text',
     title: i18n.t('score'),
+    width: '60px',
   },
   {
     name: 'calls',
@@ -163,6 +167,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'calls',
     class: 'text',
     title: i18n.t('calls'),
+    width: '100px',
   },
   {
     name: 'info',
@@ -170,6 +175,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'calls',
     class: 'text',
     title: i18n.t('info'),
+    width: '100px',
   },
   {
     name: 'help',
@@ -177,6 +183,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'calls',
     class: 'text',
     title: i18n.t('help'),
+    width: '100px',
   },
   {
     name: 'sale',
@@ -184,6 +191,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'calls',
     class: 'text',
     title: i18n.t('sale'),
+    width: '100px',
   },
   {
     name: 'wrapUpTime',
@@ -191,6 +199,7 @@ export const getOperatorsTableColumns = () => [
     class: 'text',
     fieldType: 'wrapUpTime',
     title: i18n.t('wrap.up.time'),
+    width: '150px',
   },
   {
     name: 'rating',
@@ -198,7 +207,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'rating',
     title: i18n.t('rating'),
     class: 'text',
-    width: '60px',
+    width: '100px',
   },
   {
     name: 'positive',
@@ -206,6 +215,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'calls',
     class: 'text',
     title: i18n.t('positive'),
+    width: '100px',
   },
   {
     name: 'negative',
@@ -213,6 +223,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'calls',
     class: 'text',
     title: i18n.t('negative'),
+    width: '100px',
   },
   {
     name: 'qtyOfReviews',
@@ -220,6 +231,7 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'qtyOfReviews',
     class: 'text',
     title: i18n.t('qty.of.reviews'),
+    width: '150px',
   },
   {
     name: 'lastReview',
@@ -227,12 +239,13 @@ export const getOperatorsTableColumns = () => [
     fieldType: 'lastReview',
     class: 'text',
     title: i18n.t('last.review'),
+    width: '150px',
   },
   {
     name: 'additional',
     field: null,
     fieldType: 'additional',
     title: '',
-    width: '100px',
+    width: '70px',
   },
 ];

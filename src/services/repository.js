@@ -23,7 +23,8 @@ export const getOperators = (startFrom, count) => {
   return api.get('/operators', { params }).then(({ data }) => data.items);
 };
 
-export const getAllOperatorsLength = () => api.get('/operators-length').then(({ data }) => data.length);
+export const getAllOperatorsLength = () =>
+  api.get('/operators-length').then(({ data }) => data.length);
 
 export const getOperatorReview = () =>
   api.get('/operator-review').then(response => response.data.items);

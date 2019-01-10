@@ -1,5 +1,5 @@
 <template>
-  <div class='name-cell'>
+  <div class='operator-name-cell'>
     <img class="photo" :src="item.photo" alt="photo"/>
     <span class="text">{{ item.name }}</span>
   </div>
@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'NameCell',
+  name: 'OperatorNameCell',
   props: {
     item: {
       type: Object,
@@ -19,7 +19,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
 
-.name-cell {
+.operator-name-cell {
   display: flex;
   flex-direction: row;
   align-items: center;

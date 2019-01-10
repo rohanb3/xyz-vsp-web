@@ -1,5 +1,9 @@
 import moment from 'moment';
-import { getCustomersTableColumns, getCallsTableColumns, getOperatorsTableColumns } from './columnsList';
+import {
+  getCustomersTableColumns,
+  getCallsTableColumns,
+  getOperatorsTableColumns,
+} from './columnsList';
 import { CUSTOMERS_TABLE, CALLS_TABLE, OPERATORS_TABLE } from './constants';
 
 import mutations from './mutations';

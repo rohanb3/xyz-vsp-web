@@ -6,6 +6,7 @@
 
 <script>
 import moment from 'moment';
+import { SHORT_DAY_SHORT_MONTH_FULL_YEAR } from '../../constants/dateFormats';
 
 export default {
   name: 'LastReviewCell',
@@ -16,7 +17,7 @@ export default {
   },
   computed: {
     formattedDate() {
-      return moment.utc(this.item.lastReview).format('DD MMM YYYY');
+      return moment.utc(this.item.lastReview).format(SHORT_DAY_SHORT_MONTH_FULL_YEAR);
     },
   },
 };
