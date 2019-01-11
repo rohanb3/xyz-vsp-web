@@ -43,14 +43,13 @@ export default {
   computed: {
     valuesVisibilityData() {
       if (this.processedChartData.datasets) {
-        return this.processedChartData.datasets.map(item => {
-          return {
-            name: item.id,
-            title: item.id,
-            visible: !item.disabled,
-          };
-        });
-      } else return [];
+        return this.processedChartData.datasets.map(item => ({
+          name: item.id,
+          title: item.id,
+          visible: !item.disabled,
+        }));
+      }
+      return [];
     },
   },
   methods: {
@@ -78,9 +77,7 @@ export default {
       currentDataset.disabled = !currentDataset.disabled;
     },
     onValuesVisibilityChanged(data) {
-      const valueIndex = this.processedChartData.datasets.findIndex(
-        item => data.name === item.id
-      );
+      const valueIndex = this.processedChartData.datasets.findIndex(item => data.name === item.id);
       this.processedChartData.datasets[valueIndex].disabled = !data.value;
     },
   },
