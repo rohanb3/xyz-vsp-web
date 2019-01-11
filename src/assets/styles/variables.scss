@@ -68,7 +68,12 @@ $popper-text-color: #4a4a4a;
 $popper-chechkbox-color: #398ffb;
 $popper-revert-to-default-border: 2px solid rgba(151, 151, 151, 0.1);
 
-$call-feedback-popup-background-image: radial-gradient(circle at 50% 0, #737373, #4a4a4a 85%, #3b3b3b);
+$call-feedback-popup-background-image: radial-gradient(
+  circle at 50% 0,
+  #737373,
+  #4a4a4a 85%,
+  #3b3b3b
+);
 $call-feedback-popup-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 $call-feedback-popup-header-name-color: #fff;
 $call-feedback-popup-header-time-color: #fff;
@@ -85,17 +90,17 @@ $call-feedback-popup-record-icon-background-color: #fff;
 $call-feedback-popup-record-icon-internal-background-color: #cf0020;
 $call-feedback-popup-record-icon-border: 1px solid black;
 $call-feedback-popup-stop-record-icon-border: 1px solid white;
-$call-feedback-popup-note-color:#fff;
-$call-feedback-popup-note-background-color:rgba(0, 0, 0, 0.4);
+$call-feedback-popup-note-color: #fff;
+$call-feedback-popup-note-background-color: rgba(0, 0, 0, 0.4);
 $call-feedback-popup-note-placeholder-color: rgba(255, 255, 255, 0.5);
 $call-feedback-popup-title-color: rgba(255, 255, 255, 0.4);
-$call-feedback-popup-button-color:#fff;
-$call-feedback-popup-icon-call-color:#fff;
+$call-feedback-popup-button-color: #fff;
+$call-feedback-popup-icon-call-color: #fff;
 $call-feedback-popup-button-callback-background-color: #ff941b;
 $call-feedback-popup-button-save-background-color: #62a816;
-$call-feedback-popup-disposition-selected-color:#000;
-$call-feedback-popup-disposition-placeholder-color:rgba(255, 255, 255, 0.5);
-$call-feedback-popup-disposition-selected-background-color:rgba(0, 0, 0, 0.4);
+$call-feedback-popup-disposition-selected-color: #000;
+$call-feedback-popup-disposition-placeholder-color: rgba(255, 255, 255, 0.5);
+$call-feedback-popup-disposition-selected-background-color: rgba(0, 0, 0, 0.4);
 $call-dialogue-reject-icon-background-color: red;
 $call-dialogue-accept-button-background-color: #70c90e;
 $call-dialogue-accept-button-color: #fff;
@@ -131,6 +136,7 @@ $datepicker-selected-day-color: #fff;
 $datepicker-days-legend-border-color: rgba(151, 151, 151, 0.2);
 
 $base-text-color: #4a4a4a;
+$base-button-border-color: rgba(57, 143, 251, 0.2);
 
 $operators-table-toolbar-height: 60px;
 
