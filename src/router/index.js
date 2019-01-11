@@ -10,7 +10,7 @@ import OperatorReview from '@/views/OperatorReview';
 import SettingsPage from '@/views/SettingsPage';
 import Operators from '@/views/Operators';
 import CallPage from '@/views/CallPage';
-
+import SupervisorDashboard from '@/views/SupervisorDashboard';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 
 import AppHeader from '@/containers/AppHeader';
@@ -89,6 +89,11 @@ const router = new Router({
               path: '/call',
               name: 'call',
               component: CallPage,
+            },
+            {
+              path: '/supervisor-dashboard',
+              name: 'supervisor-dashboard',
+              component: SupervisorDashboard,
             },
           ],
         },
