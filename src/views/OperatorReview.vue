@@ -11,16 +11,15 @@
 <script>
 import MultipleLinesChart from '@/components/charts/MultipleLinesChart';
 import MultipleLinesChartHeader from '@/components/charts/MultipleLinesChartHeader';
-// import { getOperatorReview } from '@/services/repository';
-
-const rowChartData = require('../../functions/fake-be/fixtures/operatorReview.json');
+import { getOperatorReview } from '@/services/repository';
 
 export default {
   name: 'OperatorReview',
   components: { MultipleLinesChart, MultipleLinesChartHeader },
   mounted() {
-    this.rowChartData = rowChartData.items;
-    // getOperatorReview().then(data => {this.chartData = data.items});
+    getOperatorReview().then(data => {
+      this.rowChartData = data;
+    });
   },
   data() {
     return {

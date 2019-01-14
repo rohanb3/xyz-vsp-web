@@ -62,15 +62,18 @@ export default {
     },
     prepareDatasets(data) {
       const keys = Object.keys(data[0].values);
-      return keys.map((key, index) => ({
-        id: key,
-        borderColor: getRandomColor(),
-        backgroundColor: 'transparent',
-        lineTension: 0,
-        yAxisID: index.toString(),
-        data: data.map(item => item.values[key]),
-        disabled: false,
-      }));
+      return keys.map((key, index) => {
+        const color = getRandomColor();
+        return {
+          id: key,
+          borderColor: color,
+          backgroundColor: 'transparent',
+          lineTension: 0,
+          yAxisID: index.toString(),
+          data: data.map(item => item.values[key]),
+          disabled: false,
+        };
+      });
     },
     onItemClick(index) {
       const currentDataset = this.processedChartData.datasets[index];
@@ -89,7 +92,9 @@ export default {
 .wrapper {
   display: flex;
   position: relative;
-  padding: 0px 17px 20px;
+  padding: 0px 17px 10px;
+  margin-bottom: 17px;
+  border-bottom: 1px solid $chart-axis-color;
 }
 .item {
   padding: 5px 35px 20px 0px;
