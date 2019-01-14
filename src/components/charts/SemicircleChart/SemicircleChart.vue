@@ -1,7 +1,7 @@
 <template>
     <div class="semicircle-chart">
-      <chart class="chart-wrapper" :chartData="chartData"/>
-      <div class="chart-data">
+      <chart class="semicircle-chart-wrapper" :chartData="chartData"/>
+      <div class="semicircle-chart-data">
         <div class="data-title" :class="{giant: !options.showRatio}"><p class="bold">{{resultPersentageInteger}}</p>{{resultPersentageDecimal}} %</div>
         <div v-if="options.showRatio" class="ratio"><p class="result">{{result}} </p><p class="total">of {{total}}</p></div>
         </div>
@@ -28,20 +28,22 @@ export default {
       }),
     },
   },
-  data() {
-    return {
-      resultPersentage: null,
-      totalPersentage: null,
-    };
-  },
   computed: {
+    resultPersentage() {
+      const values = this.datasets.map(dataset => dataset.value);
+      const total = Math.max(...values);
+      const result = Math.min(...values);
+
+      return (result * 100) / total;
+    },
+    totalPersentage() {
+      return 100 - this.resultPersentage;
+    },
     chartData() {
       const convertedData = {
         backgroundColor: [],
         data: [],
       };
-
-      this.getColourFillPersentage();
 
       this.datasets
         .concat()
@@ -83,14 +85,6 @@ export default {
     formatValue(data) {
       return data.type === 'time' ? secondsToMinutesSeconds(data.value) : data.value;
     },
-    getColourFillPersentage() {
-      const values = this.datasets.map(dataset => dataset.value);
-      const total = Math.max(...values);
-      const result = Math.min(...values);
-
-      this.resultPersentage = (result * 100) / total;
-      this.totalPersentage = 100 - this.resultPersentage;
-    },
   },
 };
 </script>
@@ -103,11 +97,11 @@ export default {
   height: 114px;
   position: relative;
 
-  .chart-wrapper {
+  .semicircle-chart-wrapper {
     width: 220px;
     height: 114px;
   }
-  .chart-data {
+  .semicircle-chart-data {
     width: 100%;
     height: 100%;
     justify-content: center;
