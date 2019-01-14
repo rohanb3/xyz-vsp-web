@@ -28,3 +28,13 @@ export function filterByDateRange(data = [], { startDate, endDate } = {}, byFiel
     return isAfterStartDate && isBeforeEndDate;
   });
 }
+
+export function secondsToMinutesSeconds(data) {
+  let seconds = parseInt(data % 60, 10);
+  let minutes = parseInt((data / 60) % 60, 10);
+
+  minutes = minutes ? `${minutes}m` : '';
+  seconds = seconds ? `${seconds}s` : '';
+
+  return `${minutes} ${seconds}`.trim();
+}
