@@ -55,10 +55,6 @@ export default {
     color: $rating-efficiency-chart-bottom-bar-color;
     font-size: 16px;
     font-weight: 500;
-
-    .calls-icon {
-      margin-right: 6px;
-    }
   }
 }
 </style>

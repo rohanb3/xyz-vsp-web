@@ -1,4 +1,4 @@
-import { secondsToHuman, filterByDateRange } from '@/services/dateHelper';
+import { secondsToHuman, filterByDateRange, secondsToMinutesSeconds } from '@/services/dateHelper';
 
 describe('dateHelper', () => {
   describe('secondsToHuman', () => {
@@ -197,6 +197,24 @@ describe('dateHelper', () => {
         };
         expect(filterByDateRange(data, range)).toEqual([]);
       });
+    });
+  });
+
+  describe('secondsToMinutesSeconds', () => {
+    it('should return "" if no value was passed', () => {
+      expect(secondsToMinutesSeconds()).toBe('');
+    });
+
+    it('should return "" if 0 was passed', () => {
+      expect(secondsToMinutesSeconds(0)).toBe('');
+    });
+
+    it('should return "1s" if 1 was passed', () => {
+      expect(secondsToMinutesSeconds(1)).toBe('1s');
+    });
+
+    it('should return "1m 2s" if 62 was passed', () => {
+      expect(secondsToMinutesSeconds(62)).toBe('1m 2s');
     });
   });
 });
