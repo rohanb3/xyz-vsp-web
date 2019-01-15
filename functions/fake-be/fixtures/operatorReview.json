@@ -2,33 +2,73 @@
   "items": [
     {
       "date": 1546272000000,
-      "efficiency": 97.3,
-      "duration": 80,
-      "bonus": 50.5
+      "values": {
+        "efficiency": 10,
+        "duration": 80,
+        "bonus": 5000.5,
+        "total_bonuses": 30,
+        "total_pickup": 124,
+        "average_pickup": 700,
+        "total_duration": 43,
+        "average_duration": 435,
+        "average_calls": 45
+      }
     },
     {
       "date": 1546358400000,
-      "efficiency": 80,
-      "duration": 65,
-      "bonus": 34
+      "values": {
+        "efficiency": 25,
+        "duration": 65,
+        "bonus": 1000,
+        "total_bonuses": 50,
+        "total_pickup": 184,
+        "average_pickup": 770,
+        "total_duration": 83,
+        "average_duration": 735,
+        "average_calls": 15
+      }
     },
     {
       "date": 1546444800000,
-      "efficiency": 32,
-      "duration": 65,
-      "bonus": 89.7
+      "values": {
+        "efficiency": 50,
+        "duration": 65,
+        "bonus": 3200,
+        "total_bonuses": 90,
+        "total_pickup": 484,
+        "average_pickup": 270,
+        "total_duration": 183,
+        "average_duration": 235,
+        "average_calls": 89
+      }
     },
     {
       "date": 1546531200000,
-      "efficiency": 55.5,
-      "duration": 100,
-      "bonus": 78.3
+      "values": {
+        "efficiency": 75,
+        "duration": 250,
+        "bonus": 6800,
+        "total_bonuses": 110,
+        "total_pickup": 984,
+        "average_pickup": 140,
+        "total_duration": 843,
+        "average_duration": 175,
+        "average_calls": 24
+      }
     },
     {
       "date": 1546617600000,
-      "efficiency": 10.4,
-      "duration": 92,
-      "bonus": 67.7
+      "values": {
+        "efficiency": 100,
+        "duration": 92,
+        "bonus": 800,
+        "total_bonuses": 520,
+        "total_pickup": 524,
+        "average_pickup": 350,
+        "total_duration": 143,
+        "average_duration": 375,
+        "average_calls": 99
+      }
     }
   ]
 }
