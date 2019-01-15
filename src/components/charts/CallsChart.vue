@@ -27,7 +27,8 @@ export default {
           labels: this.chartData.map(item => item.xAxeValue),
           datasets: this.prepareDatasets(this.chartData),
         };
-      } else return {};
+      }
+      return {};
     },
     options() {
       return {
@@ -51,16 +52,14 @@ export default {
   methods: {
     prepareDatasets(data) {
       const keys = Object.keys(data[0].values);
-      return keys.map((key, index) => {
-        return {
-          label: key,
-          borderColor: colors[index].borderColor,
-          backgroundColor: colors[index].backgroundColor,
-          pointBackgroundColor: 'transparent',
-          pointBorderColor: 'transparent',
-          data: data.map(item => item.values[key]),
-        };
-      });
+      return keys.map((key, index) => ({
+        label: key,
+        borderColor: colors[index].borderColor,
+        backgroundColor: colors[index].backgroundColor,
+        pointBackgroundColor: 'transparent',
+        pointBorderColor: 'transparent',
+        data: data.map(item => item.values[key]),
+      }));
     },
   },
 };

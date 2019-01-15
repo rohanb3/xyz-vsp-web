@@ -80,9 +80,7 @@ export default {
       currentDataset.disabled = !currentDataset.disabled;
     },
     onValuesVisibilityChanged(data) {
-      const valueIndex = this.processedChartData.datasets.findIndex(
-        item => data.name === item.id
-      );
+      const valueIndex = this.processedChartData.datasets.findIndex(item => data.name === item.id);
       this.processedChartData.datasets[valueIndex].disabled = !data.value;
     },
   },
