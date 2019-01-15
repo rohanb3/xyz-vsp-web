@@ -1,0 +1,60 @@
+{
+  "items": [
+    {
+      "xAxeValue": 1,
+      "values": {
+        "answered": 230,
+        "total": 250
+      }
+    },
+    {
+      "xAxeValue": 2,
+      "values": {
+        "answered": 180,
+        "total": 210
+      }
+    },
+    {
+      "xAxeValue": 3,
+      "values": {
+        "answered": 230,
+        "total": 280
+      }
+    },
+    {
+      "xAxeValue": 4,
+      "values": {
+        "answered": 100,
+        "total": 110
+      }
+    },
+    {
+      "xAxeValue": 5,
+      "values": {
+        "answered": 196,
+        "total": 200
+      }
+    },
+    {
+      "xAxeValue": 6,
+      "values": {
+        "answered": 170,
+        "total": 170
+      }
+    },
+    {
+      "xAxeValue": 7,
+      "values": {
+        "answered": 200,
+        "total": 222
+      }
+    },
+    {
+      "xAxeValue": 8,
+      "values": {
+        "answered": 230,
+        "total": 230
+      }
+    }
+  ]
+}

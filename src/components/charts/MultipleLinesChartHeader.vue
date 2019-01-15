@@ -28,7 +28,7 @@ import MultipleLinesChartValuesEditor from '@/components/charts/MultipleLinesCha
 
 export default {
   name: 'MultipleLinesChartHeader',
-  props: ['rowChartData'],
+  props: ['rawChartData'],
   components: { MultipleLinesChartValuesEditor },
   data() {
     return {
@@ -36,7 +36,7 @@ export default {
     };
   },
   watch: {
-    rowChartData(data) {
+    rawChartData(data) {
       this.processChartData(data);
     },
   },
@@ -80,7 +80,9 @@ export default {
       currentDataset.disabled = !currentDataset.disabled;
     },
     onValuesVisibilityChanged(data) {
-      const valueIndex = this.processedChartData.datasets.findIndex(item => data.name === item.id);
+      const valueIndex = this.processedChartData.datasets.findIndex(
+        item => data.name === item.id
+      );
       this.processedChartData.datasets[valueIndex].disabled = !data.value;
     },
   },
