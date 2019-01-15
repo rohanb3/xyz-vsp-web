@@ -74,16 +74,6 @@ export default {
 
       return this.formatValue(total);
     },
-    resultPersentageInteger() {
-      const decimal = this.resultPersentage % 1;
-
-      return decimal > 0 ? `${Math.floor(this.resultPersentage)}.` : this.resultPersentage;
-    },
-    resultPersentageDecimal() {
-      const decimal = this.resultPersentage % 1;
-
-      return decimal > 0 ? `${decimal.toString().slice(2)}` : '';
-    },
   },
   methods: {
     formatValue(data) {

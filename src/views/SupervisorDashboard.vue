@@ -1,6 +1,6 @@
 <template>
   <div class="supervisor-dashboard-page">
-    <RatingEfficiencyChart :datasets="datasetsForCircleChart"/>
+    <rating-efficiency-chart :datasets="datasetsForCircleChart"/>
     <semicircle-chart :datasets="datasetsForSemicircleChart"/>
   </div>
 </template>
