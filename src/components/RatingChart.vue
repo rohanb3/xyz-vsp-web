@@ -55,7 +55,10 @@ export default {
       }));
     },
     avarageRating() {
-      return this.datasets.reduce((acc, current) => acc + current.title*current.value,0)/this.totalOperatorsAmount
+      return (
+        this.datasets.reduce((acc, current) => acc + current.title * current.value, 0) /
+        this.totalOperatorsAmount
+      );
     },
     avarageRatingInteger() {
       return Math.floor(this.avarageRating);

@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     progressBarWidth() {
-      return `${PROGRESS_BAR_MAX_WIDTH*this.item.value/100}px`
+      return `${(PROGRESS_BAR_MAX_WIDTH * this.item.value) / 100}px`;
     },
   },
 };

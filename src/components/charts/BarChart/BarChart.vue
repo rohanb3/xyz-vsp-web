@@ -24,10 +24,10 @@ export default {
 
 <style lang="scss" scoped>
 .bar-chart {
-    padding: 0 0 0 2px;
-    display: flex;
-    flex-direction: column;
-    align-content: space-between;
+  padding: 0 0 0 2px;
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
 
   .bar-chart-item:not(:last-child) {
     margin-bottom: 12px;
