@@ -33,7 +33,7 @@
 
 <script>
 import moment from 'moment';
-import { makeCallActive, finishCall } from '@/services/call';
+import { finishCall } from '@/services/call';
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import {
   enableLocalVideo,
@@ -44,6 +44,9 @@ import {
   detachTracks,
 } from '@/services/twilio';
 import VideoCallControls from '@/components/VideoCallControls';
+
+const AUDIO = 'audio';
+const VIDEO = 'video';
 
 export default {
   name: 'VideoCall',
@@ -64,8 +67,6 @@ export default {
       localTracksRemovingUnsubscriber: null,
       remoteTracksAddingUnsubscriber: null,
       remoteTracksRemovingUnsubscriber: null,
-      participantConnectingUnsubscriber: null,
-      participantDisconnectingUnsubscriber: null,
     };
   },
   computed: {
@@ -93,15 +94,31 @@ export default {
         this.activateCallTimer();
       } else if (!val && old) {
         this.deactivateCallTimer();
+        this.leaveScreen();
       }
     },
   },
   methods: {
+    activateCallTimer() {
+      this.interval = setInterval(this.updateCurrentTime, 1000);
+    },
+    deactivateCallTimer() {
+      clearInterval(this.interval);
+    },
+    leaveScreen() {
+      this.$router.replace({ name: 'calls' });
+    },
+    finishCall() {
+      finishCall();
+    },
     updateCurrentTime() {
       this.counter += 1;
     },
     initLocalPreview() {
       return Promise.all([this.turnCameraOn(), this.turnMicrophoneOn()]);
+    },
+    finishLocalPreview() {
+      return Promise.all([this.turnCameraOff(), this.turnMicrophoneOff()]);
     },
     toggleCamera() {
       if (this.isCameraOn) {
@@ -151,15 +168,6 @@ export default {
         remoteAudio.volume = this.volume;
       }
     },
-    finishCall() {
-      finishCall().then(() => this.$router.replace({ name: 'calls' }));
-    },
-    activateCallTimer() {
-      this.interval = setInterval(this.updateCurrentTime, 1000);
-    },
-    deactivateCallTimer() {
-      clearInterval(this.interval);
-    },
     subscribeForTwilioEvents() {
       this.localTracksAddingUnsubscriber = twilioEvents.subscribe(
         TWILIO_EVENTS.LOCAL_TRACKS_ADDED,
@@ -180,24 +188,12 @@ export default {
         TWILIO_EVENTS.REMOTE_TRACKS_REMOVED,
         this.handleTracksRemoving
       );
-
-      this.participantConnectingUnsubscriber = twilioEvents.subscribe(
-        TWILIO_EVENTS.PARTICIPANT_CONNECTED,
-        this.handleParticipantConnection
-      );
-
-      this.participantDisconnectingUnsubscriber = twilioEvents.subscribe(
-        TWILIO_EVENTS.PARTICIPANT_DISCONNECTED,
-        this.handleParticipantDisconnection
-      );
     },
     unsubscribeFromTwilioEvents() {
       this.localTracksAddingUnsubscriber();
       this.localTracksRemovingUnsubscriber();
       this.remoteTracksAddingUnsubscriber();
       this.remoteTracksRemovingUnsubscriber();
-      this.participantConnectingUnsubscriber();
-      this.participantDisconnectingUnsubscriber();
     },
     handleLocalTracksAdding(tracks) {
       this.handleTracksAdding(tracks, this.$refs.localMedia);
@@ -211,12 +207,6 @@ export default {
     },
     handleTracksRemoving(tracks) {
       detachTracks(tracks);
-    },
-    handleParticipantConnection() {
-      makeCallActive();
-    },
-    handleParticipantDisconnection() {
-      finishCall();
     },
   },
 };

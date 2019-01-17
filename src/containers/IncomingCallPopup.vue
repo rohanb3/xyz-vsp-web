@@ -21,7 +21,11 @@
 
 <script>
 import moment from 'moment';
-import { initializeOperator, acceptCall, disconnect } from '@/services/call';
+import {
+  initializeOperator,
+  acceptCall,
+  disconnectOperator,
+} from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
@@ -58,7 +62,7 @@ export default {
   },
   destroyed() {
     clearInterval(this.interval);
-    disconnect();
+    disconnectOperator();
   },
   methods: {
     acceptCall() {
@@ -67,7 +71,6 @@ export default {
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;
-      // request
     },
     updateCurrentTime() {
       this.counter += 1;

@@ -4,32 +4,38 @@ import store from '@/store';
 import { SET_CALL_STATUS, SET_CALL_TOKEN } from '@/store/call/mutationTypes';
 import { callStatuses } from '@/store/call/constants';
 import {
-  authenticate,
-  initImcomingCallsListening,
+  init as initiOperatorSocker,
   notifyAboutAcceptingCall,
-  notifyAboutJoiningRoom,
   notiyAboutFinishingCall,
+  notifyAboutLeavingRoomEmpty,
+  disconnect as disconnectFromSocket,
 } from '@/services/operatorSocket';
-import { connectToRoom, disconnectFromRoom } from '@/services/twilio';
+import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 
 export function initializeOperator() {
   const userName = store.state.loggedInUser.user.name;
-  const user = { userName };
-  return authenticate({ user })
-    .then(setToken)
-    .then(() => initImcomingCallsListening(checkAndSetIncomingCallStatus));
+  const credentials = { userName };
+  return initiOperatorSocker(credentials, checkAndSetIncomingCallStatus).then(setToken);
+}
+
+export function disconnectOperator() {
+  disconnectFromRoom();
+  disconnectFromSocket();
+  return Promise.resolve();
 }
 
 export function acceptCall() {
   setConnectingStatus();
 
   return notifyAboutAcceptingCall()
-    .then(roomName => connectToRoom(roomName, store.state.call.token))
-    .then(notifyAboutJoiningRoom);
-}
-
-export function makeCallActive() {
-  setActiveCallStatus();
+    .then(name => {
+      const credentials = { name, token: store.state.call.token };
+      const roomHandlers = {
+        onRoomEmptied,
+      };
+      return connectToRoom(credentials, roomHandlers);
+    })
+    .then(setActiveCallStatus);
 }
 
 export function finishCall() {
@@ -39,8 +45,11 @@ export function finishCall() {
   return Promise.resolve();
 }
 
-export function disconnect() {
-  disconnectFromRoom();
+// private methods
+
+function onRoomEmptied() {
+  notifyAboutLeavingRoomEmpty();
+  setIdleCallStatus();
 }
 
 // store actors

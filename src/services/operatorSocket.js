@@ -7,39 +7,50 @@ const CONNECT = 'connect';
 const AUTHENTICATION = 'authentication';
 const AUTHENTICATED = 'authenticated';
 const UNAUTHORIZED = 'unauthorized';
-const INCOMING_CALL = 'incoming.call';
+const CALL_REQUESTED = 'call.requested';
+const CALL_ACCEPTED = 'call.accepted';
+const CALL_FINISHED = 'call.finished';
+const ROOM_LEFT_EMPTY = 'room.left.empty';
 const ROOM_CREATED = 'room.created';
-const FINISH_CALL = 'finish.call';
-const JOIN_ROOM = 'join.room';
-const ACCEPT_CALL = 'accept.call';
 
-export function authenticate(authData) {
-  return new Promise((resolve, reject) => {
-    socket = socket || io('/operators');
+export function init(authData, onIncomingCall) {
+  socket = socket || io('/operators');
 
-    socket.on(CONNECT, () => {
+  const promise = new Promise((resolve, reject) => {
+    const onAuthenticated = data => {
+      socket.on(CALL_REQUESTED, onIncomingCall);
+      resolve(data);
+    };
+    const onConnected = () => {
       socket.emit(AUTHENTICATION, authData);
-      socket.on(AUTHENTICATED, resolve);
-      socket.on(UNAUTHORIZED, reject);
-    });
+      socket.once(AUTHENTICATED, onAuthenticated);
+      socket.once(UNAUTHORIZED, reject);
+    };
+
+    socket.on(CONNECT, onConnected);
   });
+
+  return promise;
 }
 
-export function initImcomingCallsListening(onIncomingCall) {
-  socket.on(INCOMING_CALL, onIncomingCall);
+export function disconnect() {
+  if (socket) {
+    socket.disconnect();
+    socket = null;
+  }
 }
 
 export function notifyAboutAcceptingCall() {
   return new Promise(resolve => {
-    socket.emit(ACCEPT_CALL);
+    socket.emit(CALL_ACCEPTED);
     socket.once(ROOM_CREATED, resolve);
   });
 }
 
-export function notifyAboutJoiningRoom(roomName) {
-  socket.emit(JOIN_ROOM, roomName);
+export function notiyAboutFinishingCall() {
+  socket.emit(CALL_FINISHED);
 }
 
-export function notiyAboutFinishingCall() {
-  socket.emit(FINISH_CALL);
+export function notifyAboutLeavingRoomEmpty() {
+  socket.emit(ROOM_LEFT_EMPTY);
 }
