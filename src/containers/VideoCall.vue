@@ -115,48 +115,20 @@ export default {
       this.counter += 1;
     },
     initLocalPreview() {
-      return Promise.all([this.turnCameraOn(), this.turnMicrophoneOn()]);
+      return Promise.all([enableLocalVideo(), enableLocalAudio()]);
     },
     finishLocalPreview() {
-      return Promise.all([this.turnCameraOff(), this.turnMicrophoneOff()]);
+      return Promise.all([disableLocalVideo(), disableLocalAudio()]);
     },
     toggleCamera() {
-      if (this.isCameraOn) {
-        this.turnCameraOff();
-      } else {
-        this.turnCameraOn();
-      }
+      return this.isCameraOn ? disableLocalVideo() : enableLocalVideo();
     },
     toggleMicrophone() {
-      if (this.isMicrophoneOn) {
-        this.turnMicrophoneOff();
-      } else {
-        this.turnMicrophoneOn();
-      }
+      return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
       this.volume = this.isSoundOn ? 50 : 0;
-    },
-    turnCameraOn() {
-      enableLocalVideo().then(() => {
-        this.isCameraOn = true;
-      });
-    },
-    turnCameraOff() {
-      disableLocalVideo().then(() => {
-        this.isCameraOn = false;
-      });
-    },
-    turnMicrophoneOn() {
-      enableLocalAudio().then(() => {
-        this.isMicrophoneOn = true;
-      });
-    },
-    turnMicrophoneOff() {
-      disableLocalAudio().then(() => {
-        this.isMicrophoneOn = false;
-      });
     },
     changeVolumeLevel(value) {
       this.volume = value;
@@ -176,7 +148,7 @@ export default {
 
       this.localTracksRemovingUnsubscriber = twilioEvents.subscribe(
         TWILIO_EVENTS.LOCAL_TRACKS_REMOVED,
-        this.handleTracksRemoving
+        this.handleLocalTracksRemoving
       );
 
       this.remoteTracksAddingUnsubscriber = twilioEvents.subscribe(
@@ -196,10 +168,15 @@ export default {
       this.remoteTracksRemovingUnsubscriber();
     },
     handleLocalTracksAdding(tracks) {
+      tracks.forEach(this.updatePreviewControlsByAddedLocalTrack);
       this.handleTracksAdding(tracks, this.$refs.localMedia);
     },
     handleRemoteTracksAdding(tracks) {
       this.handleTracksAdding(tracks, this.$refs.remoteMedia);
+    },
+    handleLocalTracksRemoving(tracks) {
+      tracks.forEach(this.updatePreviewControlsByRemovedLocalTrack);
+      this.handleTracksRemoving(tracks);
     },
     handleTracksAdding(tracks, container) {
       const tracksToAttach = convertTracksToAttachable(tracks);
@@ -207,6 +184,22 @@ export default {
     },
     handleTracksRemoving(tracks) {
       detachTracks(tracks);
+    },
+    updatePreviewControlsByAddedLocalTrack(track) {
+      if (track.kind === VIDEO) {
+        this.isCameraOn = true;
+      }
+      if (track.kind === AUDIO) {
+        this.isMicrophoneOn = true;
+      }
+    },
+    updatePreviewControlsByRemovedLocalTrack(track) {
+      if (track.kind === VIDEO) {
+        this.isCameraOn = false;
+      }
+      if (track.kind === AUDIO) {
+        this.isMicrophoneOn = false;
+      }
     },
   },
 };
