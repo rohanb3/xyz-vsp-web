@@ -9,6 +9,7 @@
 <script>
 import Effort from '@/components/dashboardWidgets/Effort';
 import Divider from '@/components/common/Divider';
+
 const dashboardData = require('../../functions/fake-be/fixtures/operatorDashboard.json');
 
 export default {
