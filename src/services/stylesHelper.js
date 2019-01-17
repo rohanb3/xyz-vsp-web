@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export function getRandomColor() {
   const letters = '0123456789ABCDEF';
   let color = '#';
@@ -7,4 +6,7 @@ export function getRandomColor() {
   }
   return color;
 }
-/* eslint-enable import/prefer-default-export */
+
+export function addSpaceBetweenNumbers(number) {
+  return number ? number.toLocaleString('ru-RU') : '';
+}

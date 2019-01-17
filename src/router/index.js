@@ -11,8 +11,9 @@ import SettingsPage from '@/views/SettingsPage';
 import Operators from '@/views/Operators';
 import CallPage from '@/views/CallPage';
 import SupervisorDashboard from '@/views/SupervisorDashboard';
-import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
+import OperatorDashboard from '@/views/OperatorDashboard';
 
+import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
 import AppContent from '@/views/AppContent';
@@ -94,6 +95,11 @@ const router = new Router({
               path: '/supervisor-dashboard',
               name: 'supervisor-dashboard',
               component: SupervisorDashboard,
+            },
+            {
+              path: '/operator-dashboard',
+              name: 'operator-dashboard',
+              component: OperatorDashboard,
             },
           ],
         },
