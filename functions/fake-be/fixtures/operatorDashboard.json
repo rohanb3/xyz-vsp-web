@@ -2,7 +2,8 @@
   "teamEffort": {
     "totalCalls": 3302,
     "answeredCalls": 3184,
-    "missedCalls": 118
+    "missedCalls": 118,
+    "callEfficiency": 96.4
   },
   "personalEffort": {
     "totalCalls": 54

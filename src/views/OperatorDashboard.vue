@@ -7,6 +7,9 @@
       <div class="widget-item">
         <AnsweredMissedCallsProgressBar :data="teamData"/>
       </div>
+      <div class="widget-item">
+        <CallEfficiency :value="teamData.callEfficiency"/>
+      </div>
     </div>
     <Divider/>
     <Effort :title="$t('personal.effort')" :value="personalData.totalCalls"/>
@@ -16,31 +19,28 @@
 <script>
 import Effort from '@/components/dashboardWidgets/Effort';
 import AnsweredMissedCallsProgressBar from '@/components/dashboardWidgets/AnsweredMissedCallsProgressBar';
+import CallEfficiency from '@/components/dashboardWidgets/CallEfficiency';
 import Divider from '@/components/common/Divider';
 
 const dashboardData = require('../../functions/fake-be/fixtures/operatorDashboard.json');
 
 export default {
   name: 'OperatorDashboard',
-  components: { Effort, Divider, AnsweredMissedCallsProgressBar },
+  components: {
+    Effort,
+    Divider,
+    AnsweredMissedCallsProgressBar,
+    CallEfficiency,
+  },
   data() {
     return {
       teamData: {},
       personalData: {},
-      teamTotalCalls: null,
-      teamAnsweredCalls: null,
-      teamMissedCalls: null,
-      personalTotalCalls: null,
     };
   },
   mounted() {
     this.teamData = dashboardData.teamEffort;
     this.personalData = dashboardData.personalEffort;
-
-    this.teamTotalCalls = dashboardData.teamEffort.totalCalls;
-    this.teamAnsweredCalls = dashboardData.teamEffort.answeredCalls;
-    this.teamMissedCalls = dashboardData.teamEffort.missedCalls;
-    this.personalTotalCalls = dashboardData.personalEffort.totalCalls;
   },
 };
 </script>

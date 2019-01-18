@@ -99,5 +99,6 @@
   "team.effort": "Team Effort",
   "personal.effort": "Personal Effort",
   "total.calls": "total calls",
-  "answered": "Answered"
+  "answered": "Answered",
+  "call.efficiency": "Call Efficiency"
 }
