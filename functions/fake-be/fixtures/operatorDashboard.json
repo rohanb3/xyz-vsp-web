@@ -1,6 +1,8 @@
 {
   "teamEffort": {
-    "totalCalls": 3302
+    "totalCalls": 3302,
+    "answeredCalls": 3184,
+    "missedCalls": 118
   },
   "personalEffort": {
     "totalCalls": 54

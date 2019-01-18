@@ -1,29 +1,46 @@
 <template>
   <div class="page-container">
-    <Effort :title="$t('team.effort')" :value="teamEffortValue"/>
+    <div class="widget-row">
+      <div class="widget-item">
+        <Effort :title="$t('team.effort')" :value="teamData.totalCalls"/>
+      </div>
+      <div class="widget-item">
+        <AnsweredMissedCallsProgressBar :data="teamData"/>
+      </div>
+    </div>
     <Divider/>
-    <Effort :title="$t('personal.effort')" :value="personalEffortValue"/>
+    <Effort :title="$t('personal.effort')" :value="personalData.totalCalls"/>
   </div>
 </template>
 
 <script>
 import Effort from '@/components/dashboardWidgets/Effort';
+import AnsweredMissedCallsProgressBar from '@/components/dashboardWidgets/AnsweredMissedCallsProgressBar';
 import Divider from '@/components/common/Divider';
 
 const dashboardData = require('../../functions/fake-be/fixtures/operatorDashboard.json');
 
 export default {
   name: 'OperatorDashboard',
-  components: { Effort, Divider },
+  components: { Effort, Divider, AnsweredMissedCallsProgressBar },
   data() {
     return {
-      teamEffortValue: null,
-      personalEffortValue: null,
+      teamData: {},
+      personalData: {},
+      teamTotalCalls: null,
+      teamAnsweredCalls: null,
+      teamMissedCalls: null,
+      personalTotalCalls: null,
     };
   },
   mounted() {
-    this.teamEffortValue = dashboardData.teamEffort.totalCalls;
-    this.personalEffortValue = dashboardData.personalEffort.totalCalls;
+    this.teamData = dashboardData.teamEffort;
+    this.personalData = dashboardData.personalEffort;
+
+    this.teamTotalCalls = dashboardData.teamEffort.totalCalls;
+    this.teamAnsweredCalls = dashboardData.teamEffort.answeredCalls;
+    this.teamMissedCalls = dashboardData.teamEffort.missedCalls;
+    this.personalTotalCalls = dashboardData.personalEffort.totalCalls;
   },
 };
 </script>
@@ -31,5 +48,12 @@ export default {
 <style lang="scss" scoped>
 .page-container {
   padding: 20px;
+}
+.widget-row {
+  display: flex;
+  flex-direction: row;
+}
+.widget-item {
+  margin-right: 11px;
 }
 </style>
