@@ -19,15 +19,20 @@ export default {
       const v = this.value;
       if (v > 90) {
         return 'smiling-star';
-      } else if (v > 80) {
+      }
+      if (v > 80) {
         return 'happy';
-      } else if (v > 60) {
+      }
+      if (v > 60) {
         return 'sceptic';
-      } else if (v > 40) {
+      }
+      if (v > 40) {
         return 'sad';
-      } else if (v > 20) {
+      }
+      if (v > 20) {
         return 'desperate';
-      } else return 'dead';
+      }
+      return 'dead';
     },
     isLow() {
       return this.value < 40;
