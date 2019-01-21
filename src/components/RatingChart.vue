@@ -1,7 +1,7 @@
 <template>
   <div class="rating-chart">
     <div class="row header">
-      <p class="title">{{title}}</p>
+      <p class="header-title">{{title}}</p>
       <div class="rating">
         <v-icon
           color="#ff941b"
@@ -33,6 +33,7 @@
 
 <script>
 import BarChart from '@/components/charts/BarChart/BarChart';
+import { getPercentage } from '@/services/commonHelper';
 
 export default {
   name: 'RatingChart',
@@ -51,7 +52,7 @@ export default {
     percentageValues() {
       return this.datasets.map(item => ({
         ...item,
-        value: this.getPercentageValue(item.value).toFixed(1),
+        value: getPercentage(item.value, this.totalOperatorsAmount).toFixed(1),
       }));
     },
     avarageRating() {
@@ -67,11 +68,6 @@ export default {
       const decimal = this.avarageRating % 1;
 
       return decimal > 0 ? `${decimal.toString().slice(2, 3)}` : null;
-    },
-  },
-  methods: {
-    getPercentageValue(value) {
-      return (value * 100) / this.totalOperatorsAmount;
     },
   },
 };
@@ -96,9 +92,9 @@ export default {
 
   .header {
     padding-left: 1px;
-    .title {
-      font-size: 20px !important;
-      font-weight: bold !important;
+    .header-title {
+      font-size: 20px;
+      font-weight: bold;
       color: $rating-chart-header-title-color;
     }
     .rating {
