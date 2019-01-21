@@ -1,5 +1,6 @@
 <template>
   <div class="supervisor-dashboard-page">
+    <rating-chart :datasets="datasetsForRatingChart" title="Team Client Rating" route="/"/>
     <rating-efficiency-chart :datasets="datasetsForCircleChart"/>
     <semicircle-chart :datasets="datasetsForSemicircleChart"/>
   </div>
@@ -8,35 +9,24 @@
 <script>
 import RatingEfficiencyChart from '@/components/RatingEfficiencyChart';
 import SemicircleChart from '@/components/charts/SemicircleChart/SemicircleChart';
+import RatingChart from '@/components/RatingChart';
+
+const datasetsForRatingChart = require('../../functions/fake-be/fixtures/ratingChartData.json');
+const datasetsForCircleChart = require('../../functions/fake-be/fixtures/circleChartData.json');
+const datasetsForSemicircleChart = require('../../functions/fake-be/fixtures/semicircleChartData.json');
 
 export default {
   name: 'SupervisorDashboard',
   components: {
     RatingEfficiencyChart,
     SemicircleChart,
+    RatingChart,
   },
   data() {
     return {
-      // Now Payload with time
-      datasetsForCircleChart: [
-        { color: '#7ed321', value: 150, role: 'result', type: 'time', title: 'Info' },
-        { color: '#d2d2d2', value: 400, role: 'max', type: 'time', title: 'Info' },
-      ],
-      // Try Payload with integer data
-      // datasetsForCircleChart: [
-      //   { color: '#7ed321', value: 100, role: 'result', title: 'Info' },
-      //   { color: '#d2d2d2', value: 500, role: 'max', title: 'Info' },
-      // ],
-
-      datasetsForSemicircleChart: [
-        { color: 'red', value: 150, title: 'result', type: 'time' },
-        { color: '#d2d2d2', value: 400, title: 'max', type: 'time' },
-      ],
-      // Try Payload with integer data
-      // datasetsForSemicircleChart: [
-      //   { color: 'red', value: 100, title: 'result' },
-      //   { color: '#d2d2d2', value: 500, title: 'max' },
-      // ],
+      datasetsForRatingChart: datasetsForRatingChart.items,
+      datasetsForCircleChart: datasetsForCircleChart.items,
+      datasetsForSemicircleChart: datasetsForSemicircleChart.items,
     };
   },
 };
