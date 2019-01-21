@@ -101,5 +101,9 @@
   "personal.effort": "Personal Effort",
   "total.calls": "total calls",
   "answered": "Answered",
-  "call.efficiency": "Call Efficiency"
+  "call.efficiency": "Call Efficiency",
+  "average.waiting.time": "Average Waiting Time",
+  "calls.on.hold": "Calls on Hold",
+  "over.threshold": "Over threshold",
+  "missed.for.last.hours": "Missed for Last Hours"
 }
