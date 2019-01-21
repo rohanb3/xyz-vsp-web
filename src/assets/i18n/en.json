@@ -96,5 +96,10 @@
   "video.off": "Video off",
   "incoming": "Incoming",
   "pick.up": "Pick Up",
-  "details": "Details"
+  "details": "Details",
+  "team.effort": "Team Effort",
+  "personal.effort": "Personal Effort",
+  "total.calls": "total calls",
+  "answered": "Answered",
+  "call.efficiency": "Call Efficiency"
 }
