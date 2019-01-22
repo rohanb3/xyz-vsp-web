@@ -4,7 +4,10 @@ const { insertElementsToCollection, deleteCollection, getQuerySnapshotItems } = 
 const collection = firestore.collection('callsDuration');
 
 function getAllCallsDuration() {
-  return collection.get().then(getQuerySnapshotItems);
+  return collection
+    .orderBy('order')
+    .get()
+    .then(getQuerySnapshotItems);
 }
 
 function insertCallsDuration(operators = []) {

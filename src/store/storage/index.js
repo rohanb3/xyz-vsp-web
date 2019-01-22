@@ -12,6 +12,7 @@ export default {
     calls: [],
     callTypes: [],
     dispositions: [],
+    callsDuration: [],
   },
   getters,
   actions,

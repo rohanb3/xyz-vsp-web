@@ -13,6 +13,7 @@
     </div>
     <Divider/>
     <Effort :title="$t('personal.effort')" :value="personalData.totalCalls"/>
+    <calls-duration-table/>
   </div>
 </template>
 
@@ -20,6 +21,7 @@
 import Effort from '@/components/dashboardWidgets/Effort';
 import AnsweredMissedCallsProgressBar from '@/components/dashboardWidgets/AnsweredMissedCallsProgressBar';
 import CallEfficiency from '@/components/dashboardWidgets/CallEfficiency';
+import CallsDurationTable from '@/containers/CallsDurationTable';
 import Divider from '@/components/common/Divider';
 
 const dashboardData = require('../../functions/fake-be/fixtures/operatorDashboard.json');
@@ -31,6 +33,7 @@ export default {
     Divider,
     AnsweredMissedCallsProgressBar,
     CallEfficiency,
+    CallsDurationTable,
   },
   data() {
     return {
