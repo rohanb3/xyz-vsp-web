@@ -1,0 +1,6 @@
+{
+    "items": [
+        { "color": "#7ed321", "value": 150, "role": "result", "type": "time", "title": "Info" },
+        { "color": "#d2d2d2", "value": 400, "role": "max", "type": "time", "title": "Info" }
+      ]
+}

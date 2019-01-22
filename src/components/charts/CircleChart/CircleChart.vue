@@ -13,6 +13,8 @@
 
 <script>
 import { secondsToMinutesSeconds } from '@/services/dateHelper';
+import { getPercentage } from '@/services/commonHelper';
+
 import Chart from './Chart';
 
 export default {
@@ -36,7 +38,7 @@ export default {
       const values = this.datasets.map(dataset => dataset.value);
       const total = Math.max(...values);
       const result = Math.min(...values);
-      return (result * 100) / total;
+      return getPercentage(result, total);
     },
     totalPersentage() {
       return 100 - this.resultPersentage;
@@ -51,8 +53,7 @@ export default {
       };
       this.datasets
         .concat()
-        // eslint-disable-next-line no-unused-vars
-        .sort((a, b) => (a.role === 'result' ? -1 : 1))
+        .sort(a => (a.role === 'result' ? -1 : 1))
         .forEach(dataset => {
           convertedData.backgroundColor.push(dataset.color);
           convertedData.data.push(

@@ -1,0 +1,6 @@
+{
+    "items": [
+        { "color": "red", "value": 150, "title": "result", "type": "time" },
+        { "color": "#d2d2d2", "value": 400, "title": "max", "type": "time" }
+      ]
+}
