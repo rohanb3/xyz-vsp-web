@@ -101,5 +101,8 @@
   "personal.effort": "Personal Effort",
   "total.calls": "total calls",
   "answered": "Answered",
-  "call.efficiency": "Call Efficiency"
+  "call.efficiency": "Call Efficiency",
+  "total": "Total",
+  "treshold": "Treshold",
+  "call.durations": "Call Durations"
 }

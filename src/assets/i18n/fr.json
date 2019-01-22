@@ -101,5 +101,8 @@
   "personal.effort": "TBD Personal Effort",
   "total.calls": "TBD total calls",
   "answered": "TDB Answered",
-  "call.efficiency": "TBD Call Efficiency"
+  "call.efficiency": "TBD Call Efficiency",
+  "total": "TBD Total",
+  "treshold": "TBD Treshold",
+  "call.durations": "TBD Call Durations"
 }
