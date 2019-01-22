@@ -100,5 +100,13 @@
   "personal.effort": "TBD Personal Effort",
   "total.calls": "TBD total calls",
   "answered": "TDB Answered",
-  "call.efficiency": "TBD Call Efficiency"
+  "call.efficiency": "TBD Call Efficiency",
+  "average.call": "TBD Average Call",
+  "longest.call": "TBD Longest Call",
+  "online.for.call": "TBD Online for Call",
+  "on.hold": "TBD On Hold",
+  "on.shift": "TBD On Shift",
+  "on.call": "TBD On Call",
+  "wrap.up.time.hyphen": "TBD Wrap-up Time",
+  "of": "TBD of"
 }
