@@ -101,5 +101,13 @@
   "personal.effort": "Personal Effort",
   "total.calls": "total calls",
   "answered": "Answered",
-  "call.efficiency": "Call Efficiency"
+  "call.efficiency": "Call Efficiency",
+  "average.call": "Average Call",
+  "longest.call": "Longest Call",
+  "online.for.call": "Online for Call",
+  "on.hold": "On Hold",
+  "on.shift": "On Shift",
+  "on.call": "On Call",
+  "wrap.up.time.hyphen": "Wrap-up Time",
+  "of": "of"
 }

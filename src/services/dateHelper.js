@@ -38,3 +38,12 @@ export function secondsToMinutesSeconds(data) {
 
   return `${minutes} ${seconds}`.trim();
 }
+
+export function secondsToHoursMinutes(data = 0) {
+  let minutes = parseInt((data / 60) % 60, 10);
+  const hours = parseInt(Math.floor(data / 3600), 10);
+
+  minutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${hours}h ${minutes}m`.trim();
+}
