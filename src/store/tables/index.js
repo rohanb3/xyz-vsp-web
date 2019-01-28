@@ -3,8 +3,9 @@ import {
   getCustomersTableColumns,
   getCallsTableColumns,
   getOperatorsTableColumns,
+  getCallsDurationTableColumns,
 } from './columnsList';
-import { CUSTOMERS_TABLE, CALLS_TABLE, OPERATORS_TABLE } from './constants';
+import { CUSTOMERS_TABLE, CALLS_TABLE, OPERATORS_TABLE, CALLS_DURATION_TABLE } from './constants';
 
 import mutations from './mutations';
 import getters from './getters';
@@ -12,6 +13,9 @@ import getters from './getters';
 const state = {
   [CUSTOMERS_TABLE]: {
     columns: getCustomersTableColumns(),
+  },
+  [CALLS_DURATION_TABLE]: {
+    columns: getCallsDurationTableColumns(),
   },
   [OPERATORS_TABLE]: {
     columns: getOperatorsTableColumns(),

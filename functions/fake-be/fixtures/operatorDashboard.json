@@ -6,6 +6,22 @@
     "callEfficiency": 96.4
   },
   "personalEffort": {
-    "totalCalls": 54
+    "totalCalls": 54,
+    "answeredCalls": 37,
+    "averageCall": 135,
+    "longestCall": 628,
+    "totalOnlineCall": 756,
+    "onShift": {
+      "realTime": 24300,
+      "totalTime": 32400
+    },
+    "onCall": {
+      "realTime": 16860,
+      "totalTime": 23400
+    },
+    "wrapUp": {
+      "realTime": 262,
+      "totalTime": 180
+    }
   }
 }

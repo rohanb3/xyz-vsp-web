@@ -105,5 +105,16 @@
   "average.waiting.time": "Average Waiting Time",
   "calls.on.hold": "Calls on Hold",
   "over.threshold": "Over threshold",
-  "missed.for.last.hours": "Missed for Last Hours"
+  "missed.for.last.hours": "Missed for Last Hours",
+  "total": "Total",
+  "treshold": "Treshold",
+  "call.durations": "Call Durations",
+  "average.call": "Average Call",
+  "longest.call": "Longest Call",
+  "online.for.call": "Online for Call",
+  "on.hold": "On Hold",
+  "on.shift": "On Shift",
+  "on.call": "On Call",
+  "wrap.up.time.hyphen": "Wrap-up Time",
+  "of": "of"
 }

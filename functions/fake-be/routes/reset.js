@@ -5,11 +5,13 @@ const {
   insertOperatorReviews,
   deleteAllOperatorReviews,
 } = require('../repositories/db/operatorReview');
+const { insertCallsDuration, deleteAllCallsDuration } = require('../repositories/db/callsDuration');
 
 const customers = require('../fixtures/customers').items;
 const calls = require('../fixtures/calls').items;
 const operators = require('../fixtures/operators').items;
 const operatorReview = require('../fixtures/operatorReview').items;
+const callsDuration = require('../fixtures/callsDuration').items;
 
 module.exports = function reset(req, res) {
   const deletionPromises = [
@@ -17,6 +19,7 @@ module.exports = function reset(req, res) {
     deleteAllCalls(),
     deleteAllOperators(),
     deleteAllOperatorReviews(),
+    deleteAllCallsDuration(),
   ];
 
   return Promise.all(deletionPromises)
@@ -26,6 +29,7 @@ module.exports = function reset(req, res) {
         insertCalls(calls),
         insertOperators(operators),
         insertOperatorReviews(operatorReview),
+        insertCallsDuration(callsDuration),
       ];
       return Promise.all(creationPromises);
     })

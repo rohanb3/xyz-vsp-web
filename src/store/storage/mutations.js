@@ -6,6 +6,7 @@ import {
   INSERT_OPERATORS,
   SET_ALL_OPERATORS_LENGTH,
   SET_CALL_TYPES_AND_DISPOSITIONS,
+  INSERT_CALLS_DURATION,
 } from './mutationTypes';
 
 export default {
@@ -31,6 +32,9 @@ export default {
   [SET_CALL_TYPES_AND_DISPOSITIONS](state, data) {
     state.callTypes = data.types;
     state.dispositions = data.dispositions;
+  },
+  [INSERT_CALLS_DURATION](state, callDurations) {
+    state.callsDuration.push(...callDurations);
   },
   /* eslint-enable no-param-reassign */
 };

@@ -249,3 +249,46 @@ export const getOperatorsTableColumns = () => [
     width: '70px',
   },
 ];
+
+export const getCallsDurationTableColumns = () => [
+  {
+    name: 'type',
+    field: 'type',
+    fieldType: 'type',
+    class: 'text',
+    title: i18n.t('type'),
+    width: '100px',
+  },
+  {
+    name: 'total',
+    field: 'total',
+    fieldType: 'callDuration',
+    class: 'text',
+    title: i18n.t('total'),
+    width: '100px',
+  },
+  {
+    name: 'average',
+    field: 'average',
+    fieldType: 'callDuration',
+    class: 'text',
+    title: i18n.t('average'),
+    width: '100px',
+  },
+  {
+    name: 'treshold',
+    field: 'treshold',
+    fieldType: 'treshold',
+    class: 'text',
+    title: i18n.t('treshold'),
+    width: '100px',
+  },
+  {
+    name: 'efficiency',
+    field: 'efficiency',
+    fieldType: 'callEfficiency',
+    class: 'text',
+    title: i18n.t('call.efficiency'),
+    width: '100px',
+  },
+];

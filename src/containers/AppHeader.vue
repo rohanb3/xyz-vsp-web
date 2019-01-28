@@ -69,13 +69,13 @@ export default {
 
 .app-header {
   font-family: 'Roboto', sans-serif;
-  color: $header-text-color;
+  color: $base-white;
 }
 
 .platform-name {
   height: 21px;
   margin-left: 0px;
-  color: $header-text-color;
+  color: $base-white;
   font-size: 18px;
   font-weight: 500;
   font-style: normal;
@@ -94,15 +94,15 @@ export default {
   line-height: normal;
   letter-spacing: normal;
   text-align: center;
-  background-color: $header-text-color;
-  color: $header-background-color;
+  background-color: $base-white;
+  color: #3c91f7;
 }
 
 .user-photo {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: $header-photo-background-color;
+  background-color: #f8c37a;
   font-family: Roboto;
   font-size: 14px;
   font-weight: bold;

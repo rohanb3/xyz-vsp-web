@@ -106,5 +106,16 @@
   "average.waiting.time": "TBD Average Waiting Time",
   "calls.on.hold": "TBD Calls on Hold",
   "over.threshold": "TBD Over threshold",
-  "missed.for.last.hours": "TBD Missed for Last Hours"
+  "missed.for.last.hours": "TBD Missed for Last Hours",
+  "total": "TBD Total",
+  "treshold": "TBD Treshold",
+  "call.durations": "TBD Call Durations",
+  "average.call": "TBD Average Call",
+  "longest.call": "TBD Longest Call",
+  "online.for.call": "TBD Online for Call",
+  "on.hold": "TBD On Hold",
+  "on.shift": "TBD On Shift",
+  "on.call": "TBD On Call",
+  "wrap.up.time.hyphen": "TBD Wrap-up Time",
+  "of": "TBD of"
 }
