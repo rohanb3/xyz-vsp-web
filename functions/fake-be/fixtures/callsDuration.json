@@ -2,31 +2,31 @@
     "items": [
       {
         "type": "Help",
-        "total": 123456,
-        "average":123985460,
+        "total": 123,
+        "average":12,
         "treshold": 900,
         "efficiency": 93.2,
         "order": 1
       },
       {
         "type": "Info",
-        "total": 123456,
-        "average":123985460,
+        "total": 1234,
+        "average":123,
         "treshold": 480,
         "efficiency": 85.5,
         "order": 2
       },
       {
         "type": "Sale",
-        "total": 123456,
-        "average":123985460,
+        "total": 1234,
+        "average":1239,
         "treshold": 720,
         "efficiency": 83.2,
         "order": 3
       },
       {
         "type": "In total",
-        "total": 1000000,
+        "total": 1000,
         "efficiency": 87.3,
         "order": 4
       }

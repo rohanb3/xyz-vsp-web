@@ -262,7 +262,7 @@ export const getCallsDurationTableColumns = () => [
   {
     name: 'total',
     field: 'total',
-    fieldType: 'total',
+    fieldType: 'callDuration',
     class: 'text',
     title: i18n.t('total'),
     width: '100px',
@@ -270,7 +270,7 @@ export const getCallsDurationTableColumns = () => [
   {
     name: 'average',
     field: 'average',
-    fieldType: 'average',
+    fieldType: 'callDuration',
     class: 'text',
     title: i18n.t('average'),
     width: '100px',
@@ -286,7 +286,7 @@ export const getCallsDurationTableColumns = () => [
   {
     name: 'efficiency',
     field: 'efficiency',
-    fieldType: 'efficiency',
+    fieldType: 'callEfficiency',
     class: 'text',
     title: i18n.t('call.efficiency'),
     width: '100px',

@@ -44,6 +44,9 @@
 import WombatTable from '@/components/WombatTable/Table';
 import WombatRow from '@/components/WombatTable/Row';
 import DefaultCell from '@/components/tableCells/DefaultCell';
+import CallDurationCell from '@/components/tableCells/CallDurationCell';
+import TresholdCell from '@/components/tableCells/TresholdCell';
+import CallEfficiencyCell from '@/components/tableCells/CallEfficiencyCell';
 
 import smartTable from '@/mixins/smartTable';
 
@@ -56,6 +59,9 @@ export default {
     DefaultCell,
     WombatTable,
     WombatRow,
+    CallDurationCell,
+    CallEfficiencyCell,
+    TresholdCell,
   },
   mixins: [smartTable],
   data() {
@@ -63,6 +69,9 @@ export default {
       tableName: CALLS_DURATION_TABLE,
       rowComponentsHash: {
         default: 'DefaultCell',
+        callDuration: 'CallDurationCell',
+        treshold: 'TresholdCell',
+        callEfficiency: 'CallEfficiencyCell',
       },
     };
   },
@@ -88,6 +97,10 @@ export default {
   width: 50%;
   border-radius: 8px;
   box-shadow: 0 2px 4px 0 $table-shadow-color;
+
+  .wombat-row.call-In.total {
+    font-weight: 500;
+  }
 }
 
 .calls-duration-toolbar {
