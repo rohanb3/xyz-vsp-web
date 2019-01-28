@@ -5,12 +5,7 @@
       height="56px">
       <v-toolbar-side-icon class="side-icon">P</v-toolbar-side-icon>
       <v-toolbar-title class="platform-name">{{ $t('app.title') }}</v-toolbar-title>
-      <div v-if="isSupervisorDashboardPage" class="supervisor-widgets">
-        <average-waiting-time :data="dataFromServer.waitingTime"/>
-        <call-on-hold :calls="dataFromServer.callsOnHold" :operators="dataFromServer.availableOperators"/>
-        <over-threshold :operators="dataFromServer.overThresholdOperators"/>
-        <missed-for-last-hours :percentage="dataFromServer.missedCallsPersentage"/>
-      </div>
+      <supervisor-header-widgets v-if="isSupervisorDashboardPage"/>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
         <v-btn
@@ -54,32 +49,12 @@
 </template>
 
 <script>
-import AverageWaitingTime from '@/components/supervisorWidgets/AverageWaitingTime';
-import CallOnHold from '@/components/supervisorWidgets/CallOnHold';
-import OverThreshold from '@/components/supervisorWidgets/OverThreshold';
-import MissedForLastHours from '@/components/supervisorWidgets/MissedForLastHours';
+import SupervisorHeaderWidgets from './SupervisorHeaderWidgets';
 
 export default {
   name: 'AppHeader',
   components: {
-    AverageWaitingTime,
-    CallOnHold,
-    OverThreshold,
-    MissedForLastHours,
-  },
-  data() {
-    return {
-      dataFromServer: {
-        waitingTime: {
-          longest: 212,
-          average: 180,
-        },
-        callsOnHold: 301,
-        availableOperators: 294,
-        missedCallsPersentage: 1.2,
-        overThresholdOperators: 4,
-      },
-    };
+    SupervisorHeaderWidgets,
   },
   computed: {
     isSupervisorDashboardPage() {
@@ -95,17 +70,6 @@ export default {
 .app-header {
   font-family: 'Roboto', sans-serif;
   color: $header-text-color;
-}
-
-.supervisor-widgets {
-  padding: 10px 30px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  & > * {
-    margin-right: 10px;
-    flex-shrink: 0;
-  }
 }
 
 .platform-name {
