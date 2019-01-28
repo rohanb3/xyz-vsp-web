@@ -35,7 +35,7 @@ export default {
     },
     mark() {
       if (this.type !== 'average') return null;
-      // eslint-disable-next-line no-nested-ternary
+
       return this.callDuration <= FAST_TOP_CAP
         ? 'fast'
         : this.callDuration >= SLOW_LOW_CAP

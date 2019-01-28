@@ -104,5 +104,13 @@
   "call.efficiency": "Call Efficiency",
   "total": "Total",
   "treshold": "Treshold",
-  "call.durations": "Call Durations"
+  "call.durations": "Call Durations",
+  "average.call": "Average Call",
+  "longest.call": "Longest Call",
+  "online.for.call": "Online for Call",
+  "on.hold": "On Hold",
+  "on.shift": "On Shift",
+  "on.call": "On Call",
+  "wrap.up.time.hyphen": "Wrap-up Time",
+  "of": "of"
 }

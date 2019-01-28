@@ -22,7 +22,6 @@ export default {
       return `${this.item.efficiency} %`;
     },
     mark() {
-      // eslint-disable-next-line no-nested-ternary
       return this.item.efficiency >= FAST_LOW_CAP ? 'fast' : 'slow';
     },
   },

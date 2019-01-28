@@ -104,5 +104,13 @@
   "call.efficiency": "TBD Call Efficiency",
   "total": "TBD Total",
   "treshold": "TBD Treshold",
-  "call.durations": "TBD Call Durations"
+  "call.durations": "TBD Call Durations",
+  "average.call": "TBD Average Call",
+  "longest.call": "TBD Longest Call",
+  "online.for.call": "TBD Online for Call",
+  "on.hold": "TBD On Hold",
+  "on.shift": "TBD On Shift",
+  "on.call": "TBD On Call",
+  "wrap.up.time.hyphen": "TBD Wrap-up Time",
+  "of": "TBD of"
 }
