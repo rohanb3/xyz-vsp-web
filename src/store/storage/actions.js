@@ -5,6 +5,7 @@ import {
   getAllCallsLength,
   getOperators,
   getAllOperatorsLength,
+  getCallsDuration,
 } from '@/services/repository';
 
 import { getCallsTypes } from '@/services/operatorFeedback';
@@ -17,6 +18,7 @@ import {
   LOAD_OPERATORS,
   LOAD_ALL_OPERATORS_LENGTH,
   LOAD_CALL_TYPES_AND_DISPOSITIONS,
+  LOAD_CALLS_DURATION,
 } from './actionTypes';
 
 import {
@@ -27,6 +29,7 @@ import {
   INSERT_OPERATORS,
   SET_ALL_OPERATORS_LENGTH,
   SET_CALL_TYPES_AND_DISPOSITIONS,
+  INSERT_CALLS_DURATION,
 } from './mutationTypes';
 
 import { CUSTOMERS_TO_LOAD, CALLS_TO_LOAD, OPERATORS_TO_LOAD } from './constants';
@@ -55,5 +58,8 @@ export default {
   },
   async [LOAD_CALL_TYPES_AND_DISPOSITIONS]({ commit }) {
     commit(SET_CALL_TYPES_AND_DISPOSITIONS, await getCallsTypes());
+  },
+  async [LOAD_CALLS_DURATION]({ commit }) {
+    commit(INSERT_CALLS_DURATION, await getCallsDuration());
   },
 };

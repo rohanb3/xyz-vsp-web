@@ -59,6 +59,9 @@
         />
       </div>
     </div>
+    <div class="widget-row">
+      <CallsDurationTable/>
+    </div>
   </div>
 </template>
 
@@ -66,6 +69,7 @@
 import Effort from '@/components/dashboardWidgets/Effort';
 import AnsweredMissedCallsProgressBar from '@/components/dashboardWidgets/AnsweredMissedCallsProgressBar';
 import CallEfficiency from '@/components/dashboardWidgets/CallEfficiency';
+import CallsDurationTable from '@/containers/CallsDurationTable';
 import AnsweredCalls from '@/components/dashboardWidgets/AnsweredCalls';
 import AverageLongestCall from '@/components/dashboardWidgets/AverageLongestCall';
 import OnlineCall from '@/components/dashboardWidgets/OnlineCall';
@@ -84,6 +88,7 @@ export default {
     Divider,
     AnsweredMissedCallsProgressBar,
     CallEfficiency,
+    CallsDurationTable,
     AnsweredCalls,
     AverageLongestCall,
     OnlineCall,
