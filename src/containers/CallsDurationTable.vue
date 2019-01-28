@@ -1,5 +1,5 @@
 <template>
-  <div class="calls-duration">
+  <div class="calls-duration-table">
     <div class="calls-duration-toolbar">
       <div class="calls-duration-title">
         {{ $t('call.durations') }}
@@ -93,7 +93,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/assets/styles/variables.scss';
-.calls-duration {
+.calls-duration-table {
   width: 50%;
   border-radius: 8px;
   box-shadow: 0 2px 4px 0 $table-shadow-color;
@@ -124,7 +124,7 @@ export default {
 </style>
 
 <style lang="scss">
-.calls-duration {
+.calls-duration-table {
   .virtual-list {
     height: auto !important;
   }
