@@ -7,6 +7,7 @@ import {
   SET_ALL_OPERATORS_LENGTH,
   SET_CALL_TYPES_AND_DISPOSITIONS,
   INSERT_CALLS_DURATION,
+  INSERT_CALLS_FEEDBACK,
 } from './mutationTypes';
 
 export default {
@@ -35,6 +36,9 @@ export default {
   },
   [INSERT_CALLS_DURATION](state, callDurations) {
     state.callsDuration.push(...callDurations);
+  },
+  [INSERT_CALLS_FEEDBACK](state, callsFeedback) {
+    state.callsFeedback.push(...callsFeedback);
   },
   /* eslint-enable no-param-reassign */
 };

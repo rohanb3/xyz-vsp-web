@@ -4,8 +4,15 @@ import {
   getCallsTableColumns,
   getOperatorsTableColumns,
   getCallsDurationTableColumns,
+  getCallsFeedbackTableColumns,
 } from './columnsList';
-import { CUSTOMERS_TABLE, CALLS_TABLE, OPERATORS_TABLE, CALLS_DURATION_TABLE } from './constants';
+import {
+  CUSTOMERS_TABLE,
+  CALLS_TABLE,
+  OPERATORS_TABLE,
+  CALLS_DURATION_TABLE,
+  CALLS_FEEDBACK_TABLE,
+} from './constants';
 
 import mutations from './mutations';
 import getters from './getters';
@@ -16,6 +23,9 @@ const state = {
   },
   [CALLS_DURATION_TABLE]: {
     columns: getCallsDurationTableColumns(),
+  },
+  [CALLS_FEEDBACK_TABLE]: {
+    columns: getCallsFeedbackTableColumns(),
   },
   [OPERATORS_TABLE]: {
     columns: getOperatorsTableColumns(),
