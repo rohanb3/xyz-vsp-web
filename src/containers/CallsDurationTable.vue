@@ -7,13 +7,13 @@
     </div>
 
     <wombat-table
+      name="calls-duration"
       v-if="rows && rows.length"
       :items="rows"
       :columns="columns"
       :item-height="50"
       :columnsReorder="false"
       :resize="false"
-      name="calls-duration"
      >
        <div
          v-if="rows && rows.length"
@@ -94,10 +94,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/assets/styles/variables.scss';
+@import '@/assets/styles/mixins.scss';
+
 .calls-duration-table {
+  @include table-base-container;
   width: 50%;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px 0 $table-shadow-color;
 
   .wombat-row.call-In.total {
     font-weight: 500;
@@ -105,22 +106,11 @@ export default {
 }
 
 .calls-duration-toolbar {
-  display: flex;
-  flex-flow: row;
-  height: 60px;
-  align-items: center;
-  padding: 0px 29px;
+  @include table-base-toolbar;
 }
 
 .calls-duration-title {
-  font-family: Roboto;
-  font-size: 20px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: $table-row-text-color;
+  @include table-base-title;
 }
 </style>
 

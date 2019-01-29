@@ -8,12 +8,16 @@ import {
   LOAD_ALL_CUSTOMERS_LENGTH,
   LOAD_CALLS,
   LOAD_ALL_CALLS_LENGTH,
+  LOAD_CALLS_DURATION,
+  LOAD_CALLS_FEEDBACK,
 } from '@/store/storage/actionTypes';
 import {
   INSERT_CUSTOMERS,
   SET_ALL_CUSTOMERS_LENGTH,
   INSERT_CALLS,
   SET_ALL_CALLS_LENGTH,
+  INSERT_CALLS_DURATION,
+  INSERT_CALLS_FEEDBACK,
 } from '@/store/storage/mutationTypes';
 import * as repository from '@/services/repository';
 
@@ -81,6 +85,35 @@ describe('storage actions: ', () => {
       await actions[LOAD_ALL_CALLS_LENGTH](fakeStore);
 
       expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_CALLS_LENGTH, 42);
+    });
+  });
+  // TODO:
+  describe('LOAD_CALLS_DURATION: ', () => {
+    it('should load calls duration', async () => {
+      const callsDuration = [{ type: 'help', total: 23 }, { type: 'info', total: 1 }];
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      repository.getCallsDuration = jest.fn(() => Promise.resolve(callsDuration));
+
+      await actions[LOAD_CALLS_DURATION](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_CALLS_DURATION, callsDuration);
+    });
+  });
+  describe('LOAD_CALLS_FEEDBACK: ', () => {
+    it('should load calls feedback', async () => {
+      const callsFeedback = [{ type: 'help', total: 23 }, { type: 'info', total: 1 }];
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      repository.getCallsFeedback = jest.fn(() => Promise.resolve(callsFeedback));
+
+      await actions[LOAD_CALLS_FEEDBACK](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_CALLS_FEEDBACK, callsFeedback);
     });
   });
 });

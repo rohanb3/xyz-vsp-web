@@ -55,7 +55,7 @@ export default {
       return this.columnsEllipsisMode === HEADER_CELL_ELLIPSIS_ALWAYS;
     },
     tableNameIdentificator() {
-      return this.name ? `wombat-columns-styles_${this.name}` : 'wombat-columns-styles';
+      return this.name ? `wombat-columns-styles-${this.name}` : 'wombat-columns-styles';
     },
     preparedColumns: {
       get() {
@@ -290,6 +290,9 @@ export default {
     this.checkColumnsWidth();
     this.compileColumnsStyles();
     window.addEventListener('resize', this.checkColumnsWidth);
+  },
+  destroyed() {
+    document.querySelector(`#${this.tableNameIdentificator}`).remove();
   },
 };
 

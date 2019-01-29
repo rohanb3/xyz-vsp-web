@@ -2,13 +2,13 @@
   <div class="wombat-table">
 
     <wombat-header
+      :name="name"
       :columns="columns"
       :width="rowWidth"
       :resize ="resize"
       :columnsReorder="columnsReorder"
       @columnsResized="data => $emit('columnsResized', data)"
       @columnsReordered="data => $emit('columnsReordered', data)"
-      :name="name"
     >
       <div
         :slot="headerCellStotPresent ? 'header-cell' : 'header-cell-disabled'"

@@ -8,8 +8,9 @@
 </template>
 
 <script>
-const GOOD_FROM = 90,
-BAD_UNTIL = 60;
+const GOOD_FROM = 90;
+
+const BAD_UNTIL = 60;
 
 export default {
   name: 'CallEfficiencyCell',
@@ -23,8 +24,11 @@ export default {
       return `${this.item.serviceEfficiency} %`;
     },
     mark() {
-      return this.item.serviceEfficiency >= GOOD_FROM ? 'good'
-        : this.item.serviceEfficiency <= BAD_UNTIL ? 'bad' : 'normal';
+      return this.item.serviceEfficiency >= GOOD_FROM
+        ? 'good'
+        : this.item.serviceEfficiency <= BAD_UNTIL
+          ? 'bad'
+          : 'normal';
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div
     class='feedback-quality-cell'
-    :class="type"
+    :class="`${type}-feedback`"
     >
       {{feedbacks}}
   </div>
@@ -35,12 +35,11 @@ export default {
 .feedback-quality-cell {
   font-size: 14px;
 
-  &.success {
+  &.success-feedback {
     color: $base-green-text;
-    background: transparent !important;
   }
 
-  &.fail {
+  &.fail-feedback {
     color: $base-red;
   }
 }
