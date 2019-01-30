@@ -6,12 +6,16 @@ import actions from '@/store/storage/actions';
 import {
   LOAD_CUSTOMERS,
   LOAD_ALL_CUSTOMERS_LENGTH,
+  LOAD_SUPERADMIN_COMPANIES,
+  LOAD_SUPERADMIN_COMPANIES_LENGTH,
   LOAD_CALLS,
   LOAD_ALL_CALLS_LENGTH,
 } from '@/store/storage/actionTypes';
 import {
   INSERT_CUSTOMERS,
   SET_ALL_CUSTOMERS_LENGTH,
+  INSERT_SUPERADMIN_COMPANIES,
+  SET_ALL_SUPERADMIN_COMPANIES_LENGTH,
   INSERT_CALLS,
   SET_ALL_CALLS_LENGTH,
 } from '@/store/storage/mutationTypes';
@@ -48,6 +52,39 @@ describe('storage actions: ', () => {
       await actions[LOAD_ALL_CUSTOMERS_LENGTH](fakeStore);
 
       expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_CUSTOMERS_LENGTH, 42);
+    });
+  });
+
+  describe('LOAD_SUPERADMIN_COMPANIES: ', () => {
+    it('should load companies', async () => {
+      const companies = [{ id: 123 }, { id: 321 }];
+      const fakeStore = {
+        commit: jest.fn(),
+        getters: {
+          loadedSuperadminCompaniesAmount: 10,
+        },
+      };
+
+      repository.getSuperadminCompanies = jest.fn(() => Promise.resolve(companies));
+
+      await actions[LOAD_SUPERADMIN_COMPANIES](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_SUPERADMIN_COMPANIES, companies);
+      expect(repository.getSuperadminCompanies).toHaveBeenCalledWith(10, 20);
+    });
+  });
+
+  describe('LOAD_SUPERADMIN_COMPANIES_LENGTH: ', () => {
+    it('should load all companies length', async () => {
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      repository.getAllSuperadminCompaniesLength = jest.fn(() => Promise.resolve(42));
+
+      await actions[LOAD_SUPERADMIN_COMPANIES_LENGTH](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_SUPERADMIN_COMPANIES_LENGTH, 42);
     });
   });
 
