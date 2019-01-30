@@ -116,5 +116,7 @@
   "on.shift": "On Shift",
   "on.call": "On Call",
   "wrap.up.time.hyphen": "Wrap-up Time",
-  "of": "of"
+  "of": "of",
+  "created": "Created",
+  "qte.of.operators": "Qte of Operators"
 }

@@ -1,6 +1,8 @@
 import {
   INSERT_CUSTOMERS,
   SET_ALL_CUSTOMERS_LENGTH,
+  INSERT_SUPERADMIN_COMPANIES,
+  SET_ALL_SUPERADMIN_COMPANIES_LENGTH,
   INSERT_CALLS,
   SET_ALL_CALLS_LENGTH,
   INSERT_OPERATORS,
@@ -16,6 +18,12 @@ export default {
   },
   [SET_ALL_CUSTOMERS_LENGTH](state, length) {
     state.allCustomersLength = length;
+  },
+  [INSERT_SUPERADMIN_COMPANIES](state, companies) {
+    state.superadminCompanies.push(...companies);
+  },
+  [SET_ALL_SUPERADMIN_COMPANIES_LENGTH](state, length) {
+    state.allSuperadminCompaniesLength = length;
   },
   [INSERT_CALLS](state, calls) {
     state.calls.push(...calls);
