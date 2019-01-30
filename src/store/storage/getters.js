@@ -7,6 +7,15 @@ export default {
   allCustomersLoaded({ allCustomersLength }, { loadedCustomersAmount }) {
     return allCustomersLength <= loadedCustomersAmount;
   },
+  loadedSuperadminCompaniesAmount(state) {
+    return state.superadminCompanies.length;
+  },
+  allSuperadminCompaniesLoaded(
+    { allSuperadminCompaniesLength },
+    { loadedSuperadminCompaniesAmount }
+  ) {
+    return allSuperadminCompaniesLength <= loadedSuperadminCompaniesAmount;
+  },
   loadedCallsAmount(state) {
     return state.calls.length;
   },

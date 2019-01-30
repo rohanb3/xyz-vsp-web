@@ -49,6 +49,55 @@ export const getCustomersTableColumns = () => [
   },
 ];
 
+export const getSuperadminCompaniesTableColumns = () => [
+  {
+    name: 'company',
+    field: 'company',
+    title: i18n.t('company'),
+    width: '300px',
+  },
+  {
+    name: 'contactPerson',
+    field: 'contactPerson',
+    class: 'text',
+    title: i18n.t('contact.person'),
+  },
+  {
+    name: 'email',
+    field: 'email',
+    fieldType: 'email',
+    class: 'text',
+    title: i18n.t('email'),
+  },
+  {
+    name: 'phone',
+    field: 'phone',
+    class: 'text',
+    title: i18n.t('phone'),
+    width: '150px',
+  },
+  {
+    name: 'created',
+    field: 'created',
+    fieldType: 'created',
+    title: i18n.t('created'),
+  },
+  {
+    name: 'qtyOfOperators',
+    field: 'qtyOfOperators',
+    title: i18n.t('qte.of.operators'),
+    class: 'number',
+    width: '100px',
+  },
+  {
+    name: 'additional',
+    field: null,
+    fieldType: 'additional',
+    title: '',
+    width: '100px',
+  },
+];
+
 export const getCallsTableColumns = () => [
   {
     name: 'date',

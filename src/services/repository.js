@@ -8,6 +8,14 @@ export const getCustomers = (startFrom, count) => {
 export const getAllCustomersLength = () =>
   api.get('/customers-length').then(({ data }) => data.length);
 
+export const getSuperadminCompanies = (startFrom, count) => {
+  const params = { startFrom, count };
+  return api.get('/superadmin-companies', { params }).then(({ data }) => data.items);
+};
+
+export const getAllSuperadminCompaniesLength = () =>
+  api.get('/superadmin-companies-length').then(({ data }) => data.length);
+
 export const getCalls = (startFrom, count) => {
   const params = { startFrom, count };
   return api.get('/calls', { params }).then(({ data }) => data.items);

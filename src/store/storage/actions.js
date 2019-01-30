@@ -1,6 +1,8 @@
 import {
   getCustomers,
   getAllCustomersLength,
+  getSuperadminCompanies,
+  getAllSuperadminCompaniesLength,
   getCalls,
   getAllCallsLength,
   getOperators,
@@ -13,6 +15,8 @@ import { getCallsTypes } from '@/services/operatorFeedback';
 import {
   LOAD_CUSTOMERS,
   LOAD_ALL_CUSTOMERS_LENGTH,
+  LOAD_SUPERADMIN_COMPANIES,
+  LOAD_SUPERADMIN_COMPANIES_LENGTH,
   LOAD_CALLS,
   LOAD_ALL_CALLS_LENGTH,
   LOAD_OPERATORS,
@@ -24,6 +28,8 @@ import {
 import {
   INSERT_CUSTOMERS,
   SET_ALL_CUSTOMERS_LENGTH,
+  INSERT_SUPERADMIN_COMPANIES,
+  SET_ALL_SUPERADMIN_COMPANIES_LENGTH,
   INSERT_CALLS,
   SET_ALL_CALLS_LENGTH,
   INSERT_OPERATORS,
@@ -32,7 +38,12 @@ import {
   INSERT_CALLS_DURATION,
 } from './mutationTypes';
 
-import { CUSTOMERS_TO_LOAD, CALLS_TO_LOAD, OPERATORS_TO_LOAD } from './constants';
+import {
+  CUSTOMERS_TO_LOAD,
+  SUPERADMIN_COMPANIES_TO_LOAD,
+  CALLS_TO_LOAD,
+  OPERATORS_TO_LOAD,
+} from './constants';
 
 export default {
   async [LOAD_CUSTOMERS]({ commit, getters }) {
@@ -41,6 +52,16 @@ export default {
   },
   async [LOAD_ALL_CUSTOMERS_LENGTH]({ commit }) {
     commit(SET_ALL_CUSTOMERS_LENGTH, await getAllCustomersLength());
+  },
+  async [LOAD_SUPERADMIN_COMPANIES]({ commit, getters }) {
+    const { loadedSuperadminCompaniesAmount } = getters;
+    commit(
+      INSERT_SUPERADMIN_COMPANIES,
+      await getSuperadminCompanies(loadedSuperadminCompaniesAmount, SUPERADMIN_COMPANIES_TO_LOAD)
+    );
+  },
+  async [LOAD_SUPERADMIN_COMPANIES_LENGTH]({ commit }) {
+    commit(SET_ALL_SUPERADMIN_COMPANIES_LENGTH, await getAllSuperadminCompaniesLength());
   },
   async [LOAD_CALLS]({ commit, getters }) {
     const { loadedCallsAmount } = getters;

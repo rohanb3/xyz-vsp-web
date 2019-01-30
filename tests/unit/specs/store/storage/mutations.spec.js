@@ -2,6 +2,8 @@ import mutations from '@/store/storage/mutations';
 import {
   INSERT_CUSTOMERS,
   SET_ALL_CUSTOMERS_LENGTH,
+  INSERT_SUPERADMIN_COMPANIES,
+  SET_ALL_SUPERADMIN_COMPANIES_LENGTH,
   INSERT_CALLS,
   SET_ALL_CALLS_LENGTH,
 } from '@/store/storage/mutationTypes';
@@ -30,6 +32,32 @@ describe('storage mutations: ', () => {
       mutations[SET_ALL_CUSTOMERS_LENGTH](state, 4);
 
       expect(state.allCustomersLength).toBe(4);
+    });
+  });
+
+  describe('INSERT_SUPERADMIN_COMPANIES: ', () => {
+    it('should insert companies', () => {
+      const state = {
+        superadminCompanies: [{ id: 123 }],
+      };
+
+      const expectedCompanies = [{ id: 123 }, { id: 321 }];
+
+      mutations[INSERT_SUPERADMIN_COMPANIES](state, [{ id: 321 }]);
+
+      expect(state.superadminCompanies).toEqual(expectedCompanies);
+    });
+  });
+
+  describe('SET_ALL_SUPERADMIN_COMPANIES_LENGTH: ', () => {
+    it('should set length', () => {
+      const state = {
+        allSuperadminCompaniesLength: 0,
+      };
+
+      mutations[SET_ALL_SUPERADMIN_COMPANIES_LENGTH](state, 4);
+
+      expect(state.allSuperadminCompaniesLength).toBe(4);
     });
   });
 

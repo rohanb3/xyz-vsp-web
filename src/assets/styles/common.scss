@@ -8,7 +8,8 @@ html {
   overflow: hidden;
 }
 
-#app .customers-table {
+#app .customers-table,
+#app .superadmin-companies-table {
   .virtual-list {
     max-height: calc(
       100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-toolbar-height} -
@@ -17,7 +18,8 @@ html {
   }
 }
 
-#app .calls-table, .operators-table {
+#app .calls-table,
+.operators-table {
   .virtual-list {
     max-height: calc(
       100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$calls-table-toolbar-height} -
@@ -159,8 +161,7 @@ html {
     padding-top: 0;
   }
 }
-#app .video-call{
-
+#app .video-call {
   .v-slider__thumb {
     visibility: hidden;
   }
@@ -178,8 +179,8 @@ html {
 
 #app .popper {
   max-height: calc(
-    100vh - #{$header-height} - #{$calls-table-toolbar-height} -
-      #{$table-header-height} + 10px
+    100vh - #{$header-height} - #{$calls-table-toolbar-height} - #{$table-header-height} +
+      10px
   );
   background-color: $popper-background-color;
   border-radius: 8px;
