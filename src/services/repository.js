@@ -38,3 +38,5 @@ export const getOperatorReview = () =>
   api.get('/operator-review').then(response => response.data.items);
 
 export const getCallsDuration = () => api.get('/calls-duration').then(({ data }) => data.items);
+
+export const getCallsFeedback = () => api.get('/calls-feedback').then(({ data }) => data.items);

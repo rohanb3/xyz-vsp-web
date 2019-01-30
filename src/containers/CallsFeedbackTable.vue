@@ -1,13 +1,13 @@
 <template>
-  <div class="calls-duration-table">
-    <div class="calls-duration-toolbar">
-      <div class="calls-duration-title">
-        {{ $t('call.durations') }}
+  <div class="calls-feedback-table">
+    <div class="calls-feedback-toolbar">
+      <div class="calls-feedback-title">
+        {{ $t('call.feedbacks') }}
       </div>
     </div>
 
     <wombat-table
-      name="calls-duration"
+      name="calls-feedback"
       v-if="rows && rows.length"
       :items="rows"
       :columns="columns"
@@ -45,45 +45,42 @@
 import WombatTable from '@/components/WombatTable/Table';
 import WombatRow from '@/components/WombatTable/Row';
 import DefaultCell from '@/components/tableCells/DefaultCell';
-import CallDurationCell from '@/components/tableCells/CallDurationCell';
-import TresholdCell from '@/components/tableCells/TresholdCell';
-import CallEfficiencyCell from '@/components/tableCells/CallEfficiencyCell';
+import FeedbackQualityCell from '@/components/tableCells/FeedbackQualityCell';
+import ServiceEficiencyCell from '@/components/tableCells/ServiceEficiencyCell';
 
 import smartTable from '@/mixins/smartTable';
 
-import { LOAD_CALLS_DURATION } from '@/store/storage/actionTypes';
-import { CALLS_DURATION_TABLE } from '@/store/tables/constants';
+import { LOAD_CALLS_FEEDBACK } from '@/store/storage/actionTypes';
+import { CALLS_FEEDBACK_TABLE } from '@/store/tables/constants';
 
 export default {
-  name: 'CallsDurationTable',
+  name: 'CallsFeedbackTable',
   components: {
     DefaultCell,
     WombatTable,
     WombatRow,
-    CallDurationCell,
-    CallEfficiencyCell,
-    TresholdCell,
+    FeedbackQualityCell,
+    ServiceEficiencyCell,
   },
   mixins: [smartTable],
   data() {
     return {
-      tableName: CALLS_DURATION_TABLE,
+      tableName: CALLS_FEEDBACK_TABLE,
       rowComponentsHash: {
         default: 'DefaultCell',
-        callDuration: 'CallDurationCell',
-        treshold: 'TresholdCell',
-        callEfficiency: 'CallEfficiencyCell',
+        feedbackQuality: 'FeedbackQualityCell',
+        serviceEfficiency: 'ServiceEficiencyCell',
       },
     };
   },
   mounted() {
-    if (!this.$store.state.storage.callsDuration.length) {
-      this.$store.dispatch(LOAD_CALLS_DURATION);
+    if (!this.$store.state.storage.callsFeedback.length) {
+      this.$store.dispatch(LOAD_CALLS_FEEDBACK);
     }
   },
   computed: {
     rows() {
-      return this.$store.state.storage.callsDuration.map(item => ({
+      return this.$store.state.storage.callsFeedback.map(item => ({
         ...item,
         height: '50px',
       }));
@@ -96,8 +93,9 @@ export default {
 @import '~@/assets/styles/variables.scss';
 @import '@/assets/styles/mixins.scss';
 
-.calls-duration-table {
+.calls-feedback-table {
   @include table-base-container;
+  margin-left: 9px;
   width: 50%;
 
   .wombat-row.call-In.total {
@@ -105,17 +103,17 @@ export default {
   }
 }
 
-.calls-duration-toolbar {
+.calls-feedback-toolbar {
   @include table-base-toolbar;
 }
 
-.calls-duration-title {
+.calls-feedback-title {
   @include table-base-title;
 }
 </style>
 
 <style lang="scss">
-.calls-duration-table {
+.calls-feedback-table {
   .virtual-list {
     height: auto !important;
   }

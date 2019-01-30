@@ -10,6 +10,9 @@ jest.mock('@/store/tables/columnsList', () => ({
   getCallsDurationTableColumns() {
     return [{ type: 'help' }, { type: 'info' }, { type: 'sale' }];
   },
+  getCallsFeedbackTableColumns() {
+    return [{ type: 'help' }, { type: 'info' }, { type: 'sale' }];
+  },
 }));
 
 import mutations from '@/store/tables/mutations';

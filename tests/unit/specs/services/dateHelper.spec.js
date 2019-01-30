@@ -3,6 +3,7 @@ import {
   filterByDateRange,
   secondsToMinutesSeconds,
   secondsToHoursMinutes,
+  secondToMinutes,
 } from '@/services/dateHelper';
 
 describe('dateHelper', () => {
@@ -242,6 +243,24 @@ describe('dateHelper', () => {
 
     it('should return "6h 45m" if 24320 was passed', () => {
       expect(secondsToHoursMinutes(24320)).toBe('6h 45m');
+    });
+  });
+
+  describe('secondToMinutes', () => {
+    it('should return null if no value was passed', () => {
+      expect(secondToMinutes()).toBe(null);
+    });
+
+    it('should return "0 min" if 0 was passed', () => {
+      expect(secondToMinutes(0)).toBe('0 min');
+    });
+
+    it('should return "0 min" if 1 was passed', () => {
+      expect(secondToMinutes(1)).toBe('0 min');
+    });
+
+    it('should return "3 min" if 182 was passed', () => {
+      expect(secondToMinutes(182)).toBe('3 min');
     });
   });
 });

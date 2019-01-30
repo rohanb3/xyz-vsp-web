@@ -102,7 +102,6 @@
   "total.calls": "TBD total calls",
   "answered": "TDB Answered",
   "call.efficiency": "TBD Call Efficiency",
-  "call.efficiency": "TBD Call Efficiency",
   "average.waiting.time": "TBD Average Waiting Time",
   "calls.on.hold": "TBD Calls on Hold",
   "over.threshold": "TBD Over threshold",
@@ -118,6 +117,10 @@
   "on.call": "TBD On Call",
   "wrap.up.time.hyphen": "TBD Wrap-up Time",
   "of": "TBD of",
+  "received.feedbacks": "TBD Received Feedbacks",
+  "answered.calls": "TBD Answered Calls",
+  "service.efficiency": "TBD Service Efficiency",
+  "call.feedbacks": "TBD Call Feedbacks",
   "created": "TBD Created",
   "qte.of.operators": "TBD Qte of Operators"
 }

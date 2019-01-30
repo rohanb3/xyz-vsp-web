@@ -33,6 +33,10 @@ export default {
       type: String,
       default: HEADER_CELL_ELLIPSIS_SMART,
     },
+    name: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -49,6 +53,9 @@ export default {
     },
     isColumnsEllipsisModeAlways() {
       return this.columnsEllipsisMode === HEADER_CELL_ELLIPSIS_ALWAYS;
+    },
+    tableNameIdentificator() {
+      return this.name ? `wombat-columns-styles-${this.name}` : 'wombat-columns-styles';
     },
     preparedColumns: {
       get() {
@@ -133,12 +140,12 @@ export default {
         .join('\n');
 
       let stylesContainer =
-        this.stylesContainer || document.querySelector('#wombat-columns-styles');
+        this.stylesContainer || document.querySelector(`#${this.tableNameIdentificator}`);
 
       if (!stylesContainer) {
         stylesContainer = document.createElement('STYLE');
         this.stylesContainer = stylesContainer;
-        stylesContainer.id = 'wombat-columns-styles';
+        stylesContainer.id = this.tableNameIdentificator;
         document.querySelector('body').appendChild(stylesContainer);
       }
 
@@ -283,6 +290,9 @@ export default {
     this.checkColumnsWidth();
     this.compileColumnsStyles();
     window.addEventListener('resize', this.checkColumnsWidth);
+  },
+  destroyed() {
+    document.querySelector(`#${this.tableNameIdentificator}`).remove();
   },
 };
 

@@ -40,7 +40,7 @@ export function secondsToMinutesSeconds(data) {
 }
 
 export function secondToMinutes(seconds) {
-  if (!seconds) return null;
+  if (!seconds && seconds !== 0) return null;
   const minutes = parseInt((seconds / 60) % 60, 10);
 
   return `${minutes} min`;
