@@ -2,6 +2,8 @@ import api from '@/services/api';
 import {
   getCustomers,
   getAllCustomersLength,
+  getSuperadminCompanies,
+  getAllSuperadminCompaniesLength,
   getCalls,
   getAllCallsLength,
   getOperatorReview,
@@ -45,6 +47,44 @@ describe('repository', () => {
 
       expect(response).toEqual(length);
       expect(api.get).toHaveBeenCalledWith('/customers-length');
+    });
+  });
+
+  describe('getSuperadminCompanies', () => {
+    it('should call api.get and return corect data', async () => {
+      const startFrom = 10;
+      const count = 20;
+      const params = {
+        startFrom,
+        count,
+      };
+      const items = [{ id: 123 }, { id: 321 }];
+      const data = {
+        items,
+      };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+
+      const response = await getSuperadminCompanies(startFrom, count);
+
+      expect(response).toEqual(items);
+      expect(api.get).toHaveBeenCalledWith('/superadmin-companies', { params });
+    });
+  });
+
+  describe('getAllSuperadminCompaniesLength', () => {
+    it('should call api.get and return corect data', async () => {
+      const length = 4;
+      const data = {
+        length,
+      };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+
+      const response = await getAllSuperadminCompaniesLength();
+
+      expect(response).toEqual(length);
+      expect(api.get).toHaveBeenCalledWith('/superadmin-companies-length');
     });
   });
 

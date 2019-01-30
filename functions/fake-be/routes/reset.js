@@ -1,4 +1,8 @@
 const { insertCustomers, deleteAllCustomers } = require('../repositories/db/customers');
+const {
+  insertSuperadminCompanies,
+  deleteAllSuperadminCompanies,
+} = require('../repositories/db/superadminCompanies');
 const { insertOperators, deleteAllOperators } = require('../repositories/db/operators');
 const { insertCalls, deleteAllCalls } = require('../repositories/db/calls');
 const {
@@ -9,6 +13,7 @@ const { insertCallsDuration, deleteAllCallsDuration } = require('../repositories
 const { insertCallsFeedback, deleteAllCallsFeedback } = require('../repositories/db/callsFeedback');
 
 const customers = require('../fixtures/customers').items;
+const superadminCompanies = require('../fixtures/superadminCompanies').items;
 const calls = require('../fixtures/calls').items;
 const operators = require('../fixtures/operators').items;
 const operatorReview = require('../fixtures/operatorReview').items;
@@ -18,6 +23,7 @@ const callsFeedback = require('../fixtures/callsFeedback').items;
 module.exports = function reset(req, res) {
   const deletionPromises = [
     deleteAllCustomers(),
+    deleteAllSuperadminCompanies(),
     deleteAllCalls(),
     deleteAllOperators(),
     deleteAllOperatorReviews(),
@@ -29,6 +35,7 @@ module.exports = function reset(req, res) {
     .then(() => {
       const creationPromises = [
         insertCustomers(customers),
+        insertSuperadminCompanies(superadminCompanies),
         insertCalls(calls),
         insertOperators(operators),
         insertOperatorReviews(operatorReview),

@@ -1,6 +1,7 @@
 import moment from 'moment';
 import {
   getCustomersTableColumns,
+  getSuperadminCompaniesTableColumns,
   getCallsTableColumns,
   getOperatorsTableColumns,
   getCallsDurationTableColumns,
@@ -12,6 +13,7 @@ import {
   OPERATORS_TABLE,
   CALLS_DURATION_TABLE,
   CALLS_FEEDBACK_TABLE,
+  SUPERADMIN_COMPANIES_TABLE,
 } from './constants';
 
 import mutations from './mutations';
@@ -20,6 +22,9 @@ import getters from './getters';
 const state = {
   [CUSTOMERS_TABLE]: {
     columns: getCustomersTableColumns(),
+  },
+  [SUPERADMIN_COMPANIES_TABLE]: {
+    columns: getSuperadminCompaniesTableColumns(),
   },
   [CALLS_DURATION_TABLE]: {
     columns: getCallsDurationTableColumns(),

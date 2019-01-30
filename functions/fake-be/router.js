@@ -7,6 +7,7 @@ const {
   customerById,
   customersLength,
 } = require('./routes/customers');
+const { superadminCompanies, superadminCompaniesLength } = require('./routes/superadminCompanies');
 const { calls, callsLength } = require('./routes/calls');
 const { getProfileData, changeProfileData } = require('./routes/profile');
 const { operators, operatorsLength, getOperatorReviewData } = require('./routes/operators');
@@ -20,6 +21,8 @@ router.post('/login', login);
 router.get('/customers/:customerId', customerById);
 router.get('/customers', customers);
 router.get('/customers-length', customersLength);
+router.get('/superadmin-companies', superadminCompanies);
+router.get('/superadmin-companies-length', superadminCompaniesLength);
 router.get('/calls', calls);
 router.get('/calls-length', callsLength);
 router.get('/profile', getProfileData);

@@ -120,5 +120,7 @@
   "received.feedbacks": "TBD Received Feedbacks",
   "answered.calls": "TBD Answered Calls",
   "service.efficiency": "TBD Service Efficiency",
-  "call.feedbacks": "TBD Call Feedbacks"
+  "call.feedbacks": "TBD Call Feedbacks",
+  "created": "TBD Created",
+  "qte.of.operators": "TBD Qte of Operators"
 }

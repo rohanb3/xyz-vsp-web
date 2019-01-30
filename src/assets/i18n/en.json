@@ -120,5 +120,7 @@
   "received.feedbacks": "Received Feedbacks",
   "answered.calls": "Answered Calls",
   "service.efficiency": "Service Efficiency",
-  "call.feedbacks": "Call Feedbacks"
+  "call.feedbacks": "Call Feedbacks",
+  "created": "Created",
+  "qte.of.operators": "Qte of Operators"
 }
