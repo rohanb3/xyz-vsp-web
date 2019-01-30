@@ -15,9 +15,7 @@ export default {
   },
   computed: {
     formattedDate() {
-      return moment
-        .utc(this.item.created)
-        .format(SHORT_DAY_SHORT_MONTH_FULL_YEAR);
+      return moment.utc(this.item.created).format(SHORT_DAY_SHORT_MONTH_FULL_YEAR);
     },
   },
 };
