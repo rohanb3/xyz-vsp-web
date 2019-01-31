@@ -9,6 +9,8 @@ import {
   getOperatorReview,
   getCallsDuration,
   getCallsFeedback,
+  getSuperadminOperators,
+  getAllSuperadminOperatorsLength,
 } from '@/services/repository';
 
 describe('repository', () => {
@@ -140,8 +142,6 @@ describe('repository', () => {
       expect(api.get).toHaveBeenCalledWith('/operator-review');
     });
   });
-
-  // TODO:
   describe('getCallsDuration', () => {
     it('should call api.get and return correct data', async () => {
       const data = {
@@ -169,6 +169,44 @@ describe('repository', () => {
 
       expect(response).toEqual(data.items);
       expect(api.get).toHaveBeenCalledWith('/calls-feedback');
+    });
+  });
+
+  describe('getSuperadminOperators', () => {
+    it('should call api.get and return corect data', async () => {
+      const startFrom = 10;
+      const count = 20;
+      const params = {
+        startFrom,
+        count,
+      };
+      const items = [{ id: 123 }, { id: 321 }];
+      const data = {
+        items,
+      };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+
+      const response = await getSuperadminOperators(startFrom, count);
+
+      expect(response).toEqual(items);
+      expect(api.get).toHaveBeenCalledWith('/superadmin/operators', { params });
+    });
+  });
+
+  describe('getAllSuperadminOperatorsLength', () => {
+    it('should call api.get and return corect data', async () => {
+      const length = 4;
+      const data = {
+        length,
+      };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+
+      const response = await getAllSuperadminOperatorsLength();
+
+      expect(response).toEqual(length);
+      expect(api.get).toHaveBeenCalledWith('/superadmin/operators-length');
     });
   });
 });

@@ -35,3 +35,10 @@
   align-items: center;
   padding: 0px 29px;
 }
+
+@mixin table-base-footer {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+}

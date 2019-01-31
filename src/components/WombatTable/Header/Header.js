@@ -291,7 +291,7 @@ export default {
     this.compileColumnsStyles();
     window.addEventListener('resize', this.checkColumnsWidth);
   },
-  destroyed() {
+  beforeDestroy() {
     document.querySelector(`#${this.tableNameIdentificator}`).remove();
   },
 };

@@ -198,3 +198,17 @@ export default {
   align-items: center;
 }
 </style>
+<style lang="scss">
+.operators-table:not(.SUPERADMIN_OPERATORS_TABLE) {
+  .wombat-header {
+    .column-name {
+      .content {
+        padding-left: 46px;
+      }
+    }
+  }
+  .wombat-table .column-id {
+    padding-left: 20px;
+  }
+}
+</style>
