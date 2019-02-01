@@ -7,7 +7,7 @@ import {
   getCallsDurationTableColumns,
   getCallsFeedbackTableColumns,
   getSuperadminOperatorsTableColumns,
-} from './columnsList';
+} from '@/services/tablesColumnsList';
 import {
   CUSTOMERS_TABLE,
   CALLS_TABLE,
@@ -16,7 +16,7 @@ import {
   CALLS_FEEDBACK_TABLE,
   SUPERADMIN_COMPANIES_TABLE,
   SUPERADMIN_OPERATORS_TABLE,
-} from './constants';
+} from '@/constants/tablesNames';
 
 import mutations from './mutations';
 import getters from './getters';

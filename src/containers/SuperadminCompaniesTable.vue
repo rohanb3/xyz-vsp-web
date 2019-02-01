@@ -48,7 +48,7 @@ import {
   LOAD_SUPERADMIN_COMPANIES,
   LOAD_SUPERADMIN_COMPANIES_LENGTH,
 } from '@/store/storage/actionTypes';
-import { SUPERADMIN_COMPANIES_TABLE } from '@/store/tables/constants';
+import { SUPERADMIN_COMPANIES_TABLE } from '@/constants/tablesNames';
 
 export default {
   name: 'SuperadminCompaniesTable',

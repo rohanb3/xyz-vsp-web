@@ -1,24 +1,24 @@
 <template>
-  <ConfigurableLazyLoadTable
+  <configurable-lazy-load-table
     displayName="operators"
     :name="name"
     :selectedId="selectedOperator"
     :handleCellClick="showOperatorDetails"
   >
-    <OperatorDetailsCard
+    <operator-details-card
       slot="drawer"
       v-if="operatorDetailsShown"
       :operatorId="selectedOperator"
       @close="closeOperatorDetails"
     />
-  </ConfigurableLazyLoadTable>
+  </configurable-lazy-load-table>
 </template>
 
 <script>
 import ConfigurableLazyLoadTable from './ConfigurableLazyLoadTable';
 import OperatorDetailsCard from '@/containers/OperatorDetailsCard';
 
-import { SUPERADMIN_OPERATORS_TABLE } from '@/store/tables/constants';
+import { SUPERADMIN_OPERATORS_TABLE } from '@/constants/tablesNames';
 
 export default {
   name: 'SuperadminOperators',

@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { configureTable } from '@/services/tablesConfig';
+import { getTableConfig } from '@/services/tablesConfig';
 
 import WombatTable from '@/components/WombatTable/Table';
 import WombatRow from '@/components/WombatTable/Row';
@@ -102,15 +102,17 @@ export default {
     },
   },
   data() {
+    const { rowComponents, ...tableConfigs } = getTableConfig(this.name);
+
     return {
       tableName: this.name,
       loading: false,
       rowComponentsHash: {
         default: 'DefaultCell',
-        ...configureTable(this.name).rowComponents,
+        ...rowComponents,
       },
       selectedItem: null,
-      ...configureTable(this.name),
+      ...tableConfigs,
     };
   },
   mounted() {
@@ -122,7 +124,7 @@ export default {
   },
   computed: {
     allColumns() {
-      return this.getColumns()
+      return this.allTableColumns
         .map(({ name, title }) => ({
           name,
           title,

@@ -4,7 +4,7 @@ import {
   getCallsDurationTableColumns,
   getCallsFeedbackTableColumns,
   getSuperadminOperatorsTableColumns,
-} from './columnsList';
+} from '@/services/tablesColumnsList';
 
 import * as types from './mutationTypes';
 
@@ -14,7 +14,7 @@ import {
   CALLS_DURATION_TABLE,
   CALLS_FEEDBACK_TABLE,
   SUPERADMIN_OPERATORS_TABLE,
-} from './constants';
+} from '@/constants/tablesNames';
 
 const allColumns = {
   [CALLS_TABLE]: getCallsTableColumns(),

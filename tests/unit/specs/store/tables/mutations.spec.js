@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 
-jest.mock('@/store/tables/columnsList', () => ({
+jest.mock('@/services/tablesColumnsList', () => ({
   getCallsTableColumns() {
     return [{ name: 'date' }, { name: 'operator' }, { name: 'type' }];
   },
@@ -20,7 +20,7 @@ jest.mock('@/store/tables/columnsList', () => ({
 
 import mutations from '@/store/tables/mutations';
 import * as types from '@/store/tables/mutationTypes';
-import { CALLS_TABLE } from '@/store/tables/constants';
+import { CALLS_TABLE } from '@/constants/tablesNames';
 
 describe('tables mutations', () => {
   describe('SET_COLUMNS', () => {
