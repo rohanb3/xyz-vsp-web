@@ -1,46 +1,24 @@
 <template>
   <div class="app-header">
-    <v-toolbar
-      color="primary"
-      height="56px">
+    <v-toolbar flat color="primary" height="56px">
       <v-toolbar-side-icon class="side-icon">P</v-toolbar-side-icon>
       <v-toolbar-title class="platform-name">{{ $t('app.title') }}</v-toolbar-title>
       <supervisor-header-widgets v-if="isSupervisorDashboardPage"/>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn
-          flat
-          icon
-          color="white"
-        >
+        <v-btn flat icon color="white">
           <v-icon>search</v-icon>
         </v-btn>
-        <v-btn
-          flat
-          icon
-          color="white"
-        >
+        <v-btn flat icon color="white">
           <v-icon>help_outline</v-icon>
         </v-btn>
-        <v-btn
-          flat
-          icon
-          color="white"
-        >
+        <v-btn flat icon color="white">
           <v-icon>apps</v-icon>
         </v-btn>
-        <v-btn
-          flat
-          icon
-          color="white"
-        >
+        <v-btn flat icon color="white">
           <v-icon>notifications</v-icon>
         </v-btn>
-        <v-btn
-          flat
-          icon
-          color="#b4681f"
-        >
+        <v-btn flat icon color="#b4681f">
           <v-icon class="user-photo">RS</v-icon>
         </v-btn>
       </v-toolbar-items>

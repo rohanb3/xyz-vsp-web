@@ -29,13 +29,18 @@
       <v-icon class="item-icon">credit_card</v-icon>
     </div>
     <router-link to="/operator-dashboard" class="lhs-item-link">
-      <div class="lhs-item" :class="{ active: activeIndex === 7 }" @click="setActive(7)">
+      <div class="lhs-item" :class="{ active: activeIndex === 6 }" @click="setActive(6)">
         <v-icon class="item-icon">view_compact</v-icon>
       </div>
     </router-link>
-    <v-spacer/>
+    <v-spacer class="spacer"/>
+    <router-link to="/supervisor-settings/profile" class="lhs-item-link">
+      <div class="lhs-item" :class="{ active: activeIndex === 7 }" @click="setActive(7)">
+        <v-icon class="item-icon">settings</v-icon>
+      </div>
+    </router-link>
     <router-link to="/settings" class="lhs-item-link">
-      <div class="lhs-item" :class="{ active: activeIndex === 6 }" @click="setActive(6)">
+      <div class="lhs-item" :class="{ active: activeIndex === 8 }" @click="setActive(8)">
         <v-icon class="item-icon">settings</v-icon>
       </div>
     </router-link>
@@ -100,7 +105,6 @@ export default {
 
 .lhs-item-link:last-child .lhs-item {
   border-bottom: 0;
-  border-top: 2px solid $lhs-delimiter-color;
 }
 
 .lhs-item.call {
@@ -112,5 +116,9 @@ export default {
     top: 5px;
     right: 5px;
   }
+}
+.spacer {
+  width: 100%;
+  border-bottom: 2px solid $lhs-delimiter-color;
 }
 </style>

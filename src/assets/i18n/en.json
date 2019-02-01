@@ -118,5 +118,8 @@
   "wrap.up.time.hyphen": "Wrap-up Time",
   "of": "of",
   "created": "Created",
-  "qte.of.operators": "Qte of Operators"
+  "qte.of.operators": "Qte of Operators",
+  "settings": "Settings",
+  "profile": "Profile",
+  "plans": "Plans"
 }
