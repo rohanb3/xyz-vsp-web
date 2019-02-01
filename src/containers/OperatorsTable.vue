@@ -75,9 +75,9 @@ import IdCell from '@/components/tableCells/IdCell';
 import smartTable from '@/mixins/smartTable';
 
 import { LOAD_OPERATORS, LOAD_ALL_OPERATORS_LENGTH } from '@/store/storage/actionTypes';
-import { OPERATORS_TABLE } from '@/store/tables/constants';
+import { OPERATORS_TABLE } from '@/constants/tablesNames';
 
-import { getOperatorsTableColumns } from '@/store/tables/columnsList';
+import { getOperatorsTableColumns } from '@/services/tablesColumnsList';
 
 const allColumns = getOperatorsTableColumns()
   .map(({ name, title }) => ({
@@ -196,5 +196,19 @@ export default {
   flex-flow: row;
   justify-content: center;
   align-items: center;
+}
+</style>
+<style lang="scss">
+.operators-table:not(.SUPERADMIN_OPERATORS_TABLE) {
+  .wombat-header {
+    .column-name {
+      .content {
+        padding-left: 46px;
+      }
+    }
+  }
+  .wombat-table .column-id {
+    padding-left: 20px;
+  }
 }
 </style>

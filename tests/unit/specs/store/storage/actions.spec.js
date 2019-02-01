@@ -12,6 +12,8 @@ import {
   LOAD_ALL_CALLS_LENGTH,
   LOAD_CALLS_DURATION,
   LOAD_CALLS_FEEDBACK,
+  LOAD_SUPERADMIN_OPERATORS,
+  LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH,
 } from '@/store/storage/actionTypes';
 import {
   INSERT_CUSTOMERS,
@@ -22,6 +24,8 @@ import {
   SET_ALL_CALLS_LENGTH,
   INSERT_CALLS_DURATION,
   INSERT_CALLS_FEEDBACK,
+  INSERT_SUPERADMIN_OPERATORS,
+  SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
 } from '@/store/storage/mutationTypes';
 import * as repository from '@/services/repository';
 
@@ -151,6 +155,39 @@ describe('storage actions: ', () => {
       await actions[LOAD_CALLS_FEEDBACK](fakeStore);
 
       expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_CALLS_FEEDBACK, callsFeedback);
+    });
+  });
+  // TODO:
+  describe('LOAD_SUPERADMIN_OPERATORS: ', () => {
+    it('should load operators', async () => {
+      const operators = [{ id: 123 }, { id: 321 }];
+      const fakeStore = {
+        commit: jest.fn(),
+        getters: {
+          loadedSuperadminOperatorsAmount: 10,
+        },
+      };
+
+      repository.getSuperadminOperators = jest.fn(() => Promise.resolve(operators));
+
+      await actions[LOAD_SUPERADMIN_OPERATORS](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_SUPERADMIN_OPERATORS, operators);
+      expect(repository.getSuperadminOperators).toHaveBeenCalledWith(10, 20);
+    });
+  });
+
+  describe('LOAD_SUPERADMIN_OPERATORS_LENGTH: ', () => {
+    it('should load all operators length', async () => {
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      repository.getAllSuperadminOperatorsLength = jest.fn(() => Promise.resolve(42));
+
+      await actions[LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_SUPERADMIN_OPERATORS_LENGTH, 42);
     });
   });
 });

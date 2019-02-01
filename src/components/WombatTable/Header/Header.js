@@ -291,8 +291,10 @@ export default {
     this.compileColumnsStyles();
     window.addEventListener('resize', this.checkColumnsWidth);
   },
-  destroyed() {
-    document.querySelector(`#${this.tableNameIdentificator}`).remove();
+  beforeDestroy() {
+    const stylesFile = document.querySelector(`#${this.tableNameIdentificator}`);
+    // eslint-disable-next-line no-unused-expressions
+    stylesFile && stylesFile.remove();
   },
 };
 

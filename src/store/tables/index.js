@@ -6,7 +6,8 @@ import {
   getOperatorsTableColumns,
   getCallsDurationTableColumns,
   getCallsFeedbackTableColumns,
-} from './columnsList';
+  getSuperadminOperatorsTableColumns,
+} from '@/services/tablesColumnsList';
 import {
   CUSTOMERS_TABLE,
   CALLS_TABLE,
@@ -14,7 +15,8 @@ import {
   CALLS_DURATION_TABLE,
   CALLS_FEEDBACK_TABLE,
   SUPERADMIN_COMPANIES_TABLE,
-} from './constants';
+  SUPERADMIN_OPERATORS_TABLE,
+} from '@/constants/tablesNames';
 
 import mutations from './mutations';
 import getters from './getters';
@@ -34,6 +36,9 @@ const state = {
   },
   [OPERATORS_TABLE]: {
     columns: getOperatorsTableColumns(),
+  },
+  [SUPERADMIN_OPERATORS_TABLE]: {
+    columns: getSuperadminOperatorsTableColumns(),
   },
   [CALLS_TABLE]: {
     columns: getCallsTableColumns(),
