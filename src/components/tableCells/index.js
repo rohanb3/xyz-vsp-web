@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 import AdditionalCell from '@/components/tableCells/AdditionalCell';
 import CallDurationCell from '@/components/tableCells/CallDurationCell';
 import CallEfficiencyCell from '@/components/tableCells/CallEfficiencyCell';
@@ -22,6 +24,31 @@ import ServiceEficiencyCell from '@/components/tableCells/ServiceEficiencyCell';
 import StatusCell from '@/components/tableCells/StatusCell';
 import WaitTimeCell from '@/components/tableCells/WaitTimeCell';
 import WrapUpTimeCell from '@/components/tableCells/WrapUpTimeCell';
+
+Vue.component('AdditionalCell', AdditionalCell);
+Vue.component('CallDurationCell', CallDurationCell);
+Vue.component('CallEfficiencyCell', CallEfficiencyCell);
+Vue.component('CallsAmountCell', CallsAmountCell);
+Vue.component('CallTypeCell', CallTypeCell);
+Vue.component('ClientFeedbackCell', ClientFeedbackCell);
+Vue.component('DateCell', DateCell);
+Vue.component('DefaultCell', DefaultCell);
+Vue.component('DurationCell', DurationCell);
+Vue.component('EmailCell', EmailCell);
+Vue.component('FeedbackQualityCell', FeedbackQualityCell);
+Vue.component('IdCell', IdCell);
+Vue.component('LastPaymentCell', LastPaymentCell);
+Vue.component('LastReviewCell', LastReviewCell);
+Vue.component('LinkCell', LinkCell);
+Vue.component('OperatorFeedbackCell', OperatorFeedbackCell);
+Vue.component('OperatorNameCell', OperatorNameCell);
+Vue.component('QtyOfReviewsCell', QtyOfReviewsCell);
+Vue.component('RatingCell', RatingCell);
+Vue.component('ScoreCell', ScoreCell);
+Vue.component('ServiceEficiencyCell', ServiceEficiencyCell);
+Vue.component('StatusCell', StatusCell);
+Vue.component('WaitTimeCell', WaitTimeCell);
+Vue.component('WrapUpTimeCell', WrapUpTimeCell);
 
 export {
   AdditionalCell,

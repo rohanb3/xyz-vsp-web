@@ -1,7 +1,7 @@
 <template>
-  <div class="lazy-loading-table" :class="`${displayName}-table ${name}`">
-    <div class="lazy-loading-table-toolbar" :class="`${displayName}-table-toolbar`">
-      <div class="lazy-loading-table-title" :class="`${displayName}-table-title`">
+  <div class="configurable-lazy-load-table" :class="`${displayName}-table ${name}`">
+    <div class="configurable-lazy-load-table-toolbar" :class="`${displayName}-table-toolbar`">
+      <div class="configurable-lazy-load-table-title" :class="`${displayName}-table-title`">
        {{ filteredItemsLength }} {{ $t(displayName) }}
        </div>
       <v-spacer></v-spacer>
@@ -56,20 +56,19 @@
 
        <div
          slot="footer"
-         class="lazy-loading-table-footer wombat-footer"
+         class="configurable-lazy-load-table-footer wombat-footer"
          :class="`${displayName}-table-footer`"
        >
          <table-loader v-if="loading"/>
        </div>
      </wombat-table>
-     <slot></slot>
+     <slot name="drawer"></slot>
   </div>
 </template>
 
 <script>
-import * as tables from './tablesConfig';
+import { configureTable } from '@/services/tablesConfig';
 
-import * as Cells from '@/components/tableCells';
 import WombatTable from '@/components/WombatTable/Table';
 import WombatRow from '@/components/WombatTable/Row';
 import TableLoader from '@/components/TableLoader';
@@ -79,14 +78,13 @@ import ColumnsListEditor from '@/components/ColumnsListEditor';
 import smartTable from '@/mixins/smartTable';
 
 export default {
-  name: 'LazyLoadingTable',
+  name: 'ConfigurableLazyLoadTable',
   components: {
     WombatTable,
     WombatRow,
     TableLoader,
     TableDatesEditor,
     ColumnsListEditor,
-    ...Cells,
   },
   mixins: [smartTable],
   props: {
@@ -109,10 +107,10 @@ export default {
       loading: false,
       rowComponentsHash: {
         default: 'DefaultCell',
-        ...tables[this.name].rowComponents,
+        ...configureTable(this.name).rowComponents,
       },
       selectedItem: null,
-      ...tables[this.name],
+      ...configureTable(this.name),
     };
   },
   mounted() {
@@ -188,19 +186,19 @@ export default {
 @import '~@/assets/styles/variables.scss';
 @import '@/assets/styles/mixins.scss';
 
-.lazy-loading-table {
+.configurable-lazy-load-table {
   @include table-base-container;
 }
 
-.lazy-loading-table-toolbar {
+.configurable-lazy-load-table-toolbar {
   @include table-base-toolbar;
 }
 
-.lazy-loading-table-title {
+.configurable-lazy-load-table-title {
   @include table-base-title;
 }
 
-.lazy-loading-table-footer {
+.configurable-lazy-load-table-footer {
   @include table-base-footer;
 }
 </style>

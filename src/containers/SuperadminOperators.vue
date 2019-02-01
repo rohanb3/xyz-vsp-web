@@ -1,20 +1,21 @@
 <template>
-  <LazyLoadingTable
+  <ConfigurableLazyLoadTable
     displayName="operators"
     :name="name"
     :selectedId="selectedOperator"
     :handleCellClick="showOperatorDetails"
   >
     <OperatorDetailsCard
+      slot="drawer"
       v-if="operatorDetailsShown"
       :operatorId="selectedOperator"
       @close="closeOperatorDetails"
     />
-  </LazyLoadingTable>
+  </ConfigurableLazyLoadTable>
 </template>
 
 <script>
-import LazyLoadingTable from './LazyLoadingTable/LazyLoadingTable';
+import ConfigurableLazyLoadTable from './ConfigurableLazyLoadTable';
 import OperatorDetailsCard from '@/containers/OperatorDetailsCard';
 
 import { SUPERADMIN_OPERATORS_TABLE } from '@/store/tables/constants';
@@ -22,7 +23,7 @@ import { SUPERADMIN_OPERATORS_TABLE } from '@/store/tables/constants';
 export default {
   name: 'SuperadminOperators',
   components: {
-    LazyLoadingTable,
+    ConfigurableLazyLoadTable,
     OperatorDetailsCard,
   },
   data() {

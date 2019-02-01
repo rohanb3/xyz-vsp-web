@@ -292,7 +292,9 @@ export default {
     window.addEventListener('resize', this.checkColumnsWidth);
   },
   beforeDestroy() {
-    document.querySelector(`#${this.tableNameIdentificator}`).remove();
+    const stylesFile = document.querySelector(`#${this.tableNameIdentificator}`);
+    // eslint-disable-next-line no-unused-expressions
+    stylesFile && stylesFile.remove();
   },
 };
 
