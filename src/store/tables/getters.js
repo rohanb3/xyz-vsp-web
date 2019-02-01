@@ -1,4 +1,4 @@
-import { CALLS_TABLE } from './constants';
+import { CALLS_TABLE } from '@/constants/tablesNames';
 
 export default {
   callsTableDateRange(state) {

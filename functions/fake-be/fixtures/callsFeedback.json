@@ -1,0 +1,40 @@
+{
+    "items": [
+      {
+        "type": "Help",
+        "success": 123,
+        "fail":12,
+        "receivedFeedbacks": 900,
+        "answeredCalls": 354,
+        "serviceEfficiency": 96.1,
+        "order": 1
+      },
+      {
+        "type": "Info",
+        "success": 345,
+        "fail":3,
+        "receivedFeedbacks": 565,
+        "answeredCalls": 200,
+        "serviceEfficiency": 96.1,
+        "order": 2
+      },
+      {
+        "type": "Sale",
+        "success": 2,
+        "fail":56,
+        "receivedFeedbacks": 78,
+        "answeredCalls": 200,
+        "serviceEfficiency": 96.1,
+        "order": 3
+      },
+      {
+        "type": "In total",
+        "success": 205,
+        "fail": 31,
+        "receivedFeedbacks": 284,
+        "answeredCalls": 284,
+        "serviceEfficiency": 80.8,
+        "order": 4
+      }
+    ]
+}

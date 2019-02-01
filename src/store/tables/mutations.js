@@ -2,14 +2,26 @@ import {
   getCallsTableColumns,
   getOperatorsTableColumns,
   getCallsDurationTableColumns,
-} from './columnsList';
+  getCallsFeedbackTableColumns,
+  getSuperadminOperatorsTableColumns,
+} from '@/services/tablesColumnsList';
+
 import * as types from './mutationTypes';
-import { CALLS_TABLE, OPERATORS_TABLE, CALLS_DURATION_TABLE } from './constants';
+
+import {
+  CALLS_TABLE,
+  OPERATORS_TABLE,
+  CALLS_DURATION_TABLE,
+  CALLS_FEEDBACK_TABLE,
+  SUPERADMIN_OPERATORS_TABLE,
+} from '@/constants/tablesNames';
 
 const allColumns = {
   [CALLS_TABLE]: getCallsTableColumns(),
   [OPERATORS_TABLE]: getOperatorsTableColumns(),
   [CALLS_DURATION_TABLE]: getCallsDurationTableColumns(),
+  [CALLS_FEEDBACK_TABLE]: getCallsFeedbackTableColumns(),
+  [SUPERADMIN_OPERATORS_TABLE]: getSuperadminOperatorsTableColumns(),
 };
 
 export default {

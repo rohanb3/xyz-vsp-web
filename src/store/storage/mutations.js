@@ -9,6 +9,9 @@ import {
   SET_ALL_OPERATORS_LENGTH,
   SET_CALL_TYPES_AND_DISPOSITIONS,
   INSERT_CALLS_DURATION,
+  INSERT_CALLS_FEEDBACK,
+  INSERT_SUPERADMIN_OPERATORS,
+  SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
 } from './mutationTypes';
 
 export default {
@@ -43,6 +46,15 @@ export default {
   },
   [INSERT_CALLS_DURATION](state, callDurations) {
     state.callsDuration.push(...callDurations);
+  },
+  [INSERT_CALLS_FEEDBACK](state, callsFeedback) {
+    state.callsFeedback.push(...callsFeedback);
+  },
+  [INSERT_SUPERADMIN_OPERATORS](state, operators) {
+    state.superadminOperators.push(...operators);
+  },
+  [SET_ALL_SUPERADMIN_OPERATORS_LENGTH](state, length) {
+    state.allSuperadminOperatorsLength = length;
   },
   /* eslint-enable no-param-reassign */
 };

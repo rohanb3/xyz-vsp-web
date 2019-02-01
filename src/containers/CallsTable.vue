@@ -95,9 +95,9 @@ import ColumnsListEditor from '@/components/ColumnsListEditor';
 import smartTable from '@/mixins/smartTable';
 
 import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
-import { CALLS_TABLE } from '@/store/tables/constants';
+import { CALLS_TABLE } from '@/constants/tablesNames';
 
-import { getCallsTableColumns } from '@/store/tables/columnsList';
+import { getCallsTableColumns } from '@/services/tablesColumnsList';
 
 const allColumns = getCallsTableColumns()
   .map(({ name, title }) => ({

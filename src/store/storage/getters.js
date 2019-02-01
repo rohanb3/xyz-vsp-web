@@ -22,6 +22,15 @@ export default {
   loadedOperatorsAmount(state) {
     return state.operators.length;
   },
+  loadedSuperadminOperatorsAmount(state) {
+    return state.superadminOperators.length;
+  },
+  allSuperadminOperatorsLoaded(
+    { allSuperadminOperatorsLength },
+    { loadedSuperadminOperatorsAmount }
+  ) {
+    return allSuperadminOperatorsLength <= loadedSuperadminOperatorsAmount;
+  },
   allOperatorsLoaded({ allOperatorsLength }, { loadedOperatorsAmount }) {
     return allOperatorsLength <= loadedOperatorsAmount;
   },

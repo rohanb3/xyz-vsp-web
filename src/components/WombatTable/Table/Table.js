@@ -45,6 +45,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    name: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
