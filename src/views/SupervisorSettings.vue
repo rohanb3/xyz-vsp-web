@@ -40,8 +40,8 @@ export default {
 
 <style lang="scss" scoped>
 .settings-page {
-  height: 100%;
   display: flex;
+  height: 100%;
 }
 .page-content {
   display: flex;

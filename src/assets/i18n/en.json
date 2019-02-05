@@ -130,5 +130,10 @@
   "show.review": "Show review",
   "settings": "Settings",
   "profile": "Profile",
+  "personal.email": "Personal E-mail",
+  "personal.phone": "Personal Phone",
+  "enter.old.password": "Enter Old Password",
+  "enter.new.password": "Enter New Password",
+  "edit": "Edit",
   "plans": "Plans"
 }

@@ -130,5 +130,10 @@
   "show.review": "Show review",
   "settings": "TBD Settings",
   "profile": "TBD Profile",
+  "personal.email": "TBD Personal E-mail",
+  "personal.phone": "TBD Personal Phone",
+  "enter.old.password": "TBD Enter Old Password",
+  "enter.new.password": "TBD Enter New Password",
+  "edit": "TBD Edit",
   "plans": "TBD Plans"
 }

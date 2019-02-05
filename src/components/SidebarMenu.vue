@@ -42,7 +42,6 @@ export default {
 }
 .sidebar-container {
   width: 140px;
-  height: 100%;
   box-shadow: 3px 0 4px 0 $lhs-shadow-color;
   background-color: $base-white;
   a {
