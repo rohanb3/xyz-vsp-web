@@ -18,7 +18,7 @@
           ></user-avatar>
         </div>
         <div class="row-item avatar-switcher">
-          <avatar-switcher :onChange="onAvatarChangeFromSwitcher"/>
+          <avatar-switcher v-if="isEditMode" :onChange="onAvatarChangeFromSwitcher"/>
         </div>
       </div>
       <div class="row">
@@ -74,7 +74,7 @@
       <div class="row">
         <div class="row-item">
           <a
-            v-if="isEditMode"
+            v-if="isEditMode && !isChangePasswordMode"
             @click="onChangePassword"
             class="change-password"
           >{{$t('change.password')}}</a>
@@ -131,19 +131,28 @@ export default {
     },
     onAvatarChange(e) {
       const { files } = e.target;
-      this.userEdited.src = URL.createObjectURL(files[0]);
-      this.userEdited.backgroundColor = '';
-      this.userEdited.initialsColor = '';
+      this.userEdited = {
+        ...this.userEdited,
+        src: URL.createObjectURL(files[0]),
+        backgroundColor: '',
+        initialsColor: '',
+      };
     },
     onAvatarChangeFromSwitcher(avatar) {
       if (avatar.src) {
-        this.userEdited.backgroundColor = '';
-        this.userEdited.initialsColor = '';
-        this.userEdited.src = avatar.src;
+        this.userEdited = {
+          ...this.userEdited,
+          src: avatar.src,
+          backgroundColor: '',
+          initialsColor: '',
+        };
       } else if (avatar.backgroundColor && avatar.initialsColor) {
-        this.userEdited.backgroundColor = avatar.backgroundColor;
-        this.userEdited.initialsColor = avatar.initialsColor;
-        this.userEdited.src = '';
+        this.userEdited = {
+          ...this.userEdited,
+          src: '',
+          backgroundColor: avatar.backgroundColor,
+          initialsColor: avatar.initialsColor,
+        };
       }
     },
   },
