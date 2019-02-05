@@ -12,7 +12,7 @@ export function addSpaceBetweenNumbers(number) {
 }
 
 function getFirstLetter(str) {
-  return str.split('')[0];
+  return str && str.split ? str.split('')[0] : '';
 }
 
 export function getInitials(firstName = '', lastName = '') {
