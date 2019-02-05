@@ -89,6 +89,9 @@
 </template>
 
 <script>
+import UserAvatar from '@/components/UserAvatar';
+import AvatarSwitcher from '@/components/AvatarSwitcher';
+
 const testUserData = {
   firstName: 'Robert',
   lastName: 'Smith',
@@ -97,9 +100,6 @@ const testUserData = {
   backgroundColor: '#f8c37a',
   initialsColor: '#b4681f',
 };
-
-import UserAvatar from '@/components/UserAvatar';
-import AvatarSwitcher from '@/components/AvatarSwitcher';
 
 export default {
   name: 'SupervisorSettingsProfile',
