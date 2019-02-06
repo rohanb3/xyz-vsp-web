@@ -123,13 +123,17 @@
   "call.feedbacks": "TBD Call Feedbacks",
   "created": "TBD Created",
   "qte.of.operators": "TBD Qte of Operators",
-  "received.feedbacks": "TBD Received Feedbacks",
-  "answered.calls": "TBD Answered Calls",
-  "service.efficiency": "TBD Service Efficiency",
-  "call.feedbacks": "TBD Call Feedbacks",
   "languages": "TBD Languages",
   "work.since": "TBD Work Since",
   "about": "TBD About",
   "address": "TBD Address",
-  "show.review": "Show review"
+  "show.review": "Show review",
+  "settings": "TBD Settings",
+  "profile": "TBD Profile",
+  "personal.email": "TBD Personal E-mail",
+  "personal.phone": "TBD Personal Phone",
+  "enter.old.password": "TBD Enter Old Password",
+  "enter.new.password": "TBD Enter New Password",
+  "edit": "TBD Edit",
+  "plans": "TBD Plans"
 }

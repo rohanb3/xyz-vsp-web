@@ -8,6 +8,8 @@ import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import OperatorReview from '@/views/OperatorReview';
 import SettingsPage from '@/views/SettingsPage';
+import SupervisorSettings from '@/views/SupervisorSettings';
+import SupervisorSettingsProfile from '@/views/SupervisorSettingsProfile';
 import Operators from '@/views/Operators';
 import CallPage from '@/views/CallPage';
 import SupervisorDashboard from '@/views/SupervisorDashboard';
@@ -80,6 +82,28 @@ const router = new Router({
               path: '/settings',
               name: 'settings',
               component: SettingsPage,
+            },
+            {
+              path: '/supervisor-settings',
+              name: 'supervisorSettings',
+              component: SupervisorSettings,
+              children: [
+                {
+                  path: 'profile',
+                  name: 'supervisorSettingsProfile',
+                  component: SupervisorSettingsProfile,
+                },
+                {
+                  path: 'company',
+                  name: 'supervisorSettingsCompany',
+                  component: SupervisorSettingsProfile,
+                },
+                {
+                  path: 'plans',
+                  name: 'supervisorSettingsPlans',
+                  component: SupervisorSettingsProfile,
+                },
+              ],
             },
             {
               path: '/feedback',

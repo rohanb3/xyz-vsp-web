@@ -3,7 +3,7 @@ import { getOperatorDetails } from '@/services/operatorDetails';
 
 let data;
 
-describe.only('should call api.get and return corect data', () => {
+describe('should call api.get and return corect data', () => {
   beforeEach(() => {
     data = {
       id: '99838',

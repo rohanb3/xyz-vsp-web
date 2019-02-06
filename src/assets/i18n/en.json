@@ -123,13 +123,17 @@
   "call.feedbacks": "Call Feedbacks",
   "created": "Created",
   "qte.of.operators": "Qte of Operators",
-  "received.feedbacks": "Received Feedbacks",
-  "answered.calls": "Answered Calls",
-  "service.efficiency": "Service Efficiency",
-  "call.feedbacks": "Call Feedbacks",
   "languages": "Languages",
   "work.since": "Work Since",
   "about": "About",
   "address": "Address",
-  "show.review": "Show review"
+  "show.review": "Show review",
+  "settings": "Settings",
+  "profile": "Profile",
+  "personal.email": "Personal E-mail",
+  "personal.phone": "Personal Phone",
+  "enter.old.password": "Enter Old Password",
+  "enter.new.password": "Enter New Password",
+  "edit": "Edit",
+  "plans": "Plans"
 }

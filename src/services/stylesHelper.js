@@ -10,3 +10,11 @@ export function getRandomColor() {
 export function addSpaceBetweenNumbers(number) {
   return number ? number.toLocaleString('ru-RU') : '';
 }
+
+function getFirstLetter(str) {
+  return str && str.split ? str.split('')[0] : '';
+}
+
+export function getInitials(firstName = '', lastName = '') {
+  return `${getFirstLetter(firstName)}${getFirstLetter(lastName)}`;
+}
