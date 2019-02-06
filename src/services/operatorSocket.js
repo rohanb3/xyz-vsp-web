@@ -14,7 +14,7 @@ const ROOM_LEFT_EMPTY = 'room.left.empty';
 const ROOM_CREATED = 'room.created';
 
 export function init(authData, onIncomingCall) {
-  socket = socket || io('/operators');
+  socket = socket || io('/operators', { transports: ['websocket'] });
 
   const promise = new Promise((resolve, reject) => {
     const onAuthenticated = data => {
