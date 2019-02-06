@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import Base from '@/views/Base';
 import Login from '@/views/Login';
+import AppContent from '@/views/AppContent';
 import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
@@ -18,7 +19,7 @@ import OperatorDashboard from '@/views/OperatorDashboard';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
-import AppContent from '@/views/AppContent';
+import IncomingCallPopup from '@/containers/IncomingCallPopup';
 
 import store from '@/store';
 
@@ -51,6 +52,7 @@ const router = new Router({
             header: AppHeader,
             lhs: LHS,
             main: AppContent,
+            incomingCall: IncomingCallPopup,
           },
           children: [
             {

@@ -1,6 +1,6 @@
 <template>
   <div class="call-page">
-    <video-call/>
+    <video-call class="video-call"/>
   </div>
 </template>
 
@@ -15,4 +15,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped/>
+<style lang="scss" scoped>
+.call-page {
+  padding: 17px 20px 27px 20px;
+  border-radius: 8px;
+  height: 100%;
+}
+</style>

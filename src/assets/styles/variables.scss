@@ -126,8 +126,11 @@ $call-dialogue-blurred-background: rgba(0, 0, 0, 0.39);
 $call-dialogue-time-color: #fff;
 $call-dialogue-incoming-text-color: rgba(255, 255, 255, 0.4);
 
-$call-myself-view-background-color: rgba(34, 34, 34, 0.9);
-$call-myself-view-text-color: rgba(255, 255, 255, 0.4);
+$call-local-media-background-color: rgba(34, 34, 34, 0.9);
+$call-local-media-text-color: rgba(255, 255, 255, 0.4);
+$call-local-media-width: 13vw;
+$call-local-media-height: 10vw;
+$call-remote-media-background-color: rgba(34, 34, 34, 0.2);
 $call-controls-background-color: rgba(34, 34, 34, 0.9);
 $call-controls-icon-on-color: #7ed321;
 $call-controls-icon-off-color: #d0021b;

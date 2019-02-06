@@ -1,9 +1,9 @@
 <template>
   <v-layout row justify-center>
-    <v-dialog v-model="dialog" persistent>
+    <v-dialog v-model="isDialogShown" persistent>
       <div class="main" :style="{backgroundImage: backgroundImage}">
         <div class="reject-call">
-          <v-icon color="white" class="icon-reject" @click="rejectCall">call_end</v-icon>
+          <v-icon color="white" class="icon-reject" @click="ignoreCall">call_end</v-icon>
         </div>
         <div class="blurred-area"/>
         <v-btn class="accept-call" @click="acceptCall">
@@ -21,12 +21,17 @@
 
 <script>
 import moment from 'moment';
+import {
+  initializeOperator,
+  acceptCall,
+  disconnectOperator,
+} from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
   data() {
     return {
-      dialog: true,
+      dialogMinimizedByUser: false,
       counter: 0,
       interval: null,
     };
@@ -44,20 +49,28 @@ export default {
         .second(this.counter)
         .format('mm : ss');
     },
+    isIncomingCall() {
+      return this.$store.getters.isIncomingCall;
+    },
+    isDialogShown() {
+      return !this.dialogMinimizedByUser && this.isIncomingCall;
+    },
   },
-  async mounted() {
+  mounted() {
+    initializeOperator();
     this.interval = setInterval(this.updateCurrentTime, 1000);
   },
   destroyed() {
     clearInterval(this.interval);
+    disconnectOperator();
   },
   methods: {
     acceptCall() {
-      // router navigate to , request
+      this.$router.push({ name: 'call' });
+      return acceptCall();
     },
-    rejectCall() {
-      this.dialog = false;
-      // request
+    ignoreCall() {
+      this.dialogMinimizedByUser = false;
     },
     updateCurrentTime() {
       this.counter += 1;

@@ -152,18 +152,15 @@ html {
   margin-right: 0;
 }
 
-#app .call-feedback-popup {
-  .v-input--selection-controls__input {
-    display: none;
-  }
-  .v-input--selection-controls {
-    margin-top: 0;
-    padding-top: 0;
-  }
-}
 #app .video-call {
   .v-slider__thumb {
     visibility: hidden;
+  }
+
+  .local-media video {
+    max-width: $call-local-media-width;
+    max-height: $call-local-media-height;
+    border-radius: 8px;
   }
 }
 
