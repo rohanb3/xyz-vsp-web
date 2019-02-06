@@ -1,0 +1,12 @@
+{
+    "items": {
+    "waitingTime": {
+      "longest": 212,
+      "average": 180
+    },
+    "callsOnHold": 301,
+    "availableOperators": 294,
+    "missedCallsPersentage": 1.2,
+    "overThresholdOperators": 4
+  }
+}

@@ -2,6 +2,7 @@
   <div class="wombat-table">
 
     <wombat-header
+      :name="name"
       :columns="columns"
       :width="rowWidth"
       :resize ="resize"

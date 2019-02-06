@@ -1,2 +1,0 @@
-export const CUSTOMERS_TABLE = 'CUSTOMERS_TABLE';
-export const CALLS_TABLE = 'CALLS_TABLE';

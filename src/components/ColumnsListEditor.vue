@@ -16,7 +16,7 @@
       @show="onShow"
       @hide="onHide"
     >
-      <div class="popper">
+      <div class="popper" ref="popper2">
         <checkbox-list
           class="columns-list"
           :items="columns"
@@ -111,7 +111,8 @@ export default {
 }
 
 .revert-to-default {
-  margin: 10px 0;
+  border-top: $popper-revert-to-default-border;
+  padding: 10px 0;
   color: $popper-chechkbox-color;
   cursor: pointer;
 }

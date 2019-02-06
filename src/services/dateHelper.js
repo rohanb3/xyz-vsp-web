@@ -28,3 +28,29 @@ export function filterByDateRange(data = [], { startDate, endDate } = {}, byFiel
     return isAfterStartDate && isBeforeEndDate;
   });
 }
+
+export function secondsToMinutesSeconds(data) {
+  let seconds = parseInt(data % 60, 10);
+  let minutes = parseInt((data / 60) % 60, 10);
+
+  minutes = minutes ? `${minutes}m` : '';
+  seconds = seconds ? `${seconds}s` : '';
+
+  return `${minutes} ${seconds}`.trim();
+}
+
+export function secondToMinutes(seconds) {
+  if (!seconds && seconds !== 0) return null;
+  const minutes = parseInt((seconds / 60) % 60, 10);
+
+  return `${minutes} min`;
+}
+
+export function secondsToHoursMinutes(data = 0) {
+  let minutes = parseInt((data / 60) % 60, 10);
+  const hours = parseInt(Math.floor(data / 3600), 10);
+
+  minutes = minutes < 10 ? `0${minutes}` : minutes;
+
+  return `${hours}h ${minutes}m`.trim();
+}

@@ -1,64 +1,70 @@
 <template>
-  <div class="block">
-    <OperatorReviewChart :chartData="chartData"/>
+  <div class="charts-container">
+    <div class="block">
+      <MultipleLinesChartHeader
+        :rawChartData="rawChartData"
+        @processedChartDataChanged="onProcessedChartDataChanged"
+      ></MultipleLinesChartHeader>
+      <MultipleLinesChart :chartData="processedChartData"/>
+    </div>
+    <div class="block">
+      <div class="calls-chart-title">Calls</div>
+      <CallsChart :chartData="callsChartData"/>
+    </div>
   </div>
 </template>
 
 <script>
-import OperatorReviewChart from '@/components/OperatorReviewChart';
-import moment from 'moment';
+import MultipleLinesChart from '@/components/charts/MultipleLinesChart';
+import MultipleLinesChartHeader from '@/components/charts/MultipleLinesChartHeader';
+import CallsChart from '@/components/charts/CallsChart';
 import { getOperatorReview } from '@/services/repository';
+
+const callsChartData = require('../../functions/fake-be/fixtures/callsChart.json');
 
 export default {
   name: 'OperatorReview',
-  components: { OperatorReviewChart },
+  components: { MultipleLinesChart, MultipleLinesChartHeader, CallsChart },
   mounted() {
-    getOperatorReview().then(this.prepareChartData);
+    getOperatorReview().then(data => {
+      this.rawChartData = data;
+    });
+
+    this.callsChartData = callsChartData.items;
   },
   data() {
     return {
-      chartData: {},
+      rawChartData: [],
+      processedChartData: {},
+      callsChartData: [],
     };
   },
   methods: {
-    prepareChartData(data) {
-      this.chartData = {
-        labels: data.map(item => moment(item.date).format('D MMM')),
-        datasets: [
-          {
-            label: 'Efficiency',
-            borderColor: '#398ffb',
-            backgroundColor: 'transparent',
-            lineTension: 0,
-            data: data.map(item => item.efficiency),
-          },
-          {
-            label: 'Duration',
-            borderColor: '#b0b0b0',
-            backgroundColor: 'transparent',
-            lineTension: 0,
-            data: data.map(item => item.duration),
-          },
-          {
-            label: 'Bonus',
-            borderColor: '#7ed321',
-            backgroundColor: 'transparent',
-            lineTension: 0,
-            data: data.map(item => item.bonus),
-          },
-        ],
-      };
+    onProcessedChartDataChanged(data) {
+      this.processedChartData = data;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/variables.scss';
 .block {
   margin: 28px;
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 4px 0 #b8b8b880;
   background-color: #ffffff;
+}
+.charts-container {
+  overflow-y: auto;
+  height: 100%;
+}
+.calls-chart-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: $base-text-color;
+  margin-left: 5px;
+  margin-bottom: 25px;
 }
 </style>

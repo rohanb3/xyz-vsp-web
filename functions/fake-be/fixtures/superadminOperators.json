@@ -1,0 +1,74 @@
+{
+    "items": [
+      {
+        "id": "32841",
+        "company": "T-mobile",
+       "name": "Stuart Little",
+        "department": "Support, Sale",
+        "calls": "4208",
+        "info": "1438",
+        "help": "1431",
+        "sale": "1339",
+        "wrapUpTime": "40",
+        "rating": "4,93",
+        "positive": "3843",
+        "negative": "365"
+      },
+      {
+        "id": "43981",
+        "company": "T-mobile",
+        "name": "Leonard Grange",
+        "department": "Sale",
+        "calls": "1284",
+        "info": "389",
+        "help": "391",
+        "sale": "504",
+        "wrapUpTime": "40",
+        "rating": "4,93",
+        "positive": "3843",
+        "negative": "365"
+      },
+      {
+        "id": "85484",
+        "company": "T-mobile",
+        "name": "Mikle Clause",
+        "department": "Support",
+        "calls": "4304",
+        "info": "1431",
+        "help": "1193",
+        "sale": "1680",
+        "wrapUpTime": "77",
+        "rating": "4.42",
+        "positive": "3910",
+        "negative": "394"
+      },
+      {
+        "id": "43899",
+        "company": "Spectrum",
+        "name": "Anna White",
+        "department": "Sale",
+        "calls": "4270",
+        "info": "1438",
+        "help": "1431",
+        "sale": "1291",
+        "wrapUpTime": "36",
+        "rating": "4.23",
+        "positive": "3817",
+        "negative": "453"
+      },
+      {
+        "id": "43781",
+        "company": "T-mobile",
+        "name": "Jonny House",
+        "department": "Support, Sale",
+        "calls": "2399",
+        "info": "1210",
+        "help": "1093",
+        "sale": "1196",
+        "wrapUpTime": "31",
+        "rating": "3.97",
+        "positive": "2247",
+        "negative": "152"
+      }
+    ]
+  }

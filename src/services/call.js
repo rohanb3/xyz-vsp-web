@@ -11,6 +11,7 @@ import {
   disconnect as disconnectFromSocket,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
+import api from '@/services/api';
 
 export function initializeOperator() {
   const userName = store.state.loggedInUser.user.name;
@@ -75,3 +76,6 @@ function setActiveCallStatus() {
 function setToken(token) {
   store.commit(SET_CALL_TOKEN, token);
 }
+
+export const getCallInfo = () => api.get('/call/info').then(response => response.data);
+export const callBack = () => api.get('/call').then(response => response.data);

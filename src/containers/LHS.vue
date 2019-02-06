@@ -5,14 +5,17 @@
         <v-icon class="item-icon">account_box</v-icon>
       </div>
     </router-link>
-    <div class="lhs-item" :class="{ active: activeIndex === 1 }" @click="setActive(1)">
-      <v-icon class="item-icon">group</v-icon>
-    </div>
-    <div class="lhs-item call" :class="{ active: activeIndex === 2 }" @click="setActive(2)">
-      <v-icon class="item-icon">call</v-icon>
-      <v-icon class="item-icon secondary-icon">list</v-icon>
-    </div>
-
+    <router-link to="/operators" class="lhs-item-link">
+      <div class="lhs-item" :class="{ active: activeIndex === 1 }" @click="setActive(1)">
+        <v-icon class="item-icon">group</v-icon>
+      </div>
+    </router-link>
+    <router-link to="/calls" class="lhs-item-link">
+      <div class="lhs-item call" :class="{ active: activeIndex === 2 }" @click="setActive(2)">
+        <v-icon class="item-icon">call</v-icon>
+        <v-icon class="item-icon secondary-icon">list</v-icon>
+      </div>
+    </router-link>
     <router-link class="lhs-item-link" to="/operator-review">
       <div class="lhs-item" :class="{ active: activeIndex === 3 }" @click="setActive(3)">
         <v-icon class="item-icon">insert_chart</v-icon>
@@ -25,9 +28,19 @@
     <div class="lhs-item" :class="{ active: activeIndex === 5 }" @click="setActive(5)">
       <v-icon class="item-icon">credit_card</v-icon>
     </div>
-    <v-spacer/>
-    <router-link to="/settings" class="lhs-item-link">
+    <router-link to="/operator-dashboard" class="lhs-item-link">
       <div class="lhs-item" :class="{ active: activeIndex === 6 }" @click="setActive(6)">
+        <v-icon class="item-icon">view_compact</v-icon>
+      </div>
+    </router-link>
+    <v-spacer class="spacer"/>
+    <router-link to="/supervisor-settings/profile" class="lhs-item-link">
+      <div class="lhs-item" :class="{ active: activeIndex === 7 }" @click="setActive(7)">
+        <v-icon class="item-icon">settings</v-icon>
+      </div>
+    </router-link>
+    <router-link to="/settings" class="lhs-item-link">
+      <div class="lhs-item" :class="{ active: activeIndex === 8 }" @click="setActive(8)">
         <v-icon class="item-icon">settings</v-icon>
       </div>
     </router-link>
@@ -92,7 +105,6 @@ export default {
 
 .lhs-item-link:last-child .lhs-item {
   border-bottom: 0;
-  border-top: 2px solid $lhs-delimiter-color;
 }
 
 .lhs-item.call {
@@ -104,5 +116,9 @@ export default {
     top: 5px;
     right: 5px;
   }
+}
+.spacer {
+  width: 100%;
+  border-bottom: 2px solid $lhs-delimiter-color;
 }
 </style>

@@ -6,14 +6,26 @@ import actions from '@/store/storage/actions';
 import {
   LOAD_CUSTOMERS,
   LOAD_ALL_CUSTOMERS_LENGTH,
+  LOAD_SUPERADMIN_COMPANIES,
+  LOAD_SUPERADMIN_COMPANIES_LENGTH,
   LOAD_CALLS,
   LOAD_ALL_CALLS_LENGTH,
+  LOAD_CALLS_DURATION,
+  LOAD_CALLS_FEEDBACK,
+  LOAD_SUPERADMIN_OPERATORS,
+  LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH,
 } from '@/store/storage/actionTypes';
 import {
   INSERT_CUSTOMERS,
   SET_ALL_CUSTOMERS_LENGTH,
+  INSERT_SUPERADMIN_COMPANIES,
+  SET_ALL_SUPERADMIN_COMPANIES_LENGTH,
   INSERT_CALLS,
   SET_ALL_CALLS_LENGTH,
+  INSERT_CALLS_DURATION,
+  INSERT_CALLS_FEEDBACK,
+  INSERT_SUPERADMIN_OPERATORS,
+  SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
 } from '@/store/storage/mutationTypes';
 import * as repository from '@/services/repository';
 
@@ -51,6 +63,39 @@ describe('storage actions: ', () => {
     });
   });
 
+  describe('LOAD_SUPERADMIN_COMPANIES: ', () => {
+    it('should load companies', async () => {
+      const companies = [{ id: 123 }, { id: 321 }];
+      const fakeStore = {
+        commit: jest.fn(),
+        getters: {
+          loadedSuperadminCompaniesAmount: 10,
+        },
+      };
+
+      repository.getSuperadminCompanies = jest.fn(() => Promise.resolve(companies));
+
+      await actions[LOAD_SUPERADMIN_COMPANIES](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_SUPERADMIN_COMPANIES, companies);
+      expect(repository.getSuperadminCompanies).toHaveBeenCalledWith(10, 20);
+    });
+  });
+
+  describe('LOAD_SUPERADMIN_COMPANIES_LENGTH: ', () => {
+    it('should load all companies length', async () => {
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      repository.getAllSuperadminCompaniesLength = jest.fn(() => Promise.resolve(42));
+
+      await actions[LOAD_SUPERADMIN_COMPANIES_LENGTH](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_SUPERADMIN_COMPANIES_LENGTH, 42);
+    });
+  });
+
   describe('LOAD_CALLS: ', () => {
     it('should load calls', async () => {
       const calls = [{ id: 123 }, { id: 321 }];
@@ -81,6 +126,68 @@ describe('storage actions: ', () => {
       await actions[LOAD_ALL_CALLS_LENGTH](fakeStore);
 
       expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_CALLS_LENGTH, 42);
+    });
+  });
+  // TODO:
+  describe('LOAD_CALLS_DURATION: ', () => {
+    it('should load calls duration', async () => {
+      const callsDuration = [{ type: 'help', total: 23 }, { type: 'info', total: 1 }];
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      repository.getCallsDuration = jest.fn(() => Promise.resolve(callsDuration));
+
+      await actions[LOAD_CALLS_DURATION](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_CALLS_DURATION, callsDuration);
+    });
+  });
+  describe('LOAD_CALLS_FEEDBACK: ', () => {
+    it('should load calls feedback', async () => {
+      const callsFeedback = [{ type: 'help', total: 23 }, { type: 'info', total: 1 }];
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      repository.getCallsFeedback = jest.fn(() => Promise.resolve(callsFeedback));
+
+      await actions[LOAD_CALLS_FEEDBACK](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_CALLS_FEEDBACK, callsFeedback);
+    });
+  });
+  // TODO:
+  describe('LOAD_SUPERADMIN_OPERATORS: ', () => {
+    it('should load operators', async () => {
+      const operators = [{ id: 123 }, { id: 321 }];
+      const fakeStore = {
+        commit: jest.fn(),
+        getters: {
+          loadedSuperadminOperatorsAmount: 10,
+        },
+      };
+
+      repository.getSuperadminOperators = jest.fn(() => Promise.resolve(operators));
+
+      await actions[LOAD_SUPERADMIN_OPERATORS](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_SUPERADMIN_OPERATORS, operators);
+      expect(repository.getSuperadminOperators).toHaveBeenCalledWith(10, 20);
+    });
+  });
+
+  describe('LOAD_SUPERADMIN_OPERATORS_LENGTH: ', () => {
+    it('should load all operators length', async () => {
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      repository.getAllSuperadminOperatorsLength = jest.fn(() => Promise.resolve(42));
+
+      await actions[LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_SUPERADMIN_OPERATORS_LENGTH, 42);
     });
   });
 });

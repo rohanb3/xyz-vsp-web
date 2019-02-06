@@ -9,8 +9,14 @@ import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import OperatorReview from '@/views/OperatorReview';
 import SettingsPage from '@/views/SettingsPage';
+import SupervisorSettings from '@/views/SupervisorSettings';
+import SupervisorSettingsProfile from '@/views/SupervisorSettingsProfile';
+import Operators from '@/views/Operators';
 import CallPage from '@/views/CallPage';
+import SupervisorDashboard from '@/views/SupervisorDashboard';
+import OperatorDashboard from '@/views/OperatorDashboard';
 
+import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
 import IncomingCallPopup from '@/containers/IncomingCallPopup';
@@ -65,6 +71,11 @@ const router = new Router({
               component: Calls,
             },
             {
+              path: '/operators',
+              name: 'operators',
+              component: Operators,
+            },
+            {
               path: '/operator-review',
               name: 'operatorReview',
               component: OperatorReview,
@@ -75,9 +86,46 @@ const router = new Router({
               component: SettingsPage,
             },
             {
+              path: '/supervisor-settings',
+              name: 'supervisorSettings',
+              component: SupervisorSettings,
+              children: [
+                {
+                  path: 'profile',
+                  name: 'supervisorSettingsProfile',
+                  component: SupervisorSettingsProfile,
+                },
+                {
+                  path: 'company',
+                  name: 'supervisorSettingsCompany',
+                  component: SupervisorSettingsProfile,
+                },
+                {
+                  path: 'plans',
+                  name: 'supervisorSettingsPlans',
+                  component: SupervisorSettingsProfile,
+                },
+              ],
+            },
+            {
+              path: '/feedback',
+              name: 'feedback',
+              component: CallFeedbackPopup,
+            },
+            {
               path: '/call',
               name: 'call',
               component: CallPage,
+            },
+            {
+              path: '/supervisor-dashboard',
+              name: 'supervisor-dashboard',
+              component: SupervisorDashboard,
+            },
+            {
+              path: '/operator-dashboard',
+              name: 'operator-dashboard',
+              component: OperatorDashboard,
             },
           ],
         },

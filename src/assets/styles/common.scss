@@ -8,7 +8,8 @@ html {
   overflow: hidden;
 }
 
-#app .customers-table {
+#app .customers-table,
+#app .superadmin-companies-table {
   .virtual-list {
     max-height: calc(
       100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-toolbar-height} -
@@ -17,7 +18,8 @@ html {
   }
 }
 
-#app .calls-table {
+#app .calls-table,
+.operators-table {
   .virtual-list {
     max-height: calc(
       100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$calls-table-toolbar-height} -
@@ -143,6 +145,12 @@ html {
     box-shadow: $settings-input-box-shadow;
   }
 }
+.v-dialog {
+  width: auto;
+}
+.v-radio {
+  margin-right: 0;
+}
 
 #app .video-call {
   .v-slider__thumb {
@@ -166,16 +174,17 @@ html {
   height: 20px;
 }
 
-.v-dialog {
-  width: auto;
-}
-
 #app .popper {
+  max-height: calc(
+    100vh - #{$header-height} - #{$calls-table-toolbar-height} - #{$table-header-height} +
+      10px
+  );
   background-color: $popper-background-color;
   border-radius: 8px;
   border: none;
   box-shadow: 0 2px 24px 0 $popper-shadow-color;
   padding: 0px;
+  top: 10px !important;
 
   &[x-placement^='bottom'] {
     .popper__arrow {
@@ -184,4 +193,12 @@ html {
       border-bottom-color: $popper-background-color;
     }
   }
+}
+
+button {
+  outline: 0;
+}
+
+.hidden {
+  display: none;
 }

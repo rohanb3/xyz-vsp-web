@@ -9,3 +9,9 @@ export default {
   name: 'AppContent',
 };
 </script>
+
+<style scoped>
+.app-content {
+  overflow: hidden;
+}
+</style>

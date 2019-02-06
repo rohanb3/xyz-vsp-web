@@ -6,6 +6,7 @@
 
 <script>
 import moment from 'moment';
+import { SHORT_DAY_SHORT_MONTH_FULL_YEAR } from '../../constants/dateFormats';
 
 export default {
   name: 'EmailCell',
@@ -16,7 +17,7 @@ export default {
   },
   computed: {
     formattedDate() {
-      return moment.utc(this.item.lastPayment).format('DD MMM YYYY');
+      return moment.utc(this.item.lastPayment).format(SHORT_DAY_SHORT_MONTH_FULL_YEAR);
     },
   },
 };

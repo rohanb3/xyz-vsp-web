@@ -231,6 +231,7 @@ export default {
   flex-flow: row;
   margin-right: 70px;
   cursor: default;
+  overflow: hidden;
 }
 
 .datepicker-controls {

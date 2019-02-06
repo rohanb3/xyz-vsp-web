@@ -33,6 +33,10 @@ export default {
       type: String,
       default: HEADER_CELL_ELLIPSIS_SMART,
     },
+    name: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -49,6 +53,9 @@ export default {
     },
     isColumnsEllipsisModeAlways() {
       return this.columnsEllipsisMode === HEADER_CELL_ELLIPSIS_ALWAYS;
+    },
+    tableNameIdentificator() {
+      return this.name ? `wombat-columns-styles-${this.name}` : 'wombat-columns-styles';
     },
     preparedColumns: {
       get() {
@@ -85,18 +92,6 @@ export default {
       set(columns) {
         this.$emit('columnsReordered', columns);
       },
-    },
-    columnsWidths() {
-      const widths = {};
-
-      Object.keys(this.preparedColumns).forEach(column => {
-        const columnEl = this.$el.querySelector(`.${column.className}`);
-        if (columnEl) {
-          widths[column.name] = columnEl.clientWidth;
-        }
-      });
-
-      return widths;
     },
     columnsStyles() {
       const styles = {};
@@ -145,12 +140,12 @@ export default {
         .join('\n');
 
       let stylesContainer =
-        this.stylesContainer || document.querySelector('#wombat-columns-styles');
+        this.stylesContainer || document.querySelector(`#${this.tableNameIdentificator}`);
 
       if (!stylesContainer) {
         stylesContainer = document.createElement('STYLE');
         this.stylesContainer = stylesContainer;
-        stylesContainer.id = 'wombat-columns-styles';
+        stylesContainer.id = this.tableNameIdentificator;
         document.querySelector('body').appendChild(stylesContainer);
       }
 
@@ -186,8 +181,10 @@ export default {
     onResizeFinish(column, newWidth) {
       let changes = {};
 
+      const _newWidth = Math.abs(newWidth);
+
       if (column._width) {
-        const width = column._minWidth > newWidth ? column._minWidth : newWidth;
+        const width = column._minWidth > _newWidth ? column._minWidth : _newWidth;
 
         changes[column.name] = `${width}px`;
       } else {
@@ -204,22 +201,22 @@ export default {
         let newFluidColumnsWidth;
         const columnMinWidth = column.minWidth || COLUMN_DEFAULT_MIN_WIDTH;
 
-        if (newWidth > this.resizerPositions[column.name]) {
+        if (_newWidth > this.resizerPositions[column.name]) {
           newFluidColumnsWidth = Math.max(
             fluidColumnsTotalWidth,
-            newWidth + otherFluidColumnsMinWidth
+            _newWidth + otherFluidColumnsMinWidth
           );
-        } else if (newWidth < this.resizerPositions[column.name] && !otherFluidColumns.length) {
-          newFluidColumnsWidth = newWidth;
-        } else if (newWidth < this.resizerPositions[column.name] && newWidth < columnMinWidth) {
-          newFluidColumnsWidth = fluidColumnsTotalWidth - (columnMinWidth - newWidth);
+        } else if (_newWidth < this.resizerPositions[column.name] && !otherFluidColumns.length) {
+          newFluidColumnsWidth = _newWidth;
+        } else if (_newWidth < this.resizerPositions[column.name] && _newWidth < columnMinWidth) {
+          newFluidColumnsWidth = fluidColumnsTotalWidth - (columnMinWidth - _newWidth);
         } else {
           newFluidColumnsWidth = fluidColumnsTotalWidth;
         }
-        const newOtherFluidColumnsWidth = newFluidColumnsWidth - newWidth;
+        const newOtherFluidColumnsWidth = newFluidColumnsWidth - _newWidth;
 
         changes = {
-          [column.name]: Math.round((newWidth / newFluidColumnsWidth) * 100),
+          [column.name]: Math.round((_newWidth / newFluidColumnsWidth) * 100),
           ...this.adjustFluidColumns(
             newFluidColumnsWidth,
             newOtherFluidColumnsWidth,
@@ -228,7 +225,7 @@ export default {
         };
 
         if (newFluidColumnsWidth !== fluidColumnsTotalWidth) {
-          const newFixedColumnsWidth = this.width - newWidth - newOtherFluidColumnsWidth;
+          const newFixedColumnsWidth = this.width - _newWidth - newOtherFluidColumnsWidth;
 
           changes = {
             ...changes,
@@ -292,6 +289,12 @@ export default {
   mounted() {
     this.checkColumnsWidth();
     this.compileColumnsStyles();
+    window.addEventListener('resize', this.checkColumnsWidth);
+  },
+  beforeDestroy() {
+    const stylesFile = document.querySelector(`#${this.tableNameIdentificator}`);
+    // eslint-disable-next-line no-unused-expressions
+    stylesFile && stylesFile.remove();
   },
 };
 

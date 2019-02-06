@@ -1,4 +1,10 @@
-import { secondsToHuman, filterByDateRange } from '@/services/dateHelper';
+import {
+  secondsToHuman,
+  filterByDateRange,
+  secondsToMinutesSeconds,
+  secondsToHoursMinutes,
+  secondToMinutes,
+} from '@/services/dateHelper';
 
 describe('dateHelper', () => {
   describe('secondsToHuman', () => {
@@ -197,6 +203,64 @@ describe('dateHelper', () => {
         };
         expect(filterByDateRange(data, range)).toEqual([]);
       });
+    });
+  });
+
+  describe('secondsToMinutesSeconds', () => {
+    it('should return "" if no value was passed', () => {
+      expect(secondsToMinutesSeconds()).toBe('');
+    });
+
+    it('should return "" if 0 was passed', () => {
+      expect(secondsToMinutesSeconds(0)).toBe('');
+    });
+
+    it('should return "1s" if 1 was passed', () => {
+      expect(secondsToMinutesSeconds(1)).toBe('1s');
+    });
+
+    it('should return "1m 2s" if 62 was passed', () => {
+      expect(secondsToMinutesSeconds(62)).toBe('1m 2s');
+    });
+  });
+
+  describe('secondsToHoursMinutes', () => {
+    it('should return "0h 00m" if no value was passed', () => {
+      expect(secondsToHoursMinutes()).toBe('0h 00m');
+    });
+
+    it('should return "0h 00m" if 0 was passed', () => {
+      expect(secondsToHoursMinutes(0)).toBe('0h 00m');
+    });
+
+    it('should return "0h 00m" if 1 was passed', () => {
+      expect(secondsToHoursMinutes(1)).toBe('0h 00m');
+    });
+
+    it('should return "0h 02m" if 121 was passed', () => {
+      expect(secondsToHoursMinutes(121)).toBe('0h 02m');
+    });
+
+    it('should return "6h 45m" if 24320 was passed', () => {
+      expect(secondsToHoursMinutes(24320)).toBe('6h 45m');
+    });
+  });
+
+  describe('secondToMinutes', () => {
+    it('should return null if no value was passed', () => {
+      expect(secondToMinutes()).toBe(null);
+    });
+
+    it('should return "0 min" if 0 was passed', () => {
+      expect(secondToMinutes(0)).toBe('0 min');
+    });
+
+    it('should return "0 min" if 1 was passed', () => {
+      expect(secondToMinutes(1)).toBe('0 min');
+    });
+
+    it('should return "3 min" if 182 was passed', () => {
+      expect(secondToMinutes(182)).toBe('3 min');
     });
   });
 });

@@ -5,3 +5,51 @@
   font-size: 14px;
   color: $table-inactive-color;
 }
+
+@mixin base-shadow-container {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.22);
+  background-color: rgb(255, 255, 255);
+}
+
+@mixin table-base-container {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px 0 $table-shadow-color;
+}
+
+@mixin table-base-title {
+  font-family: Roboto;
+  font-size: 20px;
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: $table-row-text-color;
+}
+
+@mixin table-base-toolbar {
+  display: flex;
+  flex-flow: row;
+  height: 60px;
+  align-items: center;
+  padding: 0px 29px;
+}
+
+@mixin table-base-footer {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin scrollbar {
+  &::-webkit-scrollbar {
+    height: 3px;
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $base-blue;
+  }
+}
