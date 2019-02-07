@@ -18,6 +18,9 @@
         <v-btn flat icon color="white">
           <v-icon>notifications</v-icon>
         </v-btn>
+        <div class="switcher-container">
+          <online-status-switcher/>
+        </div>
         <header-user-menu/>
       </v-toolbar-items>
     </v-toolbar>
@@ -27,12 +30,14 @@
 <script>
 import SupervisorHeaderWidgets from './SupervisorHeaderWidgets';
 import HeaderUserMenu from './HeaderUserMenu';
+import OnlineStatusSwitcher from '@/components/OnlineStatusSwitcher';
 
 export default {
   name: 'AppHeader',
   components: {
     SupervisorHeaderWidgets,
     HeaderUserMenu,
+    OnlineStatusSwitcher,
   },
   computed: {
     isSupervisorDashboardPage() {
@@ -49,11 +54,9 @@ export default {
   font-family: 'Roboto', sans-serif;
   color: $base-white;
 }
-
 .header-toolbar {
   align-items: center;
 }
-
 .platform-name {
   height: 21px;
   margin-left: 0px;
@@ -65,7 +68,6 @@ export default {
   line-height: normal;
   letter-spacing: normal;
 }
-
 .side-icon {
   width: 32px;
   height: 32px;
@@ -78,5 +80,8 @@ export default {
   text-align: center;
   background-color: $base-white;
   color: #3c91f7;
+}
+.switcher-container {
+  margin: 0 10px;
 }
 </style>
