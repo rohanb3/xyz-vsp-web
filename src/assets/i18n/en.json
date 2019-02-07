@@ -135,5 +135,8 @@
   "enter.old.password": "Enter Old Password",
   "enter.new.password": "Enter New Password",
   "edit": "Edit",
+  "upgrade.plan": "Upgrade Plan",
+  "support": "Support",
+  "log.out": "Log Out",
   "plans": "Plans"
 }

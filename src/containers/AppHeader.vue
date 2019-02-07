@@ -5,7 +5,7 @@
       <v-toolbar-title class="platform-name">{{ $t('app.title') }}</v-toolbar-title>
       <supervisor-header-widgets v-if="isSupervisorDashboardPage"/>
       <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-sm-and-down">
+      <v-toolbar-items class="hidden-sm-and-down header-toolbar">
         <v-btn flat icon color="white">
           <v-icon>search</v-icon>
         </v-btn>
@@ -18,9 +18,7 @@
         <v-btn flat icon color="white">
           <v-icon>notifications</v-icon>
         </v-btn>
-        <v-btn flat icon color="#b4681f">
-          <v-icon class="user-photo">RS</v-icon>
-        </v-btn>
+        <header-user-menu/>
       </v-toolbar-items>
     </v-toolbar>
   </div>
@@ -28,11 +26,13 @@
 
 <script>
 import SupervisorHeaderWidgets from './SupervisorHeaderWidgets';
+import HeaderUserMenu from './HeaderUserMenu';
 
 export default {
   name: 'AppHeader',
   components: {
     SupervisorHeaderWidgets,
+    HeaderUserMenu,
   },
   computed: {
     isSupervisorDashboardPage() {
@@ -48,6 +48,10 @@ export default {
 .app-header {
   font-family: 'Roboto', sans-serif;
   color: $base-white;
+}
+
+.header-toolbar {
+  align-items: center;
 }
 
 .platform-name {
@@ -74,20 +78,5 @@ export default {
   text-align: center;
   background-color: $base-white;
   color: #3c91f7;
-}
-
-.user-photo {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: #f8c37a;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
 }
 </style>

@@ -7,7 +7,7 @@
     <div class="main">
       <div class="row">
         <div class="row-item">
-          <user-avatar
+          <avatar-uploader
             :src="userEdited.src"
             :backgroundColor="userEdited.backgroundColor"
             :initialsColor="userEdited.initialsColor"
@@ -15,7 +15,7 @@
             :editable="isEditMode"
             :firstName="userInitial.firstName"
             :lastName="userInitial.lastName"
-          ></user-avatar>
+          ></avatar-uploader>
         </div>
         <div class="row-item avatar-switcher">
           <avatar-switcher v-if="isEditMode" :onChange="onAvatarChangeFromSwitcher"/>
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import UserAvatar from '@/components/UserAvatar';
+import AvatarUploader from '@/components/AvatarUploader';
 import AvatarSwitcher from '@/components/AvatarSwitcher';
 
 const testUserData = {
@@ -103,7 +103,7 @@ const testUserData = {
 
 export default {
   name: 'SupervisorSettingsProfile',
-  components: { UserAvatar, AvatarSwitcher },
+  components: { AvatarUploader, AvatarSwitcher },
   data() {
     return {
       isEditMode: false,
