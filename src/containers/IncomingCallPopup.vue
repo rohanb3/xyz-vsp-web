@@ -21,11 +21,7 @@
 
 <script>
 import moment from 'moment';
-import {
-  initializeOperator,
-  acceptCall,
-  disconnectOperator,
-} from '@/services/call';
+import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
