@@ -8,7 +8,7 @@ export function getRandomColor() {
 }
 
 export function addSpaceBetweenNumbers(number) {
-  return number ? number.toLocaleString('ru-RU') : '';
+  return number || number === 0 ? number.toLocaleString('ru-RU') : '';
 }
 
 function getFirstLetter(str) {

@@ -1,9 +1,10 @@
 <template>
   <div class="calls-table">
+    <div class="dashboard-container">
+      <calls-dashboard/>
+    </div>
     <div class="calls-table-toolbar">
-      <div class="calls-amount">
-        {{ filteredCallsLength }} {{ $t('calls') }}
-      </div>
+      <div class="calls-amount">{{ filteredCallsLength }} {{ $t('calls') }}</div>
       <v-spacer></v-spacer>
       <table-dates-editor
         :startDate="startDate"
@@ -28,49 +29,41 @@
       @bottomReached="checkAndInsertCalls"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
-     >
-       <div
-         v-if="rows && rows.length"
-         slot="row"
-         slot-scope="row"
-       >
-         <wombat-row
-           :item="row.item"
-           :columns="row.columns"
-           :height="row.item.height"
-           :class="`call-${row.item.type}`"
-         >
-           <component
-             slot="row-cell"
-             slot-scope="rowCell"
-             class="row-cell"
-             :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
-             :item="rowCell.item"
-             :column="rowCell.column"
-             @clientFeedbackClick="showClientFeedback"
-             @operatorFeedbackClick="showOperatorFeedback"
-           />
-         </wombat-row>
+    >
+      <div v-if="rows && rows.length" slot="row" slot-scope="row">
+        <wombat-row
+          :item="row.item"
+          :columns="row.columns"
+          :height="row.item.height"
+          :class="`call-${row.item.type}`"
+        >
+          <component
+            slot="row-cell"
+            slot-scope="rowCell"
+            class="row-cell"
+            :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
+            :item="rowCell.item"
+            :column="rowCell.column"
+            @clientFeedbackClick="showClientFeedback"
+            @operatorFeedbackClick="showOperatorFeedback"
+          />
+        </wombat-row>
+      </div>
 
-       </div>
-
-       <div
-         slot="footer"
-         class="calls-table-footer wombat-footer"
-       >
-         <table-loader v-if="loading"/>
-       </div>
-     </wombat-table>
-     <client-feedback-card
-       v-if="clientFeedbackShown"
-       :call="selectedCall"
-       @close="closeClientFeedback"
-     />
-     <operator-feedback-card
-       v-if="operatorFeedbackShown"
-       :call="selectedCall"
-       @close="closeOperatorFeedback"
-     />
+      <div slot="footer" class="calls-table-footer wombat-footer">
+        <table-loader v-if="loading"/>
+      </div>
+    </wombat-table>
+    <client-feedback-card
+      v-if="clientFeedbackShown"
+      :call="selectedCall"
+      @close="closeClientFeedback"
+    />
+    <operator-feedback-card
+      v-if="operatorFeedbackShown"
+      :call="selectedCall"
+      @close="closeOperatorFeedback"
+    />
   </div>
 </template>
 
@@ -91,6 +84,7 @@ import ClientFeedbackCard from '@/components/ClientFeedbackCard';
 import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
 import TableDatesEditor from '@/components/TableDatesEditor';
 import ColumnsListEditor from '@/components/ColumnsListEditor';
+import CallsDashboard from '@/components/CallsDashboard';
 
 import smartTable from '@/mixins/smartTable';
 
@@ -125,6 +119,7 @@ export default {
     OperatorFeedbackCard,
     TableDatesEditor,
     ColumnsListEditor,
+    CallsDashboard,
   },
   mixins: [smartTable],
   data() {
@@ -222,6 +217,7 @@ export default {
   width: 100%;
   border-radius: 8px;
   box-shadow: 0 2px 4px 0 $table-shadow-color;
+  background-color: #fff;
 }
 
 .calls-table-toolbar {
@@ -248,5 +244,9 @@ export default {
   flex-flow: row;
   justify-content: center;
   align-items: center;
+}
+.dashboard-container {
+  display: flex;
+  padding: 15px 15px 5px 15px;
 }
 </style>

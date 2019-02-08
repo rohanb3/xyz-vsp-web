@@ -4,6 +4,7 @@ import {
   secondsToMinutesSeconds,
   secondsToHoursMinutes,
   secondToMinutes,
+  secondsToHoursMinutesSeconds,
 } from '@/services/dateHelper';
 
 describe('dateHelper', () => {
@@ -222,6 +223,18 @@ describe('dateHelper', () => {
     it('should return "1m 2s" if 62 was passed', () => {
       expect(secondsToMinutesSeconds(62)).toBe('1m 2s');
     });
+
+    it('should return "0m 0s" if 0 was passed and showZero is true', () => {
+      expect(secondsToMinutesSeconds(0, true)).toBe('0m 0s');
+    });
+
+    it('should return "0m 1s" if 1 was passed and showZero is true', () => {
+      expect(secondsToMinutesSeconds(1, true)).toBe('0m 1s');
+    });
+
+    it('should return "1m 0s" if 60 was passed and showZero is true', () => {
+      expect(secondsToMinutesSeconds(60, true)).toBe('1m 0s');
+    });
   });
 
   describe('secondsToHoursMinutes', () => {
@@ -261,6 +274,28 @@ describe('dateHelper', () => {
 
     it('should return "3 min" if 182 was passed', () => {
       expect(secondToMinutes(182)).toBe('3 min');
+    });
+  });
+
+  describe('secondsToHoursMinutesSeconds', () => {
+    it('should return "0h 0m 0s" if no value was passed', () => {
+      expect(secondsToHoursMinutesSeconds()).toBe('0h 0m 0s');
+    });
+
+    it('should return "0h 0m 0s" if 0 was passed', () => {
+      expect(secondsToHoursMinutesSeconds(0)).toBe('0h 0m 0s');
+    });
+
+    it('should return "0h 0m 1s" if 1 was passed', () => {
+      expect(secondsToHoursMinutesSeconds(1)).toBe('0h 0m 1s');
+    });
+
+    it('should return "0h 2m 0s" if 121 was passed', () => {
+      expect(secondsToHoursMinutesSeconds(121)).toBe('0h 2m 1s');
+    });
+
+    it('should return "6h 45m 20s" if 24320 was passed', () => {
+      expect(secondsToHoursMinutesSeconds(24320)).toBe('6h 45m 20s');
     });
   });
 });
