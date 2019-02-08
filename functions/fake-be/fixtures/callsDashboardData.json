@@ -1,0 +1,16 @@
+{
+  "totalCalls": 98274,
+  "failSuccessRate": {
+    "fail": 8439,
+    "success": 77328,
+    "noRated": 12507
+  },
+  "typesRate": {
+    "info": 32784,
+    "help": 25901,
+    "sale": 39625
+  },
+  "averagePickup": 48,
+  "totalDuration": 191153050,
+  "averageRating": 4.21
+}

@@ -1,5 +1,6 @@
 /* eslint-disable-next-line import/prefer-default-export */
 import moment from 'moment';
+import { addSpaceBetweenNumbers } from './stylesHelper';
 
 export function secondsToHuman(duration = 0) {
   if (!duration) {
@@ -29,12 +30,12 @@ export function filterByDateRange(data = [], { startDate, endDate } = {}, byFiel
   });
 }
 
-export function secondsToMinutesSeconds(data) {
+export function secondsToMinutesSeconds(data, showZero) {
   let seconds = parseInt(data % 60, 10);
   let minutes = parseInt((data / 60) % 60, 10);
 
-  minutes = minutes ? `${minutes}m` : '';
-  seconds = seconds ? `${seconds}s` : '';
+  minutes = minutes || showZero ? `${minutes}m` : '';
+  seconds = seconds || showZero ? `${seconds}s` : '';
 
   return `${minutes} ${seconds}`.trim();
 }
@@ -53,4 +54,13 @@ export function secondsToHoursMinutes(data = 0) {
   minutes = minutes < 10 ? `0${minutes}` : minutes;
 
   return `${hours}h ${minutes}m`.trim();
+}
+
+export function secondsToHoursMinutesSeconds(data = 0) {
+  const seconds = parseInt(data % 60, 10);
+  const minutes = parseInt((data / 60) % 60, 10);
+  const hours = addSpaceBetweenNumbers(parseInt(Math.floor(data / 3600), 10));
+  const formattedHours = addSpaceBetweenNumbers(hours);
+
+  return `${formattedHours}h ${minutes}m ${seconds}s`.trim();
 }

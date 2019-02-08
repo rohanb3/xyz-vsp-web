@@ -138,5 +138,9 @@
   "upgrade.plan": "Upgrade Plan",
   "support": "Support",
   "log.out": "Log Out",
+  "no.rated": "No Rated",
+  "average.pickup": "Average Pick Up",
+  "total.duration": "Total Duration",
+  "average.rating": "Average Rating",
   "plans": "Plans"
 }
