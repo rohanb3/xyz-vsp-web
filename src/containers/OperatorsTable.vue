@@ -64,10 +64,7 @@ import IdCell from '@/components/tableCells/IdCell';
 
 import smartTable from '@/mixins/smartTable';
 
-import {
-  LOAD_OPERATORS,
-  LOAD_ALL_OPERATORS_LENGTH,
-} from '@/store/storage/actionTypes';
+import { LOAD_OPERATORS, LOAD_ALL_OPERATORS_LENGTH } from '@/store/storage/actionTypes';
 import { OPERATORS_TABLE } from '@/constants/tablesNames';
 
 import { getOperatorsTableColumns } from '@/services/tablesColumnsList';
@@ -122,12 +119,10 @@ export default {
   computed: {
     columnsVisibilityData() {
       // at first exclude additional column
-      return allColumns
-        .filter(column => column.name !== 'additional')
-        .map(column => ({
-          ...column,
-          visible: !!this.columns.find(c => c.name === column.name),
-        }));
+      return allColumns.filter(column => column.name !== 'additional').map(column => ({
+        ...column,
+        visible: !!this.columns.find(c => c.name === column.name),
+      }));
     },
     rows() {
       return this.$store.state.storage.operators.map(item => ({
