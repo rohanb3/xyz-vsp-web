@@ -1,11 +1,9 @@
 <template>
   <div class="customers-table">
-      <div class="customers-table-toolbar">
-        <div class="customers-amount">
-          {{ totalCustomersAmount }} {{ $t('companies') }}
-        </div>
-        <v-spacer></v-spacer>
-      </div>
+    <div class="customers-table-toolbar">
+      <div class="customers-amount">{{ totalCustomersAmount }} {{ $t('companies') }}</div>
+      <v-spacer></v-spacer>
+    </div>
     <wombat-table
       v-if="rows && rows.length"
       :items="rows"
@@ -15,35 +13,23 @@
       @bottomReached="checkAndInsertCustomers"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
-     >
-       <div
-         v-if="rows && rows.length"
-         slot="row"
-         slot-scope="row"
-       >
-         <wombat-row
-           :item="row.item"
-           :columns="row.columns"
-           :height="row.item.height"
-         >
-           <component
-             slot="row-cell"
-             slot-scope="rowCell"
-             class="row-cell"
-             :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
-             :item="rowCell.item"
-             :column="rowCell.column"
-           />
-         </wombat-row>
-
-       </div>
-       <div
-         slot="footer"
-         class="customers-table-footer wombat-footer"
-       >
-         <table-loader v-if="loading"/>
-       </div>
-     </wombat-table>
+    >
+      <div v-if="rows && rows.length" slot="row" slot-scope="row">
+        <wombat-row :item="row.item" :columns="row.columns" :height="row.item.height">
+          <component
+            slot="row-cell"
+            slot-scope="rowCell"
+            class="row-cell"
+            :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
+            :item="rowCell.item"
+            :column="rowCell.column"
+          />
+        </wombat-row>
+      </div>
+      <div slot="footer" class="customers-table-footer wombat-footer">
+        <table-loader v-if="loading"/>
+      </div>
+    </wombat-table>
   </div>
 </template>
 
@@ -58,7 +44,10 @@ import TableLoader from '@/components/TableLoader';
 
 import smartTable from '@/mixins/smartTable';
 
-import { LOAD_CUSTOMERS, LOAD_ALL_CUSTOMERS_LENGTH } from '@/store/storage/actionTypes';
+import {
+  LOAD_CUSTOMERS,
+  LOAD_ALL_CUSTOMERS_LENGTH,
+} from '@/store/storage/actionTypes';
 import { CUSTOMERS_TABLE } from '@/constants/tablesNames';
 
 export default {
@@ -123,11 +112,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/assets/styles/variables.scss';
+@import '@/assets/styles/mixins.scss';
 
 .customers-table {
+  @include table-base-container;
   width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px 0 $table-shadow-color;
 }
 
 .customers-table-toolbar {

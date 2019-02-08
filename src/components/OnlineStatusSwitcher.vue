@@ -9,7 +9,7 @@ export default {
   name: 'OnlineStatusSwitcher',
   data() {
     return {
-      isOnline: false,
+      isOnline: true,
     };
   },
   computed: {
@@ -23,13 +23,16 @@ export default {
 <style lang="scss">
 @import '~@/assets/styles/variables.scss';
 .status-switcher-container {
-  .theme--light.v-input--switch__thumb {
-    color: #fafafa !important;
+  .v-input--switch__thumb {
+    color: $base-red !important;
   }
   .v-input--switch__track {
     height: 16px;
   }
   .v-input--is-label-active {
+    .v-input--switch__thumb {
+      color: $base-white !important;
+    }
     .v-input--switch__thumb {
       transform: translate(41px);
     }
