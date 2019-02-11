@@ -1,12 +1,17 @@
 <template>
-  <Popper
-    trigger="click"
-    :options="{
-      placement: 'bottom',
-      modifiers: { offset: { offset: '-80px,0' } }
-    }"
-  >
-    <div class="popper">
+  <v-menu v-model="menu" nudge-bottom="40">
+    <v-btn flat icon color="#b4681f" slot="activator">
+      <user-avatar
+        :backgroundColor="avatar.backgroundColor"
+        :initialsColor="avatar.initialsColor"
+        :firstName="user.firstName"
+        :lastName="user.lastName"
+        size="36px"
+        initialsSize="14px"
+      />
+    </v-btn>
+
+    <div class="popover">
       <div class="header">
         <div class="popper-avatar-container">
           <user-avatar
@@ -36,22 +41,10 @@
         <a class="footer-link-blue">{{ $t('log.out') }}</a>
       </div>
     </div>
-
-    <v-btn flat icon color="#b4681f" slot="reference">
-      <user-avatar
-        :backgroundColor="avatar.backgroundColor"
-        :initialsColor="avatar.initialsColor"
-        :firstName="user.firstName"
-        :lastName="user.lastName"
-        size="36px"
-        initialsSize="14px"
-      />
-    </v-btn>
-  </Popper>
+  </v-menu>
 </template>
 
 <script>
-import Popper from 'vue-popperjs';
 import UserAvatar from '@/components/UserAvatar';
 
 const {
@@ -67,9 +60,10 @@ const userInfo = {
 
 export default {
   name: 'HeaderUserMenu',
-  components: { Popper, UserAvatar },
+  components: { UserAvatar },
   data() {
     return {
+      menu: false,
       user: userInfo,
       avatar: avatarsCollection[0],
     };

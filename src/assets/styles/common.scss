@@ -195,6 +195,32 @@ html {
   }
 }
 
+.popover {
+  border-radius: 8px;
+  background-color: $base-white;
+  box-shadow: 0 2px 24px 0 $popper-shadow-color;
+  &:after,
+  &:before {
+    bottom: 100%;
+    left: 93%;
+    border: solid transparent;
+    content: ' ';
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+  &:after {
+    border-bottom-color: $base-white;
+    border-width: 8px;
+    margin-left: -8px;
+  }
+}
+.v-menu__content {
+  overflow: visible;
+  contain: inherit;
+}
+
 button {
   outline: 0;
 }
