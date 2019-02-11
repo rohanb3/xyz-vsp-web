@@ -45,6 +45,7 @@ export default {
   padding: 6px 9px;
   margin-right: 10px;
   display: flex;
+  flex-wrap: wrap;
 }
 .column:not(:last-child) {
   margin-right: 15px;

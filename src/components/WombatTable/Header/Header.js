@@ -4,6 +4,7 @@ import VueDraggable from 'vuedraggable';
 
 const RESIZER_WIDTH = 5;
 const COLUMN_DEFAULT_MIN_WIDTH = 50;
+const MIN_DRAGGABLE_DIFFERENCE = 10;
 
 export const HEADER_CELL_ELLIPSIS_NEVER = 'never';
 export const HEADER_CELL_ELLIPSIS_ALWAYS = 'always';
@@ -178,14 +179,24 @@ export default {
         this.resizerPositions = resizerPositions;
       });
     },
+    calculateNewWidth(column, newWidth) {
+      let width;
+      if (column._minWidth > newWidth) {
+        width = column._minWidth;
+      } else if (Math.abs(column._width - newWidth) <= MIN_DRAGGABLE_DIFFERENCE) {
+        width = column._width;
+      } else {
+        width = newWidth;
+      }
+      return width;
+    },
     onResizeFinish(column, newWidth) {
       let changes = {};
 
       const _newWidth = Math.abs(newWidth);
 
       if (column._width) {
-        const width = column._minWidth > _newWidth ? column._minWidth : _newWidth;
-
+        const width = this.calculateNewWidth(column, _newWidth);
         changes[column.name] = `${width}px`;
       } else {
         const allFluidColumns = this.preparedColumns.filter(item => !item._width);
