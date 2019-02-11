@@ -26,6 +26,7 @@
       @toggleCamera="toggleCamera"
       @toggleMicrophone="toggleMicrophone"
       @toggleSound="toggleSound"
+      @toggleScreen="toggleScreen"
       @volumeLevelChanged="changeVolumeLevel"
       @finishCall="finishCall"/>
   </div>
@@ -38,6 +39,8 @@ import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import {
   enableLocalVideo,
   enableLocalAudio,
+  enableLocalScreenShare,
+  disableScreenShare,
   disableLocalVideo,
   disableLocalAudio,
   convertTracksToAttachable,
@@ -126,6 +129,9 @@ export default {
     toggleMicrophone() {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
+    toggleScreen() {
+      return this.isScreenSharingOn ? disableScreenShare() : enableLocalScreenShare();
+    },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
       this.volume = this.isSoundOn ? 50 : 0;
@@ -160,12 +166,24 @@ export default {
         TWILIO_EVENTS.REMOTE_TRACKS_REMOVED,
         this.handleTracksRemoving
       );
+
+      this.screenShareAddingUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.LOCAL_SCREEN_SHARE_ADDED,
+        this.handleScreenShareAdding
+      );
+
+      this.screenShareRemovingUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.SCREEN_SHARE_REMOVING,
+        this.handleScreenShareRemoving
+      );
     },
     unsubscribeFromTwilioEvents() {
       this.localTracksAddingUnsubscriber();
       this.localTracksRemovingUnsubscriber();
       this.remoteTracksAddingUnsubscriber();
       this.remoteTracksRemovingUnsubscriber();
+      this.screenShareAddingUnsubscriber();
+      this.screenShareRemovingUnsubscriber();
     },
     handleLocalTracksAdding(tracks) {
       tracks.forEach(this.updatePreviewControlsByAddedLocalTrack);
@@ -184,6 +202,12 @@ export default {
     },
     handleTracksRemoving(tracks) {
       detachTracks(tracks);
+    },
+    handleScreenShareAdding() {
+      this.isScreenSharingOn = true;
+    },
+    handleScreenShareRemoving() {
+      this.isScreenSharingOn = false;
     },
     updatePreviewControlsByAddedLocalTrack(track) {
       if (track.kind === VIDEO) {
