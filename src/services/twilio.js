@@ -113,18 +113,20 @@ export function disconnect() {
   }
 }
 
-export function enableLocalScreenShare() {
+export function enableScreenShare() {
   return checkExtension().then(() => {
     const promise = previewTracks.screenShare
       ? Promise.resolve(previewTracks.screenShare)
       : getUserScreen();
 
-    return promise.then(stream => {
-      const [track] = stream.getVideoTracks();
-      previewTracks.screenShare = track;
-      publishTrack(track);
-      emitScreenShareAdding([track]);
-    });
+    return promise
+      .then(stream => {
+        const [track] = stream.getVideoTracks();
+        previewTracks.screenShare = track;
+        publishTrack(track);
+        emitScreenShareAdding([track]);
+      })
+      .catch(() => new Error('Could not get stream'));
   });
 }
 
@@ -225,7 +227,7 @@ const isBrowserFirefox = isFirefox();
 
 function getUserScreen() {
   if (!canShareScreen()) {
-    return false;
+    return Promise.reject();
   }
 
   if (isBrowserChrome) {
@@ -236,7 +238,7 @@ function getUserScreen() {
     return getFirefoxScreen();
   }
 
-  return false;
+  return Promise.reject();
 }
 
 function getChromeScreen() {
@@ -315,11 +317,11 @@ function emitRemoteTracksRemoving(tracks) {
 }
 
 function emitScreenShareAdding(tracks) {
-  twilioEvents.emit(TWILIO_EVENTS.LOCAL_SCREEN_SHARE_ADDED, tracks);
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_SHARED, tracks);
 }
 
 function emitScreenShareRemoving(tracks) {
-  twilioEvents.emit(TWILIO_EVENTS.SCREEN_SHARE_REMOVING, tracks);
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_UNSHARED, tracks);
 }
 
 function emitParticpantConnecting() {

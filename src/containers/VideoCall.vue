@@ -39,7 +39,7 @@ import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import {
   enableLocalVideo,
   enableLocalAudio,
-  enableLocalScreenShare,
+  enableScreenShare,
   disableScreenShare,
   disableLocalVideo,
   disableLocalAudio,
@@ -130,7 +130,7 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn ? disableScreenShare() : enableLocalScreenShare();
+      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -168,12 +168,12 @@ export default {
       );
 
       this.screenShareAddingUnsubscriber = twilioEvents.subscribe(
-        TWILIO_EVENTS.LOCAL_SCREEN_SHARE_ADDED,
+        TWILIO_EVENTS.SCREEN_SHARED,
         this.handleScreenShareAdding
       );
 
       this.screenShareRemovingUnsubscriber = twilioEvents.subscribe(
-        TWILIO_EVENTS.SCREEN_SHARE_REMOVING,
+        TWILIO_EVENTS.SCREEN_UNSHARED,
         this.handleScreenShareRemoving
       );
     },
