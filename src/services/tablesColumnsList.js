@@ -5,13 +5,14 @@ export const getCustomersTableColumns = () => [
     name: 'company',
     field: 'company',
     title: i18n.t('company'),
-    width: '300px',
+    width: '200px',
   },
   {
     name: 'contactPerson',
     field: 'contactPerson',
     class: 'text',
     title: i18n.t('contact.person'),
+    width: '200px',
   },
   {
     name: 'email',
@@ -19,6 +20,7 @@ export const getCustomersTableColumns = () => [
     fieldType: 'email',
     class: 'text',
     title: i18n.t('email'),
+    width: '250px',
   },
   {
     name: 'phone',
@@ -32,13 +34,14 @@ export const getCustomersTableColumns = () => [
     field: 'lastPayment',
     fieldType: 'lastPayment',
     title: i18n.t('last.payment'),
+    width: '120px',
   },
   {
     name: 'amount',
     field: 'amount',
     title: i18n.t('amount'),
     class: 'number',
-    width: '100px',
+    width: '120px',
   },
   {
     name: 'additional',
@@ -54,13 +57,14 @@ export const getSuperadminCompaniesTableColumns = () => [
     name: 'company',
     field: 'company',
     title: i18n.t('company'),
-    width: '300px',
+    width: '250px',
   },
   {
     name: 'contactPerson',
     field: 'contactPerson',
     class: 'text',
     title: i18n.t('contact.person'),
+    width: '250px',
   },
   {
     name: 'email',
@@ -68,6 +72,7 @@ export const getSuperadminCompaniesTableColumns = () => [
     fieldType: 'email',
     class: 'text',
     title: i18n.t('email'),
+    width: '250px',
   },
   {
     name: 'phone',
@@ -81,6 +86,7 @@ export const getSuperadminCompaniesTableColumns = () => [
     field: 'created',
     fieldType: 'created',
     title: i18n.t('created'),
+    width: '150px',
   },
   {
     name: 'qtyOfOperators',
@@ -105,18 +111,21 @@ export const getCallsTableColumns = () => [
     fieldType: 'date',
     title: i18n.t('date'),
     class: 'text',
+    width: '160px',
   },
   {
     name: 'operator',
     field: 'operator',
     class: 'text',
     title: i18n.t('operator'),
+    width: '140px',
   },
   {
     name: 'retailers',
     field: 'retailers',
     class: 'text',
     title: i18n.t('retailers'),
+    width: '140px',
   },
   {
     name: 'type',
@@ -124,7 +133,7 @@ export const getCallsTableColumns = () => [
     fieldType: 'type',
     class: 'text',
     title: i18n.t('type'),
-    width: '100px',
+    width: '70px',
   },
   {
     name: 'disposition',
@@ -132,6 +141,7 @@ export const getCallsTableColumns = () => [
     fieldType: 'disposition',
     class: 'text',
     title: i18n.t('disposition'),
+    width: '250px',
   },
   {
     name: 'waitTime',
@@ -139,6 +149,7 @@ export const getCallsTableColumns = () => [
     fieldType: 'waitTime',
     title: i18n.t('wait.time'),
     class: 'number',
+    width: '100px',
   },
   {
     name: 'duration',
