@@ -2,9 +2,12 @@
 import Video from 'twilio-video';
 
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
+import { isChrome, isFirefox } from '@/services/browser';
+import { EXTENSION_ID } from '@/constants/twillio';
 
 const previewTracks = {};
 let activeRoom = null;
+let extensionInstalled = false;
 let onLastParticipantDisconnected = null;
 
 const TRACK_SUBSCRIBED = 'trackSubscribed';
@@ -103,8 +106,39 @@ export function detachTracks(tracks) {
 
 export function disconnect() {
   if (activeRoom) {
+    disableLocalVideo();
+    disableLocalAudio();
+    disableScreenShare();
     activeRoom.disconnect();
   }
+}
+
+export function enableScreenShare() {
+  return checkExtension().then(() => {
+    const promise = previewTracks.screenShare
+      ? Promise.resolve(previewTracks.screenShare)
+      : getUserScreen();
+
+    return promise
+      .then(stream => {
+        const [track] = stream.getVideoTracks();
+        previewTracks.screenShare = track;
+        publishTrack(track);
+        emitScreenShareAdding([track]);
+      })
+      .catch(() => new Error('Could not get stream'));
+  });
+}
+
+export function disableScreenShare() {
+  const track = previewTracks.screenShare;
+  if (track) {
+    stopTracks([track]);
+    unpublishTrack(track);
+    emitScreenShareRemoving([track]);
+    delete previewTracks.screenShare;
+  }
+  return Promise.resolve();
 }
 
 // private methods
@@ -188,6 +222,76 @@ function unpublishTrack(track) {
   }
 }
 
+const isBrowserChrome = isChrome();
+const isBrowserFirefox = isFirefox();
+
+function getUserScreen() {
+  if (!canShareScreen()) {
+    return Promise.reject();
+  }
+
+  if (isBrowserChrome) {
+    return getChromeScreen();
+  }
+
+  if (isBrowserFirefox) {
+    return getFirefoxScreen();
+  }
+
+  return Promise.reject();
+}
+
+function getChromeScreen() {
+  return createChromeExtensionPromise().then(response =>
+    window.navigator.mediaDevices.getUserMedia({
+      video: {
+        mandatory: {
+          chromeMediaSource: 'desktop',
+          chromeMediaSourceId: response.streamId,
+        },
+      },
+    })
+  );
+}
+
+function getFirefoxScreen() {
+  return window.navigator.mediaDevices.getUserMedia({
+    video: {
+      mediaSource: 'screen',
+    },
+  });
+}
+
+function createChromeExtensionPromise() {
+  return new Promise((resolve, reject) => {
+    const request = {
+      sources: ['window', 'screen', 'tab'],
+    };
+    window.chrome.runtime.sendMessage(EXTENSION_ID, request, response => {
+      if (response && response.type === 'success') {
+        resolve({ streamId: response.streamId });
+      } else {
+        reject(new Error('Could not get stream'));
+      }
+    });
+  });
+}
+
+function checkExtension() {
+  return new Promise(resolve => {
+    const onResponse = response => {
+      const isInstalled = Boolean(response);
+      extensionInstalled = isInstalled;
+      resolve(isInstalled);
+    };
+    window.chrome.runtime.sendMessage(EXTENSION_ID, 'version', onResponse);
+  });
+}
+
+function canShareScreen() {
+  return extensionInstalled || isBrowserChrome || isBrowserFirefox;
+}
+
 /**
  ** room handlers finish
  */
@@ -210,6 +314,14 @@ function emitRemoteTracksAdding(tracks) {
 
 function emitRemoteTracksRemoving(tracks) {
   twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACK_REMOVED, tracks);
+}
+
+function emitScreenShareAdding(tracks) {
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_SHARED, tracks);
+}
+
+function emitScreenShareRemoving(tracks) {
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_UNSHARED, tracks);
 }
 
 function emitParticpantConnecting() {
