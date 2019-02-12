@@ -10,6 +10,7 @@
           color="#ff941b"
           v-model="value"
           size="16"
+          readonly="true"
         />
       </div>
     </div>
