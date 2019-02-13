@@ -12,6 +12,8 @@ import {
   INSERT_CALLS_FEEDBACK,
   INSERT_SUPERADMIN_OPERATORS,
   SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
+  INSERT_PAYMENTS,
+  SET_ALL_PAYMENTS_LENGTH,
 } from './mutationTypes';
 
 export default {
@@ -55,6 +57,12 @@ export default {
   },
   [SET_ALL_SUPERADMIN_OPERATORS_LENGTH](state, length) {
     state.allSuperadminOperatorsLength = length;
+  },
+  [INSERT_PAYMENTS](state, payments) {
+    state.payments.push(...payments);
+  },
+  [SET_ALL_PAYMENTS_LENGTH](state, length) {
+    state.allPaymentsLength = length;
   },
   /* eslint-enable no-param-reassign */
 };

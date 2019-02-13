@@ -8,6 +8,8 @@ import {
   SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
   INSERT_CALLS,
   SET_ALL_CALLS_LENGTH,
+  INSERT_PAYMENTS,
+  SET_ALL_PAYMENTS_LENGTH,
 } from '@/store/storage/mutationTypes';
 
 describe('storage mutations: ', () => {
@@ -112,6 +114,32 @@ describe('storage mutations: ', () => {
       mutations[SET_ALL_CALLS_LENGTH](state, 4);
 
       expect(state.allCallsLength).toBe(4);
+    });
+  });
+
+  describe('INSERT_PAYMENTS: ', () => {
+    it('should insert payments', () => {
+      const state = {
+        payments: [{ date: '2019-01-15T12:00:00' }],
+      };
+
+      const expectedPayments = [{ date: '2019-01-15T12:00:00' }, { date: '2019-01-17T12:00:00' }];
+
+      mutations[INSERT_PAYMENTS](state, [{ date: '2019-01-17T12:00:00' }]);
+
+      expect(state.payments).toEqual(expectedPayments);
+    });
+  });
+
+  describe('SET_ALL_PAYMENTS_LENGTH: ', () => {
+    it('should set length', () => {
+      const state = {
+        allPaymentsLength: 0,
+      };
+
+      mutations[SET_ALL_PAYMENTS_LENGTH](state, 5);
+
+      expect(state.allPaymentsLength).toBe(5);
     });
   });
 });

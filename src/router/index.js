@@ -8,6 +8,7 @@ import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import OperatorReview from '@/views/OperatorReview';
+import Payments from '@/views/Payments';
 import SettingsPage from '@/views/SettingsPage';
 import SupervisorSettings from '@/views/SupervisorSettings';
 import SupervisorSettingsProfile from '@/views/SupervisorSettingsProfile';
@@ -79,6 +80,11 @@ const router = new Router({
               path: '/operator-review',
               name: 'operatorReview',
               component: OperatorReview,
+            },
+            {
+              path: '/payments',
+              name: 'payments',
+              component: Payments,
             },
             {
               path: '/settings',

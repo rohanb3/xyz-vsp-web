@@ -14,6 +14,8 @@ import {
   LOAD_CALLS_FEEDBACK,
   LOAD_SUPERADMIN_OPERATORS,
   LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH,
+  LOAD_PAYMENTS,
+  LOAD_ALL_PAYMENTS_LENGTH,
 } from '@/store/storage/actionTypes';
 import {
   INSERT_CUSTOMERS,
@@ -26,6 +28,8 @@ import {
   INSERT_CALLS_FEEDBACK,
   INSERT_SUPERADMIN_OPERATORS,
   SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
+  INSERT_PAYMENTS,
+  SET_ALL_PAYMENTS_LENGTH,
 } from '@/store/storage/mutationTypes';
 import * as repository from '@/services/repository';
 
@@ -128,7 +132,6 @@ describe('storage actions: ', () => {
       expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_CALLS_LENGTH, 42);
     });
   });
-  // TODO:
   describe('LOAD_CALLS_DURATION: ', () => {
     it('should load calls duration', async () => {
       const callsDuration = [{ type: 'help', total: 23 }, { type: 'info', total: 1 }];
@@ -157,7 +160,6 @@ describe('storage actions: ', () => {
       expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_CALLS_FEEDBACK, callsFeedback);
     });
   });
-  // TODO:
   describe('LOAD_SUPERADMIN_OPERATORS: ', () => {
     it('should load operators', async () => {
       const operators = [{ id: 123 }, { id: 321 }];
@@ -188,6 +190,38 @@ describe('storage actions: ', () => {
       await actions[LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH](fakeStore);
 
       expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_SUPERADMIN_OPERATORS_LENGTH, 42);
+    });
+  });
+  describe('LOAD_PAYMENTS: ', () => {
+    it('should load payments', async () => {
+      const payments = [{ date: '2019-01-15T12:00:00' }, { date: '2019-01-17T12:00:00' }];
+      const fakeStore = {
+        commit: jest.fn(),
+        getters: {
+          loadedPaymentsAmount: 10,
+        },
+      };
+
+      repository.getPayments = jest.fn(() => Promise.resolve(payments));
+
+      await actions[LOAD_PAYMENTS](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(INSERT_PAYMENTS, payments);
+      expect(repository.getPayments).toHaveBeenCalledWith(10, 20);
+    });
+  });
+
+  describe('LOAD_ALL_PAYMENTS_LENGTH: ', () => {
+    it('should load all payments length', async () => {
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      repository.getAllPaymentsLength = jest.fn(() => Promise.resolve(30));
+
+      await actions[LOAD_ALL_PAYMENTS_LENGTH](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(SET_ALL_PAYMENTS_LENGTH, 30);
     });
   });
 });

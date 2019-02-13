@@ -10,6 +10,6 @@ const middlewares = fs.readdirSync(path.join(__dirname, 'middlewares')).sort();
 middlewares.forEach(m => require(`./middlewares/${m}`)(app));
 
 app.use('/api/v1', router);
-app.get('/api/reset', reset);
+app.get('/api/v1/reset', reset);
 
 module.exports = app;

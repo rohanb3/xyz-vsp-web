@@ -11,6 +11,8 @@ import {
   getCallsFeedback,
   getSuperadminOperators,
   getAllSuperadminOperatorsLength,
+  getPayments,
+  getAllPaymentsLength,
 } from '@/services/repository';
 
 import { getCallsTypes } from '@/services/operatorFeedback';
@@ -29,6 +31,8 @@ import {
   LOAD_CALLS_FEEDBACK,
   LOAD_SUPERADMIN_OPERATORS,
   LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH,
+  LOAD_PAYMENTS,
+  LOAD_ALL_PAYMENTS_LENGTH,
 } from './actionTypes';
 
 import {
@@ -45,6 +49,8 @@ import {
   INSERT_CALLS_FEEDBACK,
   INSERT_SUPERADMIN_OPERATORS,
   SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
+  INSERT_PAYMENTS,
+  SET_ALL_PAYMENTS_LENGTH,
 } from './mutationTypes';
 
 import {
@@ -53,6 +59,7 @@ import {
   CALLS_TO_LOAD,
   OPERATORS_TO_LOAD,
   SUPERADMIN_OPERATORS_TO_LOAD,
+  PAYMENTS_TO_LOAD,
 } from './constants';
 
 export default {
@@ -105,5 +112,12 @@ export default {
   },
   async [LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH]({ commit }) {
     commit(SET_ALL_SUPERADMIN_OPERATORS_LENGTH, await getAllSuperadminOperatorsLength());
+  },
+  async [LOAD_PAYMENTS]({ commit, getters }) {
+    const { loadedPaymentsAmount } = getters;
+    commit(INSERT_PAYMENTS, await getPayments(loadedPaymentsAmount, PAYMENTS_TO_LOAD));
+  },
+  async [LOAD_ALL_PAYMENTS_LENGTH]({ commit }) {
+    commit(SET_ALL_PAYMENTS_LENGTH, await getAllPaymentsLength());
   },
 };

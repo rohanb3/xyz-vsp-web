@@ -9,7 +9,8 @@ html {
 }
 
 #app .customers-table,
-#app .superadmin-companies-table {
+#app .superadmin-companies-table,
+#app .payments-table {
   .virtual-list {
     max-height: calc(
       100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-toolbar-height} -
