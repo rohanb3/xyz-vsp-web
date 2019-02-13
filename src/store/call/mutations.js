@@ -1,4 +1,4 @@
-import { SET_CALL_STATUS, SET_CALL_TOKEN } from './mutationTypes';
+import { SET_CALL_STATUS, SET_CALL_TOKEN, SET_CALL_DATA } from './mutationTypes';
 
 export default {
   /* eslint-disable no-param-reassign */
@@ -7,6 +7,9 @@ export default {
   },
   [SET_CALL_TOKEN](state, token) {
     state.token = token;
+  },
+  [SET_CALL_DATA](state, callData) {
+    state.callData = callData;
   },
   /* eslint-enable no-param-reassign */
 };

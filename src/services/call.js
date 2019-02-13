@@ -1,12 +1,12 @@
 /* eslint-disable no-use-before-define, import/prefer-default-export */
 
 import store from '@/store';
-import { SET_CALL_STATUS, SET_CALL_TOKEN } from '@/store/call/mutationTypes';
+import { SET_CALL_STATUS, SET_CALL_TOKEN, SET_CALL_DATA } from '@/store/call/mutationTypes';
 import { callStatuses } from '@/store/call/constants';
 import {
   init as initiOperatorSocker,
   notifyAboutAcceptingCall,
-  notiyAboutFinishingCall,
+  notifyAboutFinishingCall,
   notifyAboutLeavingRoomEmpty,
   disconnect as disconnectFromSocket,
 } from '@/services/operatorSocket';
@@ -40,7 +40,8 @@ export function acceptCall() {
 }
 
 export function finishCall() {
-  notiyAboutFinishingCall();
+  const { callData } = store.getters;
+  notifyAboutFinishingCall(callData);
   disconnectFromRoom();
   setIdleCallStatus();
   return Promise.resolve();
@@ -69,8 +70,12 @@ function setIdleCallStatus() {
   store.commit(SET_CALL_STATUS, callStatuses.IDLE);
 }
 
-function setActiveCallStatus() {
+function setActiveCallStatus(room) {
   store.commit(SET_CALL_STATUS, callStatuses.ACTIVE);
+  store.commit(SET_CALL_DATA, {
+    sid: room.sid,
+    roomId: room.name,
+  });
 }
 
 function setToken(token) {
