@@ -21,9 +21,7 @@ export default {
   },
   computed: {
     typeText() {
-      return this.item.type
-        ? this.$t(STATUSES_TRANSLATE_KEYS[this.item.type])
-        : '';
+      return this.item.type ? this.$t(STATUSES_TRANSLATE_KEYS[this.item.type]) : '';
     },
   },
 };

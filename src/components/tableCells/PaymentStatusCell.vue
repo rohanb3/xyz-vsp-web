@@ -20,9 +20,7 @@ export default {
   },
   computed: {
     statusText() {
-      return this.item.status
-        ? this.$t(STATUSES_TRANSLATE_KEYS[this.item.status])
-        : '';
+      return this.item.status ? this.$t(STATUSES_TRANSLATE_KEYS[this.item.status]) : '';
     },
   },
 };
