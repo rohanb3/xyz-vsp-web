@@ -1,0 +1,64 @@
+{
+  "items": [
+    {
+      "date": "2019-01-15T12:00:00",
+      "type": "next_monthly_payment",
+      "status": "planned",
+      "amount": 400
+    },
+    {
+      "date": "2018-12-20T15:13:00",
+      "type": "purchased_more_agents",
+      "status": "failed",
+      "amount": 10
+    },
+    {
+      "date": "2018-12-15T12:00:00",
+      "type": "monthly_payment",
+      "status": "paid",
+      "amount": 400
+    },
+    {
+      "date": "2018-12-14T15:04:00",
+      "type": "purchased_more_agents",
+      "status": "paid",
+      "amount": 20
+    },
+    {
+      "date": "2018-12-09T19:39:00",
+      "type": "purchased_more_agents",
+      "status": "paid",
+      "amount": 15
+    },
+    {
+      "date": "2018-12-07T14:29:00",
+      "type": "purchased_more_agents",
+      "status": "failed",
+      "amount": 15
+    },
+    {
+      "date": "2018-11-25T12:00:00",
+      "type": "update_to_enterprise_plan",
+      "status": "paid",
+      "amount": 105
+    },
+    {
+      "date": "2018-11-24T15:43:00",
+      "type": "purchased_more_agents",
+      "status": "paid",
+      "amount": 15
+    },
+    {
+      "date": "2018-11-22T15:19:00",
+      "type": "purchased_more_agents",
+      "status": "paid",
+      "amount": 15
+    },
+    {
+      "date": "2018-11-15T12:00:00",
+      "type": "monthly_payment",
+      "status": "paid",
+      "amount": 230
+    }
+  ]
+}

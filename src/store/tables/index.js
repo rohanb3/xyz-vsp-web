@@ -7,6 +7,7 @@ import {
   getCallsDurationTableColumns,
   getCallsFeedbackTableColumns,
   getSuperadminOperatorsTableColumns,
+  getPaymentsTableColumns,
 } from '@/services/tablesColumnsList';
 import {
   CUSTOMERS_TABLE,
@@ -16,6 +17,7 @@ import {
   CALLS_FEEDBACK_TABLE,
   SUPERADMIN_COMPANIES_TABLE,
   SUPERADMIN_OPERATORS_TABLE,
+  PAYMENTS_TABLE,
 } from '@/constants/tablesNames';
 
 import mutations from './mutations';
@@ -53,6 +55,9 @@ const state = {
         .endOf('day')
         .format(),
     },
+  },
+  [PAYMENTS_TABLE]: {
+    columns: getPaymentsTableColumns(),
   },
 };
 

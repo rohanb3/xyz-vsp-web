@@ -1,6 +1,6 @@
 <template>
   <div class="calls-page">
-    <calls-table class="calls-table" />
+    <calls-table class="calls-table"/>
   </div>
 </template>
 
@@ -20,9 +20,7 @@ export default {
 
 .calls-page {
   padding: $calls-list-padding;
-}
-
-.customers-table {
-  // height: calc(100vh - #{$header-height} - (2 * $customers-list-padding));
+  overflow: auto;
+  height: 100%;
 }
 </style>

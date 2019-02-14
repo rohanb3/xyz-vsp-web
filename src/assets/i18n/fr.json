@@ -142,5 +142,13 @@
   "average.pickup": "TBD Average Pick Up",
   "total.duration": "TBD Total Duration",
   "average.rating": "TBD Average Rating",
-  "plans": "TBD Plans"
+  "plans": "TBD Plans",
+  "payments": "TBD Payments",
+  "planned": "TBD Planned",
+  "failed": "TBD Failed",
+  "paid": "TBD Paid",
+  "next.monthly.payment": "TBD Next Monthly Payment",
+  "monthly.payment": "TBD Monthly Payment",
+  "purchased.more.agents": "TBD Purchased more agents",
+  "update.to.enterprise.plan": "TBD Update to Enterprise plan"
 }

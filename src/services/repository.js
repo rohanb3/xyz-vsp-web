@@ -48,3 +48,11 @@ export const getSuperadminOperators = (startFrom, count) => {
 
 export const getAllSuperadminOperatorsLength = () =>
   api.get('/superadmin/operators-length').then(({ data }) => data.length);
+
+export const getPayments = (startFrom, count) => {
+  const params = { startFrom, count };
+  return api.get('/payments', { params }).then(({ data }) => data.items);
+};
+
+export const getAllPaymentsLength = () =>
+  api.get('/payments-length').then(({ data }) => data.length);

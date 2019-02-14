@@ -20,6 +20,7 @@ const {
   operatorsLength: superAdminOperatorsLength,
 } = require('./routes/superadminOperators');
 const { getOperatorDetails } = require('./routes/operatorDetails');
+const { payments, paymentsLength } = require('./routes/payments');
 
 router.param('customerId', pickCustomerById);
 router.post('/login', login);
@@ -44,5 +45,7 @@ router.get('/calls-feedback', callsFeedback);
 router.get('/superadmin/operators', superadminOperators);
 router.get('/superadmin/operators-length', superAdminOperatorsLength);
 router.get('/operator-details/:operatorId', getOperatorDetails);
+router.get('/payments', payments);
+router.get('/payments-length', paymentsLength);
 
 module.exports = router;

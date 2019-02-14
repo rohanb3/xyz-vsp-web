@@ -15,6 +15,7 @@ const {
   insertOperators: insertSuperadminOperators,
   deleteAllOperators: deleteAllSuperadminOperators,
 } = require('../repositories/db/superadminOperators');
+const { insertPayments, deleteAllPayments } = require('../repositories/db/payments');
 
 const customers = require('../fixtures/customers').items;
 const superadminCompanies = require('../fixtures/superadminCompanies').items;
@@ -24,6 +25,7 @@ const operatorReview = require('../fixtures/operatorReview').items;
 const callsDuration = require('../fixtures/callsDuration').items;
 const callsFeedback = require('../fixtures/callsFeedback').items;
 const superadminOperators = require('../fixtures/superadminOperators').items;
+const payments = require('../fixtures/payments').items;
 
 module.exports = function reset(req, res) {
   const deletionPromises = [
@@ -35,6 +37,7 @@ module.exports = function reset(req, res) {
     deleteAllCallsDuration(),
     deleteAllCallsFeedback(),
     deleteAllSuperadminOperators(),
+    deleteAllPayments,
   ];
 
   return Promise.all(deletionPromises)
@@ -48,6 +51,7 @@ module.exports = function reset(req, res) {
         insertCallsDuration(callsDuration),
         insertCallsFeedback(callsFeedback),
         insertSuperadminOperators(superadminOperators),
+        insertPayments(payments),
       ];
       return Promise.all(creationPromises);
     })

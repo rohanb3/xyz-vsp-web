@@ -3,11 +3,16 @@ import Vue from 'vue';
 import {
   LOAD_SUPERADMIN_OPERATORS,
   LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH,
+  LOAD_PAYMENTS,
+  LOAD_ALL_PAYMENTS_LENGTH,
 } from '@/store/storage/actionTypes';
 
-import { SUPERADMIN_OPERATORS_TABLE } from '@/constants/tablesNames';
+import { SUPERADMIN_OPERATORS_TABLE, PAYMENTS_TABLE } from '@/constants/tablesNames';
 
-import { getSuperadminOperatorsTableColumns } from '@/services/tablesColumnsList';
+import {
+  getSuperadminOperatorsTableColumns,
+  getPaymentsTableColumns,
+} from '@/services/tablesColumnsList';
 
 import AdditionalCell from '@/components/tableCells/AdditionalCell';
 import CallDurationCell from '@/components/tableCells/CallDurationCell';
@@ -33,6 +38,9 @@ import ServiceEficiencyCell from '@/components/tableCells/ServiceEficiencyCell';
 import StatusCell from '@/components/tableCells/StatusCell';
 import WaitTimeCell from '@/components/tableCells/WaitTimeCell';
 import WrapUpTimeCell from '@/components/tableCells/WrapUpTimeCell';
+import DollarsCell from '@/components/tableCells/DollarsCell';
+import PaymentStatusCell from '@/components/tableCells/PaymentStatusCell';
+import PaymentTypeCell from '@/components/tableCells/PaymentTypeCell';
 
 Vue.component('AdditionalCell', AdditionalCell);
 Vue.component('CallDurationCell', CallDurationCell);
@@ -58,6 +66,9 @@ Vue.component('ServiceEficiencyCell', ServiceEficiencyCell);
 Vue.component('StatusCell', StatusCell);
 Vue.component('WaitTimeCell', WaitTimeCell);
 Vue.component('WrapUpTimeCell', WrapUpTimeCell);
+Vue.component('DollarsCell', DollarsCell);
+Vue.component('PaymentStatusCell', PaymentStatusCell);
+Vue.component('PaymentTypeCell', PaymentTypeCell);
 
 const tables = {
   [SUPERADMIN_OPERATORS_TABLE]: {
@@ -77,6 +88,24 @@ const tables = {
       calls: 'CallsAmountCell',
       name: 'LinkCell',
       id: 'IdCell',
+    },
+  },
+  [PAYMENTS_TABLE]: {
+    loadItemsAction: LOAD_PAYMENTS,
+    loadItemsLengthAction: LOAD_ALL_PAYMENTS_LENGTH,
+    allTableColumns: getPaymentsTableColumns(),
+    rowsGetter: 'payments',
+    itemsLengthGetter: 'paymentsLength',
+    allItemsLoadedGetter: 'allPaymentsLoaded',
+    showDatesEditor: false,
+    showColumnsListEditor: false,
+    rowComponents: {
+      date: 'DateCell',
+      type: 'PaymentTypeCell',
+      status: 'PaymentStatusCell',
+      amount: 'DollarsCell',
+      additional: 'AdditionalCell',
+      default: 'DefaultCell',
     },
   },
 };

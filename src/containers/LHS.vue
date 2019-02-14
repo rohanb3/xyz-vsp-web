@@ -25,9 +25,11 @@
     <div class="lhs-item" :class="{ active: activeIndex === 4 }" @click="setActive(4)">
       <v-icon class="item-icon">list_alt</v-icon>
     </div>
-    <div class="lhs-item" :class="{ active: activeIndex === 5 }" @click="setActive(5)">
-      <v-icon class="item-icon">credit_card</v-icon>
-    </div>
+    <router-link to="/payments" class="lhs-item-link">
+      <div class="lhs-item" :class="{ active: activeIndex === 5 }" @click="setActive(5)">
+        <v-icon class="item-icon">credit_card</v-icon>
+      </div>
+    </router-link>
     <router-link to="/operator-dashboard" class="lhs-item-link">
       <div class="lhs-item" :class="{ active: activeIndex === 6 }" @click="setActive(6)">
         <v-icon class="item-icon">view_compact</v-icon>

@@ -16,6 +16,9 @@ jest.mock('@/services/tablesColumnsList', () => ({
   getSuperadminOperatorsTableColumns() {
     return [{ name: 'id' }, { name: 'name' }, { name: 'department' }];
   },
+  getPaymentsTableColumns() {
+    return [{ name: 'date' }, { name: 'type' }, { name: 'status' }];
+  },
 }));
 
 import mutations from '@/store/tables/mutations';

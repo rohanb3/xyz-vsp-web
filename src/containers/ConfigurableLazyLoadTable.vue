@@ -1,9 +1,10 @@
 <template>
   <div class="configurable-lazy-load-table" :class="`${displayName}-table ${name}`">
     <div class="configurable-lazy-load-table-toolbar" :class="`${displayName}-table-toolbar`">
-      <div class="configurable-lazy-load-table-title" :class="`${displayName}-table-title`">
-       {{ filteredItemsLength }} {{ $t(displayName) }}
-       </div>
+      <div
+        class="configurable-lazy-load-table-title"
+        :class="`${displayName}-table-title`"
+      >{{ filteredItemsLength }} {{ $t(displayName) }}</div>
       <v-spacer></v-spacer>
       <table-dates-editor
         v-if="showDatesEditor"
@@ -29,40 +30,35 @@
       @bottomReached="checkAndLoadItems"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
-     >
-       <div
-         v-if="rows && rows.length"
-         slot="row"
-         slot-scope="row"
-       >
-         <wombat-row
-           :item="row.item"
-           :columns="row.columns"
-           :height="row.item.height"
-           :class="`call-${row.item.type}`"
-         >
-           <component
-             slot="row-cell"
-             slot-scope="rowCell"
-             class="row-cell"
-             :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
-             :item="rowCell.item"
-             :column="rowCell.column"
-             @click="handleClick"
-           />
-         </wombat-row>
+    >
+      <div v-if="rows && rows.length" slot="row" slot-scope="row">
+        <wombat-row
+          :item="row.item"
+          :columns="row.columns"
+          :height="row.item.height"
+          :class="`call-${row.item.type}`"
+        >
+          <component
+            slot="row-cell"
+            slot-scope="rowCell"
+            class="row-cell"
+            :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
+            :item="rowCell.item"
+            :column="rowCell.column"
+            @click="handleClick"
+          />
+        </wombat-row>
+      </div>
 
-       </div>
-
-       <div
-         slot="footer"
-         class="configurable-lazy-load-table-footer wombat-footer"
-         :class="`${displayName}-table-footer`"
-       >
-         <table-loader v-if="loading"/>
-       </div>
-     </wombat-table>
-     <slot name="drawer"></slot>
+      <div
+        slot="footer"
+        class="configurable-lazy-load-table-footer wombat-footer"
+        :class="`${displayName}-table-footer`"
+      >
+        <table-loader v-if="loading"/>
+      </div>
+    </wombat-table>
+    <slot name="drawer"></slot>
   </div>
 </template>
 

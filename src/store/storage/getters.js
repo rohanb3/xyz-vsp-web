@@ -37,6 +37,12 @@ export default {
   allCallsLoaded({ allCustomersLength }, { loadedCustomersAmount }) {
     return allCustomersLength <= loadedCustomersAmount;
   },
+  loadedPaymentsAmount(state) {
+    return state.payments.length;
+  },
+  allPaymentsLoaded({ allPaymentsLength }, { loadedPaymentsAmount }) {
+    return allPaymentsLength <= loadedPaymentsAmount;
+  },
   callTypes(state) {
     return state.callTypes;
   },

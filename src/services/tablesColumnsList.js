@@ -493,3 +493,45 @@ export const getSuperadminOperatorsTableColumns = () => [
     width: '70px',
   },
 ];
+
+export const getPaymentsTableColumns = () => [
+  {
+    name: 'date',
+    field: 'date',
+    fieldType: 'date',
+    title: i18n.t('date'),
+    class: 'text',
+    width: '200px',
+  },
+  {
+    name: 'type',
+    field: 'type',
+    fieldType: 'type',
+    class: 'text',
+    title: i18n.t('type'),
+    width: '650px',
+  },
+  {
+    name: 'status',
+    field: 'status',
+    fieldType: 'status',
+    class: 'text',
+    title: i18n.t('status'),
+    width: '120px',
+  },
+  {
+    name: 'amount',
+    field: 'amount',
+    fieldType: 'amount',
+    class: 'number',
+    title: i18n.t('amount'),
+    width: '100px',
+  },
+  {
+    name: 'additional',
+    field: null,
+    fieldType: 'additional',
+    title: '',
+    width: '70px',
+  },
+];
