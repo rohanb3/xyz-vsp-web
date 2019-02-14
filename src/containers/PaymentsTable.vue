@@ -19,3 +19,15 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import '~@/assets/styles/variables.scss';
+
+.payments-table {
+  .call-next_monthly_payment {
+    .column-date {
+      font-weight: bold;
+    }
+  }
+}
+</style>

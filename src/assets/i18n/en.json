@@ -143,5 +143,12 @@
   "total.duration": "Total Duration",
   "average.rating": "Average Rating",
   "plans": "Plans",
-  "payments": "Payments"
+  "payments": "Payments",
+  "planned": "Planned",
+  "failed": "Failed",
+  "paid": "Paid",
+  "next.monthly.payment": "Next Monthly Payment",
+  "monthly.payment": "Monthly Payment",
+  "purchased.more.agents": "Purchased more agents",
+  "update.to.enterprise.plan": "Update to Enterprise plan"
 }

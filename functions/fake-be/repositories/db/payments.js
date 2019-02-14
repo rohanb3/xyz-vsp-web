@@ -10,7 +10,7 @@ const collection = firestore.collection('payments');
 
 function getAllPayments() {
   return collection
-    .orderBy('date')
+    .orderBy('date', 'desc')
     .get()
     .then(getQuerySnapshotItems);
 }

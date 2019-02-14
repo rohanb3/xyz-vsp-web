@@ -38,6 +38,9 @@ import ServiceEficiencyCell from '@/components/tableCells/ServiceEficiencyCell';
 import StatusCell from '@/components/tableCells/StatusCell';
 import WaitTimeCell from '@/components/tableCells/WaitTimeCell';
 import WrapUpTimeCell from '@/components/tableCells/WrapUpTimeCell';
+import DollarsCell from '@/components/tableCells/DollarsCell';
+import PaymentStatusCell from '@/components/tableCells/PaymentStatusCell';
+import PaymentTypeCell from '@/components/tableCells/PaymentTypeCell';
 
 Vue.component('AdditionalCell', AdditionalCell);
 Vue.component('CallDurationCell', CallDurationCell);
@@ -63,6 +66,9 @@ Vue.component('ServiceEficiencyCell', ServiceEficiencyCell);
 Vue.component('StatusCell', StatusCell);
 Vue.component('WaitTimeCell', WaitTimeCell);
 Vue.component('WrapUpTimeCell', WrapUpTimeCell);
+Vue.component('DollarsCell', DollarsCell);
+Vue.component('PaymentStatusCell', PaymentStatusCell);
+Vue.component('PaymentTypeCell', PaymentTypeCell);
 
 const tables = {
   [SUPERADMIN_OPERATORS_TABLE]: {
@@ -94,8 +100,12 @@ const tables = {
     showDatesEditor: false,
     showColumnsListEditor: false,
     rowComponents: {
-      default: 'DefaultCell',
+      date: 'DateCell',
+      type: 'PaymentTypeCell',
+      status: 'PaymentStatusCell',
+      amount: 'DollarsCell',
       additional: 'AdditionalCell',
+      default: 'DefaultCell',
     },
   },
 };
