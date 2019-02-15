@@ -9,8 +9,7 @@ html {
 }
 
 #app .customers-table,
-#app .superadmin-companies-table,
-#app .payments-table {
+#app .superadmin-companies-table {
   .virtual-list {
     max-height: calc(
       100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-toolbar-height} -
@@ -19,7 +18,24 @@ html {
   }
 }
 
-#app .calls-table,
+.calls-table {
+  .virtual-list {
+    max-height: calc(
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$calls-table-toolbar-height} -
+        #{$table-header-height} - #{$table-footer-height} - #{$calls-dashboard-height}
+    );
+  }
+}
+
+.payments-table {
+  .virtual-list {
+    max-height: calc(
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$calls-table-toolbar-height} -
+        #{$table-header-height} - #{$table-footer-height} - #{$payments-header-height}
+    );
+  }
+}
+
 .operators-table {
   .virtual-list {
     max-height: calc(

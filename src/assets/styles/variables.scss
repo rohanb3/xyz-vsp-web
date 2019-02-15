@@ -7,7 +7,7 @@ $base-red: #d0021b;
 $base-white: #ffffff;
 $base-orange: #ff941b;
 $base-grey: #999999;
-$base-black:#000000;
+$base-black: #000000;
 
 $header-height: 56px;
 $header-photo-background-color: #f8c37a;
@@ -147,7 +147,7 @@ $call-dialogue-incoming-text-color: rgba(255, 255, 255, 0.4);
 $datepicker-day-color: #4a4a4a;
 $datepicker-selected-day-color: #fff;
 $datepicker-days-legend-border-color: rgba(151, 151, 151, 0.2);
- 
+
 $operators-table-toolbar-height: 60px;
 
 $operators-table-calls-cell-color: #4a4a4a;
@@ -192,3 +192,6 @@ $supervisor-header-widget-value-color: #fff;
 
 $average-waiting-time-widget-additional-color: rgba(255, 255, 255, 0.5);
 $calls-on-hold-widget-additional-color: rgba(255, 255, 255, 0.5);
+
+$calls-dashboard-height: 76px;
+$payments-header-height: 65px;
