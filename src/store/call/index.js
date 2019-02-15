@@ -6,6 +6,7 @@ import { callStatuses } from './constants';
 const state = {
   callStatus: callStatuses.IDLE,
   token: null,
+  callData: null,
 };
 
 export default {
