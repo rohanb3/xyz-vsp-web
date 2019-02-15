@@ -44,10 +44,11 @@ import {
   SHORT_DAY_SHORT_MONTH_FULL_YEAR_REVERSE,
   DEFAULT_TIME_FORMAT,
 } from '@/constants/dateFormats';
+
 const mastercardIcon = require('@/assets/icons/mastercard.png');
 const visaIcon = require('@/assets/icons/visa.png');
 
-//mock data
+// mock data
 const paymentMethods = [
   {
     type: 'Mastercard',
@@ -74,9 +75,7 @@ export default {
   },
   computed: {
     date() {
-      return moment(this.nextPayment.date).format(
-        SHORT_DAY_SHORT_MONTH_FULL_YEAR_REVERSE
-      );
+      return moment(this.nextPayment.date).format(SHORT_DAY_SHORT_MONTH_FULL_YEAR_REVERSE);
     },
     time() {
       return moment(this.nextPayment.date).format(DEFAULT_TIME_FORMAT);
@@ -85,7 +84,7 @@ export default {
       const payment = this.$store.state.storage.payments.find(
         item => item.type === 'next_monthly_payment'
       );
-      return payment ? payment : {};
+      return payment || {};
     },
   },
 };
