@@ -150,5 +150,13 @@
   "next.monthly.payment": "TBD Next Monthly Payment",
   "monthly.payment": "TBD Monthly Payment",
   "purchased.more.agents": "TBD Purchased more agents",
-  "update.to.enterprise.plan": "TBD Update to Enterprise plan"
+  "update.to.enterprise.plan": "TBD Update to Enterprise plan",
+  "next.payment.will.charged": "TBD The next payment will be charged on",
+  "at": "TBD at",
+  "please.ensure.that.invoice":
+    "TBD Please ensure that the invoice amount is above",
+  "or.you.can": "TBD or you can",
+  "change.plan": "TBD change plan",
+  "payment.method": "TBD Payment Method",
+  "add.new.payment.method": "TBD Add New Payment Method"
 }

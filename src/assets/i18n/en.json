@@ -150,5 +150,13 @@
   "next.monthly.payment": "Next Monthly Payment",
   "monthly.payment": "Monthly Payment",
   "purchased.more.agents": "Purchased more agents",
-  "update.to.enterprise.plan": "Update to Enterprise plan"
+  "update.to.enterprise.plan": "Update to Enterprise plan",
+  "next.payment.will.charged": "The next payment will be charged on",
+  "at": "at",
+  "please.ensure.that.invoice":
+    "Please ensure that the invoice amount is above",
+  "or.you.can": "or you can",
+  "change.plan": "change plan",
+  "payment.method": "Payment Method",
+  "add.new.payment.method": "Add New Payment Method"
 }

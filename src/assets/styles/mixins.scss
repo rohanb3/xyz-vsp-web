@@ -54,3 +54,21 @@
     background-color: $base-blue;
   }
 }
+
+@mixin select {
+  &.v-text-field.v-text-field--solo .v-input__control {
+    min-height: inherit;
+  }
+  .v-text-field__details {
+    display: none;
+  }
+  &.v-text-field.v-text-field--enclosed .v-input__slot {
+    margin-bottom: 0;
+  }
+  .v-list {
+    padding: 0;
+  }
+  .v-list__tile--link {
+    height: 42px;
+  }
+}

@@ -1,5 +1,6 @@
 <template>
   <div class="configurable-lazy-load-table" :class="`${displayName}-table ${name}`">
+    <slot name="header"/>
     <div class="configurable-lazy-load-table-toolbar" :class="`${displayName}-table-toolbar`">
       <div
         class="configurable-lazy-load-table-title"
