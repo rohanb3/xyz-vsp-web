@@ -147,15 +147,6 @@ export default {
 
 <style lang="scss">
 @import '@/assets/styles/mixins.scss';
-.v-select-list[data-v-bbaf8264] {
-  .v-list {
-    padding: 0;
-  }
-  .v-list__tile--link {
-    height: 42px;
-    border-bottom: 1px solid #e1eefe;
-  }
-}
 
 .payment-select {
   @include select;

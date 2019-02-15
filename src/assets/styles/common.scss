@@ -245,3 +245,14 @@ button {
 .hidden {
   display: none;
 }
+
+//v-select menu styling
+.v-select-list.v-card.theme--light {
+  .v-list {
+    padding: 0;
+  }
+  .v-list__tile--link {
+    height: 42px;
+    border-bottom: 1px solid #e1eefe;
+  }
+}
