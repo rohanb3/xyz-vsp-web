@@ -1,5 +1,6 @@
 <template>
   <div class="configurable-lazy-load-table" :class="`${displayName}-table ${name}`">
+    <slot name="header"/>
     <div class="configurable-lazy-load-table-toolbar" :class="`${displayName}-table-toolbar`">
       <div
         class="configurable-lazy-load-table-title"
@@ -128,10 +129,12 @@ export default {
         .sort((first, second) => (first.title < second.title ? -1 : 1));
     },
     columnsVisibilityData() {
-      return this.allColumns.filter(column => column.name !== 'additional').map(column => ({
-        ...column,
-        visible: !!this.columns.find(c => c.name === column.name),
-      }));
+      return this.allColumns
+        .filter(column => column.name !== 'additional')
+        .map(column => ({
+          ...column,
+          visible: !!this.columns.find(c => c.name === column.name),
+        }));
     },
     rows() {
       return this.$store.state.storage[this.rowsGetter].map(item => ({

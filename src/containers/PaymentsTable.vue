@@ -1,5 +1,7 @@
 <template>
-  <configurable-lazy-load-table displayName="payments" :name="name"></configurable-lazy-load-table>
+  <configurable-lazy-load-table displayName="payments" :name="name">
+    <slot slot="header" name="header"/>
+  </configurable-lazy-load-table>
 </template>
 
 <script>

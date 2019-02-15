@@ -1,16 +1,20 @@
 <template>
   <div class="payments-page">
-    <payments-table/>
+    <payments-table>
+      <payments-header slot="header"/>
+    </payments-table>
   </div>
 </template>
 
 <script>
 import PaymentsTable from '@/containers/PaymentsTable';
+import PaymentsHeader from '@/containers/PaymentsHeader';
 
 export default {
   name: 'Payments',
   components: {
     PaymentsTable,
+    PaymentsHeader,
   },
 };
 </script>
