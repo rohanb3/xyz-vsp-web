@@ -21,7 +21,11 @@
 
 <script>
 import moment from 'moment';
-import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
+import {
+  initializeOperator,
+  acceptCall,
+  disconnectOperator,
+} from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
@@ -51,10 +55,27 @@ export default {
     isDialogShown() {
       return !this.dialogMinimizedByUser && this.isIncomingCall;
     },
+    oldestCallData() {
+      return this.$store.state.call.pendingCallsInfo.oldest || {};
+    },
+    oldestCallRequestTime() {
+      return this.oldestCallData ? this.oldestCallData.requestedAt : null;
+    },
+  },
+  watch: {
+    oldestCallRequestTime(val, old) {
+      this.stopTimer();
+      if (val) {
+        const waitingSeconds = moment.utc().diff(val, 'seconds', true);
+        this.counter = Math.round(waitingSeconds);
+        this.startTimer();
+      } else {
+        this.counter = 0;
+      }
+    },
   },
   mounted() {
     initializeOperator();
-    this.interval = setInterval(this.updateCurrentTime, 1000);
   },
   destroyed() {
     clearInterval(this.interval);
@@ -67,6 +88,12 @@ export default {
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;
+    },
+    startTimer() {
+      this.interval = setInterval(this.updateCurrentTime, 1000);
+    },
+    stopTimer() {
+      clearInterval(this.interval);
     },
     updateCurrentTime() {
       this.counter += 1;

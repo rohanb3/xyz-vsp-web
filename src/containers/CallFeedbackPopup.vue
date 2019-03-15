@@ -1,9 +1,5 @@
 <template>
-  <v-dialog
-    content-class="call-feedback-popup-wrapper"
-    v-model="dialog"
-    persistent
-  >
+  <v-dialog content-class="call-feedback-popup-wrapper" v-model="dialog" persistent>
     <div class="call-feedback-popup">
       <div class="header section">
         <div class="name">{{$t("call.info")}}</div>
@@ -13,9 +9,7 @@
         </div>
       </div>
       <div class="call-type section">
-        <p class="title">
-          {{$t("type.of.call")}}
-        </p>
+        <p class="title">{{$t("type.of.call")}}</p>
         <v-radio-group class="types" row v-model="feedback.callType">
           <v-radio
             v-for="type in callTypes"
@@ -27,9 +21,7 @@
         </v-radio-group>
       </div>
       <div v-show="isDispositionShown" class="disposition section">
-        <p class="title">
-          {{$t("disposition")}}
-        </p>
+        <p class="title">{{$t("disposition")}}</p>
         <v-select
           class="dispositions-select"
           v-model="feedback.disposition"
@@ -42,42 +34,32 @@
         ></v-select>
       </div>
       <div class="rating section">
-        <p class="title">
-          {{$t("system.quality.rating")}}
-        </p>
-          <v-rating
-          color="#fff"
-          background-color="grey lighten-1"
-          v-model="feedback.rating"
-          />
+        <p class="title">{{$t("system.quality.rating")}}</p>
+        <v-rating color="#fff" background-color="grey lighten-1" v-model="feedback.quality"/>
       </div>
       <div class="audio-feedback section">
-        <p class="title">
-          {{$t("audio.feedback")}}
-        </p>
+        <p class="title">{{$t("audio.feedback")}}</p>
         <div class="audio">
-          <div @click="handleRecord" class="record-icon" :class="{'stop-record-icon': isRecordingAudio}"></div>
+          <div
+            @click="handleRecord"
+            class="record-icon"
+            :class="{'stop-record-icon': isRecordingAudio}"
+          ></div>
           <p v-if="!recorder">Start recording</p>
           <p class="record-time" v-else>{{recordTime}}</p>
           <v-icon class="icon-mic" color="white">mic</v-icon>
         </div>
       </div>
       <div class="note-feedback section">
-        <p class="title">
-          {{$t("note.feedback")}}
-        </p>
+        <p class="title">{{$t("note.feedback")}}</p>
         <textarea
           name="input-7-1"
           :placeholder="$t('start.typing')"
-          v-model="feedback.text"
+          v-model="feedback.note"
           class="note"
         ></textarea>
       </div>
-      <div
-        v-if="isCallBackButtonShown"
-        class="button button-callback"
-        @click="callBack"
-      >
+      <div v-if="isCallBackButtonShown" class="button button-callback" @click="callBack">
         <v-icon class="icon-call">call</v-icon>
         {{$t("call.back")}}
       </div>
@@ -86,32 +68,34 @@
         class="button button-save"
         :class="{disabled: isButtonDisabled}"
         @click="saveFeedback"
-      >
-        {{$t("save.feedback")}}
-      </div>
+      >{{$t("save.feedback")}}</div>
     </div>
   </v-dialog>
 </template>
 
 <script>
 import moment from 'moment';
-import { saveFeedback } from '@/services/operatorFeedback';
-import { getCallInfo, callBack } from '@/services/call';
+import { getCallInfo } from '@/services/call';
 import { LOAD_CALL_TYPES_AND_DISPOSITIONS } from '@/store/storage/actionTypes';
 
 export default {
   name: 'CallFeedbackPopup',
+  props: {
+    callDuration: {
+      type: Number,
+      default: 0,
+    },
+  },
   data() {
     return {
       feedback: {
         callType: null,
         disposition: null,
-        rating: null,
+        quality: null,
         audio: null,
-        text: null,
+        note: null,
       },
       dialog: true,
-      callDuration: null,
       recorder: null,
       isRecordingAudio: false,
       recordAudioCounter: 0,
@@ -123,7 +107,11 @@ export default {
       return !Object.values(this.feedback).some(value => !!value);
     },
     isButtonDisabled() {
-      return !this.feedback.callType || !this.feedback.rating || !this.feedback.disposition;
+      return (
+        !this.feedback.callType ||
+        !this.feedback.quality ||
+        !this.feedback.disposition
+      );
     },
     isDispositionShown() {
       return !!this.feedback.callType;
@@ -146,20 +134,21 @@ export default {
     },
   },
   mounted() {
-    Promise.all([getCallInfo(), this.$store.dispatch(LOAD_CALL_TYPES_AND_DISPOSITIONS)]).then(
-      values => {
-        this.callDuration = values[0].duration;
-      }
-    );
+    Promise.all([
+      getCallInfo(),
+      this.$store.dispatch(LOAD_CALL_TYPES_AND_DISPOSITIONS),
+    ]).then(values => {
+      // this.callDuration = values[0].duration;
+    });
   },
   methods: {
     saveFeedback() {
       if (this.isButtonDisabled) return;
-      saveFeedback(this.feedback);
+      this.$emit('saveFeedback', this.feedback);
       this.dialog = false;
     },
     callBack() {
-      callBack();
+      this.$emit('callback');
       this.dialog = false;
     },
     handleRecord() {
@@ -175,13 +164,18 @@ export default {
     async startRecording() {
       this.recorder = await this.recordAudio();
       // eslint-disable-next-line no-return-assign
-      this.recordAudioTimer = setInterval(() => (this.recordAudioCounter += 10), 10);
+      this.recordAudioTimer = setInterval(
+        () => (this.recordAudioCounter += 10),
+        10
+      );
       this.recorder.start();
       this.isRecordingAudio = true;
     },
     recordAudio() {
       return new Promise(async resolve => {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
         const mediaRecorder = new MediaRecorder(stream);
         const audioChunks = [];
 

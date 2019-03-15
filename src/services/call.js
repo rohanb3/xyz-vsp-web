@@ -1,7 +1,12 @@
 /* eslint-disable no-use-before-define, import/prefer-default-export */
 
 import store from '@/store';
-import { SET_CALL_STATUS, SET_CALL_TOKEN, SET_CALL_DATA } from '@/store/call/mutationTypes';
+import {
+  SET_CALL_STATUS,
+  SET_CALL_TOKEN,
+  SET_CALL_DATA,
+  SET_PENDING_CALLS_INFO,
+} from '@/store/call/mutationTypes';
 import { callStatuses } from '@/store/call/constants';
 import {
   init as initiOperatorSocker,
@@ -16,7 +21,7 @@ import api from '@/services/api';
 export function initializeOperator() {
   const userName = store.state.loggedInUser.user.name;
   const credentials = { userName };
-  return initiOperatorSocker(credentials, checkAndSetIncomingCallStatus).then(setToken);
+  return initiOperatorSocker(credentials, checkCallsInfoAndHandleCallStatus).then(setToken);
 }
 
 export function disconnectOperator() {
@@ -29,11 +34,12 @@ export function acceptCall() {
   setConnectingStatus();
 
   return notifyAboutAcceptingCall()
-    .then(name => {
-      const credentials = { name, token: store.state.call.token };
+    .then(call => {
+      const credentials = { name: call.id, token: store.state.call.token };
       const roomHandlers = {
         onRoomEmptied,
       };
+      store.commit(SET_CALL_DATA, call);
       return connectToRoom(credentials, roomHandlers);
     })
     .then(setActiveCallStatus);
@@ -56,10 +62,13 @@ function onRoomEmptied() {
 
 // store actors
 
-function checkAndSetIncomingCallStatus() {
-  if (store.getters.isOperatorIdle) {
+function checkCallsInfoAndHandleCallStatus(data) {
+  if (!data.size) {
+    store.commit(SET_CALL_STATUS, callStatuses.IDLE);
+  } else if (store.getters.isOperatorIdle) {
     store.commit(SET_CALL_STATUS, callStatuses.INCOMING);
   }
+  store.commit(SET_PENDING_CALLS_INFO, data);
 }
 
 function setConnectingStatus() {

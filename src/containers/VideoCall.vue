@@ -1,19 +1,12 @@
 <template>
   <div class="video-call">
-    <div
-      class="local-media"
-      ref="localMedia"
-    >
+    <div class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
-        <p>
-          {{ $t('video.off') }}
-        </p>
+        <p>{{ $t('video.off') }}</p>
       </div>
     </div>
 
-    <div
-      class="remote-media"
-      ref="remoteMedia" />
+    <div class="remote-media" ref="remoteMedia"/>
 
     <video-call-controls
       class="video-call-controls"
@@ -28,7 +21,15 @@
       @toggleSound="toggleSound"
       @toggleScreen="toggleScreen"
       @volumeLevelChanged="changeVolumeLevel"
-      @finishCall="finishCall"/>
+      @finishCall="finishCall"
+    />
+
+    <call-feedback-popup
+      v-if="isFeedbackPopupShown"
+      :call-duration="counter"
+      @saveFeedback="saveFeedback"
+      @callback="requestCallback"
+    />
   </div>
 </template>
 
@@ -46,6 +47,8 @@ import {
   convertTracksToAttachable,
   detachTracks,
 } from '@/services/twilio';
+import { saveFeedback } from '@/services/operatorFeedback';
+import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
 
 const AUDIO = 'audio';
@@ -54,6 +57,7 @@ const VIDEO = 'video';
 export default {
   name: 'VideoCall',
   components: {
+    CallFeedbackPopup,
     VideoCallControls,
   },
   data() {
@@ -65,6 +69,7 @@ export default {
       volume: 0.5,
       counter: 0,
       interval: null,
+      isFeedbackPopupShown: false,
       remoteAudioPresents: false,
       localTracksAddingUnsubscriber: null,
       localTracksRemovingUnsubscriber: null,
@@ -97,7 +102,7 @@ export default {
         this.activateCallTimer();
       } else if (!val && old) {
         this.deactivateCallTimer();
-        this.leaveScreen();
+        this.showFeedbackPopup();
       }
     },
   },
@@ -113,6 +118,12 @@ export default {
     },
     finishCall() {
       finishCall();
+    },
+    showFeedbackPopup() {
+      this.isFeedbackPopupShown = true;
+    },
+    hideFeedbackPopup() {
+      this.isFeedbackPopupShown = false;
     },
     updateCurrentTime() {
       this.counter += 1;
@@ -130,7 +141,9 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
+      return this.isScreenSharingOn
+        ? disableScreenShare()
+        : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -145,6 +158,14 @@ export default {
       if (remoteAudio) {
         remoteAudio.volume = this.volume;
       }
+    },
+    saveFeedback(feedback) {
+      const callId = this.$store.state.call.activeCallData.id;
+      const operatorId = 'operator42';
+      saveFeedback({ callId, operatorId, ...feedback }).then(this.leaveScreen);
+    },
+    requestCallback() {
+      console.log('request callback');
     },
     subscribeForTwilioEvents() {
       this.localTracksAddingUnsubscriber = twilioEvents.subscribe(
