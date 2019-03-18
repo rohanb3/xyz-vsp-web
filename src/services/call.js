@@ -13,6 +13,7 @@ import {
   notifyAboutAcceptingCall,
   notifyAboutFinishingCall,
   notifyAboutLeavingRoomEmpty,
+  requestCallback,
   disconnect as disconnectFromSocket,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
@@ -46,18 +47,33 @@ export function acceptCall() {
 }
 
 export function finishCall() {
-  const { callData } = store.getters;
-  notifyAboutFinishingCall(callData);
+  const { activeCallData } = store.getters;
+  notifyAboutFinishingCall(activeCallData);
   disconnectFromRoom();
-  setIdleCallStatus();
+  setFinishedCallStatus();
   return Promise.resolve();
+}
+
+export function callBack() {
+  const { activeCallData } = store.getters;
+  return requestCallback(activeCallData.id)
+    .then(call => {
+      const credentials = { name: call.id, token: store.state.call.token };
+      const roomHandlers = {
+        onRoomEmptied,
+      };
+      setConnectingStatus();
+      store.commit(SET_CALL_DATA, call);
+      return connectToRoom(credentials, roomHandlers);
+    })
+    .then(setActiveCallStatus);
 }
 
 // private methods
 
 function onRoomEmptied() {
   notifyAboutLeavingRoomEmpty();
-  setIdleCallStatus();
+  setFinishedCallStatus();
 }
 
 // store actors
@@ -87,9 +103,12 @@ function setActiveCallStatus(room) {
   });
 }
 
+function setFinishedCallStatus() {
+  store.commit(SET_CALL_STATUS, callStatuses.FINISHED);
+}
+
 function setToken(token) {
   store.commit(SET_CALL_TOKEN, token);
 }
 
 export const getCallInfo = () => api.get('/call/info').then(response => response.data);
-export const callBack = () => api.get('/call').then(response => response.data);

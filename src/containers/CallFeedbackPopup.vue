@@ -117,7 +117,11 @@ export default {
       return !!this.feedback.callType;
     },
     time() {
-      return moment(this.callDuration).format('mm:ss');
+      return moment()
+        .hour(0)
+        .minute(0)
+        .second(this.callDuration)
+        .format('mm:ss');
     },
     callTypes() {
       return this.$store.getters.callTypes;
@@ -143,13 +147,12 @@ export default {
   },
   methods: {
     saveFeedback() {
-      if (this.isButtonDisabled) return;
-      this.$emit('saveFeedback', this.feedback);
-      this.dialog = false;
+      if (!this.isButtonDisabled) {
+        this.$emit('saveFeedback', this.feedback);
+      }
     },
     callBack() {
       this.$emit('callback');
-      this.dialog = false;
     },
     handleRecord() {
       // eslint-disable-next-line no-unused-expressions

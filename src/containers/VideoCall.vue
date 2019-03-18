@@ -35,7 +35,7 @@
 
 <script>
 import moment from 'moment';
-import { finishCall } from '@/services/call';
+import { finishCall, callBack } from '@/services/call';
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import {
   enableLocalVideo,
@@ -48,6 +48,8 @@ import {
   detachTracks,
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
+import { SET_CALL_STATUS } from '@/store/call/mutationTypes';
+import { callStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
 
@@ -113,9 +115,6 @@ export default {
     deactivateCallTimer() {
       clearInterval(this.interval);
     },
-    leaveScreen() {
-      this.$router.replace({ name: 'calls' });
-    },
     finishCall() {
       finishCall();
     },
@@ -165,7 +164,16 @@ export default {
       saveFeedback({ callId, operatorId, ...feedback }).then(this.leaveScreen);
     },
     requestCallback() {
-      console.log('request callback');
+      return callBack()
+        .then(this.hideFeedbackPopup)
+        .catch((err) => {
+          console.error('callback rejected', err);
+        });
+    },
+    leaveScreen() {
+      this.counter = 0;
+      this.$store.commit(SET_CALL_STATUS, callStatuses.IDLE);
+      this.$router.replace({ name: 'calls' });
     },
     subscribeForTwilioEvents() {
       this.localTracksAddingUnsubscriber = twilioEvents.subscribe(

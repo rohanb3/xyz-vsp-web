@@ -10,7 +10,7 @@ export default {
   isCallActive(state) {
     return state.callStatus === callStatuses.ACTIVE;
   },
-  callData(state) {
-    return state.callData;
+  activeCallData(state) {
+    return state.activeCallData;
   },
 };
