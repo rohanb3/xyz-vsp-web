@@ -49,11 +49,14 @@ export default {
         .second(this.counter)
         .format('mm : ss');
     },
-    isIncomingCall() {
-      return this.$store.getters.isIncomingCall;
+    isAnyPendingCall() {
+      return this.$store.getters.isAnyPendingCall;
+    },
+    isOperatorIdle() {
+      return this.$store.getters.isOperatorIdle;
     },
     isDialogShown() {
-      return !this.dialogMinimizedByUser && this.isIncomingCall;
+      return this.isOperatorIdle && this.isAnyPendingCall;
     },
     oldestCallData() {
       return this.$store.state.call.pendingCallsInfo.oldest || {};

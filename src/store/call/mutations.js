@@ -1,5 +1,5 @@
 import {
-  SET_CALL_STATUS,
+  SET_OPERATOR_STATUS,
   SET_CALL_TOKEN,
   SET_CALL_DATA,
   SET_PENDING_CALLS_INFO,
@@ -7,8 +7,8 @@ import {
 
 export default {
   /* eslint-disable no-param-reassign */
-  [SET_CALL_STATUS](state, status) {
-    state.callStatus = status;
+  [SET_OPERATOR_STATUS](state, status) {
+    state.operatorStatus = status;
   },
   [SET_CALL_TOKEN](state, token) {
     state.token = token;

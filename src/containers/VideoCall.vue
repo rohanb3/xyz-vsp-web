@@ -52,8 +52,8 @@ import {
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
 import { LOAD_CALL_TYPES_AND_DISPOSITIONS } from '@/store/storage/actionTypes';
-import { SET_CALL_STATUS } from '@/store/call/mutationTypes';
-import { callStatuses } from '@/store/call/constants';
+import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
+import { operatorStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
 
@@ -93,7 +93,7 @@ export default {
         .format('mm : ss');
     },
     isCallActive() {
-      return this.$store.getters.isCallActive;
+      return this.$store.getters.isOperatorOnCall;
     },
     callTypes() {
       return this.$store.getters.callTypes;
@@ -196,7 +196,7 @@ export default {
     },
     leaveScreen() {
       this.counter = 0;
-      this.$store.commit(SET_CALL_STATUS, callStatuses.IDLE);
+      this.$store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
       this.$router.replace({ name: 'calls' });
     },
     checkAndLoadCallTypesAndDispositions() {

@@ -1,10 +1,10 @@
 import mutations from './mutations';
 import getters from './getters';
 
-import { callStatuses } from './constants';
+import { operatorStatuses } from './constants';
 
 const state = {
-  callStatus: callStatuses.IDLE,
+  operatorStatus: operatorStatuses.IDLE,
   token: null,
   activeCallData: null,
   pendingCallsInfo: {

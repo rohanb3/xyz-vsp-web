@@ -2,12 +2,12 @@
 
 import store from '@/store';
 import {
-  SET_CALL_STATUS,
+  SET_OPERATOR_STATUS,
   SET_CALL_TOKEN,
   SET_CALL_DATA,
   SET_PENDING_CALLS_INFO,
 } from '@/store/call/mutationTypes';
-import { callStatuses } from '@/store/call/constants';
+import { operatorStatuses } from '@/store/call/constants';
 import {
   init as initiOperatorSocker,
   notifyAboutAcceptingCall,
@@ -22,7 +22,7 @@ import api from '@/services/api';
 export function initializeOperator() {
   const userName = store.state.loggedInUser.user.name;
   const credentials = { userName };
-  return initiOperatorSocker(credentials, checkCallsInfoAndHandleCallStatus).then(setToken);
+  return initiOperatorSocker(credentials, checkAndUpdateCallsInfo).then(setToken);
 }
 
 export function disconnectOperator() {
@@ -43,68 +43,59 @@ export function acceptCall() {
       store.commit(SET_CALL_DATA, call);
       return connectToRoom(credentials, roomHandlers);
     })
-    .then(setActiveCallStatus);
+    .then(setOnCallOperatorStatus);
 }
 
 export function finishCall() {
   const { activeCallData } = store.getters;
   notifyAboutFinishingCall(activeCallData);
   disconnectFromRoom();
-  setFinishedCallStatus();
+  setFinishedCallOperatorStatus();
   return Promise.resolve();
 }
 
 export function callBack() {
   const { activeCallData } = store.getters;
+  setConnectingStatus();
   return requestCallback(activeCallData.id)
     .then(call => {
       const credentials = { name: call.id, token: store.state.call.token };
       const roomHandlers = {
         onRoomEmptied,
       };
-      setConnectingStatus();
       store.commit(SET_CALL_DATA, call);
       return connectToRoom(credentials, roomHandlers);
     })
-    .then(setActiveCallStatus);
+    .then(setOnCallOperatorStatus);
 }
 
 // private methods
 
 function onRoomEmptied() {
   notifyAboutLeavingRoomEmpty();
-  setFinishedCallStatus();
+  setFinishedCallOperatorStatus();
 }
 
 // store actors
 
-function checkCallsInfoAndHandleCallStatus(data) {
-  if (!data.size) {
-    store.commit(SET_CALL_STATUS, callStatuses.IDLE);
-  } else if (store.getters.isOperatorIdle) {
-    store.commit(SET_CALL_STATUS, callStatuses.INCOMING);
-  }
+function checkAndUpdateCallsInfo(data) {
   store.commit(SET_PENDING_CALLS_INFO, data);
 }
 
 function setConnectingStatus() {
-  store.commit(SET_CALL_STATUS, callStatuses.CONNECTING);
+  store.commit(SET_OPERATOR_STATUS, operatorStatuses.CONNECTING_TO_CALL);
 }
 
-function setIdleCallStatus() {
-  store.commit(SET_CALL_STATUS, callStatuses.IDLE);
-}
-
-function setActiveCallStatus(room) {
-  store.commit(SET_CALL_STATUS, callStatuses.ACTIVE);
+function setOnCallOperatorStatus(room) {
+  store.commit(SET_OPERATOR_STATUS, operatorStatuses.ON_CALL);
   store.commit(SET_CALL_DATA, {
     sid: room.sid,
     roomId: room.name,
   });
 }
 
-function setFinishedCallStatus() {
-  store.commit(SET_CALL_STATUS, callStatuses.FINISHED);
+function setFinishedCallOperatorStatus() {
+  store.commit(SET_OPERATOR_STATUS, operatorStatuses.FINISHED_CALL);
 }
 
 function setToken(token) {
