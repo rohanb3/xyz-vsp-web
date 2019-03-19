@@ -7,18 +7,21 @@ const CONNECT = 'connect';
 const AUTHENTICATION = 'authentication';
 const AUTHENTICATED = 'authenticated';
 const UNAUTHORIZED = 'unauthorized';
-const CALL_REQUESTED = 'call.requested';
 const CALL_ACCEPTED = 'call.accepted';
 const CALL_FINISHED = 'call.finished';
+const CALLBACK_REQUESTED = 'callback.requested';
+const CALLBACK_ACCEPTED = 'callback.accepted';
+const CALLBACK_DECLINED = 'callback.declined';
+const CALLS_CHANGED = 'calls.changed';
 const ROOM_LEFT_EMPTY = 'room.left.empty';
 const ROOM_CREATED = 'room.created';
 
-export function init(authData, onIncomingCall) {
+export function init(authData, onCallsChanged) {
   socket = socket || io('/operators', { transports: ['websocket'] });
 
   const promise = new Promise((resolve, reject) => {
     const onAuthenticated = data => {
-      socket.on(CALL_REQUESTED, onIncomingCall);
+      socket.on(CALLS_CHANGED, onCallsChanged);
       resolve(data);
     };
     const onConnected = () => {
@@ -53,4 +56,13 @@ export function notifyAboutFinishingCall(call) {
 
 export function notifyAboutLeavingRoomEmpty() {
   socket.emit(ROOM_LEFT_EMPTY);
+}
+
+export function requestCallback(callId) {
+  const promise = new Promise((resolve, reject) => {
+    socket.emit(CALLBACK_REQUESTED, callId);
+    socket.once(CALLBACK_ACCEPTED, resolve);
+    socket.once(CALLBACK_DECLINED, reject);
+  });
+  return promise;
 }

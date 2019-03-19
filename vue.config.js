@@ -12,6 +12,10 @@ module.exports = {
       '/api': {
         target: process.env.VUE_APP_PROXY_URL || 'https://ardas-xyz-vsp.firebaseapp.com',
       },
+      '/call-feedback-operator': {
+        target: process.env.VUE_APP_PROXY_CALLS || 'http://localhost:3000',
+        changeOrigin: true,
+      },
       '/operators': {
         target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
         ws: true,
