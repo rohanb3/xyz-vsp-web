@@ -106,9 +106,6 @@ export function detachTracks(tracks) {
 
 export function disconnect() {
   if (activeRoom) {
-    disableLocalVideo();
-    disableLocalAudio();
-    disableScreenShare();
     activeRoom.disconnect();
   }
 }
@@ -151,7 +148,7 @@ function onRoomJoined(room) {
   activeRoom = room;
 
   if (!Object.keys(previewTracks).length) {
-    handleLocalParticipantAdding(room.localParticipant);
+    enableLocalPreview();
   }
 
   room.participants.forEach(handleRemoteParticipantAdding);
@@ -172,13 +169,9 @@ function onRoomConnectionFailed() {
 }
 
 function onRoomDisconnected() {
-  activeRoom = null;
   disableLocalPreview();
-}
-
-function handleLocalParticipantAdding(participant) {
-  const tracks = Array.from(participant.tracks.values());
-  emitLocalTracksAdding(tracks);
+  disableScreenShare();
+  activeRoom = null;
 }
 
 function handleRemoteParticipantAdding(participant) {
