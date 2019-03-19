@@ -27,6 +27,9 @@
     <call-feedback-popup
       v-if="isFeedbackPopupShown"
       :call-duration="counter"
+      :call-types="callTypes"
+      :call-dispositions="callDispositions"
+      :loading="loading"
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
     />
@@ -48,6 +51,7 @@ import {
   detachTracks,
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
+import { LOAD_CALL_TYPES_AND_DISPOSITIONS } from '@/store/storage/actionTypes';
 import { SET_CALL_STATUS } from '@/store/call/mutationTypes';
 import { callStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
@@ -72,6 +76,7 @@ export default {
       counter: 0,
       interval: null,
       isFeedbackPopupShown: false,
+      loading: false,
       remoteAudioPresents: false,
       localTracksAddingUnsubscriber: null,
       localTracksRemovingUnsubscriber: null,
@@ -90,10 +95,17 @@ export default {
     isCallActive() {
       return this.$store.getters.isCallActive;
     },
+    callTypes() {
+      return this.$store.getters.callTypes;
+    },
+    callDispositions() {
+      return this.$store.getters.dispositions;
+    },
   },
   mounted() {
     this.subscribeForTwilioEvents();
     this.initLocalPreview();
+    this.checkAndLoadCallTypesAndDispositions();
   },
   destroyed() {
     this.unsubscribeFromTwilioEvents();
@@ -161,19 +173,33 @@ export default {
     saveFeedback(feedback) {
       const callId = this.$store.state.call.activeCallData.id;
       const operatorId = 'operator42';
-      saveFeedback({ callId, operatorId, ...feedback }).then(this.leaveScreen);
+      this.loading = true;
+      saveFeedback({ callId, operatorId, ...feedback })
+        .then(this.leaveScreen)
+        .finally(() => {
+          this.loading = false;
+        });
     },
     requestCallback() {
+      this.loading = true;
       return callBack()
         .then(this.hideFeedbackPopup)
-        .catch((err) => {
+        .catch(err => {
           console.error('callback rejected', err);
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     leaveScreen() {
       this.counter = 0;
       this.$store.commit(SET_CALL_STATUS, callStatuses.IDLE);
       this.$router.replace({ name: 'calls' });
+    },
+    checkAndLoadCallTypesAndDispositions() {
+      if (!this.callTypes.length || !this.callDispositions.length) {
+        this.$store.dispatch(LOAD_CALL_TYPES_AND_DISPOSITIONS);
+      }
     },
     subscribeForTwilioEvents() {
       this.localTracksAddingUnsubscriber = twilioEvents.subscribe(
@@ -294,6 +320,10 @@ export default {
     height: 100%;
     border-radius: 8px;
     background-color: $call-remote-media-background-color;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

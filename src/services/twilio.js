@@ -313,7 +313,7 @@ function emitRemoteTracksAdding(tracks) {
 }
 
 function emitRemoteTracksRemoving(tracks) {
-  twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACK_REMOVED, tracks);
+  twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACKS_REMOVED, tracks);
 }
 
 function emitScreenShareAdding(tracks) {
