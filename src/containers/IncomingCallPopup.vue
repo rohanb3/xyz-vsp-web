@@ -21,11 +21,7 @@
 
 <script>
 import moment from 'moment';
-import {
-  initializeOperator,
-  acceptCall,
-  disconnectOperator,
-} from '@/services/call';
+import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
@@ -66,7 +62,7 @@ export default {
     },
   },
   watch: {
-    oldestCallRequestTime(val, old) {
+    oldestCallRequestTime(val) {
       this.stopTimer();
       if (val) {
         const waitingSeconds = moment.utc().diff(val, 'seconds', true);
