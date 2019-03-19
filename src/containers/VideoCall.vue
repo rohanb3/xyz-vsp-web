@@ -183,7 +183,10 @@ export default {
     requestCallback() {
       this.loading = true;
       return callBack()
-        .then(this.hideFeedbackPopup)
+        .then(() => {
+          this.counter = 0;
+          this.hideFeedbackPopup();
+        })
         .catch(err => {
           console.error('callback rejected', err);
         })
