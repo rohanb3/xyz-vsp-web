@@ -1,6 +1,6 @@
 <template>
   <div class="customers-page">
-    <customers-table class="customers-table"/>
+    <!-- <customers-table class="customers-table"/> -->
     <superadmin-companies-table class="superadmin-companies-table"/>
   </div>
 </template>

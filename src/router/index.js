@@ -28,10 +28,10 @@ Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/',
   routes: [
     {
-      path: '/login',
+      path: '/vsp/login',
       name: 'login',
       component: Login,
       meta: { unsafe: true },
@@ -44,7 +44,7 @@ const router = new Router({
       },
     },
     {
-      path: '',
+      path: '/vsp',
       component: Base,
       children: [
         {
@@ -57,42 +57,42 @@ const router = new Router({
           },
           children: [
             {
-              path: '/dashboard',
+              path: 'dashboard',
               name: 'dashboard',
               component: Dashboard,
             },
             {
-              path: '/customers',
+              path: 'customers',
               name: 'customers',
               component: Customers,
             },
             {
-              path: '/calls',
+              path: 'calls',
               name: 'calls',
               component: Calls,
             },
             {
-              path: '/operators',
+              path: 'operators',
               name: 'operators',
               component: Operators,
             },
             {
-              path: '/operator-review',
+              path: 'operator-review',
               name: 'operatorReview',
               component: OperatorReview,
             },
             {
-              path: '/payments',
+              path: 'payments',
               name: 'payments',
               component: Payments,
             },
             {
-              path: '/settings',
+              path: 'settings',
               name: 'settings',
               component: SettingsPage,
             },
             {
-              path: '/supervisor-settings',
+              path: 'supervisor-settings',
               name: 'supervisorSettings',
               component: SupervisorSettings,
               children: [
@@ -114,22 +114,22 @@ const router = new Router({
               ],
             },
             {
-              path: '/feedback',
+              path: 'feedback',
               name: 'feedback',
               component: CallFeedbackPopup,
             },
             {
-              path: '/call',
+              path: 'call',
               name: 'call',
               component: CallPage,
             },
             {
-              path: '/supervisor-dashboard',
+              path: 'supervisor-dashboard',
               name: 'supervisor-dashboard',
               component: SupervisorDashboard,
             },
             {
-              path: '/operator-dashboard',
+              path: 'operator-dashboard',
               name: 'operator-dashboard',
               component: OperatorDashboard,
             },

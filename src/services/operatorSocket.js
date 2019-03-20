@@ -16,8 +16,23 @@ const CALLS_CHANGED = 'calls.changed';
 const ROOM_LEFT_EMPTY = 'room.left.empty';
 const ROOM_CREATED = 'room.created';
 
+// const socketUrl =
+//   process.env.NODE_ENV === 'development'
+//     ? '/operators'
+//     : 'wss://dev-demo.xyzies.ardas.biz/operators';
+// const socketOptions = { transports: ['websocket'] };
+//
+// if (process.env.NODE_ENV !== 'development') {
+//   socketOptions.path = '/api/video/socket.io';
+// }
+
 export function init(authData, onCallsChanged) {
-  socket = socket || io('/operators', { transports: ['websocket'] });
+  socket =
+    socket ||
+    io('wss://dev-demo.xyzies.ardas.biz/operators', {
+      path: '/api/video/socket.io',
+      transports: ['websocket'],
+    });
 
   const promise = new Promise((resolve, reject) => {
     const onAuthenticated = data => {
