@@ -74,7 +74,7 @@ export default {
     },
     async onLoginSuccess() {
       await this.$store.dispatch(GET_USER_DATA);
-      this.$router.replace({ name: 'customers' });
+      this.$router.replace({ name: 'calls' });
     },
     onLoginFail() {
       this.snackbar = true;
