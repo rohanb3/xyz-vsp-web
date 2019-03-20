@@ -21,7 +21,11 @@
 
 <script>
 import moment from 'moment';
-import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
+import {
+  initializeOperator,
+  acceptCall,
+  disconnectOperator,
+} from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
@@ -34,9 +38,12 @@ export default {
   },
   computed: {
     backgroundImage() {
-      const imageSrc = this.$store.getters.userData.callingPhoto;
-
-      return imageSrc ? `url(${imageSrc})` : 'none';
+      // const imageSrc = this.$store.getters.userData.callingPhoto;
+      //
+      // return imageSrc
+      //   ? `url(${imageSrc})`
+      //   : 'radial-gradient(circle at 50% 0, #737373, #4a4a4a 85%, #3b3b3b);';
+      return 'radial-gradient(circle at 50% 0, #737373, #4a4a4a 85%, #3b3b3b)';
     },
     callDuration() {
       return moment()
