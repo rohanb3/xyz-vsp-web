@@ -51,14 +51,14 @@
     </div>
 
     <div class="controls-section right-section">
-      <v-icon
+      <!-- <v-icon
         color="#fff"
         class="icon"
         :class="{ 'icon-off': !isScreenSharingOn }"
         @click="$emit('toggleScreen')"
       >
         {{ isScreenSharingOn ? 'screen_share' : 'stop_screen_share' }}
-      </v-icon>
+      </v-icon> -->
     </div>
   </div>
 </template>
