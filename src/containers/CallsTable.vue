@@ -1,6 +1,6 @@
 <template>
   <div class="calls-table">
-    <div class="dashboard-container">
+    <!-- <div class="dashboard-container">
       <calls-dashboard/>
     </div>
     <div class="calls-table-toolbar">
@@ -63,7 +63,7 @@
       v-if="operatorFeedbackShown"
       :call="selectedCall"
       @close="closeOperatorFeedback"
-    />
+    /> -->
   </div>
 </template>
 

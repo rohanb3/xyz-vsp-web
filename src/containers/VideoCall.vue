@@ -152,7 +152,9 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
+      return this.isScreenSharingOn
+        ? disableScreenShare()
+        : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -172,11 +174,13 @@ export default {
       const callId = this.$store.state.call.activeCallData.id;
       const operatorId = 'operator42';
       this.loading = true;
-      saveFeedback({ callId, operatorId, ...feedback })
-        .then(this.leaveScreen)
-        .finally(() => {
-          this.loading = false;
-        });
+      saveFeedback({ callId, operatorId, ...feedback });
+      this.loading = false;
+      this.leaveScreen();
+      // .then(this.leaveScreen)
+      // .finally(() => {
+      //   this.loading = false;
+      // });
     },
     requestCallback() {
       this.loading = true;

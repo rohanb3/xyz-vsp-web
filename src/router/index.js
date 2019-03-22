@@ -37,7 +37,7 @@ const router = new Router({
       meta: { unsafe: true },
       beforeEnter(to, from, next) {
         if (store.state.loggedInUser.user) {
-          next({ name: 'customers' });
+          next({ name: 'calls' });
         } else {
           next();
         }
@@ -137,7 +137,7 @@ const router = new Router({
         },
       ],
     },
-    { path: '*', redirect: { name: 'customers' } },
+    { path: '*', redirect: { name: 'calls' } },
   ],
 });
 
