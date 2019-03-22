@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: dev-video-static
-        image: xyzies.azurecr.io/frontend-video:0.0.0.0
+        image: xyzies.azurecr.io/frontend-video-dev:0.0.0.0
         resources:
           requests:
             cpu: 100m
