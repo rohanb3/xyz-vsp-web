@@ -26,8 +26,11 @@
 <script>
 import moment from 'moment';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-
-import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
+import {
+  initializeOperator,
+  acceptCall,
+  disconnectOperator,
+} from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
@@ -43,9 +46,7 @@ export default {
   },
   computed: {
     backgroundImage() {
-      const imageSrc = this.$store.getters.userData.callingPhoto;
-
-      return imageSrc ? `url(${imageSrc})` : 'none';
+      return 'radial-gradient(circle at 50% 0, #737373, #4a4a4a 85%, #3b3b3b)';
     },
     callDuration() {
       return moment()
@@ -54,20 +55,48 @@ export default {
         .second(this.counter)
         .format('mm:ss');
     },
-    isIncomingCall() {
-      return this.$store.getters.isIncomingCall;
+    isAnyPendingCall() {
+      return this.$store.getters.isAnyPendingCall;
+    },
+    isOperatorIdle() {
+      return this.$store.getters.isOperatorIdle;
     },
     isDialogShown() {
-      // return !this.dialogMinimizedByUser && this.isIncomingCall;
-      return true;
+      return this.isOperatorIdle && this.isAnyPendingCall;
+    },
+    companyName() {
+      if(this.$store.getters.getOldest) {
+        return this.$store.getters.getOldest.companyName || '';
+      }
+      return '';
     },
     brandName() {
-      return `${this.$t('incoming.call.popup.brand.from')} «` + `Walmart` + `»`;
+      if(this.companyName) {
+        return `${this.$t('incoming.call.popup.brand.from')} «` + this.companyName + `»`;
+      }
+      return '';
+    },
+    oldestCallData() {
+      return this.$store.state.call.pendingCallsInfo.oldest || {};
+    },
+    oldestCallRequestTime() {
+      return this.oldestCallData ? this.oldestCallData.requestedAt : null;
+    },
+  },
+  watch: {
+    oldestCallRequestTime(val) {
+      this.stopTimer();
+      if (val) {
+        const waitingSeconds = moment.utc().diff(val, 'seconds', true);
+        this.counter = Math.round(waitingSeconds);
+        this.startTimer();
+      } else {
+        this.counter = 0;
+      }
     },
   },
   mounted() {
     initializeOperator();
-    this.interval = setInterval(this.updateCurrentTime, 1000);
   },
   destroyed() {
     clearInterval(this.interval);
@@ -81,6 +110,12 @@ export default {
     ignoreCall() {
       this.dialogMinimizedByUser = false;
     },
+    startTimer() {
+      this.interval = setInterval(this.updateCurrentTime, 1000);
+    },
+    stopTimer() {
+      clearInterval(this.interval);
+    },
     updateCurrentTime() {
       this.counter += 1;
     },
@@ -91,7 +126,6 @@ export default {
 <style lang="scss">
 .incoming-call-popup {
   border-radius: 10.5px;
-  background-color: rgba(57, 143, 251, 0.7);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
 }
 </style>
@@ -129,7 +163,7 @@ export default {
     position: absolute;
     top: 52px;
     font-size: 24px;
-    color: #ffffff;
+    color: $base-white;
     text-align: center;
   }
 

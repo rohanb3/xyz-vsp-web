@@ -1,19 +1,12 @@
 <template>
   <div class="video-call">
-    <div
-      class="local-media"
-      ref="localMedia"
-    >
+    <div class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
-        <p>
-          {{ $t('video.off') }}
-        </p>
+        <p>{{ $t('video.off') }}</p>
       </div>
     </div>
 
-    <div
-      class="remote-media"
-      ref="remoteMedia" />
+    <div class="remote-media" ref="remoteMedia"/>
 
     <video-call-controls
       class="video-call-controls"
@@ -28,13 +21,24 @@
       @toggleSound="toggleSound"
       @toggleScreen="toggleScreen"
       @volumeLevelChanged="changeVolumeLevel"
-      @finishCall="finishCall"/>
+      @finishCall="finishCall"
+    />
+
+    <call-feedback-popup
+      v-if="isFeedbackPopupShown"
+      :call-duration="counter"
+      :call-types="callTypes"
+      :call-dispositions="callDispositions"
+      :loading="loading"
+      @saveFeedback="saveFeedback"
+      @callback="requestCallback"
+    />
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-import { finishCall } from '@/services/call';
+import { finishCall, callBack } from '@/services/call';
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import {
   enableLocalVideo,
@@ -46,6 +50,11 @@ import {
   convertTracksToAttachable,
   detachTracks,
 } from '@/services/twilio';
+import { saveFeedback } from '@/services/operatorFeedback';
+import { LOAD_CALL_TYPES_AND_DISPOSITIONS } from '@/store/storage/actionTypes';
+import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
+import { operatorStatuses } from '@/store/call/constants';
+import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
 
 const AUDIO = 'audio';
@@ -54,6 +63,7 @@ const VIDEO = 'video';
 export default {
   name: 'VideoCall',
   components: {
+    CallFeedbackPopup,
     VideoCallControls,
   },
   data() {
@@ -65,6 +75,8 @@ export default {
       volume: 0.5,
       counter: 0,
       interval: null,
+      isFeedbackPopupShown: false,
+      loading: false,
       remoteAudioPresents: false,
       localTracksAddingUnsubscriber: null,
       localTracksRemovingUnsubscriber: null,
@@ -81,12 +93,19 @@ export default {
         .format('mm : ss');
     },
     isCallActive() {
-      return this.$store.getters.isCallActive;
+      return this.$store.getters.isOperatorOnCall;
+    },
+    callTypes() {
+      return this.$store.getters.callTypes;
+    },
+    callDispositions() {
+      return this.$store.getters.dispositions;
     },
   },
   mounted() {
     this.subscribeForTwilioEvents();
     this.initLocalPreview();
+    this.checkAndLoadCallTypesAndDispositions();
   },
   destroyed() {
     this.unsubscribeFromTwilioEvents();
@@ -97,7 +116,7 @@ export default {
         this.activateCallTimer();
       } else if (!val && old) {
         this.deactivateCallTimer();
-        this.leaveScreen();
+        this.showFeedbackPopup();
       }
     },
   },
@@ -108,11 +127,14 @@ export default {
     deactivateCallTimer() {
       clearInterval(this.interval);
     },
-    leaveScreen() {
-      this.$router.replace({ name: 'calls' });
-    },
     finishCall() {
       finishCall();
+    },
+    showFeedbackPopup() {
+      this.isFeedbackPopupShown = true;
+    },
+    hideFeedbackPopup() {
+      this.isFeedbackPopupShown = false;
     },
     updateCurrentTime() {
       this.counter += 1;
@@ -130,7 +152,9 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
+      return this.isScreenSharingOn
+        ? disableScreenShare()
+        : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -144,6 +168,42 @@ export default {
       const remoteAudio = this.$refs.remoteMedia.querySelector('audio');
       if (remoteAudio) {
         remoteAudio.volume = this.volume;
+      }
+    },
+    saveFeedback(feedback) {
+      const callId = this.$store.state.call.activeCallData.id;
+      const operatorId = 'operator42';
+      this.loading = true;
+      saveFeedback({ callId, operatorId, ...feedback });
+      this.loading = false;
+      this.leaveScreen();
+      // .then(this.leaveScreen)
+      // .finally(() => {
+      //   this.loading = false;
+      // });
+    },
+    requestCallback() {
+      this.loading = true;
+      return callBack()
+        .then(() => {
+          this.counter = 0;
+          this.hideFeedbackPopup();
+        })
+        .catch(err => {
+          console.error('callback rejected', err);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    leaveScreen() {
+      this.counter = 0;
+      this.$store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
+      this.$router.replace({ name: 'calls' });
+    },
+    checkAndLoadCallTypesAndDispositions() {
+      if (!this.callTypes.length || !this.callDispositions.length) {
+        this.$store.dispatch(LOAD_CALL_TYPES_AND_DISPOSITIONS);
       }
     },
     subscribeForTwilioEvents() {
@@ -265,6 +325,10 @@ export default {
     height: 100%;
     border-radius: 8px;
     background-color: $call-remote-media-background-color;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

@@ -3,7 +3,7 @@
     <v-toolbar flat color="primary" height="56px">
       <v-toolbar-side-icon class="side-icon">P</v-toolbar-side-icon>
       <v-toolbar-title class="platform-name">{{ $t('app.title') }}</v-toolbar-title>
-      <supervisor-header-widgets v-if="isSupervisorDashboardPage"/>
+      <!-- <supervisor-header-widgets v-if="isSupervisorDashboardPage"/>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down header-toolbar">
         <v-btn flat icon color="white">
@@ -22,7 +22,7 @@
           <online-status-switcher/>
         </div>
         <header-user-menu/>
-      </v-toolbar-items>
+      </v-toolbar-items> -->
     </v-toolbar>
   </div>
 </template>

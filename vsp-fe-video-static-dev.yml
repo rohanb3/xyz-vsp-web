@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev-video-static
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dev-video-static
+  template:
+    metadata:
+      labels:
+        app: dev-video-static
+    spec:
+      containers:
+      - name: dev-video-static
+        image: xyzies.azurecr.io/vsp-fe-video-dev:0.0.0.0
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        ports:
+        - containerPort: 8090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dev-video-static
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 8090
+    targetPort: 8090
+    name: "http"
+  selector:
+    app: dev-video-static
+  clusterIP: 172.18.3.90
