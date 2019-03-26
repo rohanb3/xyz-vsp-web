@@ -36,11 +36,6 @@ module.exports = {
           '^/api/video': '',
         },
       },
-      '/token': {
-        secure: true,
-        changeOrigin: true,
-        target: 'https://ardasdev.b2clogin.com/ardasdev.onmicrosoft.com/oauth2/v2.0',
-      },
       '/socket.io': {
         target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
         ws: true,
