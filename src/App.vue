@@ -1,6 +1,19 @@
 <template>
   <v-app id="app">
     <router-view/>
+    <notifications group="notifications" />
+    <svg
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      class="blur-svg"
+    >
+      <defs>
+        <filter id="blur-filter">
+          <feGaussianBlur stdDeviation="3"></feGaussianBlur>
+        </filter>
+      </defs>
+    </svg>
   </v-app>
 </template>
 

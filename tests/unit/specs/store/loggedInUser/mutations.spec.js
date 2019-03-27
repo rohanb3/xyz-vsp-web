@@ -1,17 +1,35 @@
 import mutations from '@/store/loggedInUser/mutations';
-import { SET_LOGGED_IN_USER } from '@/store/loggedInUser/mutationTypes';
+import { SET_TOKEN, REMOVE_TOKEN } from '@/store/loggedInUser/mutationTypes';
 
 describe('loggedInUser mutations: ', () => {
-  describe('SET_LOGGED_IN_USER: ', () => {
-    it('should set logged in user', () => {
-      const state = {};
-      const user = {
-        role: 'Supervisor',
+  describe('SET_TOKEN: ', () => {
+    it('should set token', () => {
+      const state = {
+        token: null,
+      };
+      const token = {
+        accessToken: 'newToken123',
+        refreshToken: '123',
       };
 
-      mutations[SET_LOGGED_IN_USER](state, user);
+      mutations[SET_TOKEN](state, token);
+      expect(state.token).toEqual(token);
+    });
+  });
 
-      expect(state.user).toEqual(user);
+  describe('REMOVE_TOKEN: ', () => {
+    it('should reset token', () => {
+      const state = {
+        token: {
+          accessToken: '123',
+          refreshToken: '2323',
+        },
+      };
+
+      const expectedToken = null;
+
+      mutations[REMOVE_TOKEN](state);
+      expect(state.token).toEqual(expectedToken);
     });
   });
 });
