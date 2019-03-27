@@ -8,12 +8,12 @@ module.exports = {
       enableInSFC: false,
     },
   },
-  pwa: {
-    workboxPluginMode: 'InjectManifest',
-    workboxOptions: {
-      swSrc: 'src/service-worker.js',
-    },
-  },
+  // pwa: {
+  //   workboxPluginMode: 'InjectManifest',
+  //   workboxOptions: {
+  //     swSrc: 'src/service-worker.js',
+  //   },
+  // },
   devServer: {
     proxy: {
       '/api/v1': {
