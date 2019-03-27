@@ -159,6 +159,11 @@
   "change.plan": "TBD change plan",
   "payment.method": "TBD Payment Method",
   "add.new.payment.method": "TBD Add New Payment Method",
+  "i.agree.to.the": "I agree to the",
+  "terms.and.conditions": "Terms and Conditions",
+  "email.is.required": "Email is required",
+  "email.should.not.be.longer.than.50.symbols": "Email should not be longer than 50 symbols",
+  "email.should.be.valid": "Email should be valid",
 
   "incoming.call.popup": "TBD Incoming call",
   "incoming.call.popup.brand.from": "TBD from"

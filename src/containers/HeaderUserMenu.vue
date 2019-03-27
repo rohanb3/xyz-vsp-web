@@ -38,13 +38,17 @@
       <div class="footer">
         <a class="footer-link">{{ $t('upgrade.plan') }}</a>
         <a class="footer-link">{{ $t('support') }}</a>
-        <a class="footer-link-blue">{{ $t('log.out') }}</a>
+        <a class="footer-link-blue" @click="logout">
+          {{ $t('log.out') }}
+        </a>
       </div>
     </div>
   </v-menu>
 </template>
 
 <script>
+import { REMOVE_TOKEN } from '@/store/loggedInUser/mutationTypes';
+
 import UserAvatar from '@/components/UserAvatar';
 
 const {
@@ -67,6 +71,12 @@ export default {
       user: userInfo,
       avatar: avatarsCollection[0],
     };
+  },
+  methods: {
+    logout() {
+      this.$store.commit(REMOVE_TOKEN);
+      this.$router.replace({ name: 'login' });
+    },
   },
 };
 </script>

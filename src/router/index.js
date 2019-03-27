@@ -22,9 +22,20 @@ import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
 import IncomingCallPopup from '@/containers/IncomingCallPopup';
 
+import identityApi from '@/services/identityApi';
+import applyAuthInterceptors from '@/services/authInterceptors';
+
 import store from '@/store';
 
 Vue.use(Router);
+
+function loginGuard(to, from, next) {
+  if (store.state.loggedInUser.token) {
+    next({ path: 'dashboard' });
+  } else {
+    next();
+  }
+}
 
 const router = new Router({
   mode: 'history',
@@ -35,13 +46,7 @@ const router = new Router({
       name: 'login',
       component: Login,
       meta: { unsafe: true },
-      beforeEnter(to, from, next) {
-        if (store.state.loggedInUser.user) {
-          next({ name: 'calls' });
-        } else {
-          next();
-        }
-      },
+      beforeEnter: loginGuard,
     },
     {
       path: '/vsp',
@@ -142,11 +147,13 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.unsafe || store.state.loggedInUser.user) {
+  if (to.meta.unsafe || store.state.loggedInUser.token) {
     next();
   } else {
     next({ name: 'login' });
   }
 });
+
+applyAuthInterceptors(identityApi, router);
 
 export default router;
