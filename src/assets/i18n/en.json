@@ -158,5 +158,8 @@
   "or.you.can": "or you can",
   "change.plan": "change plan",
   "payment.method": "Payment Method",
-  "add.new.payment.method": "Add New Payment Method"
+  "add.new.payment.method": "Add New Payment Method",
+
+  "incoming.call.popup": "Incoming call",
+  "incoming.call.popup.brand.from": "from"
 }
