@@ -21,6 +21,8 @@ import {
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import api from '@/services/api';
 
+import { handleUpdateCallsInfo } from '@/services/callNotifications';
+
 export function initializeOperator() {
   const userName = store.state.loggedInUser.user.name;
   const credentials = { userName };
@@ -92,6 +94,7 @@ function onRoomEmptied() {
 
 function checkAndUpdateCallsInfo(data) {
   store.commit(SET_PENDING_CALLS_INFO, data);
+  handleUpdateCallsInfo(Boolean(data.size));
 }
 
 function setConnectingStatus() {
