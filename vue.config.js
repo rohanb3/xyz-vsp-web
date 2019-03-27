@@ -20,9 +20,6 @@ module.exports = {
       '/api/video/call-feedback-operator': {
         target: process.env.VUE_APP_PROXY_CALLS || 'http://localhost:3000',
         changeOrigin: true,
-        pathRewrite: {
-          '^/api/video': '',
-        },
       },
       '/api/video/operators': {
         target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
