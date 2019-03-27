@@ -13,4 +13,7 @@ export default {
   isAnyPendingCall(state) {
     return Boolean(state.pendingCallsInfo.size);
   },
+  getOldest(state) {
+    return state.pendingCallsInfo.oldest;
+  },
 };

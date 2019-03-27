@@ -13,6 +13,10 @@ module.exports = {
       '/api/v1': {
         target: process.env.VUE_APP_PROXY_URL || 'https://ardas-xyz-vsp.firebaseapp.com',
       },
+      '/api/identity/api': {
+        target: 'https://dev-demo.xyzies.ardas.biz/',
+        changeOrigin: true,
+      },
       '/api/video/call-feedback-operator': {
         target: process.env.VUE_APP_PROXY_CALLS || 'http://localhost:3000',
         changeOrigin: true,
