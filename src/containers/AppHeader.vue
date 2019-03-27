@@ -2,25 +2,12 @@
   <div class="app-header">
     <v-toolbar class="header-toolbar" flat color="primary" height="56px">
       <div class="side-icon"></div>
-      <!-- <supervisor-header-widgets v-if="isSupervisorDashboardPage"/>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down header-toolbar">
-          <v-icon>search</v-icon>
-        </v-btn>
-        <v-btn flat icon color="white">
-          <v-icon>help_outline</v-icon>
-        </v-btn>
-        <v-btn flat icon color="white">
-          <v-icon>apps</v-icon>
-        </v-btn>
-        <v-btn flat icon color="white">
-          <v-icon>notifications</v-icon>
-        </v-btn> -->
         <div class="switcher-container">
           <online-status-switcher :is-online="isOperatorOnline" @statusChanged="onStatusChanged"/>
         </div>
-        <!-- <header-user-menu/> -->
-      <!-- </v-toolbar-items> -->
+      </v-toolbar-items>
     </v-toolbar>
   </div>
 </template>
