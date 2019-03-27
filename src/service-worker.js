@@ -12,26 +12,24 @@ workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
 
-self.addEventListener(
-  'notificationclick',
-  event => {
-    event.notification.close();
-    event.waitUntil(clients.matchAll({
-      type: "window"
-    }).then(function(clientList) {
-      for (var i = 0; i < clientList.length; i++) {
-        var client = clientList[i];
+const notificationClickHandler = event => {
+  event.notification.close();
+  event.waitUntil(clients.matchAll({
+    type: "window"
+  }).then(function(clientList) {
+    for (var i = 0; i < clientList.length; i++) {
+      var client = clientList[i];
 
-        if (client.url.includes('vsp') && 'focus' in client) {
-          if(!client.focused)
-            return client.focus();
-          }
+      if (client.url.includes('vsp') && 'focus' in client) {
+        if(!client.focused)
+          return client.focus();
         }
       }
+    }
 
-    ));
-  },
-  false,
-);
+  ));
+};
+
+self.addEventListener('notificationclick', notificationClickHandler);
 
 /* eslint-enable */

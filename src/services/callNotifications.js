@@ -14,6 +14,7 @@ export function notifyAboutCall() {
         tag: 'incoming-call',
         requireInteraction: true,
       });
+      resolve();
     } else {
       reject();
     }
@@ -26,8 +27,8 @@ export function cleanUp() {
     .then(notifications => notifications.forEach(notification => notification.close()));
 }
 
-export function handleUpdateCallsInfo(data) {
-  if (data.size) {
+export function handleUpdateCallsInfo(showNotification) {
+  if (showNotification) {
     if (document.hidden) {
       notifyAboutCall();
     }
