@@ -21,8 +21,6 @@
                 class="password-input"
                 v-model="password"
                 required
-                :rules="passwordRules"
-                :validate-on-blur="true"
               ></v-text-field>
               <div class="agreement">
                 <v-checkbox
@@ -57,7 +55,6 @@ export default {
       valid: false,
       agreement: false,
       password: '',
-      passwordRules: [v => !!v || this.$t('password.is.required')],
       email: '',
       emailRules: [
         v => !!v || this.$t('email.is.required'),
