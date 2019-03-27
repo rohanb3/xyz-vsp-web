@@ -15,9 +15,13 @@ import {
   notifyAboutLeavingRoomEmpty,
   requestCallback,
   disconnect as disconnectFromSocket,
+  notifyAboutChangingStatusToOnline,
+  notifyAboutChangingStatusToOffline,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import api from '@/services/api';
+
+import { handleUpdateCallsInfo } from '@/services/callNotifications';
 
 export function initializeOperator() {
   const userName = store.state.loggedInUser.user.name;
@@ -69,6 +73,16 @@ export function callBack() {
     .then(setOnCallOperatorStatus);
 }
 
+export function setOnlineStatus() {
+  notifyAboutChangingStatusToOnline();
+  store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
+}
+
+export function setOfflineStatus() {
+  notifyAboutChangingStatusToOffline();
+  store.commit(SET_OPERATOR_STATUS, operatorStatuses.OFFLINE);
+}
+
 // private methods
 
 function onRoomEmptied() {
@@ -80,6 +94,7 @@ function onRoomEmptied() {
 
 function checkAndUpdateCallsInfo(data) {
   store.commit(SET_PENDING_CALLS_INFO, data);
+  // handleUpdateCallsInfo(Boolean(data.size));
 }
 
 function setConnectingStatus() {

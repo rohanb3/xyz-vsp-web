@@ -15,24 +15,17 @@ const CALLBACK_DECLINED = 'callback.declined';
 const CALLS_CHANGED = 'calls.changed';
 const ROOM_LEFT_EMPTY = 'room.left.empty';
 const ROOM_CREATED = 'room.created';
+const STATUS_CHANGED_ONLINE = 'status.changed.online';
+const STATUS_CHANGED_OFFLINE = 'status.changed.offline';
 
-// const socketUrl =
-//   process.env.NODE_ENV === 'development'
-//     ? '/operators'
-//     : 'wss://dev-demo.xyzies.ardas.biz/operators';
-// const socketOptions = { transports: ['websocket'] };
-//
-// if (process.env.NODE_ENV !== 'development') {
-//   socketOptions.path = '/api/video/socket.io';
-// }
+const socketOptions = { transports: ['websocket'] };
+
+if (process.env.NODE_ENV !== 'development') {
+  socketOptions.path = '/api/video/socket.io';
+}
 
 export function init(authData, onCallsChanged) {
-  socket =
-    socket ||
-    io('wss://dev-demo.xyzies.ardas.biz/operators', {
-      path: '/api/video/socket.io',
-      transports: ['websocket'],
-    });
+  socket = socket || io('/operators', socketOptions);
 
   const promise = new Promise((resolve, reject) => {
     const onAuthenticated = data => {
@@ -80,4 +73,12 @@ export function requestCallback(callId) {
     socket.once(CALLBACK_DECLINED, reject);
   });
   return promise;
+}
+
+export function notifyAboutChangingStatusToOnline() {
+  socket.emit(STATUS_CHANGED_ONLINE);
+}
+
+export function notifyAboutChangingStatusToOffline() {
+  socket.emit(STATUS_CHANGED_OFFLINE);
 }

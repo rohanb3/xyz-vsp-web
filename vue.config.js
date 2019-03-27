@@ -8,6 +8,12 @@ module.exports = {
       enableInSFC: false,
     },
   },
+  // pwa: {
+  //   workboxPluginMode: 'InjectManifest',
+  //   workboxOptions: {
+  //     swSrc: 'src/service-worker.js',
+  //   },
+  // },
   devServer: {
     proxy: {
       '/api/v1': {
@@ -20,9 +26,6 @@ module.exports = {
       '/api/video/call-feedback-operator': {
         target: process.env.VUE_APP_PROXY_CALLS || 'http://localhost:3000',
         changeOrigin: true,
-        pathRewrite: {
-          '^/api/video': '',
-        },
       },
       '/api/video/operators': {
         target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
@@ -39,11 +42,6 @@ module.exports = {
         pathRewrite: {
           '^/api/video': '',
         },
-      },
-      '/socket.io': {
-        target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
-        ws: true,
-        changeOrigin: true,
       },
     },
   },

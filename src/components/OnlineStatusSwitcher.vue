@@ -1,20 +1,39 @@
 <template>
   <div class="status-switcher-container">
-    <v-switch class="online-switcher" :label="label" v-model="isOnline" color="#1657a8"/>
+    <v-switch
+      class="online-switcher"
+      color="#1657a8"
+      :label="label"
+      :input-value="isOnline"
+      @change="onStatusChanged" />
   </div>
 </template>
 
 <script>
 export default {
   name: 'OnlineStatusSwitcher',
-  data() {
-    return {
-      isOnline: true,
-    };
+  props: {
+    isOnline: {
+      type: Boolean,
+      default: true,
+    },
   },
   computed: {
     label() {
       return this.isOnline ? 'Online' : 'Offline';
+    },
+  },
+  methods: {
+    onStatusChanged() {
+      this.$emit('statusChanged');
+    },
+  },
+  watch: {
+    isOnline: {
+      handler(val) {
+        console.log('isOnline', val);
+      },
+      immediate: true,
     },
   },
 };

@@ -3,7 +3,7 @@
     <v-dialog :content-class="'incoming-call-popup'" v-model="isDialogShown" persistent>
       <div class="main" :style="{backgroundImage: backgroundImage}">
         <div class="reject-call">
-          <v-icon color="white" class="icon-reject" @click="ignoreCall">call_end</v-icon>
+          <!-- <v-icon color="white" class="icon-reject" @click="ignoreCall">call_end</v-icon> -->
         </div>
         <div class="call-from-company-name">
           <span>{{$t('incoming.call.popup')}}</span>

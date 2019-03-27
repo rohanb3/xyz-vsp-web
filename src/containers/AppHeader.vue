@@ -1,11 +1,10 @@
 <template>
   <div class="app-header">
-    <v-toolbar flat color="primary" height="56px">
+    <v-toolbar class="header-toolbar" flat color="primary" height="56px">
       <div class="side-icon"></div>
       <!-- <supervisor-header-widgets v-if="isSupervisorDashboardPage"/>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down header-toolbar">
-        <v-btn flat icon color="white">
           <v-icon>search</v-icon>
         </v-btn>
         <v-btn flat icon color="white">
@@ -16,12 +15,12 @@
         </v-btn>
         <v-btn flat icon color="white">
           <v-icon>notifications</v-icon>
-        </v-btn>
+        </v-btn> -->
         <div class="switcher-container">
-          <online-status-switcher/>
+          <online-status-switcher :is-online="isOperatorOnline" @statusChanged="onStatusChanged"/>
         </div>
-        <header-user-menu/>
-      </v-toolbar-items> -->
+        <!-- <header-user-menu/> -->
+      <!-- </v-toolbar-items> -->
     </v-toolbar>
   </div>
 </template>
@@ -30,6 +29,8 @@
 import SupervisorHeaderWidgets from './SupervisorHeaderWidgets';
 import HeaderUserMenu from './HeaderUserMenu';
 import OnlineStatusSwitcher from '@/components/OnlineStatusSwitcher';
+
+import { setOnlineStatus, setOfflineStatus } from '@/services/call';
 
 export default {
   name: 'AppHeader',
@@ -41,6 +42,18 @@ export default {
   computed: {
     isSupervisorDashboardPage() {
       return this.$route.name === 'supervisor-dashboard';
+    },
+    isOperatorOnline() {
+      return this.$store.getters.isOperatorOnline;
+    },
+  },
+  methods: {
+    onStatusChanged() {
+      if (this.isOperatorOnline) {
+        setOfflineStatus();
+      } else {
+        setOnlineStatus();
+      }
     },
   },
 };
@@ -55,6 +68,9 @@ export default {
 }
 .header-toolbar {
   align-items: center;
+}
+.v-toolbar__content {
+  justify-content: space-between;
 }
 .platform-name {
   height: 21px;
@@ -77,5 +93,15 @@ export default {
 }
 .switcher-container {
   margin: 0 10px;
+}
+</style>
+
+<style lang="scss">
+@import '~@/assets/styles/variables.scss';
+
+.app-header {
+  .v-toolbar__content {
+    justify-content: space-between;
+  }
 }
 </style>
