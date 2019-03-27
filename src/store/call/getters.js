@@ -7,6 +7,9 @@ export default {
   isOperatorOnCall(state) {
     return state.operatorStatus === operatorStatuses.ON_CALL;
   },
+  isOperatorOnline(state) {
+    return state.operatorStatus !== operatorStatuses.OFFLINE;
+  },
   activeCallData(state) {
     return state.activeCallData;
   },

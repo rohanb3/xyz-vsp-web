@@ -15,6 +15,8 @@ import {
   notifyAboutLeavingRoomEmpty,
   requestCallback,
   disconnect as disconnectFromSocket,
+  notifyAboutChangingStatusToOnline,
+  notifyAboutChangingStatusToOffline,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import api from '@/services/api';
@@ -67,6 +69,16 @@ export function callBack() {
       return connectToRoom(credentials, roomHandlers);
     })
     .then(setOnCallOperatorStatus);
+}
+
+export function setOnlineStatus() {
+  notifyAboutChangingStatusToOnline();
+  store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
+}
+
+export function setOfflineStatus() {
+  notifyAboutChangingStatusToOffline();
+  store.commit(SET_OPERATOR_STATUS, operatorStatuses.OFFLINE);
 }
 
 // private methods
