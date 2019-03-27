@@ -15,6 +15,8 @@ const CALLBACK_DECLINED = 'callback.declined';
 const CALLS_CHANGED = 'calls.changed';
 const ROOM_LEFT_EMPTY = 'room.left.empty';
 const ROOM_CREATED = 'room.created';
+const STATUS_CHANGED_ONLINE = 'status.changed.online';
+const STATUS_CHANGED_OFFLINE = 'status.changed.offline';
 
 const socketOptions = { transports: ['websocket'] };
 
@@ -71,4 +73,12 @@ export function requestCallback(callId) {
     socket.once(CALLBACK_DECLINED, reject);
   });
   return promise;
+}
+
+export function notifyAboutChangingStatusToOnline() {
+  socket.emit(STATUS_CHANGED_ONLINE);
+}
+
+export function notifyAboutChangingStatusToOffline() {
+  socket.emit(STATUS_CHANGED_OFFLINE);
 }

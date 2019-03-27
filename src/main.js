@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import VueHotKey from 'v-hotkey';
+import Notifications from 'vue-notification';
 import 'vue-popperjs/dist/css/vue-popper.css';
 
 import App from './App';
@@ -19,6 +20,8 @@ Vue.use(Vuetify, {
     success: '#7ed321',
   },
 });
+
+Vue.use(Notifications);
 
 Vue.use(VueHotKey);
 
