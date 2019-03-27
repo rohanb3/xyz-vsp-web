@@ -1,8 +1,7 @@
 <template>
   <div class="app-header">
     <v-toolbar flat color="primary" height="56px">
-      <v-toolbar-side-icon class="side-icon">P</v-toolbar-side-icon>
-      <v-toolbar-title class="platform-name">{{ $t('app.title') }}</v-toolbar-title>
+      <div class="side-icon"></div>
       <!-- <supervisor-header-widgets v-if="isSupervisorDashboardPage"/>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down header-toolbar">
@@ -69,17 +68,12 @@ export default {
   letter-spacing: normal;
 }
 .side-icon {
-  width: 32px;
-  height: 32px;
-  font-size: 20px;
-  font-weight: bold;
-  font-style: italic;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  text-align: center;
-  background-color: $base-white;
-  color: #3c91f7;
+  margin-top: 10px;
+  margin-left: -45px;
+  height: 100%;
+  width: 175px;
+  background: url('../assets/icons/logo.png') center center;
+  background-size: cover;
 }
 .switcher-container {
   margin: 0 10px;
