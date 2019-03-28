@@ -31,6 +31,6 @@ const serviceWorker = {
   },
 };
 
-// if (process.env.NODE_ENV === 'production') {
-//   register(`${process.env.BASE_URL}service-worker.js`, serviceWorker);
-// }
+if (process.env.NODE_ENV === 'production') {
+  register(`${process.env.BASE_URL}service-worker.js`, serviceWorker);
+}

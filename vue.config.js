@@ -1,5 +1,13 @@
 module.exports = {
   publicPath: '/vsp',
+  configureWebpack: {
+    optimization: {
+      splitChunks: {
+        minSize: 10000,
+        maxSize: 250000,
+      },
+    },
+  },
   pluginOptions: {
     i18n: {
       locale: 'en',
@@ -8,12 +16,12 @@ module.exports = {
       enableInSFC: false,
     },
   },
-  // pwa: {
-  //   workboxPluginMode: 'InjectManifest',
-  //   workboxOptions: {
-  //     swSrc: 'src/service-worker.js',
-  //   },
-  // },
+  pwa: {
+    workboxPluginMode: 'InjectManifest',
+    workboxOptions: {
+      swSrc: 'src/service-worker.js',
+    },
+  },
   devServer: {
     proxy: {
       '/api/v1': {
