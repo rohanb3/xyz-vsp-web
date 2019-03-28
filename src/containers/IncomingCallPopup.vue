@@ -26,11 +26,7 @@
 <script>
 import moment from 'moment';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-import {
-  initializeOperator,
-  acceptCall,
-  disconnectOperator,
-} from '@/services/call';
+import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
@@ -65,14 +61,14 @@ export default {
       return this.isOperatorIdle && this.isAnyPendingCall;
     },
     companyName() {
-      if(this.$store.getters.getOldest) {
+      if (this.$store.getters.getOldest) {
         return this.$store.getters.getOldest.companyName || '';
       }
       return '';
     },
     brandName() {
-      if(this.companyName) {
-        return `${this.$t('incoming.call.popup.brand.from')} «` + this.companyName + `»`;
+      if (this.companyName) {
+        return `${this.$t('incoming.call.popup.brand.from')} «${this.companyName}»`;
       }
       return '';
     },
