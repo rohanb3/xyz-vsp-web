@@ -26,7 +26,11 @@
 <script>
 import moment from 'moment';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
+import {
+  initializeOperator,
+  acceptCall,
+  disconnectOperator,
+} from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
@@ -68,7 +72,9 @@ export default {
     },
     brandName() {
       if (this.companyName) {
-        return `${this.$t('incoming.call.popup.brand.from')} «${this.companyName}»`;
+        return `${this.$t('incoming.call.popup.brand.from')} «${
+          this.companyName
+        }»`;
       }
       return '';
     },
@@ -101,7 +107,9 @@ export default {
   methods: {
     acceptCall() {
       this.$router.push({ name: 'call' });
-      return acceptCall();
+      return acceptCall().catch(err =>
+        console.error('Accept call finished', err)
+      );
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;

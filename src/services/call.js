@@ -24,7 +24,7 @@ import api from '@/services/api';
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
 
 export function initializeOperator() {
-  const userName = store.state.loggedInUser.user.name;
+  const userName = store.getters.userId;
   const credentials = { userName };
   return initiOperatorSocker(credentials, checkAndUpdateCallsInfo).then(setToken);
 }

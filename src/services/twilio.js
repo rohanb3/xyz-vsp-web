@@ -162,10 +162,10 @@ function onRoomJoined(room) {
   return room;
 }
 
-function onRoomConnectionFailed() {
+function onRoomConnectionFailed(err) {
   activeRoom = null;
 
-  return Promise.reject();
+  return Promise.reject(err);
 }
 
 function onRoomDisconnected() {

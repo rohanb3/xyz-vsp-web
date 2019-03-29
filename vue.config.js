@@ -51,6 +51,11 @@ module.exports = {
           '^/api/video': '',
         },
       },
+      '/socket.io': {
+        target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
+        ws: true,
+        changeOrigin: true,
+      },
     },
   },
 };
