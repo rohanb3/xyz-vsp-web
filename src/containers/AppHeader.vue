@@ -7,6 +7,7 @@
         <div class="switcher-container">
           <online-status-switcher :is-online="isOperatorOnline" @statusChanged="onStatusChanged"/>
         </div>
+        <header-user-menu />
       </v-toolbar-items>
     </v-toolbar>
   </div>
