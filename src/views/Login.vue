@@ -11,6 +11,7 @@
               <v-text-field
                 label="Email"
                 v-model="email"
+                ref="emailInput"
                 required
                 :rules="emailRules"
                 :validate-on-blur="true"
@@ -62,6 +63,9 @@ export default {
         v => emailValidatorRegExp.test(v) || this.$t('email.should.be.valid'),
       ],
     };
+  },
+  mounted() {
+    this.$refs.emailInput.focus();
   },
   methods: {
     async submit() {
