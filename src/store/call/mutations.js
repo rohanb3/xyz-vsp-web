@@ -3,6 +3,7 @@ import {
   SET_CALL_TOKEN,
   SET_CALL_DATA,
   SET_PENDING_CALLS_INFO,
+  SET_EXTENSION_AVAILABILITY,
 } from './mutationTypes';
 
 export default {
@@ -23,6 +24,9 @@ export default {
   [SET_PENDING_CALLS_INFO](state, { size, peak }) {
     state.pendingCallsInfo.size = size;
     state.pendingCallsInfo.oldest = peak;
+  },
+  [SET_EXTENSION_AVAILABILITY](state, installed) {
+    state.isExtensionInstalled = installed;
   },
   /* eslint-enable no-param-reassign */
 };

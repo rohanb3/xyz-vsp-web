@@ -110,6 +110,17 @@ export function disconnect() {
   }
 }
 
+export function checkExtension() {
+  return new Promise(resolve => {
+    const onResponse = response => {
+      const isInstalled = Boolean(response);
+      extensionInstalled = isInstalled;
+      resolve(isInstalled);
+    };
+    window.chrome.runtime.sendMessage(EXTENSION_ID, 'version', onResponse);
+  });
+}
+
 export function enableScreenShare() {
   return checkExtension().then(() => {
     const promise = previewTracks.screenShare
@@ -267,17 +278,6 @@ function createChromeExtensionPromise() {
         reject(new Error('Could not get stream'));
       }
     });
-  });
-}
-
-function checkExtension() {
-  return new Promise(resolve => {
-    const onResponse = response => {
-      const isInstalled = Boolean(response);
-      extensionInstalled = isInstalled;
-      resolve(isInstalled);
-    };
-    window.chrome.runtime.sendMessage(EXTENSION_ID, 'version', onResponse);
   });
 }
 
