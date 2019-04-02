@@ -7,7 +7,6 @@ export function setSWRegistration(registration) {
 }
 
 export function notifyAboutCall() {
-  console.log('notifyAboutCall');
   return new Promise((resolve, reject) => {
     if (isEnabled() && swRegistration) {
       swRegistration.showNotification('Incoming call', {

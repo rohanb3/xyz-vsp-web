@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "test": "yarn test:unit",
-    "lint": "vue-cli-service lint",
+    "lint": "vue-cli-service lint --fix",
     "deploy": "yarn run build && firebase deploy --only hosting",
     "check": "yarn run lint && yarn run test:unit",
     "start": "yarn serve",

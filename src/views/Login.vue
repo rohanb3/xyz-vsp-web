@@ -11,6 +11,7 @@
               <v-text-field
                 label="Email"
                 v-model="email"
+                autofocus
                 required
                 :rules="emailRules"
                 :validate-on-blur="true"

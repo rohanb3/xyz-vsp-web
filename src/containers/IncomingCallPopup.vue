@@ -26,10 +26,10 @@
 
 <script>
 import moment from 'moment';
-import cssBlurOverlay from '@/directives/cssBlurOverlay';
-import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
 import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
+import cssBlurOverlay from '@/directives/cssBlurOverlay';
 import { EXTENSION_URL } from '@/constants/twillio';
+import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
@@ -109,7 +109,7 @@ export default {
   methods: {
     acceptCall() {
       this.$router.push({ name: 'call' });
-      return acceptCall();
+      return acceptCall().catch(err => console.error('Accept call finished', err));
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;
