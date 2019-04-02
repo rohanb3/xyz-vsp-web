@@ -17,10 +17,10 @@ spec:
         image: xyzies.azurecr.io/vsp-fe-video-dev:0.0.0.0
         resources:
           requests:
-            cpu: 250m
+            cpu: 150m
             memory: 512Mi
           limits:
-            cpu: 500m
+            cpu: 300m
             memory: 1024Mi
         ports:
         - containerPort: 8090
