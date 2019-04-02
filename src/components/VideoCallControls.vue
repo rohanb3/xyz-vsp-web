@@ -113,7 +113,7 @@ export default {
       },
     },
     isScreenSharingDisabled() {
-      return !this.$store.getters.isExtensionInstalled;
+      return !this.$store.getters.screenSharingExtension;
     },
     formattedCallDuration() {
       return moment()

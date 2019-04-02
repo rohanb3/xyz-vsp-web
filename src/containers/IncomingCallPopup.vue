@@ -59,7 +59,7 @@ export default {
       return this.$store.getters.isAnyPendingCall;
     },
     showWarning() {
-      return !this.$store.getters.isExtensionInstalled;
+      return !this.$store.getters.screenSharingExtension;
     },
     isOperatorIdle() {
       return this.$store.getters.isOperatorIdle;

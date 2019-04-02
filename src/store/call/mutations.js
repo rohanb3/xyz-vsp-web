@@ -26,7 +26,7 @@ export default {
     state.pendingCallsInfo.oldest = peak;
   },
   [SET_EXTENSION_AVAILABILITY](state, installed) {
-    state.isExtensionInstalled = installed;
+    state.screenSharingExtension = installed;
   },
   /* eslint-enable no-param-reassign */
 };

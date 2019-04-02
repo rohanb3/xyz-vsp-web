@@ -12,7 +12,7 @@ const state = {
     oldest: null,
     size: 0,
   },
-  isExtensionInstalled: false,
+  screenSharingExtension: false,
 };
 
 export default {
