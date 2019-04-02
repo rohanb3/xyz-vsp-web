@@ -1,5 +1,13 @@
 module.exports = {
   publicPath: '/vsp',
+  configureWebpack: {
+    optimization: {
+      splitChunks: {
+        minSize: 10000,
+        maxSize: 250000,
+      },
+    },
+  },
   pluginOptions: {
     i18n: {
       locale: 'en',
@@ -8,12 +16,12 @@ module.exports = {
       enableInSFC: false,
     },
   },
-  pwa: {
-    workboxPluginMode: 'InjectManifest',
-    workboxOptions: {
-      swSrc: 'src/service-worker.js',
-    },
-  },
+  // pwa: {
+  //   workboxPluginMode: 'InjectManifest',
+  //   workboxOptions: {
+  //     swSrc: 'src/service-worker.js',
+  //   },
+  // },
   devServer: {
     proxy: {
       '/api/v1': {
@@ -42,6 +50,11 @@ module.exports = {
         pathRewrite: {
           '^/api/video': '',
         },
+      },
+      '/socket.io': {
+        target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
+        ws: true,
+        changeOrigin: true,
       },
     },
   },

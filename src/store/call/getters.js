@@ -19,4 +19,7 @@ export default {
   getOldest(state) {
     return state.pendingCallsInfo.oldest;
   },
+  screenSharingExtension(state) {
+    return state.screenSharingExtension;
+  },
 };

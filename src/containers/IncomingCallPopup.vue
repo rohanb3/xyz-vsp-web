@@ -2,9 +2,6 @@
   <v-layout row justify-center v-cssBlurOverlay v-if="isDialogShown">
     <v-dialog :content-class="'incoming-call-popup'" v-model="isDialogShown" persistent>
       <div class="main" :style="{backgroundImage: backgroundImage}">
-        <div class="reject-call">
-          <!-- <v-icon color="white" class="icon-reject" @click="ignoreCall">call_end</v-icon> -->
-        </div>
         <div class="call-from-company-name">
           <span>{{$t('incoming.call.popup')}}</span>
           <br>
@@ -18,6 +15,10 @@
           <p class="text">{{$t('incoming')}}</p>
           <p class="time">{{callDuration}}</p>
         </div>
+         <div v-if="showWarning" class="extension-not-installed">
+          <p class="text">{{$t('extension.for.sharing.screen.not.installed')}}</p>
+          <a class="link" :href="extensionLink" target="_blank">{{$t('link.to.download')}}</a>
+        </div>
       </div>
     </v-dialog>
   </v-layout>
@@ -25,12 +26,10 @@
 
 <script>
 import moment from 'moment';
+import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-import {
-  initializeOperator,
-  acceptCall,
-  disconnectOperator,
-} from '@/services/call';
+import { EXTENSION_URL } from '@/constants/twillio';
+import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
 
 export default {
   name: 'IncomingCallPopup',
@@ -42,6 +41,7 @@ export default {
       dialogMinimizedByUser: false,
       counter: 0,
       interval: null,
+      extensionLink: EXTENSION_URL,
     };
   },
   computed: {
@@ -58,6 +58,9 @@ export default {
     isAnyPendingCall() {
       return this.$store.getters.isAnyPendingCall;
     },
+    showWarning() {
+      return !this.$store.getters.screenSharingExtension;
+    },
     isOperatorIdle() {
       return this.$store.getters.isOperatorIdle;
     },
@@ -65,14 +68,14 @@ export default {
       return this.isOperatorIdle && this.isAnyPendingCall;
     },
     companyName() {
-      if(this.$store.getters.getOldest) {
+      if (this.$store.getters.getOldest) {
         return this.$store.getters.getOldest.companyName || '';
       }
       return '';
     },
     brandName() {
-      if(this.companyName) {
-        return `${this.$t('incoming.call.popup.brand.from')} «` + this.companyName + `»`;
+      if (this.companyName) {
+        return `${this.$t('incoming.call.popup.brand.from')} «${this.companyName}»`;
       }
       return '';
     },
@@ -97,6 +100,7 @@ export default {
   },
   mounted() {
     initializeOperator();
+    this.$store.dispatch(CHECK_EXTENSION_IS_INSTALLED);
   },
   destroyed() {
     clearInterval(this.interval);
@@ -105,7 +109,7 @@ export default {
   methods: {
     acceptCall() {
       this.$router.push({ name: 'call' });
-      return acceptCall();
+      return acceptCall().catch(err => console.error('Accept call finished', err));
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;
@@ -134,52 +138,33 @@ export default {
 @import '~@/assets/styles/variables.scss';
 
 .main {
+  padding: 22px 15px 13px 22px;
   width: 311px;
-  height: 264px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
   background-size: cover;
   background-position: center center;
-  position: relative;
-
-  .reject-call {
-    height: 52px;
-    display: flex;
-    justify-content: flex-end;
-    .icon-reject {
-      margin: 10px;
-      width: 25px;
-      height: 25px;
-      font-size: 16px;
-      background-color: $call-dialogue-reject-icon-background-color;
-      border-radius: 30px;
-    }
-  }
 
   .call-from-company-name {
+    margin-bottom: 30px;
     width: 100%;
-    position: absolute;
-    top: 52px;
     font-size: 24px;
     color: $base-white;
     text-align: center;
   }
 
   .accept-call {
+    margin-bottom: 23px;
     width: 234px;
     height: 52px;
-    position: absolute;
     display: flex;
     justify-content: flex-end;
     background-color: $call-dialogue-accept-button-background-color !important;
     color: $call-dialogue-accept-button-color;
     font-size: 24px;
     border-radius: 30px;
-    bottom: 48px;
-    left: 36px;
-    z-index: 100;
     text-transform: none;
     font-weight: normal;
     box-shadow: none;
@@ -191,10 +176,6 @@ export default {
   }
 
   .incoming-call {
-    position: absolute;
-    bottom: 16px;
-    left: 88px;
-    z-index: 100;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -208,6 +189,24 @@ export default {
       font-size: 20px;
       font-weight: bold;
       color: $call-dialogue-time-color;
+    }
+  }
+  .extension-not-installed {
+    padding-top: 33px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .text {
+      margin-bottom: 6px;
+      font-size: 16px;
+      color: #ffffff;
+      text-align: center;
+    }
+    .link {
+      font-size: 16px;
+      color: #7ed321;
+      text-decoration: none;
     }
   }
 }

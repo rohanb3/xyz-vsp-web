@@ -37,10 +37,6 @@
         <p class="title">{{$t("system.quality.rating")}}</p>
         <v-rating color="#fff" background-color="grey lighten-1" v-model="feedback.quality"/>
       </div>
-      <div class="audio-feedback section">
-        <p class="title">{{$t("audio.feedback")}}</p>
-        <audio-recorder @recorded="onFeedbackRecorded" />
-      </div>
       <div class="note-feedback section">
         <p class="title">{{$t("note.feedback")}}</p>
         <textarea
@@ -73,7 +69,6 @@
 
 <script>
 import moment from 'moment';
-import AudioRecorder from '@/components/AudioRecorder';
 
 export default {
   name: 'CallFeedbackPopup',
@@ -95,16 +90,12 @@ export default {
       default: false,
     },
   },
-  components: {
-    AudioRecorder,
-  },
   data() {
     return {
       feedback: {
         callType: null,
         disposition: null,
         quality: null,
-        audio: null,
         note: null,
       },
       dialog: true,
@@ -146,9 +137,6 @@ export default {
       if (!this.isCallbackButtonDisabled) {
         this.$emit('callback');
       }
-    },
-    onFeedbackRecorded(audio) {
-      this.feedback.audio = audio;
     },
   },
 };
@@ -206,25 +194,25 @@ export default {
     }
     .types {
       justify-content: flex-start;
+
       .type {
         padding: 5px 11px;
-        border-radius: 3px;
-        border: $call-feedback-popup-call-type-border;
+        height: 28px;
+        box-sizing: border-box;
         font-size: 14px;
         font-weight: 500;
+        &:not(:last-child) {
+          border-right: $call-feedback-popup-call-type-border;
+        }
       }
     }
   }
 
   .rating {
     padding-bottom: 15px;
-  }
 
-  .audio-feedback {
-    padding-right: 33px;
-    padding-bottom: 30px;
     .title {
-      padding-bottom: 8px;
+      padding-bottom: 5px;
     }
   }
 
@@ -233,7 +221,7 @@ export default {
     margin: 0;
     border-bottom-left-radius: 11px;
     border-bottom-right-radius: 11px;
-    padding: 20px 25px;
+    padding: 17px 25px 20px;
     border: inherit;
     width: 100%;
     font-size: 24px;
@@ -242,7 +230,8 @@ export default {
     display: flex;
     align-items: center;
     .icon-call {
-      margin-right: 25px;
+      margin-right: 5px;
+      margin-left: -24px;
       color: $call-feedback-popup-icon-call-color;
       width: 37px;
       height: 37px;
@@ -286,8 +275,25 @@ export default {
 }
 
 .call-feedback-popup {
+  .v-btn__content {
+    text-transform: capitalize;
+  }
+
+  .v-input--selection-controls {
+    margin-top: 0;
+  }
   .call-type {
+    .v-input--selection-controls__input {
+      display: none !important;
+    }
+    .v-input--radio-group__input {
+      border: $call-feedback-popup-call-type-border;
+      border-radius: 3px;
+    }
     .types {
+      .v-radio.accent--text {
+        box-shadow: 0px 0px 1px 0px rgba(255, 255, 255, 1);
+      }
       .type {
         label {
           color: $call-feedback-popup-call-type-selected-color;
@@ -301,7 +307,11 @@ export default {
       }
     }
   }
-
+  .v-rating {
+    .v-icon {
+      padding: 4px 6px 4px 4px;
+    }
+  }
   .disposition {
     .title {
       padding-bottom: 9px;

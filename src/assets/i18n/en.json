@@ -89,7 +89,7 @@
   "start.recording": "Start recording",
   "note.feedback": "Note feedback",
   "start.typing": "Start typing",
-  "save.feedback": "Save feedback",
+  "save.feedback": "Save Feedback",
   "call.back": "Call Back",
   "call.info": "Call info",
   "select.something": "Select something",
@@ -166,5 +166,7 @@
   "email.should.be.valid": "Email should be valid",
 
   "incoming.call.popup": "Incoming call",
-  "incoming.call.popup.brand.from": "from"
+  "incoming.call.popup.brand.from": "from",
+  "link.to.download": "Link to download",
+  "extension.for.sharing.screen.not.installed": "The extension app for screen sharing isn't installed. Please, install to use and reload page after that."
 }

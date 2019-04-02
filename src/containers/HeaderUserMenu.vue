@@ -2,10 +2,7 @@
   <v-menu v-model="menu" nudge-bottom="40">
     <v-btn flat icon color="#b4681f" slot="activator">
       <user-avatar
-        :backgroundColor="avatar.backgroundColor"
-        :initialsColor="avatar.initialsColor"
-        :firstName="user.firstName"
-        :lastName="user.lastName"
+        :firstName="user.displayName"
         size="36px"
         initialsSize="14px"
       />
@@ -15,29 +12,26 @@
       <div class="header">
         <div class="popper-avatar-container">
           <user-avatar
-            :backgroundColor="avatar.backgroundColor"
-            :initialsColor="avatar.initialsColor"
-            :firstName="user.firstName"
-            :lastName="user.lastName"
+            :firstName="user.displayName"
             size="54px"
             initialsSize="20px"
           />
         </div>
         <div>
-          <span class="user-name">{{`${user.firstName} ${user.lastName}`}}</span>
+          <span class="user-name">{{user.displayName}}</span>
           <span class="user-email">{{user.email}}</span>
           <div class="buttons-container">
-            <button class="profile-button">{{ $t('profile') }}</button>
+            <!-- <button class="profile-button">{{ $t('profile') }}</button> -->
             <div class="user-id-container">
               <span class="user-id-text">{{ $t('id') }}</span>
-              <span class="user-id-number">{{user.id}}</span>
+              <span class="user-id-number">{{user.objectId}}</span>
             </div>
           </div>
         </div>
       </div>
       <div class="footer">
-        <a class="footer-link">{{ $t('upgrade.plan') }}</a>
-        <a class="footer-link">{{ $t('support') }}</a>
+        <!-- <a class="footer-link">{{ $t('upgrade.plan') }}</a>
+        <a class="footer-link">{{ $t('support') }}</a> -->
         <a class="footer-link-blue" @click="logout">
           {{ $t('log.out') }}
         </a>
@@ -51,26 +45,18 @@ import { REMOVE_TOKEN } from '@/store/loggedInUser/mutationTypes';
 
 import UserAvatar from '@/components/UserAvatar';
 
-const {
-  items: avatarsCollection,
-} = require('../../functions/fake-be/fixtures/avatarsCollection.json');
-
-const userInfo = {
-  firstName: 'Robert',
-  lastName: 'Smith',
-  email: 'robert.smith@gmail.com',
-  id: '43872',
-};
-
 export default {
   name: 'HeaderUserMenu',
   components: { UserAvatar },
   data() {
     return {
       menu: false,
-      user: userInfo,
-      avatar: avatarsCollection[0],
     };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.userData;
+    },
   },
   methods: {
     logout() {
