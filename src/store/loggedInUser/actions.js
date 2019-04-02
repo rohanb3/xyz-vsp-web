@@ -4,19 +4,18 @@ import {
   getProfileData,
 } from '@/services/identityRepository';
 import { changeProfileData } from '@/services/profile';
-import { LOGIN, REFRESH_TOKEN, GET_USER_DATA, CHANGE_USER_DATA } from './actionTypes';
-import { SET_TOKEN, SET_USER_DATA } from './mutationTypes';
+import { LOGIN, REFRESH_TOKEN, GET_PROFILE_DATA, CHANGE_PROFILE_DATA } from './actionTypes';
+import { SET_TOKEN, SET_PROFILE_DATA } from './mutationTypes';
 
 export default {
-  async [GET_USER_DATA]({ commit }) {
+  async [GET_PROFILE_DATA]({ commit }) {
     const data = await getProfileData();
-    console.log({ data });
-    commit(SET_USER_DATA, data);
+    commit(SET_PROFILE_DATA, data);
   },
-  async [CHANGE_USER_DATA]({ commit }, data) {
+  async [CHANGE_PROFILE_DATA]({ commit }, data) {
     const response = await changeProfileData(data);
     if (response.status === 'success') {
-      commit(SET_USER_DATA, data);
+      commit(SET_PROFILE_DATA, data);
     }
   },
   async [LOGIN]({ commit }, { email, password }) {

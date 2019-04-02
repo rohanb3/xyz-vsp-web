@@ -32,29 +32,16 @@ module.exports = {
         changeOrigin: true,
       },
       '/api/video/call-feedback-operator': {
-        target: process.env.VUE_APP_PROXY_CALLS || 'http://localhost:3000',
+        target: process.env.VUE_APP_PROXY_CALLS_REST_URL || 'http://localhost:3000',
         changeOrigin: true,
-      },
-      '/api/video/operators': {
-        target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
-        ws: true,
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api/video': '',
-        },
       },
       '/api/video/socket.io': {
-        target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
+        target: process.env.VUE_APP_PROXY_CALL_WS_URL || 'ws://127.0.0.1:3000',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
-          '^/api/video': '',
+          '^/api/video/socket.io': '/socket.io',
         },
-      },
-      '/socket.io': {
-        target: process.env.VUE_APP_PROXY_WS_URL || 'https://vue-socket.herokuapp.com',
-        ws: true,
-        changeOrigin: true,
       },
     },
   },

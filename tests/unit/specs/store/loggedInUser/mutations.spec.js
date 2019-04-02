@@ -1,7 +1,43 @@
 import mutations from '@/store/loggedInUser/mutations';
-import { SET_TOKEN, REMOVE_TOKEN } from '@/store/loggedInUser/mutationTypes';
+import {
+  SET_TOKEN,
+  REMOVE_TOKEN,
+  SET_PROFILE_DATA,
+  CLEAR_PROFILE_DATA,
+} from '@/store/loggedInUser/mutationTypes';
 
 describe('loggedInUser mutations: ', () => {
+  describe('SET_PROFILE_DATA: ', () => {
+    it('should insert profile', () => {
+      const state = {
+        profileData: {},
+      };
+
+      const expectedProfile = {
+        email: 'salesrep@test.com',
+        givenName: 'Dima',
+        surname: 'Mortyk',
+        companyId: 7929,
+        avatarUrl: null,
+      };
+
+      mutations[SET_PROFILE_DATA](state, expectedProfile);
+      expect(state.profileData).toEqual(expectedProfile);
+    });
+  });
+
+  describe('CLEAR_PROFILE_DATA: ', () => {
+    it('should clear profile', () => {
+      const state = {
+        profileData: {},
+      };
+
+      const expectedProfile = {};
+
+      mutations[CLEAR_PROFILE_DATA](state);
+      expect(state.profileData).toEqual(expectedProfile);
+    });
+  });
   describe('SET_TOKEN: ', () => {
     it('should set token', () => {
       const state = {

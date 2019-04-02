@@ -41,7 +41,10 @@
 </template>
 
 <script>
-import { REMOVE_TOKEN } from '@/store/loggedInUser/mutationTypes';
+import {
+  REMOVE_TOKEN,
+  CLEAR_PROFILE_DATA,
+} from '@/store/loggedInUser/mutationTypes';
 
 import UserAvatar from '@/components/UserAvatar';
 
@@ -55,12 +58,13 @@ export default {
   },
   computed: {
     user() {
-      return this.$store.getters.userData;
+      return this.$store.getters.userData || {};
     },
   },
   methods: {
     logout() {
       this.$store.commit(REMOVE_TOKEN);
+      this.$store.commit(CLEAR_PROFILE_DATA);
       this.$router.replace({ name: 'login' });
     },
   },
