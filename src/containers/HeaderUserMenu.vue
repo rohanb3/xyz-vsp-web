@@ -2,8 +2,6 @@
   <v-menu v-model="menu" nudge-bottom="40">
     <v-btn flat icon color="#b4681f" slot="activator">
       <user-avatar
-        :backgroundColor="avatar.backgroundColor"
-        :initialsColor="avatar.initialsColor"
         :firstName="user.displayName"
         size="36px"
         initialsSize="14px"
@@ -14,8 +12,6 @@
       <div class="header">
         <div class="popper-avatar-container">
           <user-avatar
-            :backgroundColor="avatar.backgroundColor"
-            :initialsColor="avatar.initialsColor"
             :firstName="user.displayName"
             size="54px"
             initialsSize="20px"
@@ -49,30 +45,18 @@ import { REMOVE_TOKEN } from '@/store/loggedInUser/mutationTypes';
 
 import UserAvatar from '@/components/UserAvatar';
 
-const {
-  items: avatarsCollection,
-} = require('../../functions/fake-be/fixtures/avatarsCollection.json');
-
-const userInfo = {
-  firstName: 'Robert',
-  lastName: 'Smith',
-  email: 'robert.smith@gmail.com',
-  id: '43872',
-};
-
 export default {
   name: 'HeaderUserMenu',
   components: { UserAvatar },
   data() {
     return {
       menu: false,
-      avatar: avatarsCollection[0],
     };
   },
   computed: {
     user() {
       return this.$store.getters.userData;
-    }
+    },
   },
   methods: {
     logout() {
