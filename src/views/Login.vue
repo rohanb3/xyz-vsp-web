@@ -10,7 +10,9 @@
             <v-form v-model="valid" ref="form">
               <v-text-field
                 label="Email"
+                name="email"
                 v-model="email"
+                ref="emailInput"
                 autofocus
                 required
                 :rules="emailRules"
@@ -19,7 +21,10 @@
               <v-text-field
                 label="Password"
                 type="password"
+                name="password"
                 class="password-input"
+                ref="passwordInput"
+                browser-autocomplete="new-password"
                 v-model="password"
                 required
               ></v-text-field>
