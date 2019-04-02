@@ -59,6 +59,15 @@
       >
         {{ isScreenSharingOn ? 'screen_share' : 'stop_screen_share' }}
       </v-icon> -->
+      <v-icon
+        color="#fff"
+        class="icon icon-screen-sharing"
+        :disabled="isScreenSharingDisabled"
+        :class="{ 'icon-off': !isScreenSharingOn, 'disabled': isScreenSharingDisabled }"
+        @click="$emit('toggleScreen')"
+      >
+        add_to_queue
+      </v-icon>
     </div>
   </div>
 </template>
@@ -103,6 +112,9 @@ export default {
         this.$emit('volumeLevelChanged', value / 100);
       },
     },
+    isScreenSharingDisabled() {
+      return !this.$store.getters.screenSharingExtension;
+    },
     formattedCallDuration() {
       return moment()
         .hour(0)
@@ -124,14 +136,14 @@ export default {
   flex-flow: row;
   justify-content: space-between;
   align-items: center;
-  padding: 13px 18px 13px 0px;
+  padding: 10px 18px 13px 0px;
   border-radius: 8px;
   background-color: $call-controls-background-color;
   position: absolute;
   bottom: 0;
   left: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 
   .controls-section {
     display: flex;
@@ -165,7 +177,13 @@ export default {
   .icon {
     position: relative;
     margin-right: 16px;
-
+    &.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      &::before {
+        background-color: white;
+      }
+    }
     &::before {
       content: '';
       position: absolute;
@@ -175,8 +193,12 @@ export default {
       height: 6px;
       bottom: -6px;
     }
-  }
 
+    &-screen-sharing {
+      margin-left: auto;
+      margin-right: 0;
+    }
+  }
   .icon-off {
     &::before {
       background-color: $call-controls-icon-off-color;
@@ -186,9 +208,9 @@ export default {
   .call-duration {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     .end-call {
-      margin: 10px;
+      margin-right: 10px;
       width: 30px;
       height: 30px;
       background-color: $call-controls-end-call-background-color;
@@ -202,6 +224,14 @@ export default {
   }
   .v-input--slider {
     margin-top: 0;
+  }
+}
+</style>
+
+<style lang="scss">
+.video-call-controls {
+  .theme--light.v-icon.v-icon--disabled {
+    color: white !important;
   }
 }
 </style>
