@@ -21,3 +21,16 @@
 </style>
 <style lang="scss" src="./assets/styles/common.scss">
 </style>
+
+<script>
+import { requestPermission, isEnabled } from '@/services/callNotificationsUtils';
+
+export default {
+  name: 'App',
+  mounted() {
+    if (!isEnabled()) {
+      requestPermission();
+    }
+  },
+};
+</script>
