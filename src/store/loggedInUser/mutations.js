@@ -1,24 +1,12 @@
-import {
-  SET_LOGGED_IN_USER,
-  CLEAR_LOGGED_IN_USER,
-  SET_USER_DATA,
-  SET_TOKEN,
-  REMOVE_TOKEN,
-} from './mutationTypes';
+import { SET_PROFILE_DATA, CLEAR_PROFILE_DATA, SET_TOKEN, REMOVE_TOKEN } from './mutationTypes';
 
 export default {
   /* eslint-disable no-param-reassign */
-  [SET_LOGGED_IN_USER](state, user) {
-    state.user = user;
+  [SET_PROFILE_DATA](state, data) {
+    state.profileData = data;
   },
-  [CLEAR_LOGGED_IN_USER](state) {
-    state.user = null;
-  },
-  [SET_USER_DATA](state, data) {
-    state.user = {
-      ...state.user,
-      ...data,
-    };
+  [CLEAR_PROFILE_DATA](state) {
+    state.profileData = {};
   },
   [SET_TOKEN](state, token) {
     state.token = token;

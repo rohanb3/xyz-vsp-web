@@ -1,4 +1,4 @@
-export const GET_USER_DATA = 'GET_USER_DATA';
-export const CHANGE_USER_DATA = 'CHANGE_USER_DATA';
+export const GET_PROFILE_DATA = 'GET_PROFILE_DATA';
+export const CHANGE_PROFILE_DATA = 'CHANGE_PROFILE_DATA';
 export const LOGIN = 'LOGIN';
 export const REFRESH_TOKEN = 'REFRESH_TOKEN';

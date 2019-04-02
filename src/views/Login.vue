@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { LOGIN, GET_USER_DATA } from '@/store/loggedInUser/actionTypes';
+import { LOGIN, GET_PROFILE_DATA } from '@/store/loggedInUser/actionTypes';
 import { emailValidatorRegExp } from '@/constants';
 
 export default {
@@ -70,7 +70,7 @@ export default {
       if (this.$refs.form.validate() && this.agreement) {
         try {
           await this.$store.dispatch(LOGIN, { email, password });
-          await this.$store.dispatch(GET_USER_DATA);
+          await this.$store.dispatch(GET_PROFILE_DATA);
           this.$router.push({ path: '/dashboard' });
         } catch (e) {
           this.$notify({

@@ -1,44 +1,24 @@
 /* eslint-disable no-use-before-define, import/prefer-default-export */
 import io from 'socket.io-client';
+import { namespace, connectionOptions, events } from '@/constants/operatorSocket';
 
 let socket = null;
 
-const CONNECT = 'connect';
-const AUTHENTICATION = 'authentication';
-const AUTHENTICATED = 'authenticated';
-const UNAUTHORIZED = 'unauthorized';
-const CALL_ACCEPTED = 'call.accepted';
-const CALL_FINISHED = 'call.finished';
-const CALLBACK_REQUESTED = 'callback.requested';
-const CALLBACK_ACCEPTED = 'callback.accepted';
-const CALLBACK_DECLINED = 'callback.declined';
-const CALLS_CHANGED = 'calls.changed';
-const ROOM_LEFT_EMPTY = 'room.left.empty';
-const ROOM_CREATED = 'room.created';
-const STATUS_CHANGED_ONLINE = 'status.changed.online';
-const STATUS_CHANGED_OFFLINE = 'status.changed.offline';
-
-const socketOptions = { transports: ['websocket'] };
-
-if (process.env.NODE_ENV !== 'development') {
-  socketOptions.path = '/api/video/socket.io';
-}
-
 export function init(authData, onCallsChanged) {
-  socket = socket || io('/operators', socketOptions);
+  socket = socket || io(namespace, connectionOptions);
 
   const promise = new Promise((resolve, reject) => {
     const onAuthenticated = data => {
-      socket.on(CALLS_CHANGED, onCallsChanged);
+      socket.on(events.CALLS_CHANGED, onCallsChanged);
       resolve(data);
     };
     const onConnected = () => {
-      socket.emit(AUTHENTICATION, authData);
-      socket.once(AUTHENTICATED, onAuthenticated);
-      socket.once(UNAUTHORIZED, reject);
+      socket.emit(events.AUTHENTICATION, authData);
+      socket.once(events.AUTHENTICATED, onAuthenticated);
+      socket.once(events.UNAUTHORIZED, reject);
     };
 
-    socket.on(CONNECT, onConnected);
+    socket.on(events.CONNECT, onConnected);
   });
 
   return promise;
@@ -53,32 +33,32 @@ export function disconnect() {
 
 export function notifyAboutAcceptingCall() {
   return new Promise(resolve => {
-    socket.emit(CALL_ACCEPTED);
-    socket.once(ROOM_CREATED, resolve);
+    socket.emit(events.CALL_ACCEPTED);
+    socket.once(events.ROOM_CREATED, resolve);
   });
 }
 
 export function notifyAboutFinishingCall(call) {
-  socket.emit(CALL_FINISHED, call);
+  socket.emit(events.CALL_FINISHED, call);
 }
 
 export function notifyAboutLeavingRoomEmpty() {
-  socket.emit(ROOM_LEFT_EMPTY);
+  socket.emit(events.ROOM_LEFT_EMPTY);
 }
 
 export function requestCallback(callId) {
   const promise = new Promise((resolve, reject) => {
-    socket.emit(CALLBACK_REQUESTED, callId);
-    socket.once(CALLBACK_ACCEPTED, resolve);
-    socket.once(CALLBACK_DECLINED, reject);
+    socket.emit(events.CALLBACK_REQUESTED, callId);
+    socket.once(events.CALLBACK_ACCEPTED, resolve);
+    socket.once(events.CALLBACK_DECLINED, reject);
   });
   return promise;
 }
 
 export function notifyAboutChangingStatusToOnline() {
-  socket.emit(STATUS_CHANGED_ONLINE);
+  socket.emit(events.STATUS_CHANGED_ONLINE);
 }
 
 export function notifyAboutChangingStatusToOffline() {
-  socket.emit(STATUS_CHANGED_OFFLINE);
+  socket.emit(events.STATUS_CHANGED_OFFLINE);
 }
