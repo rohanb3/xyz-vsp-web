@@ -12,18 +12,16 @@ export function setSWRegistration(registration) {
 }
 
 export function notifyAboutCall() {
-  return initPromise
-    .then(() => {
-      if (isEnabled() && swRegistration) {
-        return swRegistration.showNotification('Incoming call', {
-          tag: 'incoming-call',
-          requireInteraction: true,
-        });
-      }
+  return initPromise.then(() => {
+    if (isEnabled() && swRegistration) {
+      return swRegistration.showNotification('Incoming call', {
+        tag: 'incoming-call',
+        requireInteraction: true,
+      });
+    }
 
-      return Promise.reject();
-    })
-    .catch(console.log.bind(null, 'notifyAboutCall.catch'));
+    return Promise.reject();
+  });
 }
 
 export function cleanUp() {
@@ -31,8 +29,6 @@ export function cleanUp() {
     swRegistration
       .getNotifications()
       .then(notifications => notifications.forEach(notification => notification.close()));
-  } else {
-    console.warn('sw not ready');
   }
 }
 

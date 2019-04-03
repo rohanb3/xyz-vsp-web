@@ -23,13 +23,13 @@
 </style>
 
 <script>
-import { requestPermission, isEnabled } from '@/services/callNotificationsUtils';
+import { requestPermission as requestNotificationsPermission, isEnabled as isNotificationsEnabled } from '@/services/callNotificationsUtils';
 
 export default {
   name: 'App',
   mounted() {
-    if (!isEnabled()) {
-      requestPermission();
+    if (!isNotificationsEnabled()) {
+      requestNotificationsPermission();
     }
   },
 };
