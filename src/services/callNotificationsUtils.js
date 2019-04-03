@@ -16,12 +16,10 @@ export function isGranted() {
   return Notification.permission === STATUS_GRANTED;
 }
 
-export function getStatus() {
-  return isGranted()
-    ? localStorage.getItem('notifications') || STATUS_ENABLED
-    : Notification.permission;
+export function isEnabled() {
+  return isGranted();
 }
 
-export function isEnabled() {
-  return isGranted() && getStatus() === STATUS_ENABLED;
+export function requestPermission() {
+  return Notification.requestPermission();
 }

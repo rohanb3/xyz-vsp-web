@@ -94,7 +94,7 @@ function onRoomEmptied() {
 
 function checkAndUpdateCallsInfo(data) {
   store.commit(SET_PENDING_CALLS_INFO, data);
-  // handleUpdateCallsInfo(Boolean(data.size));
+  handleUpdateCallsInfo(data);
 }
 
 function setConnectingStatus() {

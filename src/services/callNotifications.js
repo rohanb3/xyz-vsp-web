@@ -1,33 +1,39 @@
 import { isEnabled } from './callNotificationsUtils';
 
 let swRegistration;
+let initPromiseResolver;
+const initPromise = new Promise(success => {
+  initPromiseResolver = success;
+});
 
 export function setSWRegistration(registration) {
   swRegistration = registration;
+  initPromiseResolver();
 }
 
 export function notifyAboutCall() {
-  return new Promise((resolve, reject) => {
+  return initPromise.then(() => {
     if (isEnabled() && swRegistration) {
-      swRegistration.showNotification('Incoming call', {
+      return swRegistration.showNotification('Incoming call', {
         tag: 'incoming-call',
         requireInteraction: true,
       });
-      resolve();
-    } else {
-      reject();
     }
+
+    return Promise.reject();
   });
 }
 
 export function cleanUp() {
-  swRegistration
-    .getNotifications()
-    .then(notifications => notifications.forEach(notification => notification.close()));
+  if (swRegistration) {
+    swRegistration
+      .getNotifications()
+      .then(notifications => notifications.forEach(notification => notification.close()));
+  }
 }
 
-export function handleUpdateCallsInfo(showNotification) {
-  if (showNotification) {
+export function handleUpdateCallsInfo(calls) {
+  if (calls.size) {
     if (document.hidden) {
       notifyAboutCall();
     }
