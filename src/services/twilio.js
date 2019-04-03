@@ -95,7 +95,7 @@ export function disableLocalAudio() {
 }
 
 export function convertTracksToAttachable(tracks = []) {
-  return tracks.map(track => track.attach());
+  return tracks.map(track => track && track.attach && track.attach()).filter(Boolean);
 }
 
 export function detachTracks(tracks) {
