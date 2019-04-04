@@ -20,15 +20,15 @@
               ></v-text-field>
               <v-text-field
                 label="Password"
-                  :append-icon="e1 ? 'visibility' : 'visibility_off'"
-                  @click:append="() => (e1 = !e1)"
-                  :type="e1 ? 'password' : 'text'"
                 name="password"
                 class="password-input"
                 ref="passwordInput"
                 browser-autocomplete="new-password"
                 v-model="password"
                 required
+                :append-icon="e1 ? 'visibility' : 'visibility_off'"
+                :type="e1 ? 'password' : 'text'"
+                @click:append="() => (e1 = !e1)"
               ></v-text-field>
               <div class="agreement">
                 <v-checkbox
