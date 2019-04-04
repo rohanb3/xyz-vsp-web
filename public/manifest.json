@@ -1,17 +1,18 @@
 {
-    "name": "VSP",
-    "short_name": "Progressive",
-    "start_url": "/?home=true",
-    "theme_color": "#000000",
-    "background_color": "#FFFFFF",
-    "display": "fullscreen",
-    "orientation": "portrait",
-    "icons": {
-      "favicon.ico" : {
-         "sizes": [16],
-         "name": "favicon.ico",
-         "root": true,
-         "description": "Standard for most desktop browsers"
-       }
-    }
-  }
+  "name": "VSP",
+  "short_name": "Progressive",
+  "start_url": "/?home=true",
+  "theme_color": "#000000",
+  "background_color": "#FFFFFF",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "icons": [{
+    "src": "img/icons/favicon-16x16.png",
+    "sizes": "16x16",
+    "type": "image/png"
+  }, {
+    "src": "img/icons/favicon-32x32.png",
+    "sizes": "32x32",
+    "type": "image/png"
+  }]
+}
