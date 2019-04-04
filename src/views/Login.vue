@@ -20,13 +20,15 @@
               ></v-text-field>
               <v-text-field
                 label="Password"
-                type="password"
                 name="password"
                 class="password-input"
                 ref="passwordInput"
                 browser-autocomplete="new-password"
                 v-model="password"
                 required
+                :append-icon="e1 ? 'visibility' : 'visibility_off'"
+                :type="e1 ? 'password' : 'text'"
+                @click:append="() => (e1 = !e1)"
               ></v-text-field>
               <div class="agreement">
                 <v-checkbox
@@ -62,6 +64,7 @@ export default {
       agreement: false,
       password: '',
       email: '',
+      e1: false,
       emailRules: [
         v => !!v || this.$t('email.is.required'),
         v => v.length <= 50 || this.$t('email.should.not.be.longer.than.50.symbols'),
