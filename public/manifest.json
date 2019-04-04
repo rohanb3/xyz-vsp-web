@@ -2,13 +2,6 @@
     "name": "VSP",
     "short_name": "Progressive",
     "start_url": "/?home=true",
-    "icons": [
-      {
-        "src": "vsp/favicon.ico",
-        "sizes": "36x36",
-        "type": "image/png"
-      }
-    ],
     "theme_color": "#000000",
     "background_color": "#FFFFFF",
     "display": "fullscreen",
