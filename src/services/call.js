@@ -26,7 +26,7 @@ import { handleUpdateCallsInfo } from '@/services/callNotifications';
 export function initializeOperator() {
   const identity = store.getters.userId;
   const credentials = { identity };
-  return initiOperatorSocker(credentials, checkAndUpdateCallsInfo).then(setToken);
+  return initiOperatorSocker(credentials, checkAndUpdateCallsInfo);
 }
 
 export function disconnectOperator() {
@@ -39,12 +39,13 @@ export function acceptCall() {
   setConnectingStatus();
 
   return notifyAboutAcceptingCall()
-    .then(call => {
-      const credentials = { name: call.id, token: store.state.call.token };
+    .then(({ token, ...call }) => {
+      const credentials = { name: call.id, token };
       const roomHandlers = {
         onRoomEmptied,
       };
       store.commit(SET_CALL_DATA, call);
+      setToken(token);
       return connectToRoom(credentials, roomHandlers);
     })
     .then(setOnCallOperatorStatus);
