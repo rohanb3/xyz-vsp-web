@@ -104,7 +104,7 @@ export default {
   },
   mounted() {
     this.subscribeForTwilioEvents();
-    this.initLocalPreview();
+    // this.initLocalPreview();
     this.checkAndLoadCallTypesAndDispositions();
   },
   destroyed() {

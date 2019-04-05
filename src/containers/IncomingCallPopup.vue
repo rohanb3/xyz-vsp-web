@@ -10,6 +10,11 @@
         <v-btn class="accept-call" @click="acceptCall">
           <v-icon class="icon-accept">call</v-icon>
           <p>{{$t('pick.up')}}</p>
+          <v-progress-circular
+            v-if="connectInProgress"
+            indeterminate
+            color="primary"
+          ></v-progress-circular>
         </v-btn>
         <div class="incoming-call">
           <p class="text">{{$t('incoming')}}</p>
@@ -42,6 +47,7 @@ export default {
       counter: 0,
       interval: null,
       extensionLink: EXTENSION_URL,
+      connectInProgress: false,
     };
   },
   computed: {
@@ -65,7 +71,7 @@ export default {
       return this.$store.getters.isOperatorIdle;
     },
     isDialogShown() {
-      return this.isOperatorIdle && this.isAnyPendingCall;
+      return this.connectInProgress ||this.isOperatorIdle && this.isAnyPendingCall;
     },
     companyName() {
       if (this.$store.getters.getOldest) {
@@ -107,9 +113,23 @@ export default {
     disconnectOperator();
   },
   methods: {
-    acceptCall() {
-      this.$router.push({ name: 'call' });
-      return acceptCall().catch(err => console.error('Accept call finished', err));
+    async acceptCall() {
+      this.connectInProgress = true;
+      try {
+        await acceptCall();
+        this.$router.push({ name: 'call' });
+      } catch(e) {
+        console.warn({e})
+         this.$notify({
+            group: 'notifications',
+            title: 'Accepting call failed',
+            type: 'error',
+            text: e,
+          });
+      }
+      finally {
+         this.connectInProgress = false;
+      }
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;

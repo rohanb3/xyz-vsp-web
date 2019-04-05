@@ -49,6 +49,7 @@ export function disableLocalPreview() {
 }
 
 export function enableLocalVideo() {
+  console.log('enableLocalVideo');
   const promise = previewTracks.video
     ? Promise.resolve(previewTracks.video)
     : Video.createLocalVideoTrack();
@@ -157,11 +158,11 @@ export function disableScreenShare() {
 
 function onRoomJoined(room) {
   activeRoom = room;
-
+  console.log('onRoomJoined', { room }, room.participants);
   if (!Object.keys(previewTracks).length) {
     enableLocalPreview();
   }
-
+  console.log('videoFlow', room.participants.entries[0]);
   room.participants.forEach(handleRemoteParticipantAdding);
 
   room.on(TRACK_SUBSCRIBED, onTrackSubscribed);
@@ -215,6 +216,7 @@ function stopTracks(tracks = []) {
 }
 
 function publishTrack(track) {
+  console.trace('publishTrack', track);
   if (activeRoom) {
     activeRoom.localParticipant.publishTrack(track);
   }

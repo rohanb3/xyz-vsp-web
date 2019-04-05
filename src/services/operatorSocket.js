@@ -32,9 +32,11 @@ export function disconnect() {
 }
 
 export function notifyAboutAcceptingCall() {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     socket.emit(events.CALL_ACCEPTED);
     socket.once(events.ROOM_CREATED, resolve);
+    socket.once(events.CALLS_EMPTY, reject);
+    socket.once(events.CALL_ACCEPTING_FAILED, reject);
   });
 }
 
