@@ -40,7 +40,9 @@ export default {
   },
   computed: {
     initials() {
-      return getInitials(this.firstName, this.lastName);
+      if (!this.src) {
+        return getInitials(this.firstName, this.lastName);
+      }
     },
   },
 };

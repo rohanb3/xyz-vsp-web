@@ -4,8 +4,17 @@ import {
   getProfileData,
 } from '@/services/identityRepository';
 import { changeProfileData } from '@/services/profile';
-import { LOGIN, REFRESH_TOKEN, GET_PROFILE_DATA, CHANGE_PROFILE_DATA } from './actionTypes';
+import {
+  LOGIN,
+  REFRESH_TOKEN,
+  GET_PROFILE_DATA,
+  CHANGE_PROFILE_DATA,
+  GET_PHOTO,
+} from './actionTypes';
 import { SET_TOKEN, SET_PROFILE_DATA } from './mutationTypes';
+import { STATUS_OK } from '@/constants/responseStatuses';
+
+import { getAvatar } from '@/services/identityRepository';
 
 export default {
   async [GET_PROFILE_DATA]({ commit }) {
@@ -32,5 +41,13 @@ export default {
     commit(SET_TOKEN, { accessToken, refreshToken });
 
     return accessToken;
+  },
+  async [GET_PHOTO]({ commit, state }) {
+    const { status, data: avatarBase64Url } = await getAvatar(state.profileData.objectId);
+    if (status === STATUS_OK) {
+      commit(SET_PROFILE_DATA, { ...state.profileData, avatarUrl: avatarBase64Url });
+    } else {
+      throw new Error();
+    }
   },
 };

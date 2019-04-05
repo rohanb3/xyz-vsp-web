@@ -5,6 +5,7 @@
         :firstName="user.displayName"
         size="36px"
         initialsSize="14px"
+        :src="user.avatarUrl"
       />
     </v-btn>
 
@@ -15,6 +16,7 @@
             :firstName="user.displayName"
             size="54px"
             initialsSize="20px"
+            :src="user.avatarUrl"
           />
         </div>
         <div>
@@ -41,10 +43,8 @@
 </template>
 
 <script>
-import {
-  REMOVE_TOKEN,
-  CLEAR_PROFILE_DATA,
-} from '@/store/loggedInUser/mutationTypes';
+import { REMOVE_TOKEN, CLEAR_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
+import { GET_PHOTO } from '@/store/loggedInUser/actionTypes';
 
 import UserAvatar from '@/components/UserAvatar';
 
@@ -56,6 +56,9 @@ export default {
       menu: false,
     };
   },
+  mounted() {
+    this.getUserAvatar();
+  },
   computed: {
     user() {
       return this.$store.getters.userData || {};
@@ -66,6 +69,9 @@ export default {
       this.$store.commit(REMOVE_TOKEN);
       this.$store.commit(CLEAR_PROFILE_DATA);
       this.$router.replace({ name: 'login' });
+    },
+    getUserAvatar() {
+      this.$store.dispatch(GET_PHOTO);
     },
   },
 };
