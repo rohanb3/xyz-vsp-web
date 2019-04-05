@@ -23,7 +23,10 @@
 </style>
 
 <script>
-import { requestPermission as requestNotificationsPermission, isEnabled as isNotificationsEnabled } from '@/services/callNotificationsUtils';
+import {
+  requestPermission as requestNotificationsPermission,
+  isEnabled as isNotificationsEnabled,
+} from '@/services/callNotificationsUtils';
 
 export default {
   name: 'App',

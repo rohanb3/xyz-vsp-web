@@ -71,7 +71,7 @@ export default {
       return this.$store.getters.isOperatorIdle;
     },
     isDialogShown() {
-      return this.connectInProgress ||this.isOperatorIdle && this.isAnyPendingCall;
+      return this.connectInProgress || (this.isOperatorIdle && this.isAnyPendingCall);
     },
     companyName() {
       if (this.$store.getters.getOldest) {
@@ -118,17 +118,16 @@ export default {
       try {
         await acceptCall();
         this.$router.push({ name: 'call' });
-      } catch(e) {
-        console.warn({e})
-         this.$notify({
-            group: 'notifications',
-            title: 'Accepting call failed',
-            type: 'error',
-            text: e,
-          });
-      }
-      finally {
-         this.connectInProgress = false;
+      } catch (e) {
+        console.warn({ e });
+        this.$notify({
+          group: 'notifications',
+          title: 'Accepting call failed',
+          type: 'error',
+          text: e,
+        });
+      } finally {
+        this.connectInProgress = false;
       }
     },
     ignoreCall() {

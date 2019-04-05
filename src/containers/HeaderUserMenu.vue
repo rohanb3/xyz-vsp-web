@@ -41,10 +41,7 @@
 </template>
 
 <script>
-import {
-  REMOVE_TOKEN,
-  CLEAR_PROFILE_DATA,
-} from '@/store/loggedInUser/mutationTypes';
+import { REMOVE_TOKEN, CLEAR_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
 
 import UserAvatar from '@/components/UserAvatar';
 
