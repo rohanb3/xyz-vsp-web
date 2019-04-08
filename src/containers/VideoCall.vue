@@ -163,16 +163,21 @@ export default {
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
-      this.volume = this.isSoundOn ? 50 : 0;
+      this.volume = this.isSoundOn ? 0.5 : 0;
+      this.updateAudioVolume();
     },
     changeVolumeLevel(value) {
       this.volume = value;
-      this.updateRemoteAudioVolume();
+      this.updateAudioVolume();
     },
-    updateRemoteAudioVolume() {
+    updateAudioVolume() {
       const remoteAudio = this.$refs.remoteMedia.querySelector('audio');
       if (remoteAudio) {
         remoteAudio.volume = this.volume;
+      }
+      const localAudio = this.$refs.localMedia.querySelector('audio');
+      if (localAudio) {
+        localAudio.volume = this.volume;
       }
     },
     saveFeedback(feedback) {
@@ -265,6 +270,7 @@ export default {
     handleTracksAdding(tracks, container) {
       const tracksToAttach = convertTracksToAttachable(tracks);
       tracksToAttach.forEach(trackNode => container.appendChild(trackNode));
+      setTimeout(this.updateAudioVolume);
     },
     handleTracksRemoving(tracks) {
       detachTracks(tracks);
