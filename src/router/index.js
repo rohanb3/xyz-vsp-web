@@ -127,6 +127,13 @@ const router = new Router({
               path: 'call',
               name: 'call',
               component: CallPage,
+              beforeEnter(to, from, next) {
+                if (store.getters.isOperatorOnCall) {
+                  next();
+                } else {
+                  next({ name: 'calls' });
+                }
+              },
             },
             {
               path: 'supervisor-dashboard',

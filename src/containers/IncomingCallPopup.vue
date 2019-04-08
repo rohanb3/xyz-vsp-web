@@ -1,23 +1,43 @@
 <template>
   <v-layout row justify-center v-cssBlurOverlay v-if="isDialogShown">
-    <v-dialog :content-class="'incoming-call-popup'" v-model="isDialogShown" persistent>
-      <div class="main" :style="{backgroundImage: backgroundImage}">
-        <div class="call-from-company-name">
-          <span>{{$t('incoming.call.popup')}}</span>
-          <br>
-          <span>{{brandName}}</span>
+    <v-dialog content-class="incoming-call-popup" v-model="isDialogShown" persistent>
+      <div class="popup-content" :style="{backgroundImage: backgroundImage}">
+        <div
+          v-if="!connectInProgress && !connectingError"
+          class="incoming-call-info"
+        >
+          <div class="call-from-company-name">
+            <span>{{$t('incoming.call.popup')}}</span>
+            <br>
+            <span>{{brandName}}</span>
+          </div>
+          <v-btn class="accept-call" @click="acceptCall">
+            <v-icon class="icon-accept">call</v-icon>
+            <p>{{$t('pick.up')}}</p>
+          </v-btn>
+          <div class="incoming-call">
+            <p class="text">{{$t('incoming')}}</p>
+            <p class="time">{{callDuration}}</p>
+          </div>
+          <div v-if="showWarning" class="extension-not-installed">
+            <p class="text">{{$t('extension.for.sharing.screen.not.installed')}}</p>
+            <a class="link" :href="extensionLink" target="_blank">{{$t('link.to.download')}}</a>
+          </div>
         </div>
-        <v-btn class="accept-call" @click="acceptCall">
-          <v-icon class="icon-accept">call</v-icon>
-          <p>{{$t('pick.up')}}</p>
-        </v-btn>
-        <div class="incoming-call">
-          <p class="text">{{$t('incoming')}}</p>
-          <p class="time">{{callDuration}}</p>
+
+        <div v-if="connectInProgress" class="connecting-to-call">
+          <p>{{ $t('connecting') }}</p>
+          <v-progress-circular
+            v-if="connectInProgress"
+            indeterminate
+            color="primary"
+            size="60" />
         </div>
-         <div v-if="showWarning" class="extension-not-installed">
-          <p class="text">{{$t('extension.for.sharing.screen.not.installed')}}</p>
-          <a class="link" :href="extensionLink" target="_blank">{{$t('link.to.download')}}</a>
+
+        <div v-if="connectingError" class="connecting-error">
+          <div><v-icon large color="error">error_outline</v-icon></div>
+          <p>{{ connectingError }}</p>
+          <v-btn @click="onConnectingErrorAccepted">{{ $t('ok') }}</v-btn>
         </div>
       </div>
     </v-dialog>
@@ -27,9 +47,18 @@
 <script>
 import moment from 'moment';
 import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
+import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
+import { operatorStatuses } from '@/store/call/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-import { EXTENSION_URL } from '@/constants/twillio';
-import { initializeOperator, acceptCall, disconnectOperator } from '@/services/call';
+import { EXTENSION_URL } from '@/constants/twilio';
+import {
+  initializeOperator,
+  acceptCall,
+  disconnectOperator,
+  errors,
+} from '@/services/call';
+
+const NOTIFICATION_DURATION = 3000;
 
 export default {
   name: 'IncomingCallPopup',
@@ -42,6 +71,8 @@ export default {
       counter: 0,
       interval: null,
       extensionLink: EXTENSION_URL,
+      connectInProgress: false,
+      connectingError: null,
     };
   },
   computed: {
@@ -65,7 +96,11 @@ export default {
       return this.$store.getters.isOperatorIdle;
     },
     isDialogShown() {
-      return this.isOperatorIdle && this.isAnyPendingCall;
+      return (
+        this.connectInProgress ||
+        this.connectingError ||
+        (this.isOperatorIdle && this.isAnyPendingCall)
+      );
     },
     companyName() {
       if (this.$store.getters.getOldest) {
@@ -75,7 +110,9 @@ export default {
     },
     brandName() {
       if (this.companyName) {
-        return `${this.$t('incoming.call.popup.brand.from')} «${this.companyName}»`;
+        return `${this.$t('incoming.call.popup.brand.from')} «${
+          this.companyName
+        }»`;
       }
       return '';
     },
@@ -97,6 +134,11 @@ export default {
         this.counter = 0;
       }
     },
+    isAnyPendingCall(val, old) {
+      if (this.isOperatorIdle && !val) {
+        this.notifyAboutCallEmptying();
+      }
+    },
   },
   mounted() {
     initializeOperator();
@@ -108,8 +150,25 @@ export default {
   },
   methods: {
     acceptCall() {
+      this.connectInProgress = true;
+      return acceptCall()
+        .then(this.onCallAcceptingSucceed)
+        .catch(this.onCallAcceptingFailed)
+        .finally(() => {
+          this.connectInProgress = false;
+        });
+    },
+    onCallAcceptingSucceed() {
       this.$router.push({ name: 'call' });
-      return acceptCall().catch(err => console.error('Accept call finished', err));
+    },
+    onCallAcceptingFailed(error) {
+      if (error.message === errors.CALLS_EMPTY) {
+        this.connectingError = this.$t('incoming.call.popup.call.was.answered');
+      } else {
+        this.connectingError = this.$t(
+          'incoming.call.popup.call.accepting.failed'
+        );
+      }
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;
@@ -122,6 +181,19 @@ export default {
     },
     updateCurrentTime() {
       this.counter += 1;
+    },
+    notifyAboutCallEmptying() {
+      const title = this.$t('incoming.call.popup.call.was.answered');
+      this.$notify({
+        group: 'notifications',
+        title,
+        type: 'info',
+        duration: NOTIFICATION_DURATION,
+      });
+    },
+    onConnectingErrorAccepted() {
+      this.connectingError = false;
+      this.$store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
     },
   },
 };
@@ -137,16 +209,22 @@ export default {
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
 
-.main {
+.popup-content {
   padding: 22px 15px 13px 22px;
   width: 311px;
   border-radius: 10px;
+  background-size: cover;
+  background-position: center center;
+}
+
+.incoming-call-info,
+.connecting-to-call {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-size: cover;
-  background-position: center center;
+}
 
+.incoming-call-info {
   .call-from-company-name {
     margin-bottom: 30px;
     width: 100%;
@@ -209,5 +287,12 @@ export default {
       text-decoration: none;
     }
   }
+}
+
+.connecting-to-call,
+.connecting-error {
+  font-size: 24px;
+  color: $base-white;
+  text-align: center;
 }
 </style>

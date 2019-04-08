@@ -162,11 +162,19 @@
   "i.agree.to.the": "I agree to the",
   "terms.and.conditions": "Terms and Conditions",
   "email.is.required": "Email is required",
-  "email.should.not.be.longer.than.50.symbols": "Email should not be longer than 50 symbols",
+  "email.should.not.be.longer.than.50.symbols":
+    "Email should not be longer than 50 symbols",
   "email.should.be.valid": "Email should be valid",
 
   "incoming.call.popup": "Incoming call",
   "incoming.call.popup.brand.from": "from",
+  "incoming.call.popup.call.was.answered":
+    "Call was answered by other operator",
+  "incoming.call.popup.call.accepting.failed":
+    "Sorry, call can not be accepted",
   "link.to.download": "Link to download",
-  "extension.for.sharing.screen.not.installed": "The extension app for screen sharing isn't installed. Please, install to use and reload page after that."
+  "extension.for.sharing.screen.not.installed":
+    "The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
+  "connecting": "Connecting...",
+  "ok": "Ok"
 }

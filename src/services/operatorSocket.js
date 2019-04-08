@@ -1,6 +1,6 @@
-/* eslint-disable no-use-before-define, import/prefer-default-export */
+/* eslint-disable no-use-before-define */
 import io from 'socket.io-client';
-import { namespace, connectionOptions, events } from '@/constants/operatorSocket';
+import { namespace, connectionOptions, events, errors } from '@/constants/operatorSocket';
 
 let socket = null;
 
@@ -32,9 +32,13 @@ export function disconnect() {
 }
 
 export function notifyAboutAcceptingCall() {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     socket.emit(events.CALL_ACCEPTED);
     socket.once(events.ROOM_CREATED, resolve);
+    socket.once(events.CALLS_EMPTY, () => reject(new Error(errors.CALLS_EMPTY)));
+    socket.once(events.CALL_ACCEPTING_FAILED, () =>
+      reject(new Error(errors.CALL_ACCEPTING_FAILED))
+    );
   });
 }
 
