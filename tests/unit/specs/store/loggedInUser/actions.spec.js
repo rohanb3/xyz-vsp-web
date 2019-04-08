@@ -1,7 +1,17 @@
 import actions from '@/store/loggedInUser/actions';
-import { LOGIN, REFRESH_TOKEN, GET_PROFILE_DATA } from '@/store/loggedInUser/actionTypes';
+import {
+  LOGIN,
+  REFRESH_TOKEN,
+  GET_PROFILE_DATA,
+  GET_PHOTO,
+} from '@/store/loggedInUser/actionTypes';
 import { SET_TOKEN, SET_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
 import * as identityRepository from '@/services/identityRepository';
+import {
+  STATUS_NO_CONTENT,
+  STATUS_OK,
+  STATUS_INTERNAL_SERVER_ERROR,
+} from '@/constants/responseStatuses';
 
 describe('loggedInUser actions: ', () => {
   describe('GET_PROFILE_DATA: ', () => {
@@ -83,6 +93,64 @@ describe('loggedInUser actions: ', () => {
         refreshToken,
       });
       expect(identityRepository.refreshToken).toHaveBeenCalled();
+    });
+  });
+
+  describe('GET_PHOTO: ', () => {
+    it('should get url photo', async () => {
+      const objectId = '23gh234jhhwej';
+      const avatarBase64Url = 'data:image/jpeg;base64,iVBORw0KGg...';
+
+      const fakeStore = {
+        commit: jest.fn(),
+        state: {
+          profileData: {
+            objectId,
+            avatarUrl: null,
+          },
+        },
+      };
+
+      identityRepository.getAvatar = jest.fn(() =>
+        Promise.resolve({ status: STATUS_OK, data: avatarBase64Url })
+      );
+
+      await actions[GET_PHOTO](fakeStore);
+
+      expect(identityRepository.getAvatar).toHaveBeenCalledWith(objectId);
+      expect(fakeStore.commit).toHaveBeenCalledWith(SET_PROFILE_DATA, {
+        avatarUrl: avatarBase64Url,
+        objectId,
+      });
+    });
+
+    it('should throw exception if failed to get photo', async () => {
+      const objectId = '23gh234jhhwej';
+
+      const fakeStore = {
+        commit: jest.fn(),
+        state: {
+          profileData: {
+            objectId,
+            avatarUrl: null,
+          },
+        },
+      };
+
+      identityRepository.getAvatar = jest.fn(() =>
+        Promise.resolve({ status: STATUS_INTERNAL_SERVER_ERROR })
+      );
+
+      let exceptionFlag = false;
+      try {
+        await actions[GET_PHOTO](fakeStore);
+      } catch {
+        exceptionFlag = true;
+      }
+
+      expect(identityRepository.getAvatar).toHaveBeenCalledWith(objectId);
+      expect(fakeStore.commit).not.toHaveBeenCalled();
+      expect(exceptionFlag).toBeTruthy();
     });
   });
 });
