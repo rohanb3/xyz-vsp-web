@@ -191,8 +191,9 @@ export default {
       this.loading = true;
       return callBack()
         .then(() => {
-          this.counter = 0;
           this.hideFeedbackPopup();
+          this.counter = 0;
+          this.activateCallTimer();
         })
         .catch(err => {
           console.error('callback rejected', err);

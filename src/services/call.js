@@ -73,11 +73,11 @@ export function callBack() {
   return requestCallback(activeCallData.id)
     .then(call => {
       const credentials = { name: call.id, token: store.state.call.token };
-      const roomHandlers = {
+      const handlers = {
         onRoomEmptied,
       };
       store.commit(SET_CALL_DATA, call);
-      return connectToRoom(credentials, roomHandlers);
+      return connectToRoom(credentials, { handlers });
     })
     .then(setOnCallOperatorStatus);
 }
