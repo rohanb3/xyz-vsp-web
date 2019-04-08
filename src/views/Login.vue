@@ -64,7 +64,7 @@ export default {
       agreement: false,
       password: '',
       email: '',
-      e1: false,
+      e1: true,
       emailRules: [
         v => !!v || this.$t('email.is.required'),
         v => v.length <= 50 || this.$t('email.should.not.be.longer.than.50.symbols'),
