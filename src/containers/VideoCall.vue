@@ -1,5 +1,6 @@
 <template>
-  <div class="video-call">
+  <div class="video-call-wrapper" v-cssBlurOverlay>
+    <v-dialog :content-class="'video-call'" v-model="show" persistent>
     <div class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
         <p>{{ $t('video.off') }}</p>
@@ -33,6 +34,7 @@
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
     />
+        </v-dialog>
   </div>
 </template>
 
@@ -57,6 +59,8 @@ import { operatorStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
 
+import cssBlurOverlay from '@/directives/cssBlurOverlay';
+
 const AUDIO = 'audio';
 const VIDEO = 'video';
 
@@ -66,8 +70,12 @@ export default {
     CallFeedbackPopup,
     VideoCallControls,
   },
+  directives: {
+    cssBlurOverlay,
+  },
   data() {
     return {
+      show: true,
       isCameraOn: false,
       isMicrophoneOn: false,
       isSoundOn: true,
@@ -287,10 +295,13 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '~@/assets/styles/variables.scss';
 .video-call {
+  margin-top: 65px;
+  margin-left: 50px;
   height: 100%;
+  width: 100%;
   position: relative;
   border-radius: 8px;
 
