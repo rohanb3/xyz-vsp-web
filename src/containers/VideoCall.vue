@@ -49,16 +49,15 @@ import {
   disableLocalAudio,
   convertTracksToAttachable,
   detachTracks,
+  getCachedTracks,
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
+import { AUDIO, VIDEO } from '@/constants/twilio';
 import { LOAD_CALL_TYPES_AND_DISPOSITIONS } from '@/store/storage/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
-
-const AUDIO = 'audio';
-const VIDEO = 'video';
 
 export default {
   name: 'VideoCall',
@@ -103,18 +102,18 @@ export default {
     },
   },
   mounted() {
+    this.checkAndMountCachedTracks();
     this.subscribeForTwilioEvents();
-    // this.initLocalPreview();
+    this.initLocalPreview();
     this.checkAndLoadCallTypesAndDispositions();
+    this.activateCallTimer();
   },
   destroyed() {
     this.unsubscribeFromTwilioEvents();
   },
   watch: {
     isCallActive(val, old) {
-      if (val && !old) {
-        this.activateCallTimer();
-      } else if (!val && old) {
+      if (!val && old) {
         this.deactivateCallTimer();
         this.showFeedbackPopup();
       }
@@ -139,6 +138,12 @@ export default {
     updateCurrentTime() {
       this.counter += 1;
     },
+    checkAndMountCachedTracks() {
+      const cachedTracks = getCachedTracks();
+      if (cachedTracks.length) {
+        this.handleRemoteTracksAdding(cachedTracks);
+      }
+    },
     initLocalPreview() {
       return Promise.all([enableLocalVideo(), enableLocalAudio()]);
     },
@@ -152,7 +157,9 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
+      return this.isScreenSharingOn
+        ? disableScreenShare()
+        : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;

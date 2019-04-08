@@ -39,6 +39,11 @@ const events = {
   STATUS_CHANGED_OFFLINE,
 };
 
+const errors = {
+  CALLS_EMPTY,
+  CALL_ACCEPTING_FAILED,
+};
+
 const namespace = process.env.VUE_APP_OPERATOR_WS_NAMESPACE || '/operators';
 
-export { connectionOptions, events, namespace };
+export { connectionOptions, events, namespace, errors };
