@@ -30,6 +30,7 @@
       :call-types="callTypes"
       :call-dispositions="callDispositions"
       :loading="loading"
+      :connecting-to-callback="connectingToCallback"
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
     />
@@ -76,6 +77,7 @@ export default {
       interval: null,
       isFeedbackPopupShown: false,
       loading: false,
+      connectingToCallback: false,
       remoteAudioPresents: false,
       localTracksAddingUnsubscriber: null,
       localTracksRemovingUnsubscriber: null,
@@ -193,7 +195,7 @@ export default {
       // });
     },
     requestCallback() {
-      this.loading = true;
+      this.connectingToCallback = true;
       return callBack()
         .then(() => {
           this.hideFeedbackPopup();
@@ -204,7 +206,7 @@ export default {
           console.error('callback rejected', err);
         })
         .finally(() => {
-          this.loading = false;
+          this.connectingToCallback = false;
         });
     },
     leaveScreen() {

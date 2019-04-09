@@ -25,14 +25,7 @@
           </div>
         </div>
 
-        <div v-if="connectInProgress" class="connecting-to-call">
-          <p>{{ $t('connecting') }}</p>
-          <v-progress-circular
-            v-if="connectInProgress"
-            indeterminate
-            color="primary"
-            size="60" />
-        </div>
+        <call-connecting-loader v-if="connectInProgress" />
 
         <div v-if="connectingError" class="connecting-error">
           <div><v-icon large color="error">error_outline</v-icon></div>
@@ -57,11 +50,15 @@ import {
   disconnectOperator,
   errors,
 } from '@/services/call';
+import CallConnectingLoader from '@/components/CallConnectingLoader';
 
 const NOTIFICATION_DURATION = 3000;
 
 export default {
   name: 'IncomingCallPopup',
+  components: {
+    CallConnectingLoader,
+  },
   directives: {
     cssBlurOverlay,
   },
@@ -289,7 +286,6 @@ export default {
   }
 }
 
-.connecting-to-call,
 .connecting-error {
   font-size: 24px;
   color: $base-white;
