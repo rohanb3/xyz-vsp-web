@@ -176,5 +176,6 @@
   "extension.for.sharing.screen.not.installed":
     "The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
   "connecting": "Connecting...",
-  "ok": "Ok"
+  "ok": "Ok",
+  "callback.declined": "Callback was declined"
 }

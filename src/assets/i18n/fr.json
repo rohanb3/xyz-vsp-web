@@ -177,5 +177,6 @@
     "TBD The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
   "connecting": "TBD Connecting...",
   "call.was.answered": "TBD Call was answered",
-  "ok": "TBD Ok"
+  "ok": "TBD Ok",
+  "callback.declined": "Callback was declined"
 }

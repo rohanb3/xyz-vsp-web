@@ -31,6 +31,7 @@
       :call-dispositions="callDispositions"
       :loading="loading"
       :connecting-to-callback="connectingToCallback"
+      :callback-declined="callbackDeclined"
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
     />
@@ -60,6 +61,8 @@ import { operatorStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
 
+const NOTIFICATION_DURATION = 3000;
+
 export default {
   name: 'VideoCall',
   components: {
@@ -78,6 +81,7 @@ export default {
       isFeedbackPopupShown: false,
       loading: false,
       connectingToCallback: false,
+      callbackDeclined: false,
       remoteAudioPresents: false,
       localTracksAddingUnsubscriber: null,
       localTracksRemovingUnsubscriber: null,
@@ -183,8 +187,8 @@ export default {
       }
     },
     saveFeedback(feedback) {
-      const callId = this.$store.state.call.activeCallData.id;
-      const operatorId = 'operator42';
+      const callId = this.$store.getters.activeCallData.id;
+      const operatorId = this.$store.getters.userId;
       this.loading = true;
       saveFeedback({ callId, operatorId, ...feedback });
       this.loading = false;
@@ -197,17 +201,26 @@ export default {
     requestCallback() {
       this.connectingToCallback = true;
       return callBack()
-        .then(() => {
-          this.hideFeedbackPopup();
-          this.counter = 0;
-          this.activateCallTimer();
-        })
-        .catch(err => {
-          console.error('callback rejected', err);
-        })
+        .then(this.onRequestingCallbackSucceed)
+        .catch(this.onRequestingCallbackFailed)
         .finally(() => {
           this.connectingToCallback = false;
         });
+    },
+    onRequestingCallbackSucceed() {
+      this.hideFeedbackPopup();
+      this.counter = 0;
+      this.activateCallTimer();
+    },
+    onRequestingCallbackFailed() {
+      const title = this.$t('callback.declined');
+      this.$notify({
+        group: 'notifications',
+        title,
+        type: 'error',
+        duration: NOTIFICATION_DURATION,
+      });
+      this.callbackDeclined = true;
     },
     leaveScreen() {
       this.counter = 0;

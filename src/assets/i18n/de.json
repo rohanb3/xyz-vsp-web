@@ -176,5 +176,6 @@
   "extension.for.sharing.screen.not.installed":
     "TBD The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
   "connecting": "TBD Connecting...",
-  "ok": "TBD Ok"
+  "ok": "TBD Ok",
+  "callback.declined": "Callback was declined"
 }

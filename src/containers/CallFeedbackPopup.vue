@@ -100,6 +100,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    callbackDeclined: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -114,7 +118,10 @@ export default {
   },
   computed: {
     isCallBackButtonShown() {
-      return !Object.values(this.feedback).some(value => !!value);
+      return (
+        !this.callbackDeclined &&
+        !Object.values(this.feedback).some(value => !!value)
+      );
     },
     isFeedbackButtonDisabled() {
       return (
