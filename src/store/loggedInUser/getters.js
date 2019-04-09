@@ -1,9 +1,12 @@
 export default {
   /* eslint-disable no-shadow */
   loggedInUserName(state) {
-    return state.user ? state.user.name : '';
+    return state.profileData ? state.profileData.userName : '';
   },
   userData(state) {
-    return state.user;
+    return state.profileData;
+  },
+  userId(state) {
+    return state.profileData ? state.profileData.objectId : null;
   },
 };

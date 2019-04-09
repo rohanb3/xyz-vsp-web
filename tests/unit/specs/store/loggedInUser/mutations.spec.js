@@ -1,17 +1,71 @@
 import mutations from '@/store/loggedInUser/mutations';
-import { SET_LOGGED_IN_USER } from '@/store/loggedInUser/mutationTypes';
+import {
+  SET_TOKEN,
+  REMOVE_TOKEN,
+  SET_PROFILE_DATA,
+  CLEAR_PROFILE_DATA,
+} from '@/store/loggedInUser/mutationTypes';
 
 describe('loggedInUser mutations: ', () => {
-  describe('SET_LOGGED_IN_USER: ', () => {
-    it('should set logged in user', () => {
-      const state = {};
-      const user = {
-        role: 'Supervisor',
+  describe('SET_PROFILE_DATA: ', () => {
+    it('should insert profile', () => {
+      const state = {
+        profileData: {},
       };
 
-      mutations[SET_LOGGED_IN_USER](state, user);
+      const expectedProfile = {
+        email: 'salesrep@test.com',
+        givenName: 'Dima',
+        surname: 'Mortyk',
+        companyId: 7929,
+        avatarUrl: null,
+      };
 
-      expect(state.user).toEqual(user);
+      mutations[SET_PROFILE_DATA](state, expectedProfile);
+      expect(state.profileData).toEqual(expectedProfile);
+    });
+  });
+
+  describe('CLEAR_PROFILE_DATA: ', () => {
+    it('should clear profile', () => {
+      const state = {
+        profileData: {},
+      };
+
+      const expectedProfile = {};
+
+      mutations[CLEAR_PROFILE_DATA](state);
+      expect(state.profileData).toEqual(expectedProfile);
+    });
+  });
+  describe('SET_TOKEN: ', () => {
+    it('should set token', () => {
+      const state = {
+        token: null,
+      };
+      const token = {
+        accessToken: 'newToken123',
+        refreshToken: '123',
+      };
+
+      mutations[SET_TOKEN](state, token);
+      expect(state.token).toEqual(token);
+    });
+  });
+
+  describe('REMOVE_TOKEN: ', () => {
+    it('should reset token', () => {
+      const state = {
+        token: {
+          accessToken: '123',
+          refreshToken: '2323',
+        },
+      };
+
+      const expectedToken = null;
+
+      mutations[REMOVE_TOKEN](state);
+      expect(state.token).toEqual(expectedToken);
     });
   });
 });

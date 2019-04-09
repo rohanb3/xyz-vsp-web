@@ -1,16 +1,23 @@
 import mutations from './mutations';
 import getters from './getters';
+import actions from './actions';
 
-import { callStatuses } from './constants';
+import { operatorStatuses } from './constants';
 
 const state = {
-  callStatus: callStatuses.IDLE,
+  operatorStatus: operatorStatuses.IDLE,
   token: null,
-  callData: null,
+  activeCallData: null,
+  pendingCallsInfo: {
+    oldest: null,
+    size: 0,
+  },
+  screenSharingExtension: false,
 };
 
 export default {
   state,
   mutations,
   getters,
+  actions,
 };

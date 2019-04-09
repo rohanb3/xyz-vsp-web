@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { CHANGE_USER_DATA } from '@/store/loggedInUser/actionTypes';
+import { CHANGE_PROFILE_DATA } from '@/store/loggedInUser/actionTypes';
 
 export default {
   name: 'Settings',
@@ -135,7 +135,7 @@ export default {
         if (!this.validatePassword()) return;
       }
       this.user.password = this.newPassword;
-      await this.$store.dispatch(CHANGE_USER_DATA, this.user);
+      await this.$store.dispatch(CHANGE_PROFILE_DATA, this.user);
       this.message = this.$t('data.were.successfully changed');
       this.snackbar = true;
     },

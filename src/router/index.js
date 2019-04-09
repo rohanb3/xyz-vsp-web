@@ -22,29 +22,34 @@ import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
 import IncomingCallPopup from '@/containers/IncomingCallPopup';
 
+import identityApi from '@/services/identityApi';
+import applyAuthInterceptors from '@/services/authInterceptors';
+
 import store from '@/store';
 
 Vue.use(Router);
 
+function loginGuard(to, from, next) {
+  if (store.state.loggedInUser.token) {
+    next({ path: 'dashboard' });
+  } else {
+    next();
+  }
+}
+
 const router = new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/',
   routes: [
     {
-      path: '/login',
+      path: '/vsp/login',
       name: 'login',
       component: Login,
       meta: { unsafe: true },
-      beforeEnter(to, from, next) {
-        if (store.state.loggedInUser.user) {
-          next({ name: 'customers' });
-        } else {
-          next();
-        }
-      },
+      beforeEnter: loginGuard,
     },
     {
-      path: '',
+      path: '/vsp',
       component: Base,
       children: [
         {
@@ -57,42 +62,42 @@ const router = new Router({
           },
           children: [
             {
-              path: '/dashboard',
+              path: 'dashboard',
               name: 'dashboard',
               component: Dashboard,
             },
             {
-              path: '/customers',
+              path: 'customers',
               name: 'customers',
               component: Customers,
             },
             {
-              path: '/calls',
+              path: 'calls',
               name: 'calls',
               component: Calls,
             },
             {
-              path: '/operators',
+              path: 'operators',
               name: 'operators',
               component: Operators,
             },
             {
-              path: '/operator-review',
+              path: 'operator-review',
               name: 'operatorReview',
               component: OperatorReview,
             },
             {
-              path: '/payments',
+              path: 'payments',
               name: 'payments',
               component: Payments,
             },
             {
-              path: '/settings',
+              path: 'settings',
               name: 'settings',
               component: SettingsPage,
             },
             {
-              path: '/supervisor-settings',
+              path: 'supervisor-settings',
               name: 'supervisorSettings',
               component: SupervisorSettings,
               children: [
@@ -114,22 +119,29 @@ const router = new Router({
               ],
             },
             {
-              path: '/feedback',
+              path: 'feedback',
               name: 'feedback',
               component: CallFeedbackPopup,
             },
             {
-              path: '/call',
+              path: 'call',
               name: 'call',
               component: CallPage,
+              beforeEnter(to, from, next) {
+                if (store.getters.isOperatorOnCall) {
+                  next();
+                } else {
+                  next({ name: 'calls' });
+                }
+              },
             },
             {
-              path: '/supervisor-dashboard',
+              path: 'supervisor-dashboard',
               name: 'supervisor-dashboard',
               component: SupervisorDashboard,
             },
             {
-              path: '/operator-dashboard',
+              path: 'operator-dashboard',
               name: 'operator-dashboard',
               component: OperatorDashboard,
             },
@@ -137,16 +149,18 @@ const router = new Router({
         },
       ],
     },
-    { path: '*', redirect: { name: 'customers' } },
+    { path: '*', redirect: { name: 'calls' } },
   ],
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.unsafe || store.state.loggedInUser.user) {
+  if (to.meta.unsafe || store.state.loggedInUser.token) {
     next();
   } else {
     next({ name: 'login' });
   }
 });
+
+applyAuthInterceptors(identityApi, router);
 
 export default router;

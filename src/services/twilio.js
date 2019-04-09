@@ -3,36 +3,48 @@ import Video from 'twilio-video';
 
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import { isChrome, isFirefox } from '@/services/browser';
-import { EXTENSION_ID } from '@/constants/twillio';
+import { EXTENSION_ID, VIDEO, AUDIO } from '@/constants/twilio';
 
 const previewTracks = {};
+const remoteTracks = new Set();
 let activeRoom = null;
 let extensionInstalled = false;
 let onLastParticipantDisconnected = null;
 
 const TRACK_SUBSCRIBED = 'trackSubscribed';
 const TRACK_UNSUBSCRIBED = 'trackUnsubscribed';
+const TRACK_STARTED = 'trackStarted';
 const PARTICIPANT_CONNECTED = 'participantConnected';
 const PARTICIPANT_DISCONNECTED = 'participantDisconnected';
 const DISCONNECTED = 'disconnected';
 
-export function connect({ name, token }, handlers = {}) {
+export function connect({ name, token }, { media = {}, handlers = {} }) {
   onLastParticipantDisconnected = handlers.onRoomEmptied || (() => {});
 
   if (!activeRoom) {
-    const connectOptions = {
-      name,
-      // logLevel: 'debug',
-    };
-
-    if (Object.keys(previewTracks).length) {
-      connectOptions.tracks = Object.values(previewTracks);
+    const previewPromises = [];
+    if (media[VIDEO]) {
+      previewPromises.push(enableLocalVideo());
+    }
+    if (media[AUDIO]) {
+      previewPromises.push(enableLocalAudio());
     }
 
-    return Video.connect(
-      token,
-      connectOptions
-    )
+    return Promise.all(previewPromises)
+      .then(() => {
+        const connectOptions = {
+          name,
+          // logLevel: 'debug',
+        };
+
+        if (Object.keys(previewTracks).length) {
+          connectOptions.tracks = Object.values(previewTracks);
+        }
+        return Video.connect(
+          token,
+          connectOptions
+        );
+      })
       .then(onRoomJoined)
       .catch(onRoomConnectionFailed);
   }
@@ -95,7 +107,7 @@ export function disableLocalAudio() {
 }
 
 export function convertTracksToAttachable(tracks = []) {
-  return tracks.map(track => track.attach());
+  return tracks.map(track => track && track.attach && track.attach()).filter(Boolean);
 }
 
 export function detachTracks(tracks) {
@@ -106,11 +118,19 @@ export function detachTracks(tracks) {
 
 export function disconnect() {
   if (activeRoom) {
-    disableLocalVideo();
-    disableLocalAudio();
-    disableScreenShare();
     activeRoom.disconnect();
   }
+}
+
+export function checkExtension() {
+  return new Promise(resolve => {
+    const onResponse = response => {
+      const isInstalled = Boolean(response);
+      extensionInstalled = isInstalled;
+      resolve(isInstalled);
+    };
+    window.chrome.runtime.sendMessage(EXTENSION_ID, 'version', onResponse);
+  });
 }
 
 export function enableScreenShare() {
@@ -141,6 +161,10 @@ export function disableScreenShare() {
   return Promise.resolve();
 }
 
+export function getCachedTracks() {
+  return [...remoteTracks];
+}
+
 // private methods
 
 /**
@@ -148,49 +172,58 @@ export function disableScreenShare() {
  */
 
 function onRoomJoined(room) {
-  activeRoom = room;
+  return new Promise(resolve => {
+    activeRoom = room;
 
-  if (!Object.keys(previewTracks).length) {
-    handleLocalParticipantAdding(room.localParticipant);
-  }
+    if (!Object.keys(previewTracks).length) {
+      enableLocalPreview();
+    }
+    const roomResolver = () => resolve(room);
 
-  room.participants.forEach(handleRemoteParticipantAdding);
+    room.participants.forEach(participant =>
+      handleRemoteParticipantAdding(participant, roomResolver)
+    );
 
-  room.on(TRACK_SUBSCRIBED, onTrackSubscribed);
-  room.on(TRACK_UNSUBSCRIBED, onTrackUnsubscribed);
-  room.on(PARTICIPANT_CONNECTED, onParticipantConnected);
-  room.on(PARTICIPANT_DISCONNECTED, onParticipantDisconnected);
-  room.on(DISCONNECTED, onRoomDisconnected);
-
-  return room;
+    room.on(TRACK_SUBSCRIBED, onTrackSubscribed);
+    room.on(TRACK_UNSUBSCRIBED, onTrackUnsubscribed);
+    room.on(PARTICIPANT_CONNECTED, onParticipantConnected);
+    room.on(PARTICIPANT_DISCONNECTED, onParticipantDisconnected);
+    room.on(DISCONNECTED, onRoomDisconnected);
+    room.on(TRACK_STARTED, track => onTrackStarted(track, roomResolver));
+  });
 }
 
-function onRoomConnectionFailed() {
-  activeRoom = null;
-
-  return Promise.reject();
+function onRoomConnectionFailed(err) {
+  return Promise.all([disableLocalPreview(), disableScreenShare()]).then(() => {
+    activeRoom = null;
+    return Promise.reject(err);
+  });
 }
 
 function onRoomDisconnected() {
-  activeRoom = null;
   disableLocalPreview();
+  disableScreenShare();
+  activeRoom = null;
 }
 
-function handleLocalParticipantAdding(participant) {
+function handleRemoteParticipantAdding(participant, resolve) {
   const tracks = Array.from(participant.tracks.values());
-  emitLocalTracksAdding(tracks);
-}
-
-function handleRemoteParticipantAdding(participant) {
-  const tracks = Array.from(participant.tracks.values());
+  tracks.forEach(track => {
+    if (track.kind === VIDEO && track.isStarted) {
+      resolve();
+    }
+  });
+  remoteTracks.add(...tracks);
   emitRemoteTracksAdding(tracks);
 }
 
 function onTrackSubscribed(track) {
+  remoteTracks.add(track);
   emitRemoteTracksAdding([track]);
 }
 
 function onTrackUnsubscribed(track) {
+  remoteTracks.delete(track);
   emitRemoteTracksRemoving([track]);
 }
 
@@ -203,6 +236,12 @@ function onParticipantDisconnected() {
   if (!activeRoom.participants.size) {
     onLastParticipantDisconnected();
     disconnect();
+  }
+}
+
+function onTrackStarted(track, resolve) {
+  if (track.kind === VIDEO) {
+    resolve();
   }
 }
 
@@ -277,17 +316,6 @@ function createChromeExtensionPromise() {
   });
 }
 
-function checkExtension() {
-  return new Promise(resolve => {
-    const onResponse = response => {
-      const isInstalled = Boolean(response);
-      extensionInstalled = isInstalled;
-      resolve(isInstalled);
-    };
-    window.chrome.runtime.sendMessage(EXTENSION_ID, 'version', onResponse);
-  });
-}
-
 function canShareScreen() {
   return extensionInstalled || isBrowserChrome || isBrowserFirefox;
 }
@@ -313,7 +341,7 @@ function emitRemoteTracksAdding(tracks) {
 }
 
 function emitRemoteTracksRemoving(tracks) {
-  twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACK_REMOVED, tracks);
+  twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACKS_REMOVED, tracks);
 }
 
 function emitScreenShareAdding(tracks) {

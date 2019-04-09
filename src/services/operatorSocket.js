@@ -1,33 +1,24 @@
-/* eslint-disable no-use-before-define, import/prefer-default-export */
+/* eslint-disable no-use-before-define */
 import io from 'socket.io-client';
+import { namespace, connectionOptions, events, errors } from '@/constants/operatorSocket';
 
 let socket = null;
 
-const CONNECT = 'connect';
-const AUTHENTICATION = 'authentication';
-const AUTHENTICATED = 'authenticated';
-const UNAUTHORIZED = 'unauthorized';
-const CALL_REQUESTED = 'call.requested';
-const CALL_ACCEPTED = 'call.accepted';
-const CALL_FINISHED = 'call.finished';
-const ROOM_LEFT_EMPTY = 'room.left.empty';
-const ROOM_CREATED = 'room.created';
-
-export function init(authData, onIncomingCall) {
-  socket = socket || io('/operators', { transports: ['websocket'] });
+export function init(authData, onCallsChanged) {
+  socket = socket || io(namespace, connectionOptions);
 
   const promise = new Promise((resolve, reject) => {
     const onAuthenticated = data => {
-      socket.on(CALL_REQUESTED, onIncomingCall);
+      socket.on(events.CALLS_CHANGED, onCallsChanged);
       resolve(data);
     };
     const onConnected = () => {
-      socket.emit(AUTHENTICATION, authData);
-      socket.once(AUTHENTICATED, onAuthenticated);
-      socket.once(UNAUTHORIZED, reject);
+      socket.emit(events.AUTHENTICATION, authData);
+      socket.once(events.AUTHENTICATED, onAuthenticated);
+      socket.once(events.UNAUTHORIZED, reject);
     };
 
-    socket.on(CONNECT, onConnected);
+    socket.on(events.CONNECT, onConnected);
   });
 
   return promise;
@@ -41,16 +32,37 @@ export function disconnect() {
 }
 
 export function notifyAboutAcceptingCall() {
-  return new Promise(resolve => {
-    socket.emit(CALL_ACCEPTED);
-    socket.once(ROOM_CREATED, resolve);
+  return new Promise((resolve, reject) => {
+    socket.emit(events.CALL_ACCEPTED);
+    socket.once(events.ROOM_CREATED, resolve);
+    socket.once(events.CALLS_EMPTY, () => reject(new Error(errors.CALLS_EMPTY)));
+    socket.once(events.CALL_ACCEPTING_FAILED, () =>
+      reject(new Error(errors.CALL_ACCEPTING_FAILED))
+    );
   });
 }
 
 export function notifyAboutFinishingCall(call) {
-  socket.emit(CALL_FINISHED, call);
+  socket.emit(events.CALL_FINISHED, call);
 }
 
 export function notifyAboutLeavingRoomEmpty() {
-  socket.emit(ROOM_LEFT_EMPTY);
+  socket.emit(events.ROOM_LEFT_EMPTY);
+}
+
+export function requestCallback(callId) {
+  const promise = new Promise((resolve, reject) => {
+    socket.emit(events.CALLBACK_REQUESTED, callId);
+    socket.once(events.CALLBACK_ACCEPTED, resolve);
+    socket.once(events.CALLBACK_DECLINED, reject);
+  });
+  return promise;
+}
+
+export function notifyAboutChangingStatusToOnline() {
+  socket.emit(events.STATUS_CHANGED_ONLINE);
+}
+
+export function notifyAboutChangingStatusToOffline() {
+  socket.emit(events.STATUS_CHANGED_OFFLINE);
 }

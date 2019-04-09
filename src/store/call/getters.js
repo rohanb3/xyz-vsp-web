@@ -1,16 +1,25 @@
-import { callStatuses } from './constants';
+import { operatorStatuses } from './constants';
 
 export default {
-  isIncomingCall(state) {
-    return state.callStatus === callStatuses.INCOMING;
-  },
   isOperatorIdle(state) {
-    return state.callStatus === callStatuses.IDLE;
+    return state.operatorStatus === operatorStatuses.IDLE;
   },
-  isCallActive(state) {
-    return state.callStatus === callStatuses.ACTIVE;
+  isOperatorOnCall(state) {
+    return state.operatorStatus === operatorStatuses.ON_CALL;
   },
-  callData(state) {
-    return state.callData;
+  isOperatorOnline(state) {
+    return state.operatorStatus !== operatorStatuses.OFFLINE;
+  },
+  activeCallData(state) {
+    return state.activeCallData;
+  },
+  isAnyPendingCall(state) {
+    return Boolean(state.pendingCallsInfo.size);
+  },
+  getOldest(state) {
+    return state.pendingCallsInfo.oldest;
+  },
+  screenSharingExtension(state) {
+    return state.screenSharingExtension;
   },
 };

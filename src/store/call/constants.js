@@ -1,14 +1,14 @@
 const IDLE = 'IDLE';
-const INCOMING = 'INCOMING';
-const ACCEPTED = 'ACCEPTED';
-const CONNECTING = 'CONNECTING';
-const ACTIVE = 'ACTIVE';
+const CONNECTING_TO_CALL = 'CONNECTING_TO_CALL';
+const ON_CALL = 'ON_CALL';
+const FINISHED_CALL = 'FINISHED_CALL';
+const OFFLINE = 'OFFLINE';
 
 /* eslint-disable-next-line import/prefer-default-export */
-export const callStatuses = {
+export const operatorStatuses = {
   IDLE,
-  INCOMING,
-  ACCEPTED,
-  CONNECTING,
-  ACTIVE,
+  CONNECTING_TO_CALL,
+  ON_CALL,
+  FINISHED_CALL,
+  OFFLINE,
 };

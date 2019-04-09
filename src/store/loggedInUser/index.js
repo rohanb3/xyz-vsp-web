@@ -4,7 +4,8 @@ import mutations from './mutations';
 
 export default {
   state: {
-    user: null,
+    profileData: {},
+    token: null,
   },
   getters,
   actions,

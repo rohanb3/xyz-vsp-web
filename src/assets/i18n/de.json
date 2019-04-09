@@ -89,7 +89,7 @@
   "start.recording": "TBD Start recording",
   "note.feedback": "TBD Note feedback",
   "start.typing": "TBD Start typing",
-  "save.feedback": "TBD Save feedback",
+  "save.feedback": "TBD Save Feedback",
   "call.back": "TBD Call Back",
   "call.info": "TBD Call info",
   "select.something": "TBD Select something",
@@ -158,5 +158,24 @@
   "or.you.can": "TBD or you can",
   "change.plan": "TBD change plan",
   "payment.method": "TBD Payment Method",
-  "add.new.payment.method": "TBD Add New Payment Method"
+  "add.new.payment.method": "TBD Add New Payment Method",
+  "i.agree.to.the": "I agree to the",
+  "terms.and.conditions": "Terms and Conditions",
+  "email.is.required": "Email is required",
+  "email.should.not.be.longer.than.50.symbols":
+    "Email should not be longer than 50 symbols",
+  "email.should.be.valid": "Email should be valid",
+
+  "incoming.call.popup": "TBD Incoming call",
+  "incoming.call.popup.brand.from": "TBD from",
+  "incoming.call.popup.call.was.answered":
+    "TBD Call was answered by other operator",
+  "incoming.call.popup.call.accepting.failed":
+    "TBD Sorry, call can not be accepted",
+  "link.to.download": "TBD Link to download",
+  "extension.for.sharing.screen.not.installed":
+    "TBD The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
+  "connecting": "TBD Connecting...",
+  "ok": "TBD Ok",
+  "callback.declined": "Callback was declined"
 }

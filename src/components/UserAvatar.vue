@@ -13,18 +13,36 @@ import { getInitials } from '@/services/stylesHelper';
 
 export default {
   name: 'UserAvatar',
-  props: [
-    'src',
-    'backgroundColor',
-    'initialsColor',
-    'firstName',
-    'lastName',
-    'size',
-    'initialsSize',
-  ],
+  props: {
+    src: {
+      type: String,
+    },
+    backgroundColor: {
+      type: String,
+      default: '#f8c37a',
+    },
+    initialsColor: {
+      type: String,
+      default: '#b4681f',
+    },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+    },
+    size: {
+      type: String,
+    },
+    initialsSize: {
+      type: String,
+    },
+  },
   computed: {
     initials() {
-      return getInitials(this.firstName, this.lastName);
+      if (!this.src) {
+        return getInitials(this.firstName, this.lastName);
+      }
     },
   },
 };
