@@ -118,10 +118,7 @@ export default {
   },
   computed: {
     isCallBackButtonShown() {
-      return (
-        !this.callbackDeclined &&
-        !Object.values(this.feedback).some(value => !!value)
-      );
+      return !this.callbackDeclined && !Object.values(this.feedback).some(value => !!value);
     },
     isFeedbackButtonDisabled() {
       return (

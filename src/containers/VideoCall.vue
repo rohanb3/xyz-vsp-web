@@ -1,5 +1,6 @@
 <template>
-  <div class="video-call">
+  <div class="video-call-wrapper" v-cssBlurOverlay>
+    <v-dialog :content-class="'video-call'" v-model="show" persistent>
     <div class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
         <p>{{ $t('video.off') }}</p>
@@ -7,7 +8,7 @@
     </div>
 
     <div class="remote-media" ref="remoteMedia"/>
-
+    <notifications group="call-notifications" />
     <video-call-controls
       class="video-call-controls"
       :is-camera-on="isCameraOn"
@@ -35,6 +36,7 @@
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
     />
+        </v-dialog>
   </div>
 </template>
 
@@ -55,13 +57,15 @@ import {
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
 import { AUDIO, VIDEO } from '@/constants/twilio';
+import { NOTIFICATION_DURATION } from '@/constants/notifications';
+
 import { LOAD_CALL_TYPES_AND_DISPOSITIONS } from '@/store/storage/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
 
-const NOTIFICATION_DURATION = 3000;
+import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
 export default {
   name: 'VideoCall',
@@ -69,8 +73,12 @@ export default {
     CallFeedbackPopup,
     VideoCallControls,
   },
+  directives: {
+    cssBlurOverlay,
+  },
   data() {
     return {
+      show: true,
       isCameraOn: false,
       isMicrophoneOn: false,
       isSoundOn: true,
@@ -163,9 +171,7 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn
-        ? disableScreenShare()
-        : enableScreenShare();
+      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -215,7 +221,7 @@ export default {
     onRequestingCallbackFailed() {
       const title = this.$t('callback.declined');
       this.$notify({
-        group: 'notifications',
+        group: 'call-notifications',
         title,
         type: 'error',
         duration: NOTIFICATION_DURATION,
@@ -316,10 +322,13 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '~@/assets/styles/variables.scss';
 .video-call {
+  margin-top: 65px;
+  margin-left: 50px;
   height: 100%;
+  width: 100%;
   position: relative;
   border-radius: 8px;
 

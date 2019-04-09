@@ -43,10 +43,7 @@
 </template>
 
 <script>
-import {
-  REMOVE_TOKEN,
-  CLEAR_PROFILE_DATA,
-} from '@/store/loggedInUser/mutationTypes';
+import { REMOVE_TOKEN, CLEAR_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
 import { GET_PHOTO } from '@/store/loggedInUser/actionTypes';
 
 import UserAvatar from '@/components/UserAvatar';

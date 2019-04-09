@@ -42,17 +42,11 @@ import moment from 'moment';
 import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
+import { NOTIFICATION_DURATION } from '@/constants/notifications';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 import { EXTENSION_URL } from '@/constants/twilio';
-import {
-  initializeOperator,
-  acceptCall,
-  disconnectOperator,
-  errors,
-} from '@/services/call';
+import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
-
-const NOTIFICATION_DURATION = 3000;
 
 export default {
   name: 'IncomingCallPopup',
@@ -107,9 +101,7 @@ export default {
     },
     brandName() {
       if (this.companyName) {
-        return `${this.$t('incoming.call.popup.brand.from')} «${
-          this.companyName
-        }»`;
+        return `${this.$t('incoming.call.popup.brand.from')} «${this.companyName}»`;
       }
       return '';
     },
@@ -162,9 +154,7 @@ export default {
       if (error.message === errors.CALLS_EMPTY) {
         this.connectingError = this.$t('incoming.call.popup.call.was.answered');
       } else {
-        this.connectingError = this.$t(
-          'incoming.call.popup.call.accepting.failed'
-        );
+        this.connectingError = this.$t('incoming.call.popup.call.accepting.failed');
       }
     },
     ignoreCall() {
