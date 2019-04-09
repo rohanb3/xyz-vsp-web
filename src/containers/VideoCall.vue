@@ -8,7 +8,7 @@
     </div>
 
     <div class="remote-media" ref="remoteMedia"/>
-
+    <notifications group="call-notifications" />
     <video-call-controls
       class="video-call-controls"
       :is-camera-on="isCameraOn"
@@ -31,6 +31,8 @@
       :call-types="callTypes"
       :call-dispositions="callDispositions"
       :loading="loading"
+      :connecting-to-callback="connectingToCallback"
+      :callback-declined="callbackDeclined"
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
     />
@@ -51,8 +53,12 @@ import {
   disableLocalAudio,
   convertTracksToAttachable,
   detachTracks,
+  getCachedTracks,
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
+import { AUDIO, VIDEO } from '@/constants/twilio';
+import { NOTIFICATION_DURATION } from '@/constants/notifications';
+
 import { LOAD_CALL_TYPES_AND_DISPOSITIONS } from '@/store/storage/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
@@ -60,9 +66,6 @@ import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
 
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-
-const AUDIO = 'audio';
-const VIDEO = 'video';
 
 export default {
   name: 'VideoCall',
@@ -85,6 +88,8 @@ export default {
       interval: null,
       isFeedbackPopupShown: false,
       loading: false,
+      connectingToCallback: false,
+      callbackDeclined: false,
       remoteAudioPresents: false,
       localTracksAddingUnsubscriber: null,
       localTracksRemovingUnsubscriber: null,
@@ -111,18 +116,18 @@ export default {
     },
   },
   mounted() {
+    this.checkAndMountCachedTracks();
     this.subscribeForTwilioEvents();
     this.initLocalPreview();
     this.checkAndLoadCallTypesAndDispositions();
+    this.activateCallTimer();
   },
   destroyed() {
     this.unsubscribeFromTwilioEvents();
   },
   watch: {
     isCallActive(val, old) {
-      if (val && !old) {
-        this.activateCallTimer();
-      } else if (!val && old) {
+      if (!val && old) {
         this.deactivateCallTimer();
         this.showFeedbackPopup();
       }
@@ -147,6 +152,12 @@ export default {
     updateCurrentTime() {
       this.counter += 1;
     },
+    checkAndMountCachedTracks() {
+      const cachedTracks = getCachedTracks();
+      if (cachedTracks.length) {
+        this.handleRemoteTracksAdding(cachedTracks);
+      }
+    },
     initLocalPreview() {
       return Promise.all([enableLocalVideo(), enableLocalAudio()]);
     },
@@ -164,21 +175,26 @@ export default {
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
-      this.volume = this.isSoundOn ? 50 : 0;
+      this.volume = this.isSoundOn ? 0.5 : 0;
+      this.updateAudioVolume();
     },
     changeVolumeLevel(value) {
       this.volume = value;
-      this.updateRemoteAudioVolume();
+      this.updateAudioVolume();
     },
-    updateRemoteAudioVolume() {
+    updateAudioVolume() {
       const remoteAudio = this.$refs.remoteMedia.querySelector('audio');
       if (remoteAudio) {
         remoteAudio.volume = this.volume;
       }
+      const localAudio = this.$refs.localMedia.querySelector('audio');
+      if (localAudio) {
+        localAudio.volume = this.volume;
+      }
     },
     saveFeedback(feedback) {
-      const callId = this.$store.state.call.activeCallData.id;
-      const operatorId = 'operator42';
+      const callId = this.$store.getters.activeCallData.id;
+      const operatorId = this.$store.getters.userId;
       this.loading = true;
       saveFeedback({ callId, operatorId, ...feedback });
       this.loading = false;
@@ -189,18 +205,28 @@ export default {
       // });
     },
     requestCallback() {
-      this.loading = true;
+      this.connectingToCallback = true;
       return callBack()
-        .then(() => {
-          this.counter = 0;
-          this.hideFeedbackPopup();
-        })
-        .catch(err => {
-          console.error('callback rejected', err);
-        })
+        .then(this.onRequestingCallbackSucceed)
+        .catch(this.onRequestingCallbackFailed)
         .finally(() => {
-          this.loading = false;
+          this.connectingToCallback = false;
         });
+    },
+    onRequestingCallbackSucceed() {
+      this.hideFeedbackPopup();
+      this.counter = 0;
+      this.activateCallTimer();
+    },
+    onRequestingCallbackFailed() {
+      const title = this.$t('callback.declined');
+      this.$notify({
+        group: 'call-notifications',
+        title,
+        type: 'error',
+        duration: NOTIFICATION_DURATION,
+      });
+      this.callbackDeclined = true;
     },
     leaveScreen() {
       this.counter = 0;
@@ -265,6 +291,7 @@ export default {
     handleTracksAdding(tracks, container) {
       const tracksToAttach = convertTracksToAttachable(tracks);
       tracksToAttach.forEach(trackNode => container.appendChild(trackNode));
+      setTimeout(this.updateAudioVolume);
     },
     handleTracksRemoving(tracks) {
       detachTracks(tracks);

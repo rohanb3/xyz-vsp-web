@@ -5,7 +5,7 @@
         :firstName="user.displayName"
         size="36px"
         initialsSize="14px"
-        :src="user.avatarUrl"
+        :src="user.avatarLink"
       />
     </v-btn>
 
@@ -16,7 +16,7 @@
             :firstName="user.displayName"
             size="54px"
             initialsSize="20px"
-            :src="user.avatarUrl"
+            :src="user.avatarLink"
           />
         </div>
         <div>

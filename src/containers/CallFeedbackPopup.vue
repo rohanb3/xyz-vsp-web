@@ -1,77 +1,84 @@
 <template>
   <v-dialog content-class="call-feedback-popup-wrapper" v-model="dialog" persistent>
     <div class="call-feedback-popup">
-      <div class="header section">
-        <div class="name">{{$t("call.info")}}</div>
-        <div v-show="callDuration" class="call-duration">
-          <p class="title">{{$t("duration")}}</p>
-          <p class="time">{{time}}</p>
+      <call-connecting-loader v-if="connectingToCallback" />
+      <template v-else>
+        <div class="header section">
+          <div class="name">{{$t("call.info")}}</div>
+          <div v-show="callDuration" class="call-duration">
+            <p class="title">{{$t("duration")}}</p>
+            <p class="time">{{time}}</p>
+          </div>
         </div>
-      </div>
-      <div class="call-type section">
-        <p class="title">{{$t("type.of.call")}}</p>
-        <v-radio-group class="types" row v-model="feedback.callType">
-          <v-radio
-            v-for="type in callTypes"
-            class="type"
-            :key="type"
-            :label="$t(`${type}`)"
-            :value="type"
-          ></v-radio>
-        </v-radio-group>
-      </div>
-      <div v-show="isDispositionShown" class="disposition section">
-        <p class="title">{{$t("disposition")}}</p>
-        <v-select
-          v-model="feedback.disposition"
-          class="dispositions-select"
-          solo
-          background-color="rgba(0, 0, 0, 0.4)"
-          color="white"
-          append-icon="keyboard_arrow_down"
-          :items="callDispositions"
-          :placeholder="$t('select.something')"
-        ></v-select>
-      </div>
-      <div class="rating section">
-        <p class="title">{{$t("system.quality.rating")}}</p>
-        <v-rating color="#fff" background-color="grey lighten-1" v-model="feedback.quality"/>
-      </div>
-      <div class="note-feedback section">
-        <p class="title">{{$t("note.feedback")}}</p>
-        <textarea
-          name="input-7-1"
-          :placeholder="$t('start.typing')"
-          v-model="feedback.note"
-          class="note"
-        ></textarea>
-      </div>
-      <v-btn
-        v-if="isCallBackButtonShown"
-        color="#ff941b"
-        class="button button-callback"
-        :class="{ disabled: isCallbackButtonDisabled }"
-        @click="callBack"
-      >
-        <v-icon class="icon-call">call</v-icon>
-        {{$t("call.back")}}
-      </v-btn>
-      <v-btn
-        v-else
-        class="button button-save"
-        color="#62a816"
-        :class="{ disabled: isFeedbackButtonDisabled }"
-        @click="saveFeedback"
-      >{{$t("save.feedback")}}</v-btn>
+        <div class="call-type section">
+          <p class="title">{{$t("type.of.call")}}</p>
+          <v-radio-group class="types" row v-model="feedback.callType">
+            <v-radio
+              v-for="type in callTypes"
+              class="type"
+              :key="type"
+              :label="$t(`${type}`)"
+              :value="type"
+            ></v-radio>
+          </v-radio-group>
+        </div>
+        <div v-show="isDispositionShown" class="disposition section">
+          <p class="title">{{$t("disposition")}}</p>
+          <v-select
+            v-model="feedback.disposition"
+            class="dispositions-select"
+            solo
+            background-color="rgba(0, 0, 0, 0.4)"
+            color="white"
+            append-icon="keyboard_arrow_down"
+            :items="callDispositions"
+            :placeholder="$t('select.something')"
+          ></v-select>
+        </div>
+        <div class="rating section">
+          <p class="title">{{$t("system.quality.rating")}}</p>
+          <v-rating color="#fff" background-color="grey lighten-1" v-model="feedback.quality"/>
+        </div>
+        <div class="note-feedback section">
+          <p class="title">{{$t("note.feedback")}}</p>
+          <textarea
+            name="input-7-1"
+            :placeholder="$t('start.typing')"
+            v-model="feedback.note"
+            class="note"
+          ></textarea>
+        </div>
+        <v-btn
+          v-if="isCallBackButtonShown"
+          color="#ff941b"
+          class="button button-callback"
+          :class="{ disabled: isCallbackButtonDisabled }"
+          @click="callBack"
+        >
+          <v-icon class="icon-call">call</v-icon>
+          {{$t("call.back")}}
+        </v-btn>
+        <v-btn
+          v-else
+          class="button button-save"
+          color="#62a816"
+          :class="{ disabled: isFeedbackButtonDisabled }"
+          @click="saveFeedback"
+        >{{$t("save.feedback")}}</v-btn>
+      </template>
     </div>
   </v-dialog>
 </template>
 
 <script>
 import moment from 'moment';
+import CallConnectingLoader from '@/components/CallConnectingLoader';
 
 export default {
   name: 'CallFeedbackPopup',
+  components: {
+    CallConnectingLoader,
+  },
   props: {
     callDuration: {
       type: Number,
@@ -89,6 +96,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    connectingToCallback: {
+      type: Boolean,
+      default: false,
+    },
+    callbackDeclined: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -103,7 +118,7 @@ export default {
   },
   computed: {
     isCallBackButtonShown() {
-      return !Object.values(this.feedback).some(value => !!value);
+      return !this.callbackDeclined && !Object.values(this.feedback).some(value => !!value);
     },
     isFeedbackButtonDisabled() {
       return (

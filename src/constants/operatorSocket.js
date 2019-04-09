@@ -12,6 +12,8 @@ const ROOM_LEFT_EMPTY = 'room.left.empty';
 const ROOM_CREATED = 'room.created';
 const STATUS_CHANGED_ONLINE = 'status.changed.online';
 const STATUS_CHANGED_OFFLINE = 'status.changed.offline';
+const CALLS_EMPTY = 'calls.empty';
+const CALL_ACCEPTING_FAILED = 'call.accepting.failed';
 
 const connectionOptions = {
   transports: ['websocket'],
@@ -29,12 +31,19 @@ const events = {
   CALLBACK_ACCEPTED,
   CALLBACK_DECLINED,
   CALLS_CHANGED,
+  CALLS_EMPTY,
+  CALL_ACCEPTING_FAILED,
   ROOM_LEFT_EMPTY,
   ROOM_CREATED,
   STATUS_CHANGED_ONLINE,
   STATUS_CHANGED_OFFLINE,
 };
 
+const errors = {
+  CALLS_EMPTY,
+  CALL_ACCEPTING_FAILED,
+};
+
 const namespace = process.env.VUE_APP_OPERATOR_WS_NAMESPACE || '/operators';
 
-export { connectionOptions, events, namespace };
+export { connectionOptions, events, namespace, errors };

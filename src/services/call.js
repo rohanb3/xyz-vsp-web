@@ -19,9 +19,15 @@ import {
   notifyAboutChangingStatusToOffline,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
+import { VIDEO } from '@/constants/twilio';
+import { errors as socketErrors } from '@/constants/operatorSocket';
 import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
+
+export const errors = {
+  ...socketErrors,
+};
 
 export function initializeOperator() {
   const identity = store.getters.userId;
@@ -41,14 +47,16 @@ export function acceptCall() {
   return notifyAboutAcceptingCall()
     .then(({ token, ...call }) => {
       const credentials = { name: call.id, token };
-      const roomHandlers = {
+      const handlers = {
         onRoomEmptied,
       };
+      const media = { [VIDEO]: true };
       store.commit(SET_CALL_DATA, call);
       setToken(token);
-      return connectToRoom(credentials, roomHandlers);
+      return connectToRoom(credentials, { media, handlers });
     })
-    .then(setOnCallOperatorStatus);
+    .then(setOnCallOperatorStatus)
+    .catch(onCallAcceptingFailed);
 }
 
 export function finishCall() {
@@ -65,11 +73,11 @@ export function callBack() {
   return requestCallback(activeCallData.id)
     .then(call => {
       const credentials = { name: call.id, token: store.state.call.token };
-      const roomHandlers = {
+      const handlers = {
         onRoomEmptied,
       };
       store.commit(SET_CALL_DATA, call);
-      return connectToRoom(credentials, roomHandlers);
+      return connectToRoom(credentials, { handlers });
     })
     .then(setOnCallOperatorStatus);
 }
@@ -116,6 +124,17 @@ function setFinishedCallOperatorStatus() {
 
 function setToken(token) {
   store.commit(SET_CALL_TOKEN, token);
+}
+
+function onCallAcceptingFailed(err) {
+  disconnectFromRoom();
+  if (err.message === socketErrors.CALLS_EMPTY) {
+    return Promise.reject(new Error(errors.CALLS_EMPTY));
+  }
+  if (err.message === socketErrors.CALL_ACCEPTING_FAILED) {
+    return Promise.reject(new Error(errors.CALL_ACCEPTING_FAILED));
+  }
+  return Promise.reject(err);
 }
 
 export const getCallInfo = () => api.get('/call/info').then(response => response.data);

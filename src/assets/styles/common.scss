@@ -281,3 +281,10 @@ button {
 .v-overlay:before {
   background: none;
 }
+
+.notifications {
+  margin-top: calc(#{$header-height} + 5px);
+}
+.vue-notification.info {
+  background-color: $base-blue;
+}
