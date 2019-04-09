@@ -45,7 +45,7 @@ export default {
   async [GET_PHOTO]({ commit, state }) {
     const { status, data: avatarBase64Url } = await getAvatar(state.profileData.objectId);
     if (status === STATUS_OK) {
-      commit(SET_PROFILE_DATA, { ...state.profileData, avatarUrl: avatarBase64Url });
+      commit(SET_PROFILE_DATA, { ...state.profileData, avatarLink: avatarBase64Url });
     } else {
       throw new Error();
     }

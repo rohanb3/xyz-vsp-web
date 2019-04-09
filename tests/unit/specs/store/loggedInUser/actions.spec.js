@@ -26,7 +26,7 @@ describe('loggedInUser actions: ', () => {
         givenName: 'Dima',
         surname: 'Mortyk',
         companyId: 7929,
-        avatarUrl: null,
+        avatarLink: null,
       };
 
       identityRepository.getProfileData = jest.fn(() => Promise.resolve(result));
@@ -106,7 +106,7 @@ describe('loggedInUser actions: ', () => {
         state: {
           profileData: {
             objectId,
-            avatarUrl: null,
+            avatarLink: null,
           },
         },
       };
@@ -119,7 +119,7 @@ describe('loggedInUser actions: ', () => {
 
       expect(identityRepository.getAvatar).toHaveBeenCalledWith(objectId);
       expect(fakeStore.commit).toHaveBeenCalledWith(SET_PROFILE_DATA, {
-        avatarUrl: avatarBase64Url,
+        avatarLink: avatarBase64Url,
         objectId,
       });
     });
@@ -132,7 +132,7 @@ describe('loggedInUser actions: ', () => {
         state: {
           profileData: {
             objectId,
-            avatarUrl: null,
+            avatarLink: null,
           },
         },
       };
