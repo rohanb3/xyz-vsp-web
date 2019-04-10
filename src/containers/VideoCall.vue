@@ -53,7 +53,8 @@ import {
   disableLocalAudio,
   convertTracksToAttachable,
   detachTracks,
-  getCachedTracks,
+  getCachedLocalTracks,
+  getCachedRemoteTracks,
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
 import { AUDIO, VIDEO } from '@/constants/twilio';
@@ -116,9 +117,8 @@ export default {
     },
   },
   mounted() {
-    this.checkAndMountCachedTracks();
     this.subscribeForTwilioEvents();
-    this.initLocalPreview();
+    this.handleMediaTracks();
     this.checkAndLoadCallTypesAndDispositions();
     this.activateCallTimer();
   },
@@ -152,17 +152,22 @@ export default {
     updateCurrentTime() {
       this.counter += 1;
     },
-    checkAndMountCachedTracks() {
-      const cachedTracks = getCachedTracks();
-      if (cachedTracks.length) {
-        this.handleRemoteTracksAdding(cachedTracks);
+    handleMediaTracks() {
+      const remoteCachedTracks = getCachedRemoteTracks();
+      if (remoteCachedTracks.length) {
+        this.handleRemoteTracksAdding(remoteCachedTracks);
       }
-    },
-    initLocalPreview() {
-      return Promise.all([enableLocalVideo(), enableLocalAudio()]);
-    },
-    finishLocalPreview() {
-      return Promise.all([disableLocalVideo(), disableLocalAudio()]);
+      const localCachedTracks = getCachedLocalTracks();
+      if (localCachedTracks.length) {
+        this.handleLocalTracksAdding(localCachedTracks);
+      }
+      const cachedLocalTracksTypes = localCachedTracks.map(track => track.kind);
+      if (!cachedLocalTracksTypes.includes(AUDIO)) {
+        enableLocalAudio();
+      }
+      if (!cachedLocalTracksTypes.includes(VIDEO)) {
+        enableLocalVideo();
+      }
     },
     toggleCamera() {
       return this.isCameraOn ? disableLocalVideo() : enableLocalVideo();
@@ -171,7 +176,9 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
+      return this.isScreenSharingOn
+        ? disableScreenShare()
+        : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;

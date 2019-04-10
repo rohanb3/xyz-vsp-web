@@ -161,7 +161,11 @@ export function disableScreenShare() {
   return Promise.resolve();
 }
 
-export function getCachedTracks() {
+export function getCachedLocalTracks() {
+  return Object.values(previewTracks);
+}
+
+export function getCachedRemoteTracks() {
   return [...remoteTracks];
 }
 
