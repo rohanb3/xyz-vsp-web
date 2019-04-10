@@ -39,6 +39,8 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
 
         if (Object.keys(previewTracks).length) {
           connectOptions.tracks = Object.values(previewTracks);
+        } else {
+          connectOptions.tracks = [];
         }
         return Video.connect(
           token,
