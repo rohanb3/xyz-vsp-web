@@ -1,7 +1,7 @@
 <template>
   <div class="video-call-wrapper" v-cssBlurOverlay>
     <v-dialog :content-class="'video-call'" v-model="show" persistent>
-    <div class="local-media" ref="localMedia">
+    <div v-show="isCallActive" class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
         <p>{{ $t('video.off') }}</p>
       </div>
@@ -10,6 +10,7 @@
     <div class="remote-media" ref="remoteMedia"/>
     <notifications group="call-notifications" />
     <video-call-controls
+      v-show="isCallActive"
       class="video-call-controls"
       :is-camera-on="isCameraOn"
       :is-microphone-on="isMicrophoneOn"
