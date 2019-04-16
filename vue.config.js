@@ -1,5 +1,4 @@
 module.exports = {
-  publicPath: '/vsp',
   configureWebpack: {
     optimization: {
       splitChunks: {
