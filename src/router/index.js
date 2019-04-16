@@ -39,17 +39,17 @@ function loginGuard(to, from, next) {
 
 const router = new Router({
   mode: 'history',
-  base: '/',
+  base: process.env.BASE_URL,
   routes: [
     {
-      path: '/vsp/login',
+      path: '/login',
       name: 'login',
       component: Login,
       meta: { unsafe: true },
       beforeEnter: loginGuard,
     },
     {
-      path: '/vsp',
+      path: '/',
       component: Base,
       children: [
         {
