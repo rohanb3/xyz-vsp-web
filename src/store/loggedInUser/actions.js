@@ -2,6 +2,7 @@ import {
   login,
   refreshToken as refreshTokenApi,
   getProfileData,
+  getAvatar,
 } from '@/services/identityRepository';
 import { changeProfileData } from '@/services/profile';
 import {
@@ -13,8 +14,6 @@ import {
 } from './actionTypes';
 import { SET_TOKEN, SET_PROFILE_DATA } from './mutationTypes';
 import { STATUS_OK } from '@/constants/responseStatuses';
-
-import { getAvatar } from '@/services/identityRepository';
 
 export default {
   async [GET_PROFILE_DATA]({ commit }) {

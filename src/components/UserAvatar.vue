@@ -2,7 +2,11 @@
   <div class="avatar-container" :style="{width: size, height: size}">
     <template v-if="backgroundColor">
       <div :style="{backgroundColor}" class="avatar"/>
-      <span :style="{color: initialsColor, fontSize: initialsSize}" class="initials">{{initials}}</span>
+      <span
+        v-if="!src"
+        :style="{color: initialsColor, fontSize: initialsSize}"
+        class="initials"
+      >{{initials}}</span>
     </template>
     <img v-if="src" :src="src" class="avatar" alt="user">
   </div>
@@ -40,9 +44,7 @@ export default {
   },
   computed: {
     initials() {
-      if (!this.src) {
-        return getInitials(this.firstName, this.lastName);
-      }
+      return getInitials(this.firstName, this.lastName);
     },
   },
 };
