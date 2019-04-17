@@ -4,8 +4,9 @@ import {
   REFRESH_TOKEN,
   GET_PROFILE_DATA,
   GET_PHOTO,
+  GET_RESET_TOKEN,
 } from '@/store/loggedInUser/actionTypes';
-import { SET_TOKEN, SET_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
+import { SET_TOKEN, SET_PROFILE_DATA, SET_RESET_TOKEN } from '@/store/loggedInUser/mutationTypes';
 import * as identityRepository from '@/services/identityRepository';
 import { STATUS_OK, STATUS_INTERNAL_SERVER_ERROR } from '@/constants/responseStatuses';
 
@@ -147,6 +148,27 @@ describe('loggedInUser actions: ', () => {
       expect(identityRepository.getAvatar).toHaveBeenCalledWith(objectId);
       expect(fakeStore.commit).not.toHaveBeenCalled();
       expect(exceptionFlag).toBeTruthy();
+    });
+  });
+
+  describe('GET_RESET_TOKEN: ', () => {
+    it('should get remove token', async () => {
+      const resetToken = 'fdg234ger56fer';
+      const code = 5793;
+      const email = 'example@example.com';
+
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      identityRepository.verifyCode = jest.fn(() =>
+        Promise.resolve({ status: STATUS_OK, data: { resetToken } })
+      );
+
+      const status = await actions[GET_RESET_TOKEN](fakeStore, { email, code });
+
+      expect(status).toEqual(STATUS_OK);
+      expect(fakeStore.commit).toHaveBeenCalledWith(SET_RESET_TOKEN, resetToken);
     });
   });
 });

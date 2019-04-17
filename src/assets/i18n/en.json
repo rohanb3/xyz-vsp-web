@@ -177,5 +177,23 @@
     "The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
   "connecting": "Connecting...",
   "ok": "Ok",
-  "callback.declined": "Callback was declined"
+  "callback.declined": "Callback was declined",
+
+  "login.forgot": "Forgot?",
+  "back.to.login": "Back to Login",
+  "password.recovery": "Password recovery",
+  "send.me.code": "Send code",
+  "verification.code": "Verification code",
+  "we.sended.verification.code": "We sended verification code to your email. Please enter it bellow.",
+  "code.must.be": "Code must be from 0 to 9",
+  "resend.code": "Resend code",
+  "login.submit": "Submit",
+  "reset.password": "Reset Password",
+  "confirm.new.password": "Confirm new password",
+  "password.must.be.at.least.8.chracters": "Password must be at least 8 chracters",
+  "password.do.not.match": "Password do not match",
+  "enter.your.new.password": "Please, enter your new password and confirm it to reset",
+  "invalid.code.entered": "Invalid code entered",
+  "we.sended.verification.code.again": "We sended verification code to your email",
+  "password.must.contain.capital.letter": "Password must contain at least 1 capital letter"
 }

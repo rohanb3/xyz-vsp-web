@@ -4,6 +4,8 @@ import {
   REMOVE_TOKEN,
   SET_PROFILE_DATA,
   CLEAR_PROFILE_DATA,
+  SET_RESET_TOKEN,
+  SET_EMAIL,
 } from '@/store/loggedInUser/mutationTypes';
 
 describe('loggedInUser mutations: ', () => {
@@ -66,6 +68,32 @@ describe('loggedInUser mutations: ', () => {
 
       mutations[REMOVE_TOKEN](state);
       expect(state.token).toEqual(expectedToken);
+    });
+  });
+
+  describe('SET_RESET_TOKEN: ', () => {
+    it('should set reset token', () => {
+      const state = {
+        resetToken: null,
+      };
+
+      const expectedToken = 'wertyeweyt';
+
+      mutations[SET_RESET_TOKEN](state, 'wertyeweyt');
+      expect(state.resetToken).toEqual(expectedToken);
+    });
+  });
+
+  describe('SET_EMAIL: ', () => {
+    it('should set email', () => {
+      const state = {
+        email: null,
+      };
+
+      const expectedEmail = 'example@example.com';
+
+      mutations[SET_EMAIL](state, 'example@example.com');
+      expect(state.email).toEqual(expectedEmail);
     });
   });
 });

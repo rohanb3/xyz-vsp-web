@@ -17,3 +17,12 @@ export const getAvatar = id =>
   api
     .get(`/users/${id}/avatar`, { responseType: 'arraybuffer' })
     .then(({ status, data }) => ({ status, data: imageEncode(data) }));
+
+export const requestVerificationCode = email =>
+  api.post('/authorize/request-verification-code', { email }).then(({ status }) => status);
+
+export const verifyCode = (email, code) =>
+  api.post('/authorize/verify-code', { email, code }).then(response => response);
+
+export const resetPassword = (resetToken, password) =>
+  api.post('/authorize/reset-password', { resetToken, password }).then(response => response);
