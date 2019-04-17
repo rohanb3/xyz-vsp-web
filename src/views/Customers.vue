@@ -6,13 +6,13 @@
 </template>
 
 <script>
-import CustomersTable from '@/containers/CustomersTable';
+// import CustomersTable from '@/containers/CustomersTable';
 import SuperadminCompaniesTable from '@/containers/SuperadminCompaniesTable';
 
 export default {
   name: 'CustomersList',
   components: {
-    CustomersTable,
+    // CustomersTable,
     SuperadminCompaniesTable,
   },
 };

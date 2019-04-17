@@ -177,9 +177,7 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn
-        ? disableScreenShare()
-        : enableScreenShare();
+      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;

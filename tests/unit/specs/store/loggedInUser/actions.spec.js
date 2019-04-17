@@ -7,11 +7,7 @@ import {
 } from '@/store/loggedInUser/actionTypes';
 import { SET_TOKEN, SET_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
 import * as identityRepository from '@/services/identityRepository';
-import {
-  STATUS_NO_CONTENT,
-  STATUS_OK,
-  STATUS_INTERNAL_SERVER_ERROR,
-} from '@/constants/responseStatuses';
+import { STATUS_OK, STATUS_INTERNAL_SERVER_ERROR } from '@/constants/responseStatuses';
 
 describe('loggedInUser actions: ', () => {
   describe('GET_PROFILE_DATA: ', () => {
