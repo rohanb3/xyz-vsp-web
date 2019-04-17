@@ -117,11 +117,11 @@ export default {
       return this.$store.getters.dispositions;
     },
     grayBackgroundForVideo() {
-      if(this.isCallActive) {
+      if (this.isCallActive) {
         return 'video-call';
       }
       return 'video-call-off';
-    }
+    },
   },
   mounted() {
     this.subscribeForTwilioEvents();
