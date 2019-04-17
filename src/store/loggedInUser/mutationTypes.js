@@ -2,3 +2,5 @@ export const SET_PROFILE_DATA = 'SET_PROFILE_DATA';
 export const CLEAR_PROFILE_DATA = 'CLEAR_PROFILE_DATA';
 export const SET_TOKEN = 'SET_TOKEN';
 export const REMOVE_TOKEN = 'REMOVE_TOKEN';
+export const SET_RESET_TOKEN = 'SET_RESET_TOKEN';
+export const SET_EMAIL = 'SET_EMAIL';

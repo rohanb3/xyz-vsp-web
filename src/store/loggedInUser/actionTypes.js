@@ -3,3 +3,4 @@ export const CHANGE_PROFILE_DATA = 'CHANGE_PROFILE_DATA';
 export const LOGIN = 'LOGIN';
 export const REFRESH_TOKEN = 'REFRESH_TOKEN';
 export const GET_PHOTO = 'GET_PHOTO';
+export const GET_RESET_TOKEN = 'GET_RESET_TOKEN';

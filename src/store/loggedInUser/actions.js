@@ -10,11 +10,12 @@ import {
   GET_PROFILE_DATA,
   CHANGE_PROFILE_DATA,
   GET_PHOTO,
+  GET_RESET_TOKEN,
 } from './actionTypes';
-import { SET_TOKEN, SET_PROFILE_DATA } from './mutationTypes';
+import { SET_TOKEN, SET_PROFILE_DATA, SET_RESET_TOKEN } from './mutationTypes';
 import { STATUS_OK } from '@/constants/responseStatuses';
 
-import { getAvatar } from '@/services/identityRepository';
+import { getAvatar, verifyCode } from '@/services/identityRepository';
 
 export default {
   async [GET_PROFILE_DATA]({ commit }) {
@@ -49,5 +50,13 @@ export default {
     } else {
       throw new Error();
     }
+  },
+  async [GET_RESET_TOKEN]({ commit }, { email, code }) {
+    const { status, data } = await verifyCode(email, code);
+    if (status === STATUS_OK) {
+      commit(SET_RESET_TOKEN, data.resetToken);
+      return status;
+    }
+    throw new Error();
   },
 };
