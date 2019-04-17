@@ -60,7 +60,7 @@
 
  <script>
 const PASSWORD_LENGTH = 7;
- export default {
+export default {
   name: 'ResetPasswordForm',
   data() {
     return {
@@ -72,9 +72,7 @@ const PASSWORD_LENGTH = 7;
         v => !!v || this.$t('password.is.required'),
         v => v.length > PASSWORD_LENGTH || this.$t('password.must.be.at.least.8.chracters'),
         v => /[A-Z]/.test(v) || this.$t('password.must.contain.capital.letter'),
-        () =>
-          this.password === this.confirmPassword ||
-          this.$t('password.do.not.match'),
+        () => this.password === this.confirmPassword || this.$t('password.do.not.match'),
       ],
     };
   },
@@ -96,21 +94,21 @@ const PASSWORD_LENGTH = 7;
 
  <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
- .login-form-wrapper {
+.login-form-wrapper {
   padding: 21px 20px 27px;
   max-width: 320px;
   border-radius: 8px;
   box-shadow: 0 3px 4px 0 $lhs-shadow-color !important;
   background-color: $base-white;
   box-sizing: border-box;
-   .login__header {
+  .login__header {
     .heading {
       margin-bottom: 20px;
       font-size: 20px;
       font-weight: 500;
       color: $login-header-color;
     }
-     .description {
+    .description {
       color: $base-text-color;
     }
   }
@@ -121,7 +119,7 @@ const PASSWORD_LENGTH = 7;
     text-align: right;
     margin-bottom: 30px;
     font-size: 12px;
-     .forgot-link {
+    .forgot-link {
       text-decoration: none;
     }
   }
@@ -136,14 +134,14 @@ const PASSWORD_LENGTH = 7;
       flex: 0 0 auto;
     }
   }
-   .link {
+  .link {
     text-decoration: underline;
   }
-   .back-to-login {
+  .back-to-login {
     text-decoration: none;
     font-size: 16px;
   }
-   .button {
+  .button {
     padding: 8px 0;
     width: 100%;
     border-radius: 4px;

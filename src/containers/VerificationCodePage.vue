@@ -12,7 +12,8 @@ import VerificationCodeForm from '@/components/VerificationCodeForm';
 import { GET_RESET_TOKEN } from '@/store/loggedInUser/actionTypes';
 import { STATUS_OK } from '@/constants/responseStatuses';
 import { requestVerificationCode } from '@/services/identityRepository';
- export default {
+
+export default {
   name: 'VerificationCodePage',
   components: {
     VerificationCodeForm,
@@ -25,7 +26,7 @@ import { requestVerificationCode } from '@/services/identityRepository';
           email: userEmail,
           code,
         });
-         if (status === STATUS_OK) {
+        if (status === STATUS_OK) {
           this.$router.push({ name: 'reset-password' });
         } else throw new Error();
       } catch {
@@ -55,4 +56,4 @@ import { requestVerificationCode } from '@/services/identityRepository';
     },
   },
 };
-</script> 
+</script>

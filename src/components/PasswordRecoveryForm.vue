@@ -43,8 +43,9 @@
 
  <script>
 import { emailValidatorRegExp } from '@/constants';
- const MAX_EMAIL_LENGTH = 50;
- export default {
+
+const MAX_EMAIL_LENGTH = 50;
+export default {
   name: 'PasswordRecoveryForm',
   data() {
     return {
@@ -52,9 +53,7 @@ import { emailValidatorRegExp } from '@/constants';
       email: '',
       emailRules: [
         v => !!v || this.$t('email.is.required'),
-        v =>
-          v.length <= MAX_EMAIL_LENGTH ||
-          this.$t('email.should.not.be.longer.than.50.symbols'),
+        v => v.length <= MAX_EMAIL_LENGTH || this.$t('email.should.not.be.longer.than.50.symbols'),
         v => emailValidatorRegExp.test(v) || this.$t('email.should.be.valid'),
       ],
     };
@@ -71,14 +70,14 @@ import { emailValidatorRegExp } from '@/constants';
 
  <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
- .login-form-wrapper {
+.login-form-wrapper {
   padding: 21px 20px 27px;
   max-width: 300px;
   border-radius: 8px;
   box-shadow: 0 3px 4px 0 $lhs-shadow-color !important;
   background-color: $base-white;
   box-sizing: border-box;
-   .login__header {
+  .login__header {
     .heading {
       margin-bottom: 20px;
       font-size: 20px;
@@ -86,11 +85,11 @@ import { emailValidatorRegExp } from '@/constants';
       color: $login-header-color;
     }
   }
-   .back-to-login {
+  .back-to-login {
     text-decoration: none;
     font-size: 16px;
   }
-   .button {
+  .button {
     width: 100%;
     border-radius: 4px;
     background-color: $base-blue !important;
@@ -103,4 +102,4 @@ import { emailValidatorRegExp } from '@/constants';
     font-weight: 550;
   }
 }
-</style> 
+</style>

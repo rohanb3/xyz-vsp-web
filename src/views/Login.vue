@@ -62,6 +62,7 @@
 <script>
 import { LOGIN, GET_PROFILE_DATA } from '@/store/loggedInUser/actionTypes';
 import { emailValidatorRegExp } from '@/constants';
+
 export default {
   name: 'Login',
   data() {
@@ -73,9 +74,7 @@ export default {
       e1: true,
       emailRules: [
         v => !!v || this.$t('email.is.required'),
-        v =>
-          v.length <= 50 ||
-          this.$t('email.should.not.be.longer.than.50.symbols'),
+        v => v.length <= 50 || this.$t('email.should.not.be.longer.than.50.symbols'),
         v => emailValidatorRegExp.test(v) || this.$t('email.should.be.valid'),
       ],
     };

@@ -9,7 +9,8 @@ import PasswordRecoveryForm from '@/components/PasswordRecoveryForm';
 import { requestVerificationCode } from '@/services/identityRepository';
 import { STATUS_OK } from '@/constants/responseStatuses';
 import { SET_EMAIL } from '@/store/loggedInUser/mutationTypes';
- export default {
+
+export default {
   name: 'PasswordRecoveryPage',
   components: {
     PasswordRecoveryForm,
@@ -24,4 +25,4 @@ import { SET_EMAIL } from '@/store/loggedInUser/mutationTypes';
     },
   },
 };
-</script> 
+</script>

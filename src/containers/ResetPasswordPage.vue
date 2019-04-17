@@ -8,7 +8,8 @@
 import ResetPasswordForm from '@/components/ResetPasswordForm';
 import { resetPassword } from '@/services/identityRepository';
 import { STATUS_OK } from '@/constants/responseStatuses';
- export default {
+
+export default {
   name: 'ResetPasswordPage',
   components: {
     ResetPasswordForm,
@@ -31,4 +32,4 @@ import { STATUS_OK } from '@/constants/responseStatuses';
     },
   },
 };
-</script> 
+</script>

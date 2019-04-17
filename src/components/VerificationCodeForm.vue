@@ -143,16 +143,16 @@ export default {
 
  <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
- .login-form-wrapper {
+.login-form-wrapper {
   padding: 21px 20px 27px;
   max-width: 320px;
   border-radius: 8px;
   box-shadow: 0 3px 4px 0 $lhs-shadow-color !important;
   background-color: $base-white;
   box-sizing: border-box;
-   .code-wrapper {
+  .code-wrapper {
     display: flex;
-     .entered-code /deep/ {
+    .entered-code /deep/ {
       width: 61px;
       margin: 0 10px;
       font-size: 28px;
@@ -161,22 +161,22 @@ export default {
       }
     }
   }
-   .login__header {
+  .login__header {
     .heading {
       margin-bottom: 20px;
       font-size: 20px;
       font-weight: 500;
       color: $login-header-color;
     }
-     .description {
+    .description {
       color: $base-text-color;
     }
   }
-   .back-to-login {
+  .back-to-login {
     text-decoration: none;
     font-size: 16px;
   }
-   .button {
+  .button {
     width: 100%;
     border-radius: 4px;
     background-color: $base-blue !important;
