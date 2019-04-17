@@ -2,10 +2,7 @@
   <v-layout row justify-center v-cssBlurOverlay v-if="isDialogShown">
     <v-dialog content-class="incoming-call-popup" v-model="isDialogShown" persistent>
       <div class="popup-content" :style="{backgroundImage: backgroundImage}">
-        <div
-          v-if="!connectInProgress && !connectingError"
-          class="incoming-call-info"
-        >
+        <div v-if="!connectInProgress && !connectingError" class="incoming-call-info">
           <div class="call-from-company-name">
             <span>{{$t('incoming.call.popup')}}</span>
             <br>
@@ -25,10 +22,12 @@
           </div>
         </div>
 
-        <call-connecting-loader v-if="connectInProgress" />
+        <call-connecting-loader v-if="connectInProgress"/>
 
         <div v-if="connectingError" class="connecting-error">
-          <div><v-icon large color="error">error_outline</v-icon></div>
+          <div>
+            <v-icon large color="error">error_outline</v-icon>
+          </div>
           <p>{{ connectingError }}</p>
           <v-btn @click="onConnectingErrorAccepted">{{ $t('ok') }}</v-btn>
         </div>
@@ -123,7 +122,7 @@ export default {
         this.counter = 0;
       }
     },
-    isAnyPendingCall(val, old) {
+    isAnyPendingCall(val) {
       if (this.isOperatorIdle && !val) {
         this.notifyAboutCallEmptying();
       }
