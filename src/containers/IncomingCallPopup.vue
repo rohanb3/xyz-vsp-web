@@ -6,7 +6,7 @@
         <p>{{ initializingError }}</p>
       </div>
       <div v-else class="popup-content" :style="{backgroundImage: backgroundImage}">
-        <div v-if="!connectInProgress && !connectingErro && !initializingError" class="incoming-call-info">
+        <div v-if="!connectInProgress && !connectingError && !initializingError" class="incoming-call-info">
           <div class="call-from-company-name">
             <span>{{$t('incoming.call.popup')}}</span>
             <br>
