@@ -6,6 +6,8 @@ export default {
   state: {
     profileData: {},
     token: null,
+    email: null,
+    resetToken: null,
   },
   getters,
   actions,

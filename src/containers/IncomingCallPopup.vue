@@ -204,13 +204,12 @@ export default {
 @import '~@/assets/styles/variables.scss';
 
 .initializing-error-content {
-  width: 300px;
+  width: 350px;
   height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  background-color: grey;
 }
 
 .popup-content {
