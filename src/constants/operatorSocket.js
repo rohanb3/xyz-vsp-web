@@ -19,6 +19,8 @@ const CALL_ACCEPTING_FAILED = 'call.accepting.failed';
 const PEER_OFFLINE = 'peer.offline';
 const PEER_BUSY = 'peer.busy';
 
+const ALREADY_LOGGED_IN = 'already.logged.in';
+
 const connectionOptions = {
   transports: ['websocket'],
   path: '/api/video/socket.io',
@@ -49,6 +51,7 @@ const errorMessages = {
   CALL_ACCEPTING_FAILED,
   PEER_OFFLINE,
   PEER_BUSY,
+  ALREADY_LOGGED_IN,
 };
 
 const namespace = process.env.VUE_APP_OPERATOR_WS_NAMESPACE || '/operators';

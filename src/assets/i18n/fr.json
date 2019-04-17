@@ -181,5 +181,7 @@
   "callback.declined": "TBD Callback was declined",
   "peer.offline": "TBD User is offline",
   "peer.busy": "TBD User is on call",
-  "callback.requesting.failed": "TBD Unable to call back"
+  "callback.requesting.failed": "TBD Unable to call back",
+  "already.logged.in": "TBD Sorry, you are already connected",
+  "operator.connecting.error": "TBD Sorry, we can not connect you"
 }
