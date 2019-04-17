@@ -20,7 +20,7 @@ import {
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import { VIDEO } from '@/constants/twilio';
-import { errors as socketErrors } from '@/constants/operatorSocket';
+import { errorMessages as socketErrors } from '@/constants/operatorSocket';
 import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';

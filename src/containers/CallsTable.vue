@@ -63,28 +63,28 @@
       v-if="operatorFeedbackShown"
       :call="selectedCall"
       @close="closeOperatorFeedback"
-    /> -->
+    />-->
   </div>
 </template>
 
 <script>
-import WombatTable from '@/components/WombatTable/Table';
-import WombatRow from '@/components/WombatTable/Row';
-import TableLoader from '@/components/TableLoader';
-import DefaultCell from '@/components/tableCells/DefaultCell';
-import DateCell from '@/components/tableCells/DateCell';
-import CallTypeCell from '@/components/tableCells/CallTypeCell';
-import WaitTimeCell from '@/components/tableCells/WaitTimeCell';
-import DurationCell from '@/components/tableCells/DurationCell';
-import RatingCell from '@/components/tableCells/RatingCell';
-import StatusCell from '@/components/tableCells/StatusCell';
-import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
-import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
-import ClientFeedbackCard from '@/components/ClientFeedbackCard';
-import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
-import TableDatesEditor from '@/components/TableDatesEditor';
-import ColumnsListEditor from '@/components/ColumnsListEditor';
-import CallsDashboard from '@/components/CallsDashboard';
+// import WombatTable from '@/components/WombatTable/Table';
+// import WombatRow from '@/components/WombatTable/Row';
+// import TableLoader from '@/components/TableLoader';
+// import DefaultCell from '@/components/tableCells/DefaultCell';
+// import DateCell from '@/components/tableCells/DateCell';
+// import CallTypeCell from '@/components/tableCells/CallTypeCell';
+// import WaitTimeCell from '@/components/tableCells/WaitTimeCell';
+// import DurationCell from '@/components/tableCells/DurationCell';
+// import RatingCell from '@/components/tableCells/RatingCell';
+// import StatusCell from '@/components/tableCells/StatusCell';
+// import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
+// import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
+// import ClientFeedbackCard from '@/components/ClientFeedbackCard';
+// import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
+// import TableDatesEditor from '@/components/TableDatesEditor';
+// import ColumnsListEditor from '@/components/ColumnsListEditor';
+// import CallsDashboard from '@/components/CallsDashboard';
 
 import smartTable from '@/mixins/smartTable';
 
@@ -103,23 +103,23 @@ const allColumns = getCallsTableColumns()
 export default {
   name: 'CallsTable',
   components: {
-    WombatTable,
-    WombatRow,
-    DefaultCell,
-    DateCell,
-    CallTypeCell,
-    WaitTimeCell,
-    DurationCell,
-    RatingCell,
-    StatusCell,
-    ClientFeedbackCell,
-    OperatorFeedbackCell,
-    TableLoader,
-    ClientFeedbackCard,
-    OperatorFeedbackCard,
-    TableDatesEditor,
-    ColumnsListEditor,
-    CallsDashboard,
+    // WombatTable,
+    // WombatRow,
+    // DefaultCell,
+    // DateCell,
+    // CallTypeCell,
+    // WaitTimeCell,
+    // DurationCell,
+    // RatingCell,
+    // StatusCell,
+    // ClientFeedbackCell,
+    // OperatorFeedbackCell,
+    // TableLoader,
+    // ClientFeedbackCard,
+    // OperatorFeedbackCard,
+    // TableDatesEditor,
+    // ColumnsListEditor,
+    // CallsDashboard,
   },
   mixins: [smartTable],
   data() {

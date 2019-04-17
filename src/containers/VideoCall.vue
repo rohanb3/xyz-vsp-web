@@ -1,7 +1,7 @@
 <template>
   <div class="video-call-wrapper" v-cssBlurOverlay>
     <v-dialog :content-class="'video-call'" v-model="show" persistent>
-    <div class="local-media" ref="localMedia">
+    <div v-show="isCallActive" class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
         <p>{{ $t('video.off') }}</p>
       </div>
@@ -10,6 +10,7 @@
     <div class="remote-media" ref="remoteMedia"/>
     <notifications group="call-notifications" />
     <video-call-controls
+      v-show="isCallActive"
       class="video-call-controls"
       :is-camera-on="isCameraOn"
       :is-microphone-on="isMicrophoneOn"
@@ -53,7 +54,8 @@ import {
   disableLocalAudio,
   convertTracksToAttachable,
   detachTracks,
-  getCachedTracks,
+  getCachedLocalTracks,
+  getCachedRemoteTracks,
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
 import { AUDIO, VIDEO } from '@/constants/twilio';
@@ -116,9 +118,8 @@ export default {
     },
   },
   mounted() {
-    this.checkAndMountCachedTracks();
     this.subscribeForTwilioEvents();
-    this.initLocalPreview();
+    this.handleMediaTracks();
     this.checkAndLoadCallTypesAndDispositions();
     this.activateCallTimer();
   },
@@ -152,17 +153,22 @@ export default {
     updateCurrentTime() {
       this.counter += 1;
     },
-    checkAndMountCachedTracks() {
-      const cachedTracks = getCachedTracks();
-      if (cachedTracks.length) {
-        this.handleRemoteTracksAdding(cachedTracks);
+    handleMediaTracks() {
+      const remoteCachedTracks = getCachedRemoteTracks();
+      if (remoteCachedTracks.length) {
+        this.handleRemoteTracksAdding(remoteCachedTracks);
       }
-    },
-    initLocalPreview() {
-      return Promise.all([enableLocalVideo(), enableLocalAudio()]);
-    },
-    finishLocalPreview() {
-      return Promise.all([disableLocalVideo(), disableLocalAudio()]);
+      const localCachedTracks = getCachedLocalTracks();
+      if (localCachedTracks.length) {
+        this.handleLocalTracksAdding(localCachedTracks);
+      }
+      const cachedLocalTracksTypes = localCachedTracks.map(track => track.kind);
+      if (!cachedLocalTracksTypes.includes(AUDIO)) {
+        enableLocalAudio();
+      }
+      if (!cachedLocalTracksTypes.includes(VIDEO)) {
+        enableLocalVideo();
+      }
     },
     toggleCamera() {
       return this.isCameraOn ? disableLocalVideo() : enableLocalVideo();
@@ -218,8 +224,8 @@ export default {
       this.counter = 0;
       this.activateCallTimer();
     },
-    onRequestingCallbackFailed() {
-      const title = this.$t('callback.declined');
+    onRequestingCallbackFailed(error) {
+      const title = this.$t(error.message || 'callback.declined');
       this.$notify({
         group: 'call-notifications',
         title,

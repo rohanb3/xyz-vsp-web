@@ -39,6 +39,8 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
 
         if (Object.keys(previewTracks).length) {
           connectOptions.tracks = Object.values(previewTracks);
+        } else {
+          connectOptions.tracks = [];
         }
         return Video.connect(
           token,
@@ -161,7 +163,11 @@ export function disableScreenShare() {
   return Promise.resolve();
 }
 
-export function getCachedTracks() {
+export function getCachedLocalTracks() {
+  return Object.values(previewTracks);
+}
+
+export function getCachedRemoteTracks() {
   return [...remoteTracks];
 }
 

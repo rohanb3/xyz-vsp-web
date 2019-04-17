@@ -7,14 +7,13 @@
         <div class="switcher-container">
           <online-status-switcher :is-online="isOperatorOnline" @statusChanged="onStatusChanged"/>
         </div>
-        <header-user-menu />
+        <header-user-menu/>
       </v-toolbar-items>
     </v-toolbar>
   </div>
 </template>
 
 <script>
-import SupervisorHeaderWidgets from './SupervisorHeaderWidgets';
 import HeaderUserMenu from './HeaderUserMenu';
 import OnlineStatusSwitcher from '@/components/OnlineStatusSwitcher';
 
@@ -23,7 +22,6 @@ import { setOnlineStatus, setOfflineStatus } from '@/services/call';
 export default {
   name: 'AppHeader',
   components: {
-    SupervisorHeaderWidgets,
     HeaderUserMenu,
     OnlineStatusSwitcher,
   },

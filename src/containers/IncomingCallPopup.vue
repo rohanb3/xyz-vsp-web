@@ -1,11 +1,12 @@
 <template>
+  <!-- important: this popup must be rafactored. Current realization is for release only -->
   <v-layout row justify-center v-cssBlurOverlay v-if="isDialogShown">
     <v-dialog content-class="incoming-call-popup" v-model="isDialogShown" persistent>
-      <div class="popup-content" :style="{backgroundImage: backgroundImage}">
-        <div
-          v-if="!connectInProgress && !connectingError"
-          class="incoming-call-info"
-        >
+      <div class="initializing-error-content" v-if="initializingError">
+        <p>{{ initializingError }}</p>
+      </div>
+      <div v-else class="popup-content" :style="{backgroundImage: backgroundImage}">
+        <div v-if="!connectInProgress && !connectingError && !initializingError" class="incoming-call-info">
           <div class="call-from-company-name">
             <span>{{$t('incoming.call.popup')}}</span>
             <br>
@@ -25,10 +26,12 @@
           </div>
         </div>
 
-        <call-connecting-loader v-if="connectInProgress" />
+        <call-connecting-loader v-if="connectInProgress"/>
 
         <div v-if="connectingError" class="connecting-error">
-          <div><v-icon large color="error">error_outline</v-icon></div>
+          <div>
+            <v-icon large color="error">error_outline</v-icon>
+          </div>
           <p>{{ connectingError }}</p>
           <v-btn @click="onConnectingErrorAccepted">{{ $t('ok') }}</v-btn>
         </div>
@@ -64,6 +67,7 @@ export default {
       extensionLink: EXTENSION_URL,
       connectInProgress: false,
       connectingError: null,
+      initializingError: null,
     };
   },
   computed: {
@@ -88,6 +92,7 @@ export default {
     },
     isDialogShown() {
       return (
+        this.initializingError ||
         this.connectInProgress ||
         this.connectingError ||
         (this.isOperatorIdle && this.isAnyPendingCall)
@@ -123,14 +128,16 @@ export default {
         this.counter = 0;
       }
     },
-    isAnyPendingCall(val, old) {
+    isAnyPendingCall(val) {
       if (this.isOperatorIdle && !val) {
         this.notifyAboutCallEmptying();
       }
     },
   },
   mounted() {
-    initializeOperator();
+    initializeOperator().catch(err => {
+      this.initializingError = this.$t(err.message);
+    });
     this.$store.dispatch(CHECK_EXTENSION_IS_INSTALLED);
   },
   destroyed() {
@@ -195,6 +202,15 @@ export default {
 
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
+
+.initializing-error-content {
+  width: 350px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
 
 .popup-content {
   padding: 22px 15px 13px 22px;

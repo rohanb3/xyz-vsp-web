@@ -16,6 +16,9 @@ import Operators from '@/views/Operators';
 import CallPage from '@/views/CallPage';
 import SupervisorDashboard from '@/views/SupervisorDashboard';
 import OperatorDashboard from '@/views/OperatorDashboard';
+import PasswordRecoveryPage from '@/containers/PasswordRecoveryPage';
+import VerificationCodePage from '@/containers/VerificationCodePage';
+import ResetPasswordPage from '@/containers/ResetPasswordPage';
 
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import AppHeader from '@/containers/AppHeader';
@@ -39,17 +42,38 @@ function loginGuard(to, from, next) {
 
 const router = new Router({
   mode: 'history',
-  base: '/',
+  base: process.env.BASE_URL,
   routes: [
     {
-      path: '/vsp/login',
+      path: '/login',
       name: 'login',
       component: Login,
       meta: { unsafe: true },
       beforeEnter: loginGuard,
     },
     {
-      path: '/vsp',
+      path: '/password-recovery',
+      name: 'password-recovery',
+      meta: { unsafe: true },
+      component: PasswordRecoveryPage,
+      beforeEnter: loginGuard,
+    },
+    {
+      path: '/verification-code',
+      name: 'verification-code',
+      meta: { unsafe: true },
+      component: VerificationCodePage,
+      beforeEnter: loginGuard,
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      meta: { unsafe: true },
+      component: ResetPasswordPage,
+      beforeEnter: loginGuard,
+    },
+    {
+      path: '/',
       component: Base,
       children: [
         {

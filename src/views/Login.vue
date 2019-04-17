@@ -11,8 +11,8 @@
               <v-text-field
                 label="Email"
                 name="email"
-                v-model="email"
                 ref="emailInput"
+                v-model="email"
                 autofocus
                 required
                 :rules="emailRules"
@@ -20,8 +20,8 @@
               ></v-text-field>
               <v-text-field
                 label="Password"
-                name="password"
                 class="password-input"
+                name="password"
                 ref="passwordInput"
                 browser-autocomplete="new-password"
                 v-model="password"
@@ -30,20 +30,27 @@
                 :type="e1 ? 'password' : 'text'"
                 @click:append="() => (e1 = !e1)"
               ></v-text-field>
+
+              <div class="forgot-link-wrapper">
+                <router-link class="forgot-link" :to="{ name: 'password-recovery' }">
+                  {{
+                  $t('login.forgot')
+                  }}
+                </router-link>
+              </div>
+
               <div class="agreement">
-                <v-checkbox
-                  class="checkbox-input"
-                  v-model="agreement"
-                  :hide-details="true"
-                ></v-checkbox>
+                <v-checkbox class="checkbox-input" v-model="agreement" :hide-details="true"></v-checkbox>
                 <div>
-                  <span>{{ $t('i.agree.to.the') }} </span>
+                  <span>{{ $t('i.agree.to.the') }}</span>
                   <a class="link">{{ $t('terms.and.conditions') }}</a>
                 </div>
               </div>
-              <v-btn @click="submit" class="button" :disabled="!valid || !agreement">{{
-                $t('login')
-              }}</v-btn>
+              <v-btn
+                @click="submit"
+                class="button"
+                :disabled="!valid || !agreement"
+              >{{ $t('login') }}</v-btn>
             </v-form>
           </div>
         </div>
@@ -85,7 +92,6 @@ export default {
             group: 'notifications',
             title: 'Login failed',
             type: 'error',
-            text: e,
           });
         }
       }
@@ -95,24 +101,33 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~@/assets/styles/variables.scss';
 .login-page {
   .login-form-wrapper {
     padding: 21px 20px 27px;
     width: 320px;
     border-radius: 8px;
-    box-shadow: 0 3px 4px 0 rgba(184, 184, 184, 0.5) !important;
-    background-color: #ffffff;
+    box-shadow: 0 3px 4px 0 $lhs-shadow-color !important;
+    background-color: $base-white;
     box-sizing: border-box;
     .login__header {
       .heading {
         margin-bottom: 20px;
         font-size: 20px;
         font-weight: 500;
-        color: rgba(0, 0, 0, 0.87);
+        color: $login-header-color;
       }
     }
     .password-input {
+      margin-bottom: 6px;
+    }
+    .forgot-link-wrapper {
+      text-align: right;
       margin-bottom: 30px;
+      font-size: 12px;
+      .forgot-link {
+        text-decoration: none;
+      }
     }
     .agreement {
       margin-bottom: 23px;
@@ -132,10 +147,10 @@ export default {
       padding: 8px 0;
       width: 100%;
       border-radius: 4px;
-      background-color: #398ffb;
+      background-color: $base-blue;
       font-size: 16px;
       font-weight: bold;
-      color: #ffffff;
+      color: $base-white;
       text-align: center;
       margin: 0;
       box-shadow: none;
