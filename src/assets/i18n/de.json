@@ -177,7 +177,12 @@
     "TBD The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
   "connecting": "TBD Connecting...",
   "ok": "TBD Ok",
-  "callback.declined": "Callback was declined",
+  "callback.declined": "TBD Callback was declined",
+  "peer.offline": "TBD User is offline",
+  "peer.busy": "TBD User is on call",
+  "callback.requesting.failed": "TBD Unable to call back",
+  "already.logged.in": "TBD Sorry, you are already connected",
+  "operator.connecting.error": "TBD Sorry, we can not connect you",
 
   "login.forgot": "TBD Forgot?",
   "back.to.login": "TBD Back to Login",

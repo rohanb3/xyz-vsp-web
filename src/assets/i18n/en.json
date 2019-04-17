@@ -178,6 +178,11 @@
   "connecting": "Connecting...",
   "ok": "Ok",
   "callback.declined": "Callback was declined",
+  "peer.offline": "User is offline",
+  "peer.busy": "User is on call",
+  "already.logged.in": "Sorry, you are already connected",
+  "operator.connecting.error": "Sorry, we can not connect you",
+  "callback.requesting.failed": "Unable to call back",
 
   "login.forgot": "Forgot?",
   "back.to.login": "Back to Login",
