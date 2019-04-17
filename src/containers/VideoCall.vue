@@ -177,9 +177,7 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn
-        ? disableScreenShare()
-        : enableScreenShare();
+      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -226,8 +224,8 @@ export default {
       this.counter = 0;
       this.activateCallTimer();
     },
-    onRequestingCallbackFailed() {
-      const title = this.$t('callback.declined');
+    onRequestingCallbackFailed(error) {
+      const title = this.$t(error.message || 'callback.declined');
       this.$notify({
         group: 'call-notifications',
         title,

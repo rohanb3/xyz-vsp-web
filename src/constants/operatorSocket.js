@@ -5,6 +5,7 @@ const UNAUTHORIZED = 'unauthorized';
 const CALL_ACCEPTED = 'call.accepted';
 const CALL_FINISHED = 'call.finished';
 const CALLBACK_REQUESTED = 'callback.requested';
+const CALLBACK_REQUESTING_FAILED = 'callback.requesting.failed';
 const CALLBACK_ACCEPTED = 'callback.accepted';
 const CALLBACK_DECLINED = 'callback.declined';
 const CALLS_CHANGED = 'calls.changed';
@@ -14,6 +15,9 @@ const STATUS_CHANGED_ONLINE = 'status.changed.online';
 const STATUS_CHANGED_OFFLINE = 'status.changed.offline';
 const CALLS_EMPTY = 'calls.empty';
 const CALL_ACCEPTING_FAILED = 'call.accepting.failed';
+
+const PEER_OFFLINE = 'peer.offline';
+const PEER_BUSY = 'peer.busy';
 
 const connectionOptions = {
   transports: ['websocket'],
@@ -30,6 +34,7 @@ const events = {
   CALLBACK_REQUESTED,
   CALLBACK_ACCEPTED,
   CALLBACK_DECLINED,
+  CALLBACK_REQUESTING_FAILED,
   CALLS_CHANGED,
   CALLS_EMPTY,
   CALL_ACCEPTING_FAILED,
@@ -39,11 +44,13 @@ const events = {
   STATUS_CHANGED_OFFLINE,
 };
 
-const errors = {
+const errorMessages = {
   CALLS_EMPTY,
   CALL_ACCEPTING_FAILED,
+  PEER_OFFLINE,
+  PEER_BUSY,
 };
 
 const namespace = process.env.VUE_APP_OPERATOR_WS_NAMESPACE || '/operators';
 
-export { connectionOptions, events, namespace, errors };
+export { connectionOptions, events, namespace, errorMessages };

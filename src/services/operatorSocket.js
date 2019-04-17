@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import io from 'socket.io-client';
-import { namespace, connectionOptions, events, errors } from '@/constants/operatorSocket';
+import { namespace, connectionOptions, events, errorMessages } from '@/constants/operatorSocket';
 
 let socket = null;
 
@@ -35,9 +35,9 @@ export function notifyAboutAcceptingCall() {
   return new Promise((resolve, reject) => {
     socket.emit(events.CALL_ACCEPTED);
     socket.once(events.ROOM_CREATED, resolve);
-    socket.once(events.CALLS_EMPTY, () => reject(new Error(errors.CALLS_EMPTY)));
+    socket.once(events.CALLS_EMPTY, () => reject(new Error(errorMessages.CALLS_EMPTY)));
     socket.once(events.CALL_ACCEPTING_FAILED, () =>
-      reject(new Error(errors.CALL_ACCEPTING_FAILED))
+      reject(new Error(errorMessages.CALL_ACCEPTING_FAILED))
     );
   });
 }
@@ -54,7 +54,8 @@ export function requestCallback(callId) {
   const promise = new Promise((resolve, reject) => {
     socket.emit(events.CALLBACK_REQUESTED, callId);
     socket.once(events.CALLBACK_ACCEPTED, resolve);
-    socket.once(events.CALLBACK_DECLINED, reject);
+    socket.once(events.CALLBACK_DECLINED, data => reject(new Error(data.reason)));
+    socket.once(events.CALLBACK_REQUESTING_FAILED, () => reject(new Error()));
   });
   return promise;
 }
