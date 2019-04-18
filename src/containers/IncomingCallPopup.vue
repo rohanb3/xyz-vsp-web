@@ -49,11 +49,6 @@ import { NOTIFICATION_DURATION } from '@/constants/notifications';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 import { EXTENSION_URL } from '@/constants/twilio';
 import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
-import { requestPermission as requestUserMediaPermission } from '@/services/userMedia';
-import {
-  requestPermission as requestNotificationsPermission,
-  isEnabled as isNotificationsEnabled,
-} from '@/services/callNotificationsUtils';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
 
 export default {
@@ -140,7 +135,6 @@ export default {
     },
   },
   mounted() {
-    this.requestPermissions();
     initializeOperator().catch(err => {
       this.initializingError = this.$t(err.message);
     });
@@ -151,12 +145,6 @@ export default {
     disconnectOperator();
   },
   methods: {
-    requestPermissions() {
-      requestUserMediaPermission();
-      if (!isNotificationsEnabled()) {
-        requestNotificationsPermission();
-      }
-    },
     acceptCall() {
       this.connectInProgress = true;
       return acceptCall()
