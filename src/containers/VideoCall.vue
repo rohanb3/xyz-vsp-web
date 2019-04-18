@@ -1,6 +1,6 @@
 <template>
   <div class="video-call-wrapper" v-cssBlurOverlay>
-    <v-dialog :content-class="'video-call'" v-model="show" persistent>
+    <v-dialog :content-class="grayBackgroundForVideo" v-model="show" persistent>
     <div v-show="isCallActive" class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
         <p>{{ $t('video.off') }}</p>
@@ -115,6 +115,12 @@ export default {
     },
     callDispositions() {
       return this.$store.getters.dispositions;
+    },
+    grayBackgroundForVideo() {
+      if (this.isCallActive) {
+        return 'video-call';
+      }
+      return 'video-call-off';
     },
   },
   mounted() {
@@ -330,6 +336,11 @@ export default {
 
 <style lang="scss">
 @import '~@/assets/styles/variables.scss';
+
+.video-call-off {
+  display: none;
+}
+
 .video-call {
   margin-top: 65px;
   margin-left: 50px;
