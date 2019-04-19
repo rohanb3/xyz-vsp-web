@@ -24,10 +24,7 @@ import { errorMessages as socketErrors } from '@/constants/operatorSocket';
 import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
-import {
-  requestPermission as requestNotificationsPermission,
-  isEnabled as isNotificationsEnabled,
-} from '@/services/callNotificationsUtils';
+import { requestPermission as requestNotificationsPermission } from '@/services/callNotificationsUtils';
 import { requestPermission as requestUserMediaPermission } from '@/services/userMedia';
 
 export const errors = {
@@ -36,9 +33,7 @@ export const errors = {
 
 export function initializeOperator() {
   requestUserMediaPermission();
-  if (!isNotificationsEnabled()) {
-    requestNotificationsPermission();
-  }
+  requestNotificationsPermission();
   const identity = store.getters.userId;
   const credentials = { identity };
   return initiOperatorSocker(credentials, checkAndUpdateCallsInfo);

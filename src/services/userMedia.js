@@ -1,4 +1,6 @@
 /* eslint-disable import/prefer-default-export, no-use-before-define */
+import { statuses } from '@/constants/permissions';
+
 export function requestPermission() {
   return queryPermissions()
     .then(testUserMedia)
@@ -11,23 +13,14 @@ export function requestPermission() {
 function queryPermissions() {
   const cameraPromise = navigator.permissions.query({ name: 'camera' });
   const microphonePromise = navigator.permissions.query({ name: 'microphone' });
-  return Promise.all([cameraPromise, microphonePromise]).then(([camera, microphone]) => {
-    const options = {};
-
-    if (camera.state !== 'granted') {
-      options.video = true;
-    }
-
-    if (microphone.state !== 'granted') {
-      options.audio = true;
-    }
-
-    return options;
-  });
+  return Promise.all([cameraPromise, microphonePromise]).then(([camera, microphone]) => ({
+    video: !isPermissionGranted(camera),
+    audio: !isPermissionGranted(microphone),
+  }));
 }
 
 function testUserMedia(options = {}) {
-  if (!Object.keys(options).length) {
+  if (!options.video && !options.audio) {
     return Promise.resolve();
   }
 
@@ -45,4 +38,8 @@ function testUserMedia(options = {}) {
     const tracks = stream.getTracks();
     tracks.forEach(track => track.stop());
   });
+}
+
+function isPermissionGranted(permission) {
+  return permission.state === statuses.GRANTED;
 }
