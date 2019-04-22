@@ -14,17 +14,19 @@ function queryPermissions() {
   const cameraPromise = navigator.permissions.query({ name: 'camera' });
   const microphonePromise = navigator.permissions.query({ name: 'microphone' });
   return Promise.all([cameraPromise, microphonePromise]).then(([camera, microphone]) => ({
-    video: !isPermissionGranted(camera),
-    audio: !isPermissionGranted(microphone),
+    video: camera.state,
+    audio: microphone.state,
   }));
 }
 
 function testUserMedia(options = {}) {
-  if (!options.video && !options.audio) {
-    return Promise.resolve();
+  const constaints = {
+    video: !isPermissionGranted(options.video),
+    audio: !isPermissionGranted(options.audio),
+  };
+  if (!constaints.video && !constaints.audio) {
+    return Promise.resolve(options);
   }
-
-  const constaints = {};
 
   if (options.audio) {
     constaints.audio = true;
@@ -34,12 +36,16 @@ function testUserMedia(options = {}) {
     constaints.video = { width: 1280, height: 720 };
   }
 
-  return navigator.mediaDevices.getUserMedia(constaints).then(stream => {
-    const tracks = stream.getTracks();
-    tracks.forEach(track => track.stop());
-  });
+  return navigator.mediaDevices
+    .getUserMedia(constaints)
+    .then(stream => {
+      const tracks = stream.getTracks();
+      tracks.forEach(track => track.stop());
+    })
+    .then(queryPermissions)
+    .catch(queryPermissions);
 }
 
-function isPermissionGranted(permission) {
-  return permission.state === statuses.GRANTED;
+function isPermissionGranted(status) {
+  return status === statuses.GRANTED;
 }

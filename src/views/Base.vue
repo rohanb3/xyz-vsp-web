@@ -14,6 +14,9 @@
     <router-view
       class="incoming-call"
       name="incomingCall"/>
+    <router-view
+      class="disabled-permissions"
+      name="disabledPermissions"/>
   </div>
 </template>
 

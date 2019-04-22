@@ -6,6 +6,7 @@ import {
   SET_CALL_TOKEN,
   SET_CALL_DATA,
   SET_PENDING_CALLS_INFO,
+  SET_CALL_PERMISSIONS,
 } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
 import {
@@ -24,19 +25,23 @@ import { errorMessages as socketErrors } from '@/constants/operatorSocket';
 import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
-import { requestPermission as requestNotificationsPermission } from '@/services/callNotificationsUtils';
-import { requestPermission as requestUserMediaPermission } from '@/services/userMedia';
+import { checkAndRequestCallPermissions } from '@/services/callPermissions';
 
 export const errors = {
   ...socketErrors,
 };
 
 export function initializeOperator() {
-  requestUserMediaPermission();
-  requestNotificationsPermission();
-  const identity = store.getters.userId;
-  const credentials = { identity };
-  return initiOperatorSocker(credentials, checkAndUpdateCallsInfo);
+  return checkAndRequestCallPermissions().then(permissions => {
+    const isAnyBlockedPermission = Object.values(permissions).some(p => !p);
+    setPermissions(permissions);
+    if (isAnyBlockedPermission) {
+      return Promise.resolve();
+    }
+    const identity = store.getters.userId;
+    const credentials = { identity };
+    return initiOperatorSocker(credentials, checkAndUpdateCallsInfo);
+  });
 }
 
 export function disconnectOperator() {
@@ -128,6 +133,10 @@ function setFinishedCallOperatorStatus() {
 
 function setToken(token) {
   store.commit(SET_CALL_TOKEN, token);
+}
+
+function setPermissions(permissions) {
+  store.commit(SET_CALL_PERMISSIONS, permissions);
 }
 
 function onCallAcceptingFailed(err) {
