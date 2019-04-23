@@ -1,13 +1,13 @@
 <template>
   <div class="video-call-wrapper" v-cssBlurOverlay>
-    <v-dialog :content-class="grayBackgroundForVideo" v-model="show" persistent>
+    <v-dialog v-model="show" :content-class="dialogClassList" persistent>
     <div v-show="isCallActive" class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
         <p>{{ $t('video.off') }}</p>
       </div>
     </div>
 
-    <div class="remote-media" ref="remoteMedia"/>
+    <div v-show="isCallActive" class="remote-media" ref="remoteMedia"/>
     <notifications group="call-notifications" />
     <video-call-controls
       v-show="isCallActive"
@@ -116,11 +116,14 @@ export default {
     callDispositions() {
       return this.$store.getters.dispositions;
     },
-    grayBackgroundForVideo() {
-      if (this.isCallActive) {
-        return 'video-call';
+    dialogClassList() {
+      const defaultList = ['video-call'];
+
+      if (!this.isCallActive) {
+        defaultList.push('finished');
       }
-      return 'video-call-off';
+
+      return defaultList;
     },
   },
   mounted() {
@@ -183,7 +186,9 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
+      return this.isScreenSharingOn
+        ? disableScreenShare()
+        : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -337,10 +342,6 @@ export default {
 <style lang="scss">
 @import '~@/assets/styles/variables.scss';
 
-.video-call-off {
-  display: none;
-}
-
 .video-call {
   margin-top: 65px;
   margin-left: 50px;
@@ -348,6 +349,10 @@ export default {
   width: 100%;
   position: relative;
   border-radius: 8px;
+
+  &.finished {
+    background: transparent;
+  }
 
   .local-media {
     max-width: $call-local-media-width;

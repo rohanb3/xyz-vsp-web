@@ -15,6 +15,7 @@ const STATUS_CHANGED_ONLINE = 'status.changed.online';
 const STATUS_CHANGED_OFFLINE = 'status.changed.offline';
 const CALLS_EMPTY = 'calls.empty';
 const CALL_ACCEPTING_FAILED = 'call.accepting.failed';
+const CALL_FINISED_BY_CUSTOMER = 'call.finished.by.customer';
 
 const PEER_OFFLINE = 'peer.offline';
 const PEER_BUSY = 'peer.busy';
@@ -52,6 +53,7 @@ const errorMessages = {
   PEER_OFFLINE,
   PEER_BUSY,
   ALREADY_LOGGED_IN,
+  CALL_FINISED_BY_CUSTOMER,
 };
 
 const namespace = process.env.VUE_APP_OPERATOR_WS_NAMESPACE || '/operators';
