@@ -24,15 +24,18 @@ import { errorMessages as socketErrors } from '@/constants/operatorSocket';
 import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
+import { checkAndRequestCallPermissions } from '@/services/callPermissions';
 
 export const errors = {
   ...socketErrors,
 };
 
 export function initializeOperator() {
-  const identity = store.getters.userId;
-  const credentials = { identity };
-  return initiOperatorSocker(credentials, checkAndUpdateCallsInfo);
+  return checkAndRequestCallPermissions().then(() => {
+    const identity = store.getters.userId;
+    const credentials = { identity };
+    return initiOperatorSocker(credentials, checkAndUpdateCallsInfo);
+  });
 }
 
 export function disconnectOperator() {

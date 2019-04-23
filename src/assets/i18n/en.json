@@ -184,6 +184,11 @@
   "already.logged.in": "Sorry, you are already connected",
   "operator.connecting.error": "Sorry, we can not connect you",
   "callback.requesting.failed": "Unable to call back",
+  "call.permissions.popup.title":
+    "Please, allow next permissions and reload page",
+  "call.permissions.popup.video": "Camera",
+  "call.permissions.popup.audio": "Microphone",
+  "call.permissions.popup.notifications": "Notifications",
 
   "login.forgot": "Forgot?",
   "back.to.login": "Back to Login",

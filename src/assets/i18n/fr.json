@@ -185,6 +185,11 @@
   "callback.requesting.failed": "TBD Unable to call back",
   "already.logged.in": "TBD Sorry, you are already connected",
   "operator.connecting.error": "TBD Sorry, we can not connect you",
+  "call.permissions.popup.title":
+    "TBD Please, allow next permissions and reload page",
+  "call.permissions.popup.video": "TBD Camera",
+  "call.permissions.popup.audio": "TBD Microphone",
+  "call.permissions.popup.notifications": "TBD Notifications",
 
   "login.forgot": "TBD Forgot?",
   "back.to.login": "TBD Back to Login",
