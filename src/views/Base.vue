@@ -49,8 +49,4 @@
   flex-shrink: 1;
   background-color: $content-background-color;
 }
-
-.incoming-call {
-  // position: absolute;
-}
 </style>

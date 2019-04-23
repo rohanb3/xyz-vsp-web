@@ -172,6 +172,7 @@
     "Call was answered by other operator",
   "incoming.call.popup.call.accepting.failed":
     "Sorry, call can not be accepted",
+  "incoming.call.popup.call.finished.by.customer": "User finished call",
   "link.to.download": "Link to download",
   "extension.for.sharing.screen.not.installed":
     "The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
@@ -183,22 +184,32 @@
   "already.logged.in": "Sorry, you are already connected",
   "operator.connecting.error": "Sorry, we can not connect you",
   "callback.requesting.failed": "Unable to call back",
+  "call.permissions.popup.title":
+    "Please, allow next permissions and reload page",
+  "call.permissions.popup.video": "Camera",
+  "call.permissions.popup.audio": "Microphone",
+  "call.permissions.popup.notifications": "Notifications",
 
   "login.forgot": "Forgot?",
   "back.to.login": "Back to Login",
   "password.recovery": "Password recovery",
   "send.me.code": "Send code",
   "verification.code": "Verification code",
-  "we.sended.verification.code": "We sended verification code to your email. Please enter it bellow.",
+  "we.sended.verification.code":
+    "We sended verification code to your email. Please enter it bellow.",
   "code.must.be": "Code must be from 0 to 9",
   "resend.code": "Resend code",
   "login.submit": "Submit",
   "reset.password": "Reset Password",
   "confirm.new.password": "Confirm new password",
-  "password.must.be.at.least.8.chracters": "Password must be at least 8 chracters",
+  "password.must.be.at.least.8.chracters":
+    "Password must be at least 8 chracters",
   "password.do.not.match": "Password do not match",
-  "enter.your.new.password": "Please, enter your new password and confirm it to reset",
+  "enter.your.new.password":
+    "Please, enter your new password and confirm it to reset",
   "invalid.code.entered": "Invalid code entered",
-  "we.sended.verification.code.again": "We sended verification code to your email",
-  "password.must.contain.capital.letter": "Password must contain at least 1 capital letter"
+  "we.sended.verification.code.again":
+    "We sended verification code to your email",
+  "password.must.contain.capital.letter":
+    "Password must contain at least 1 capital letter"
 }

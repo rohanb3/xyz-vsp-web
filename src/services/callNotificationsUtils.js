@@ -1,19 +1,7 @@
-const STATUS_NOT_REQUESTED = 'default';
-const STATUS_GRANTED = 'granted';
-const STATUS_DENIED = 'denied';
-const STATUS_ENABLED = 'enabled';
-const STATUS_DISABLED = 'disabled';
-
-export const statuses = {
-  NOT_REQUESTED: STATUS_NOT_REQUESTED,
-  GRANTED: STATUS_GRANTED,
-  DENIED: STATUS_DENIED,
-  ENABLED: STATUS_ENABLED,
-  DISABLED: STATUS_DISABLED,
-};
+import { statuses } from '@/constants/permissions';
 
 export function isGranted() {
-  return Notification.permission === STATUS_GRANTED;
+  return Notification.permission === statuses.GRANTED;
 }
 
 export function isEnabled() {
@@ -21,5 +9,5 @@ export function isEnabled() {
 }
 
 export function requestPermission() {
-  return Notification.requestPermission();
+  return isGranted ? Notification.requestPermission() : Promise.resolve(statuses.GRANTED);
 }

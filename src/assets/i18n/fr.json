@@ -172,6 +172,7 @@
     "TBD Call was answered by other operator",
   "incoming.call.popup.call.accepting.failed":
     "TBD Sorry, call can not be accepted",
+  "incoming.call.popup.call.finished.by.customer": "TBD User finished call",
   "link.to.download": "TBD Link to download",
   "extension.for.sharing.screen.not.installed":
     "TBD The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
@@ -184,22 +185,32 @@
   "callback.requesting.failed": "TBD Unable to call back",
   "already.logged.in": "TBD Sorry, you are already connected",
   "operator.connecting.error": "TBD Sorry, we can not connect you",
+  "call.permissions.popup.title":
+    "TBD Please, allow next permissions and reload page",
+  "call.permissions.popup.video": "TBD Camera",
+  "call.permissions.popup.audio": "TBD Microphone",
+  "call.permissions.popup.notifications": "TBD Notifications",
 
   "login.forgot": "TBD Forgot?",
   "back.to.login": "TBD Back to Login",
   "password.recovery": "TBD Password recovery",
   "send.me.code": "TBD Send code",
   "verification.code": "TBD Verification code",
-  "we.sended.verification.code": "TBD We sended verification code to your email. Please enter it bellow.",
+  "we.sended.verification.code":
+    "TBD We sended verification code to your email. Please enter it bellow.",
   "code.must.be": "TBD Code must be from 0 to 9",
   "resend.code": "TBD Resend code",
   "login.submit": "TBD Submit",
   "reset.password": "TBD Reset Password",
   "confirm.new.password": "TBD Confirm new password",
-  "password.must.be.at.least.8.chracters": "TBD Password must be at least 8 chracters",
+  "password.must.be.at.least.8.chracters":
+    "TBD Password must be at least 8 chracters",
   "password.do.not.match": "TBDPassword do not match",
-  "enter.your.new.password": "TBD Please, enter your new password and confirm it to reset",
+  "enter.your.new.password":
+    "TBD Please, enter your new password and confirm it to reset",
   "invalid.code.entered": "TBD Invalid code entered",
-  "we.sended.verification.code.again": "TBD We sended verification code to your email",
-  "password.must.contain.capital.letter": "TBD Password must contain at least 1 capital letter"
+  "we.sended.verification.code.again":
+    "TBD We sended verification code to your email",
+  "password.must.contain.capital.letter":
+    "TBD Password must contain at least 1 capital letter"
 }

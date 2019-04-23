@@ -2,11 +2,28 @@
   <!-- important: this popup must be rafactored. Current realization is for release only -->
   <v-layout row justify-center v-cssBlurOverlay v-if="isDialogShown">
     <v-dialog content-class="incoming-call-popup" v-model="isDialogShown" persistent>
-      <div class="initializing-error-content" v-if="initializingError">
+      <div v-if="initializingError" class="initializing-error-content">
         <p>{{ initializingError }}</p>
       </div>
+
+      <div v-else-if="permissionsError" class="permissions-error">
+        <div class="error-icon">
+          <v-icon large color="error">error_outline</v-icon>
+        </div>
+        <div>{{ $t(permissionsError) }}</div>
+        <ul class="blocked-permissions-list">
+          <li
+            v-for="permission in blockedPermissions"
+            :key="permission"
+            class="blocked-permission"
+          >
+            {{ $t(`call.permissions.popup.${permission}`) }}
+          </li>
+        </ul>
+      </div>
+
       <div v-else class="popup-content" :style="{backgroundImage: backgroundImage}">
-        <div v-if="!connectInProgress && !connectingError && !initializingError" class="incoming-call-info">
+        <div v-if="isPendingCallDataShown" class="incoming-call-info">
           <div class="call-from-company-name">
             <span>{{$t('incoming.call.popup')}}</span>
             <br>
@@ -49,6 +66,7 @@ import { NOTIFICATION_DURATION } from '@/constants/notifications';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 import { EXTENSION_URL } from '@/constants/twilio';
 import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
+import { errorMessages as permissionErrors } from '@/constants/permissions';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
 
 export default {
@@ -68,6 +86,8 @@ export default {
       connectInProgress: false,
       connectingError: null,
       initializingError: null,
+      permissionsError: null,
+      blockedPermissions: [],
     };
   },
   computed: {
@@ -92,10 +112,19 @@ export default {
     },
     isDialogShown() {
       return (
+        this.permissionsError ||
         this.initializingError ||
         this.connectInProgress ||
         this.connectingError ||
         (this.isOperatorIdle && this.isAnyPendingCall)
+      );
+    },
+    isPendingCallDataShown() {
+      return (
+        !this.permissionsError &&
+        !this.initializingError &&
+        !this.connectInProgress &&
+        !this.connectingError
       );
     },
     companyName() {
@@ -135,8 +164,13 @@ export default {
     },
   },
   mounted() {
-    initializeOperator().catch(err => {
-      this.initializingError = this.$t(err.message);
+    initializeOperator().catch(({ message, blockedPermissions = [] }) => {
+      if (message === permissionErrors.PERMISSIONS_BLOCKED) {
+        this.permissionsError = this.$t('call.permissions.popup.title');
+        this.blockedPermissions = blockedPermissions;
+      } else {
+        this.initializingError = this.$t(message);
+      }
     });
     this.$store.dispatch(CHECK_EXTENSION_IS_INSTALLED);
   },
@@ -160,6 +194,8 @@ export default {
     onCallAcceptingFailed(error) {
       if (error.message === errors.CALLS_EMPTY) {
         this.connectingError = this.$t('incoming.call.popup.call.was.answered');
+      } else if (error.message === errors.CALL_FINISED_BY_CUSTOMER) {
+        this.connectingError = this.$t('incoming.call.popup.call.finished.by.customer');
       } else {
         this.connectingError = this.$t('incoming.call.popup.call.accepting.failed');
       }
@@ -296,5 +332,20 @@ export default {
   font-size: 24px;
   color: $base-white;
   text-align: center;
+}
+
+.permissions-error {
+  padding: 10px;
+
+  .error-icon {
+    width: 100%;
+    text-align: center;
+  }
+
+  .blocked-permissions-list {
+    margin-top: 20px;
+    list-style-type: circle;
+    padding-left: 20px;
+  }
 }
 </style>
