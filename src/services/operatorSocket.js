@@ -35,9 +35,8 @@ export function notifyAboutAcceptingCall() {
   return new Promise((resolve, reject) => {
     socket.emit(events.CALL_ACCEPTED);
     socket.once(events.ROOM_CREATED, resolve);
-    socket.once(events.CALLS_EMPTY, () => reject(new Error(errorMessages.CALLS_EMPTY)));
-    socket.once(events.CALL_ACCEPTING_FAILED, () =>
-      reject(new Error(errorMessages.CALL_ACCEPTING_FAILED))
+    socket.once(events.CALL_ACCEPTING_FAILED, data =>
+      reject(new Error(data.reason || errorMessages.CALL_ACCEPTING_FAILED))
     );
   });
 }

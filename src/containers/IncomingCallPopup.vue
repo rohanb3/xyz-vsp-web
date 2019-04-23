@@ -160,6 +160,8 @@ export default {
     onCallAcceptingFailed(error) {
       if (error.message === errors.CALLS_EMPTY) {
         this.connectingError = this.$t('incoming.call.popup.call.was.answered');
+      } else if (error.message === errors.CALL_FINISED_BY_CUSTOMER) {
+        this.connectingError = this.$t('incoming.call.popup.call.finished.by.customer');
       } else {
         this.connectingError = this.$t('incoming.call.popup.call.accepting.failed');
       }
