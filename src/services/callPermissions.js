@@ -2,7 +2,7 @@
 
 import { requestPermission as requestNotificationsPermission } from '@/services/callNotificationsUtils';
 import { requestPermission as requestUserMediaPermission } from '@/services/userMediaPermissions';
-import { statuses } from '@/constants/permissions';
+import { statuses, errorMessages } from '@/constants/permissions';
 
 export function checkAndRequestCallPermissions() {
   const permissions = {};
@@ -22,5 +22,14 @@ export function checkAndRequestCallPermissions() {
       permissions.audio = false;
       permissions.video = false;
     })
-    .then(() => permissions);
+    .then(() => {
+      const blockedPermissions = Object.keys(permissions).filter(key => !permissions[key]);
+      const isAnyBlockedPermission = blockedPermissions.length;
+      if (isAnyBlockedPermission) {
+        const error = new Error(errorMessages.PERMISSIONS_BLOCKED);
+        error.blockedPermissions = blockedPermissions;
+        return Promise.reject(error);
+      }
+      return Promise.resolve();
+    });
 }

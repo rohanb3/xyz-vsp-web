@@ -14,9 +14,6 @@
     <router-view
       class="incoming-call"
       name="incomingCall"/>
-    <router-view
-      class="disabled-permissions"
-      name="disabledPermissions"/>
   </div>
 </template>
 
@@ -51,9 +48,5 @@
   flex-grow: 1;
   flex-shrink: 1;
   background-color: $content-background-color;
-}
-
-.incoming-call {
-  // position: absolute;
 }
 </style>

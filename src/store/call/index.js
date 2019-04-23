@@ -13,7 +13,6 @@ const state = {
     size: 0,
   },
   screenSharingExtension: false,
-  permissions: {},
 };
 
 export default {

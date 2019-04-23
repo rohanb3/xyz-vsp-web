@@ -4,7 +4,6 @@ import {
   SET_CALL_DATA,
   SET_PENDING_CALLS_INFO,
   SET_EXTENSION_AVAILABILITY,
-  SET_CALL_PERMISSIONS,
 } from './mutationTypes';
 
 export default {
@@ -28,9 +27,6 @@ export default {
   },
   [SET_EXTENSION_AVAILABILITY](state, installed) {
     state.screenSharingExtension = installed;
-  },
-  [SET_CALL_PERMISSIONS](state, permissions) {
-    state.permissions = permissions;
   },
   /* eslint-enable no-param-reassign */
 };
