@@ -1,13 +1,13 @@
 <template>
   <div class="video-call-wrapper" v-cssBlurOverlay>
-    <v-dialog :content-class="'video-call'" v-model="show" persistent>
+    <v-dialog v-model="show" :content-class="dialogClassList" persistent>
     <div v-show="isCallActive" class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
         <p>{{ $t('video.off') }}</p>
       </div>
     </div>
 
-    <div class="remote-media" ref="remoteMedia"/>
+    <div v-show="isCallActive" class="remote-media" ref="remoteMedia"/>
     <notifications group="call-notifications" />
     <video-call-controls
       v-show="isCallActive"
@@ -115,6 +115,15 @@ export default {
     },
     callDispositions() {
       return this.$store.getters.dispositions;
+    },
+    dialogClassList() {
+      const defaultList = ['video-call'];
+
+      if (!this.isCallActive) {
+        defaultList.push('finished');
+      }
+
+      return defaultList;
     },
   },
   mounted() {
@@ -330,6 +339,7 @@ export default {
 
 <style lang="scss">
 @import '~@/assets/styles/variables.scss';
+
 .video-call {
   margin-top: 65px;
   margin-left: 50px;
@@ -337,6 +347,10 @@ export default {
   width: 100%;
   position: relative;
   border-radius: 8px;
+
+  &.finished {
+    background: transparent;
+  }
 
   .local-media {
     max-width: $call-local-media-width;

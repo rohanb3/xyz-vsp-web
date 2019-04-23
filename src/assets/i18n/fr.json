@@ -172,6 +172,7 @@
     "TBD Call was answered by other operator",
   "incoming.call.popup.call.accepting.failed":
     "TBD Sorry, call can not be accepted",
+  "incoming.call.popup.call.finished.by.customer": "TBD User finished call",
   "link.to.download": "TBD Link to download",
   "extension.for.sharing.screen.not.installed":
     "TBD The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
