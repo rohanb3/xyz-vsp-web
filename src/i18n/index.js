@@ -8,10 +8,13 @@ import 'moment/locale/fr';
 import en from '@/assets/i18n/en.json';
 import de from '@/assets/i18n/de.json';
 import fr from '@/assets/i18n/fr.json';
+import es from '@/assets/i18n/es.json';
 
 Vue.use(VueI18n);
 
-export const DEFAULT_LANGUAGE = process.env.VUE_APP_I18N_LOCALE || 'en';
+const pickLang = languageRaw => languageRaw.slice(0, 2);
+
+export const DEFAULT_LANGUAGE = pickLang(navigator.language) || 'en';
 
 const i18n = new VueI18n({
   locale: DEFAULT_LANGUAGE,
@@ -20,6 +23,7 @@ const i18n = new VueI18n({
     en,
     de,
     fr,
+    es,
   },
 });
 
@@ -32,3 +36,7 @@ export function setLang(lang) {
 }
 
 export default i18n;
+
+const onLanguageChanged = () => setLang(pickLang(navigator.language));
+
+window.addEventListener('languagechange', onLanguageChanged);
