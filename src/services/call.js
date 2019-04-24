@@ -17,6 +17,7 @@ import {
   disconnect as disconnectFromSocket,
   notifyAboutChangingStatusToOnline,
   notifyAboutChangingStatusToOffline,
+  listenToCallFinishing,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import { VIDEO } from '@/constants/twilio';
@@ -47,17 +48,19 @@ export function disconnectOperator() {
 export function acceptCall() {
   setConnectingStatus();
 
-  return notifyAboutAcceptingCall()
-    .then(({ token, ...call }) => {
-      const credentials = { name: call.id, token };
-      const handlers = {
-        onRoomEmptied,
-      };
-      const media = { [VIDEO]: true };
-      store.commit(SET_CALL_DATA, call);
-      setToken(token);
-      return connectToRoom(credentials, { media, handlers });
-    })
+  const roomConnectionPromise = notifyAboutAcceptingCall().then(({ token, ...call }) => {
+    const credentials = { name: call.id, token };
+    const handlers = {
+      onRoomEmptied,
+    };
+    const media = { [VIDEO]: true };
+    store.commit(SET_CALL_DATA, call);
+    setToken(token);
+    return connectToRoom(credentials, { media, handlers });
+  });
+  const callFinishingPromise = listenToCallFinishing();
+
+  return Promise.race([roomConnectionPromise, callFinishingPromise])
     .then(setOnCallOperatorStatus)
     .catch(onCallAcceptingFailed);
 }

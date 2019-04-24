@@ -66,3 +66,13 @@ export function notifyAboutChangingStatusToOnline() {
 export function notifyAboutChangingStatusToOffline() {
   socket.emit(events.STATUS_CHANGED_OFFLINE);
 }
+
+export function listenToCallFinishing() {
+  return new Promise((resolve, reject) => {
+    const onCallFinished = () => {
+      socket.off(onCallFinished);
+      reject(new Error(errorMessages.CALL_FINISED_BY_CUSTOMER));
+    };
+    socket.once(events.CALL_FINISHED, onCallFinished);
+  });
+}
