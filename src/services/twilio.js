@@ -10,6 +10,7 @@ const remoteTracks = new Set();
 let activeRoom = null;
 let extensionInstalled = false;
 let onLastParticipantDisconnected = null;
+let disconnectAfterConnection = false;
 
 const TRACK_SUBSCRIBED = 'trackSubscribed';
 const TRACK_UNSUBSCRIBED = 'trackUnsubscribed';
@@ -20,6 +21,7 @@ const DISCONNECTED = 'disconnected';
 
 export function connect({ name, token }, { media = {}, handlers = {} }) {
   onLastParticipantDisconnected = handlers.onRoomEmptied || (() => {});
+  disconnectAfterConnection = false;
 
   if (!activeRoom) {
     const previewPromises = [];
@@ -121,6 +123,8 @@ export function detachTracks(tracks) {
 export function disconnect() {
   if (activeRoom) {
     activeRoom.disconnect();
+  } else {
+    disconnectAfterConnection = true;
   }
 }
 
@@ -178,6 +182,12 @@ export function getCachedRemoteTracks() {
  */
 
 function onRoomJoined(room) {
+  if (disconnectAfterConnection) {
+    disconnectAfterConnection = false;
+    room.disconnect();
+    onRoomDisconnected();
+    return Promise.resolve(null);
+  }
   return new Promise(resolve => {
     activeRoom = room;
 
