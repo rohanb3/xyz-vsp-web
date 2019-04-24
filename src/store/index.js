@@ -6,6 +6,7 @@ import loggedInUser from './loggedInUser';
 import storage from './storage';
 import tables from './tables';
 import call from './call';
+import network from './network';
 
 Vue.use(Vuex);
 
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     storage,
     tables,
     call,
+    network,
   },
   plugins: [persistedStatePlugin],
   strict: debug,

@@ -17,6 +17,31 @@
   </v-app>
 </template>
 
+<script>
+import {
+  init,
+  registerOnlineListener,
+  registerOfflineListener,
+} from '@/services/networkStatus';
+import { SET_NETWORK_STATUS } from '@/store/network/mutationTypes';
+
+export default {
+  mounted() {
+    registerOnlineListener(this.setOnlineStatus);
+    registerOfflineListener(this.setOfflineStatus);
+    init();
+  },
+  methods: {
+    setOnlineStatus() {
+      this.$store.commit(SET_NETWORK_STATUS, true);
+    },
+    setOfflineStatus() {
+      this.$store.commit(SET_NETWORK_STATUS, false);
+    },
+  },
+};
+</script>
+
 <style src="./assets/styles/reset.css">
 </style>
 <style lang="scss" src="./assets/styles/common.scss">

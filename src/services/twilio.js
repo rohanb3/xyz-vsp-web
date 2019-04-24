@@ -18,6 +18,8 @@ const TRACK_STARTED = 'trackStarted';
 const PARTICIPANT_CONNECTED = 'participantConnected';
 const PARTICIPANT_DISCONNECTED = 'participantDisconnected';
 const DISCONNECTED = 'disconnected';
+const RECONNECTING = 'reconnecting';
+const RECONNECTED = 'reconnected';
 
 export function connect({ name, token }, { media = {}, handlers = {} }) {
   onLastParticipantDisconnected = handlers.onRoomEmptied || (() => {});
@@ -216,10 +218,15 @@ function onRoomConnectionFailed(err) {
   });
 }
 
-function onRoomDisconnected() {
-  disableLocalPreview();
-  disableScreenShare();
-  activeRoom = null;
+function onRoomDisconnected(room, err) {
+  if (err) {
+    console.log('room disconnected with error', err && err.code);
+  } else {
+    console.log('roomDisconnected normally');
+    disableLocalPreview();
+    disableScreenShare();
+    activeRoom = null;
+  }
 }
 
 function handleRemoteParticipantAdding(participant, resolve) {

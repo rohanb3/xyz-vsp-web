@@ -37,7 +37,9 @@
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
     />
-        </v-dialog>
+
+    <call-reconnecting-badge v-if="!isOnline"class="call-reconnecting-badge" />
+    </v-dialog>
   </div>
 </template>
 
@@ -66,6 +68,7 @@ import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
+import CallReconnectingBadge from '@/components/CallReconnectingBadge';
 
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
@@ -74,6 +77,7 @@ export default {
   components: {
     CallFeedbackPopup,
     VideoCallControls,
+    CallReconnectingBadge,
   },
   directives: {
     cssBlurOverlay,
@@ -124,6 +128,8 @@ export default {
       }
 
       return defaultList;
+    isOnline() {
+      return this.$store.getters.isOnline;
     },
   },
   mounted() {
@@ -186,7 +192,9 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
+      return this.isScreenSharingOn
+        ? disableScreenShare()
+        : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -385,6 +393,13 @@ export default {
     flex-flow: row;
     justify-content: center;
     align-items: center;
+  }
+
+  .call-reconnecting-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>
