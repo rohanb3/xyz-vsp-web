@@ -227,7 +227,7 @@ function onRoomDisconnected() {
 }
 
 function handleRemoteParticipantAdding(participant, resolve) {
-  const tracks = Array.from(participant.tracks.values());
+  const tracks = Array.from(participant.tracks.values()).filter(track => !!track);
   tracks.forEach(track => {
     if (track.kind === VIDEO && track.isStarted) {
       resolve();
@@ -238,8 +238,10 @@ function handleRemoteParticipantAdding(participant, resolve) {
 }
 
 function onTrackSubscribed(track) {
-  remoteTracks.add(track);
-  emitRemoteTracksAdding([track]);
+  if (track) {
+    remoteTracks.add(track);
+    emitRemoteTracksAdding([track]);
+  }
 }
 
 function onTrackUnsubscribed(track) {
