@@ -206,6 +206,10 @@ function onRoomJoined(room) {
     room.on(PARTICIPANT_DISCONNECTED, onParticipantDisconnected);
     room.on(DISCONNECTED, onRoomDisconnected);
     room.on(TRACK_STARTED, track => onTrackStarted(track, roomResolver));
+
+    if (localStorage.getItem('GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO')) {
+      roomResolver();
+    }
   });
 }
 

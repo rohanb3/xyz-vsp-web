@@ -69,6 +69,8 @@ import VideoCallControls from '@/components/VideoCallControls';
 
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
+const VOLUME_GAIN = 10;
+
 export default {
   name: 'VideoCall',
   components: {
@@ -85,7 +87,8 @@ export default {
       isMicrophoneOn: false,
       isSoundOn: true,
       isScreenSharingOn: false,
-      volume: 0.5,
+      volume: 1,
+      volumeGainer: null,
       counter: 0,
       interval: null,
       isFeedbackPopupShown: false,
@@ -190,11 +193,13 @@ export default {
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
-      this.volume = this.isSoundOn ? 0.5 : 0;
+      this.volume = this.isSoundOn ? 1 : 0;
+      this.volumeGainer.value = this.volume * VOLUME_GAIN;
       this.updateAudioVolume();
     },
     changeVolumeLevel(value) {
       this.volume = value;
+      this.volumeGainer.value = this.volume * VOLUME_GAIN;
       this.updateAudioVolume();
     },
     updateAudioVolume() {
@@ -205,6 +210,19 @@ export default {
       const localAudio = this.$refs.localMedia.querySelector('audio');
       if (localAudio) {
         localAudio.volume = this.volume;
+      }
+    },
+    gainRemoteAudioVolume() {
+      const remoteAudio = this.$refs.remoteMedia.querySelector('audio');
+      if (remoteAudio) {
+        const audioCtx = new AudioContext();
+        const audioStream = remoteAudio.captureStream();
+        const source = audioCtx.createMediaStreamSource(audioStream);
+        const gainNode = audioCtx.createGain();
+        gainNode.gain.value = VOLUME_GAIN;
+        gainNode.connect(audioCtx.destination);
+        source.connect(gainNode);
+        this.volumeGainer = gainNode.gain;
       }
     },
     saveFeedback(feedback) {
@@ -297,6 +315,11 @@ export default {
       this.handleTracksAdding(tracks, this.$refs.localMedia);
     },
     handleRemoteTracksAdding(tracks) {
+      tracks.forEach(track => {
+        if (track.kind === AUDIO) {
+          setTimeout(this.gainRemoteAudioVolume);
+        }
+      });
       this.handleTracksAdding(tracks, this.$refs.remoteMedia);
     },
     handleLocalTracksRemoving(tracks) {
