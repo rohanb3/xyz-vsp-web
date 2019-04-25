@@ -23,7 +23,7 @@
     "register-service-worker": "^1.6.2",
     "service-worker-command-bridge": "^2.0.0",
     "socket.io-client": "^2.2.0",
-    "twilio-video": "^1.14.2",
+    "twilio-video": "^2.0.0-beta8",
     "v-hotkey": "^0.3.0",
     "vue": "^2.5.17",
     "vue-airbnb-style-datepicker": "^2.4.1",
