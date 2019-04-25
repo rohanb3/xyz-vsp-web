@@ -52,6 +52,7 @@ export function acceptCall() {
     const credentials = { name: call.id, token };
     const handlers = {
       onRoomEmptied,
+      onRoomConnectionLost,
     };
     const media = { [VIDEO]: true };
     store.commit(SET_CALL_DATA, call);
@@ -63,6 +64,20 @@ export function acceptCall() {
   return Promise.race([roomConnectionPromise, callFinishingPromise])
     .then(setOnCallOperatorStatus)
     .catch(onCallAcceptingFailed);
+}
+
+export function reconnect() {
+  const { token, activeCallData } = store.state.call;
+  const credentials = {
+    name: activeCallData.id,
+    token,
+  };
+  const handlers = {
+    onRoomEmptied,
+    onRoomConnectionLost,
+  };
+  const media = { [VIDEO]: true };
+  return connectToRoom(credentials, { media, handlers });
 }
 
 export function finishCall() {
@@ -81,6 +96,7 @@ export function callBack() {
       const credentials = { name: call.id, token: store.state.call.token };
       const handlers = {
         onRoomEmptied,
+        onRoomConnectionLost,
       };
       store.commit(SET_CALL_DATA, call);
       return connectToRoom(credentials, { handlers });
@@ -103,6 +119,10 @@ export function setOfflineStatus() {
 function onRoomEmptied() {
   notifyAboutLeavingRoomEmpty();
   setFinishedCallOperatorStatus();
+}
+
+function onRoomConnectionLost() {
+  console.log('connection lost');
 }
 
 // store actors

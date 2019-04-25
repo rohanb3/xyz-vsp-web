@@ -1,7 +1,10 @@
 <template>
   <div class="call-reconnecting-badge">
-    <p>Some problems with your connection.</p>
-    <p>Trying to reconnect....</p>
+    <p>Problems with connection. Reconnecting...</p>
+    <v-progress-circular
+      indeterminate
+      color="primary"
+      size="60" />
   </div>
 </template>
 
@@ -13,14 +16,21 @@ export default {
 
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
+
 .call-reconnecting-badge {
-  width: 300px;
-  height: 200px;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  height: 150px;
+  background-image: radial-gradient(
+    circle at 50% 0,
+    #737373,
+    #4a4a4a 85%,
+    #3b3b3b
+  );
+  font-size: 24px;
+  color: $base-white;
   text-align: center;
-  background-color: $call-remote-media-background-color;
 }
 </style>

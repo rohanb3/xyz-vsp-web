@@ -38,14 +38,16 @@
       @callback="requestCallback"
     />
 
-    <call-reconnecting-badge v-if="!isOnline"class="call-reconnecting-badge" />
+    <v-dialog :value="!connectedToRoom" persistent hide-overlay>
+      <call-connecting-loader />
+    </v-dialog>
     </v-dialog>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-import { finishCall, callBack } from '@/services/call';
+import { finishCall, callBack, reconnect } from '@/services/call';
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import {
   enableLocalVideo,
@@ -69,6 +71,7 @@ import { operatorStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
 import CallReconnectingBadge from '@/components/CallReconnectingBadge';
+import CallConnectingLoader from '@/components/CallConnectingLoader';
 
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
@@ -78,12 +81,17 @@ export default {
     CallFeedbackPopup,
     VideoCallControls,
     CallReconnectingBadge,
+    CallConnectingLoader,
   },
   directives: {
     cssBlurOverlay,
   },
   data() {
     return {
+      connectedToRoom: true,
+      connectingToRoom: false,
+      localParticipantNetworkLevel: 5,
+      remoteParticipantNetworkLevel: 5,
       show: true,
       isCameraOn: false,
       isMicrophoneOn: false,
@@ -101,6 +109,10 @@ export default {
       localTracksRemovingUnsubscriber: null,
       remoteTracksAddingUnsubscriber: null,
       remoteTracksRemovingUnsubscriber: null,
+      localParticipantNetworkLevelUnsubscriber: null,
+      remoteParticipantNetworkLevelUnsubscriber: null,
+      roomReconnectingUnsubscriber: null,
+      roomReconnectedUnsubscriber: null,
     };
   },
   computed: {
@@ -128,6 +140,7 @@ export default {
       }
 
       return defaultList;
+    },
     isOnline() {
       return this.$store.getters.isOnline;
     },
@@ -146,6 +159,15 @@ export default {
       if (!val && old) {
         this.deactivateCallTimer();
         this.showFeedbackPopup();
+      }
+    },
+    isOnline(val) {
+      if (!val) {
+        this.connectedToRoom = false;
+        this.connectingToRoom = true;
+      } else {
+        this.connectingToRoom = false;
+        // reconnect().then(console.log);
       }
     },
   },
@@ -206,6 +228,31 @@ export default {
       this.updateAudioVolume();
     },
     updateAudioVolume() {
+      const remoteVideo = this.$refs.remoteMedia.querySelector('video');
+      console.log(remoteVideo);
+      if (remoteVideo) {
+        remoteVideo.addEventListener('pause', ev =>
+          console.log('video paused', ev)
+        );
+        remoteVideo.addEventListener('waiting', ev =>
+          console.log('video waiting', ev)
+        );
+        remoteVideo.addEventListener('ratechange', ev =>
+          console.log('video ratechange', ev)
+        );
+        remoteVideo.addEventListener('suspend', ev =>
+          console.log('video suspend', ev)
+        );
+        remoteVideo.addEventListener('abort', ev =>
+          console.log('video abort', ev)
+        );
+        remoteVideo.addEventListener('ended', ev =>
+          console.log('video ended', ev)
+        );
+        remoteVideo.addEventListener('eror', ev =>
+          console.log('video error', ev)
+        );
+      }
       const remoteAudio = this.$refs.remoteMedia.querySelector('audio');
       if (remoteAudio) {
         remoteAudio.volume = this.volume;
@@ -291,6 +338,26 @@ export default {
         TWILIO_EVENTS.SCREEN_UNSHARED,
         this.handleScreenShareRemoving
       );
+
+      this.localParticipantNetworkLevelUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.LOCAL_PARTICIPANT_NETWORK_LEVEL_CHANGED,
+        this.handleLocalParticipantNetworkLevelChanging
+      );
+
+      this.remoteParticipantNetworkLevelUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.REMOTE_PARTICIPANT_NETWORK_LEVEL_CHANGED,
+        this.handleRemoteParticipantNetworkLevelChanging
+      );
+
+      this.roomReconnectingUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.RECONNECTING,
+        this.handleRoomReconnecting
+      );
+
+      this.roomReconnectedUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.RECONNECTED,
+        this.handleRoomReconnected
+      );
     },
     unsubscribeFromTwilioEvents() {
       this.localTracksAddingUnsubscriber();
@@ -299,6 +366,10 @@ export default {
       this.remoteTracksRemovingUnsubscriber();
       this.screenShareAddingUnsubscriber();
       this.screenShareRemovingUnsubscriber();
+      this.localParticipantNetworkLevelUnsubscriber();
+      this.remoteParticipantNetworkLevelUnsubscriber();
+      this.roomReconnectingUnsubscriber();
+      this.roomReconnectedUnsubscriber();
     },
     handleLocalTracksAdding(tracks) {
       tracks.forEach(this.updatePreviewControlsByAddedLocalTrack);
@@ -324,6 +395,23 @@ export default {
     },
     handleScreenShareRemoving() {
       this.isScreenSharingOn = false;
+    },
+    handleLocalParticipantNetworkLevelChanging(level) {
+      console.log('local level changed: ', level);
+      this.localParticipantNetworkLevel = level;
+    },
+    handleRemoteParticipantNetworkLevelChanging(level) {
+      console.log('remote level changed: ', level);
+      this.remoteParticipantNetworkLevel = level;
+    },
+    handleRoomReconnecting() {
+      console.log('room reconnecting');
+      this.connectingToRoom = true;
+    },
+    handleRoomReconnected() {
+      console.log('room reconnected');
+      this.connectingToRoom = false;
+      this.connectedToRoom = true;
     },
     updatePreviewControlsByAddedLocalTrack(track) {
       if (track.kind === VIDEO) {

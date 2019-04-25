@@ -9,7 +9,8 @@ const previewTracks = {};
 const remoteTracks = new Set();
 let activeRoom = null;
 let extensionInstalled = false;
-let onLastParticipantDisconnected = null;
+let onLastParticipantDisconnected = () => {};
+let onRoomConnectionLost = () => {};
 let disconnectAfterConnection = false;
 
 const TRACK_SUBSCRIBED = 'trackSubscribed';
@@ -20,9 +21,11 @@ const PARTICIPANT_DISCONNECTED = 'participantDisconnected';
 const DISCONNECTED = 'disconnected';
 const RECONNECTING = 'reconnecting';
 const RECONNECTED = 'reconnected';
+const NETWORK_QUALITY_LEVEL_CHANGED = 'networkQualityLevelChanged';
 
 export function connect({ name, token }, { media = {}, handlers = {} }) {
-  onLastParticipantDisconnected = handlers.onRoomEmptied || (() => {});
+  onLastParticipantDisconnected = handlers.onRoomEmptied || onLastParticipantDisconnected;
+  onRoomConnectionLost = handlers.onRoomConnectionLost || onRoomConnectionLost;
   disconnectAfterConnection = false;
 
   if (!activeRoom) {
@@ -38,6 +41,10 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
       .then(() => {
         const connectOptions = {
           name,
+          networkQuality: {
+            local: 3,
+            remote: 3,
+          },
           // logLevel: 'debug',
         };
 
@@ -198,6 +205,8 @@ function onRoomJoined(room) {
     }
     const roomResolver = () => resolve(room);
 
+    room.localParticipant.on(NETWORK_QUALITY_LEVEL_CHANGED, onLocalParticipantNetworkLevelChanged);
+
     room.participants.forEach(participant =>
       handleRemoteParticipantAdding(participant, roomResolver)
     );
@@ -208,6 +217,13 @@ function onRoomJoined(room) {
     room.on(PARTICIPANT_DISCONNECTED, onParticipantDisconnected);
     room.on(DISCONNECTED, onRoomDisconnected);
     room.on(TRACK_STARTED, track => onTrackStarted(track, roomResolver));
+    room.on(RECONNECTING, onRoomReconnecting);
+    room.on(RECONNECTED, onRoomReconnected);
+    room.on('recordingStarted', rec => console.log('recordingStarted', rec));
+
+    if (window.GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO) {
+      roomResolver();
+    }
   });
 }
 
@@ -221,6 +237,7 @@ function onRoomConnectionFailed(err) {
 function onRoomDisconnected(room, err) {
   if (err) {
     console.log('room disconnected with error', err && err.code);
+    onRoomConnectionLost();
   } else {
     console.log('roomDisconnected normally');
     disableLocalPreview();
@@ -230,6 +247,8 @@ function onRoomDisconnected(room, err) {
 }
 
 function handleRemoteParticipantAdding(participant, resolve) {
+  participant.on(NETWORK_QUALITY_LEVEL_CHANGED, onRemoteParticipantNetworkLevelChanged);
+  participant.on('trackDisabled', track => console.log('trackDisabled', track));
   const tracks = Array.from(participant.tracks.values());
   tracks.forEach(track => {
     if (track.kind === VIDEO && track.isStarted) {
@@ -241,6 +260,7 @@ function handleRemoteParticipantAdding(participant, resolve) {
 }
 
 function onTrackSubscribed(track) {
+  console.log('TRACK', track);
   remoteTracks.add(track);
   emitRemoteTracksAdding([track]);
 }
@@ -250,7 +270,9 @@ function onTrackUnsubscribed(track) {
   emitRemoteTracksRemoving([track]);
 }
 
-function onParticipantConnected() {
+function onParticipantConnected(participant) {
+  participant.on(NETWORK_QUALITY_LEVEL_CHANGED, onRemoteParticipantNetworkLevelChanged);
+  participant.on('trackDisabled', track => console.log('trackDisabled', track));
   emitParticpantConnecting();
 }
 
@@ -260,6 +282,22 @@ function onParticipantDisconnected() {
     onLastParticipantDisconnected();
     disconnect();
   }
+}
+
+function onRoomReconnecting() {
+  emitRoomReconnecting();
+}
+
+function onRoomReconnected() {
+  emitRoomReconnected();
+}
+
+function onLocalParticipantNetworkLevelChanged(level) {
+  emitLocalParticipantNetworkLevelChanging(level);
+}
+
+function onRemoteParticipantNetworkLevelChanged(level) {
+  emitRemoteParticipantNetworkLevelChanging(level);
 }
 
 function onTrackStarted(track, resolve) {
@@ -381,6 +419,22 @@ function emitParticpantConnecting() {
 
 function emitParticpantDisconnecting() {
   twilioEvents.emit(TWILIO_EVENTS.PARTICIPANT_DISCONNECTED);
+}
+
+function emitRoomReconnecting() {
+  twilioEvents.emit(TWILIO_EVENTS.RECONNECTING);
+}
+
+function emitRoomReconnected() {
+  twilioEvents.emit(TWILIO_EVENTS.RECONNECTED);
+}
+
+function emitLocalParticipantNetworkLevelChanging(level) {
+  twilioEvents.emit(TWILIO_EVENTS.LOCAL_PARTICIPANT_NETWORK_LEVEL_CHANGED, level);
+}
+
+function emitRemoteParticipantNetworkLevelChanging(level) {
+  twilioEvents.emit(TWILIO_EVENTS.REMOTE_PARTICIPANT_NETWORK_LEVEL_CHANGED, level);
 }
 
 /**
