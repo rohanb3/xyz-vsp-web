@@ -10,7 +10,6 @@ const remoteTracks = new Set();
 let activeRoom = null;
 let extensionInstalled = false;
 let onLastParticipantDisconnected = () => {};
-let onRoomConnectionLost = () => {};
 let disconnectAfterConnection = false;
 
 const TRACK_SUBSCRIBED = 'trackSubscribed';
@@ -25,7 +24,6 @@ const NETWORK_QUALITY_LEVEL_CHANGED = 'networkQualityLevelChanged';
 
 export function connect({ name, token }, { media = {}, handlers = {} }) {
   onLastParticipantDisconnected = handlers.onRoomEmptied || onLastParticipantDisconnected;
-  onRoomConnectionLost = handlers.onRoomConnectionLost || onRoomConnectionLost;
   disconnectAfterConnection = false;
 
   if (!activeRoom) {
@@ -234,14 +232,12 @@ function onRoomConnectionFailed(err) {
 }
 
 function onRoomDisconnected(room, err) {
+  disableLocalPreview();
+  disableScreenShare();
+  activeRoom = null;
   if (err) {
-    console.log('room disconnected with error', err && err.code);
-    onRoomConnectionLost();
-  } else {
-    console.log('roomDisconnected normally');
-    disableLocalPreview();
-    disableScreenShare();
-    activeRoom = null;
+    console.log('Room disconnected with error');
+    emitRoomDisconnectWithError();
   }
 }
 
@@ -425,6 +421,10 @@ function emitRoomReconnecting() {
 
 function emitRoomReconnected() {
   twilioEvents.emit(TWILIO_EVENTS.RECONNECTED);
+}
+
+function emitRoomDisconnectWithError() {
+  twilioEvents.emit(TWILIO_EVENTS.DISCONNECTED_WITH_ERROR);
 }
 
 function emitLocalParticipantNetworkLevelChanging(level) {

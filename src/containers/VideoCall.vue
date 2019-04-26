@@ -39,10 +39,12 @@
     />
 
     <call-connection-error-popup
+      v-if="isCallActive"
       :connected="connectedToRoom"
       :connecting="connectingToRoom"
       :local-participant-network-level="localParticipantNetworkLevel"
       :remote-participant-network-level="remoteParticipantNetworkLevel"
+      :remote-video-frozen="remoteVideoFrozen"
     />
     </v-dialog>
   </div>
@@ -50,7 +52,7 @@
 
 <script>
 import moment from 'moment';
-import { finishCall, callBack, reconnect } from '@/services/call';
+import { finishCall, callBack } from '@/services/call';
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import {
   enableLocalVideo,
@@ -95,6 +97,8 @@ export default {
       connectingToRoom: false,
       localParticipantNetworkLevel: 5,
       remoteParticipantNetworkLevel: 5,
+      remoteVideoFrozen: false,
+      remoteVideoFreezingTimer: null,
       show: true,
       isCameraOn: false,
       isMicrophoneOn: false,
@@ -117,6 +121,7 @@ export default {
       remoteParticipantNetworkLevelUnsubscriber: null,
       roomReconnectingUnsubscriber: null,
       roomReconnectedUnsubscriber: null,
+      rooomDisconnectedWithErrorUnsubscriber: null,
     };
   },
   computed: {
@@ -167,11 +172,7 @@ export default {
     },
     isOnline(val) {
       if (!val) {
-        this.connectedToRoom = false;
         this.connectingToRoom = true;
-      } else {
-        this.connectingToRoom = false;
-        // reconnect().then(console.log);
       }
     },
   },
@@ -254,6 +255,18 @@ export default {
         gainNode.connect(audioCtx.destination);
         source.connect(gainNode);
         this.volumeGainer = gainNode.gain;
+      }
+    },
+    subscribeToVideoFreezing() {
+      const remoteVideo = this.$refs.remoteMedia.querySelector('video');
+      if (remoteVideo) {
+        remoteVideo.addEventListener('timeupdate', () => {
+          this.remoteVideoFrozen = false;
+          clearTimeout(this.remoteVideoFreezingTimer);
+          this.remoteVideoFreezingTimer = setTimeout(() => {
+            this.remoteVideoFrozen = true;
+          }, 2000);
+        });
       }
     },
     saveFeedback(feedback) {
@@ -352,6 +365,11 @@ export default {
         TWILIO_EVENTS.RECONNECTED,
         this.handleRoomReconnected
       );
+
+      this.rooomDisconnectedWithErrorUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.DISCONNECTED_WITH_ERROR,
+        this.handleRoomDisconnectedWithError
+      );
     },
     unsubscribeFromTwilioEvents() {
       this.localTracksAddingUnsubscriber();
@@ -364,6 +382,7 @@ export default {
       this.remoteParticipantNetworkLevelUnsubscriber();
       this.roomReconnectingUnsubscriber();
       this.roomReconnectedUnsubscriber();
+      this.rooomDisconnectedWithErrorUnsubscriber();
     },
     handleLocalTracksAdding(tracks) {
       tracks.forEach(this.updatePreviewControlsByAddedLocalTrack);
@@ -373,6 +392,9 @@ export default {
       tracks.forEach(track => {
         if (track.kind === AUDIO) {
           setTimeout(this.gainRemoteAudioVolume);
+        }
+        if (track.kind === VIDEO) {
+          setTimeout(this.subscribeToVideoFreezing);
         }
       });
       this.handleTracksAdding(tracks, this.$refs.remoteMedia);
@@ -411,6 +433,9 @@ export default {
       console.log('room reconnected');
       this.connectingToRoom = false;
       this.connectedToRoom = true;
+    },
+    handleRoomDisconnectedWithError() {
+      this.connectedToRoom = false;
     },
     updatePreviewControlsByAddedLocalTrack(track) {
       if (track.kind === VIDEO) {

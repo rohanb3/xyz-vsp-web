@@ -1,13 +1,18 @@
 <template>
   <v-dialog :value="isPopupShown" content-class="call-reconnection-popup" persistent hide-overlay>
     <div class="popup-content">
-      <call-reconnecting-badge />
+      <div v-if="!connected">
+        Connection lost...
+      </div>
+      <call-reconnecting-badge v-else-if="isLocalConnectionError" />
+      <call-remote-connection-error-badge v-else-if="isRemoteConnectionError" />
     </div>
   </v-dialog>
 </template>
 
 <script>
 import CallReconnectingBadge from '@/components/CallReconnectingBadge';
+import CallRemoteConnectionErrorBadge from '@/components/CallRemoteConnectionErrorBadge';
 
 const DEFAULT_NETWORK_LEVEL = 5;
 
@@ -15,6 +20,7 @@ export default {
   name: 'CallConnectionErrorPopup',
   components: {
     CallReconnectingBadge,
+    CallRemoteConnectionErrorBadge,
   },
   props: {
     connected: {
@@ -33,14 +39,26 @@ export default {
       type: Number,
       default: DEFAULT_NETWORK_LEVEL,
     },
+    remoteVideoFrozen: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isPopupShown() {
       return (
+        this.remoteVideoFrozen ||
+        this.connecting ||
         !this.connected ||
         !this.localParticipantNetworkLevel ||
         !this.remoteParticipantNetworkLevel
       );
+    },
+    isLocalConnectionError() {
+      return this.connecting || !this.localParticipantNetworkLevel;
+    },
+    isRemoteConnectionError() {
+      return this.remoteVideoFrozen || !this.remoteParticipantNetworkLevel;
     },
   },
 };
