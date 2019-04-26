@@ -38,9 +38,12 @@
       @callback="requestCallback"
     />
 
-    <v-dialog :value="!connectedToRoom" persistent hide-overlay>
-      <call-connecting-loader />
-    </v-dialog>
+    <call-connection-error-popup
+      :connected="connectedToRoom"
+      :connecting="connectingToRoom"
+      :local-participant-network-level="localParticipantNetworkLevel"
+      :remote-participant-network-level="remoteParticipantNetworkLevel"
+    />
     </v-dialog>
   </div>
 </template>
@@ -70,8 +73,7 @@ import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
-import CallReconnectingBadge from '@/components/CallReconnectingBadge';
-import CallConnectingLoader from '@/components/CallConnectingLoader';
+import CallConnectionErrorPopup from '@/components/CallConnectionErrorPopup';
 
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
@@ -80,8 +82,7 @@ export default {
   components: {
     CallFeedbackPopup,
     VideoCallControls,
-    CallReconnectingBadge,
-    CallConnectingLoader,
+    CallConnectionErrorPopup,
   },
   directives: {
     cssBlurOverlay,
@@ -228,31 +229,6 @@ export default {
       this.updateAudioVolume();
     },
     updateAudioVolume() {
-      const remoteVideo = this.$refs.remoteMedia.querySelector('video');
-      console.log(remoteVideo);
-      if (remoteVideo) {
-        remoteVideo.addEventListener('pause', ev =>
-          console.log('video paused', ev)
-        );
-        remoteVideo.addEventListener('waiting', ev =>
-          console.log('video waiting', ev)
-        );
-        remoteVideo.addEventListener('ratechange', ev =>
-          console.log('video ratechange', ev)
-        );
-        remoteVideo.addEventListener('suspend', ev =>
-          console.log('video suspend', ev)
-        );
-        remoteVideo.addEventListener('abort', ev =>
-          console.log('video abort', ev)
-        );
-        remoteVideo.addEventListener('ended', ev =>
-          console.log('video ended', ev)
-        );
-        remoteVideo.addEventListener('eror', ev =>
-          console.log('video error', ev)
-        );
-      }
       const remoteAudio = this.$refs.remoteMedia.querySelector('audio');
       if (remoteAudio) {
         remoteAudio.volume = this.volume;

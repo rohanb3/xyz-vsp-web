@@ -219,7 +219,6 @@ function onRoomJoined(room) {
     room.on(TRACK_STARTED, track => onTrackStarted(track, roomResolver));
     room.on(RECONNECTING, onRoomReconnecting);
     room.on(RECONNECTED, onRoomReconnected);
-    room.on('recordingStarted', rec => console.log('recordingStarted', rec));
 
     if (window.GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO) {
       roomResolver();
@@ -248,7 +247,6 @@ function onRoomDisconnected(room, err) {
 
 function handleRemoteParticipantAdding(participant, resolve) {
   participant.on(NETWORK_QUALITY_LEVEL_CHANGED, onRemoteParticipantNetworkLevelChanged);
-  participant.on('trackDisabled', track => console.log('trackDisabled', track));
   const tracks = Array.from(participant.tracks.values());
   tracks.forEach(track => {
     if (track.kind === VIDEO && track.isStarted) {
@@ -260,7 +258,6 @@ function handleRemoteParticipantAdding(participant, resolve) {
 }
 
 function onTrackSubscribed(track) {
-  console.log('TRACK', track);
   remoteTracks.add(track);
   emitRemoteTracksAdding([track]);
 }
@@ -272,7 +269,6 @@ function onTrackUnsubscribed(track) {
 
 function onParticipantConnected(participant) {
   participant.on(NETWORK_QUALITY_LEVEL_CHANGED, onRemoteParticipantNetworkLevelChanged);
-  participant.on('trackDisabled', track => console.log('trackDisabled', track));
   emitParticpantConnecting();
 }
 
