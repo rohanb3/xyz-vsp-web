@@ -1,16 +1,16 @@
 <template>
   <div class="video-call-wrapper" v-cssBlurOverlay>
     <v-dialog v-model="show" :content-class="dialogClassList" persistent>
-    <div v-show="isCallActive" class="local-media" ref="localMedia">
+    <div v-show="isOperatorOnCall" class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
         <p>{{ $t('video.off') }}</p>
       </div>
     </div>
 
-    <div v-show="isCallActive" class="remote-media" ref="remoteMedia"/>
+    <div v-show="isOperatorOnCall" class="remote-media" ref="remoteMedia"/>
     <notifications group="call-notifications" />
     <video-call-controls
-      v-show="isCallActive"
+      v-show="isOperatorOnCall"
       class="video-call-controls"
       :is-camera-on="isCameraOn"
       :is-microphone-on="isMicrophoneOn"
@@ -40,7 +40,7 @@
     />
 
     <call-connection-error-popup
-      v-if="isCallActive"
+      v-if="isOperatorOnCall"
       :connecting="connectingToRoom"
       :local-participant-network-level="localParticipantNetworkLevel"
       :remote-participant-network-level="remoteParticipantNetworkLevel"
@@ -52,6 +52,8 @@
 
 <script>
 import moment from 'moment';
+import { mapGetters } from 'vuex';
+
 import { finishCall, callBack } from '@/services/call';
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import {
@@ -80,6 +82,7 @@ import CallConnectionErrorPopup from '@/components/CallConnectionErrorPopup';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
 const VOLUME_GAIN = 10;
+const VIDEO_UPDATE_INTERVAL = 2000;
 
 export default {
   name: 'VideoCall',
@@ -125,6 +128,13 @@ export default {
     };
   },
   computed: {
+    ...mapGetters([
+      'isOperatorOnCall',
+      'callTypes',
+      'callDispositions',
+      'isOnline',
+      'connectedToSocket',
+    ]),
     callDuration() {
       return moment()
         .hour(0)
@@ -132,29 +142,14 @@ export default {
         .second(this.counter)
         .format('mm : ss');
     },
-    isCallActive() {
-      return this.$store.getters.isOperatorOnCall;
-    },
-    callTypes() {
-      return this.$store.getters.callTypes;
-    },
-    callDispositions() {
-      return this.$store.getters.dispositions;
-    },
     dialogClassList() {
       const defaultList = ['video-call'];
 
-      if (!this.isCallActive) {
+      if (!this.isOperatorOnCall) {
         defaultList.push('finished');
       }
 
       return defaultList;
-    },
-    isOnline() {
-      return this.$store.getters.isOnline;
-    },
-    connectedToSocket() {
-      return this.$store.getters.connectedToSocket;
     },
     callbackAvailable() {
       return this.isOnline && this.connectedToSocket;
@@ -170,7 +165,7 @@ export default {
     this.unsubscribeFromTwilioEvents();
   },
   watch: {
-    isCallActive(val, old) {
+    isOperatorOnCall(val, old) {
       if (!val && old) {
         this.deactivateCallTimer();
         this.showFeedbackPopup();
@@ -271,7 +266,7 @@ export default {
           clearTimeout(this.remoteVideoFreezingTimer);
           this.remoteVideoFreezingTimer = setTimeout(() => {
             this.remoteVideoFrozen = true;
-          }, 2000);
+          }, VIDEO_UPDATE_INTERVAL);
         });
       }
     },

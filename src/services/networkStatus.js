@@ -1,61 +1,35 @@
+/* eslint-disable no-use-before-define */
+import { SET_NETWORK_STATUS } from '@/store/network/mutationTypes';
+
 const ONLINE = 'online';
 const OFFLINE = 'offline';
+const BEFORE_UNLOAD = 'beforeunload';
 
 let initialized = false;
+let store = null;
 
-const listeners = {
-  [ONLINE]: [],
-  [OFFLINE]: [],
-};
-
-function runOnlineListeners() {
-  listeners[ONLINE].forEach(listener => listener());
-}
-
-function runOfflineListeners() {
-  listeners[OFFLINE].forEach(listener => listener());
-}
-
-function registerListener(listener, mode) {
-  if (listener && typeof listener === 'function') {
-    listeners[mode].push(listener);
-  }
-}
-
-function removeListener(listener, mode) {
-  listeners[mode] = listeners[mode].filter(registered => listener !== registered);
-}
-
-export function init() {
+export function init(storeInstance) {
   if (!initialized) {
     initialized = true;
+    store = storeInstance;
 
-    window.addEventListener(ONLINE, runOnlineListeners);
-    window.addEventListener(OFFLINE, runOfflineListeners);
+    window.addEventListener(ONLINE, setOnlineStatus);
+    window.addEventListener(OFFLINE, setOfflineStatus);
+    window.addEventListener(BEFORE_UNLOAD, shutdown);
   }
 }
 
 export function shutdown() {
   initialized = false;
-  listeners[ONLINE] = [];
-  listeners[OFFLINE] = [];
 
-  window.removeEventListener(ONLINE, runOnlineListeners);
-  window.removeEventListener(OFFLINE, runOfflineListeners);
+  window.removeEventListener(ONLINE, setOnlineStatus);
+  window.removeEventListener(OFFLINE, setOfflineStatus);
 }
 
-export function registerOnlineListener(listener) {
-  registerListener(listener, ONLINE);
+function setOnlineStatus() {
+  store.commit(SET_NETWORK_STATUS, true);
 }
 
-export function registerOfflineListener(listener) {
-  registerListener(listener, OFFLINE);
-}
-
-export function removeOnlineListener(listener) {
-  removeListener(listener, ONLINE);
-}
-
-export function removeOfflineListener(listener) {
-  removeListener(listener, OFFLINE);
+function setOfflineStatus() {
+  store.commit(SET_NETWORK_STATUS, false);
 }

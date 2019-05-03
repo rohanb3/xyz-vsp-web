@@ -236,7 +236,7 @@ function onRoomDisconnected(room, err) {
   disableScreenShare();
   activeRoom = null;
   if (err) {
-    emitRoomDisconnectWithError();
+    emitRoomDisconnectWithError(err);
   }
 }
 
@@ -422,8 +422,8 @@ function emitRoomReconnected() {
   twilioEvents.emit(TWILIO_EVENTS.RECONNECTED);
 }
 
-function emitRoomDisconnectWithError() {
-  twilioEvents.emit(TWILIO_EVENTS.DISCONNECTED_WITH_ERROR);
+function emitRoomDisconnectWithError(err) {
+  twilioEvents.emit(TWILIO_EVENTS.DISCONNECTED_WITH_ERROR, err);
 }
 
 function emitLocalParticipantNetworkLevelChanging(level) {
