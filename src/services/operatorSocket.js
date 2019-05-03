@@ -4,7 +4,7 @@ import { namespace, connectionOptions, events, errorMessages } from '@/constants
 
 let socket = null;
 
-export function init(authData, onCallsChanged) {
+export function init(authData, onCallsChanged, onConnectionChanged) {
   socket = socket || io(namespace, connectionOptions);
 
   const promise = new Promise((resolve, reject) => {
@@ -16,9 +16,12 @@ export function init(authData, onCallsChanged) {
       socket.emit(events.AUTHENTICATION, authData);
       socket.once(events.AUTHENTICATED, onAuthenticated);
       socket.once(events.UNAUTHORIZED, reject);
+      onConnectionChanged(true);
     };
 
     socket.on(events.CONNECT, onConnected);
+    socket.on(events.DISCONNECT, () => onConnectionChanged(false));
+    socket.on(events.RECONNECT, () => onConnectionChanged(true));
   });
 
   return promise;

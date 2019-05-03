@@ -22,4 +22,7 @@ export default {
   screenSharingExtension(state) {
     return state.screenSharingExtension;
   },
+  connectedToSocket(state) {
+    return state.connectedToSocket;
+  },
 };

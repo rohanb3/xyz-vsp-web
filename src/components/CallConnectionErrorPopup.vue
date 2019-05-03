@@ -1,32 +1,22 @@
 <template>
   <v-dialog :value="isPopupShown" content-class="call-reconnection-popup" persistent hide-overlay>
     <div class="popup-content">
-      <div v-if="!connected">
-        Connection lost...
-      </div>
-      <call-reconnecting-badge v-else-if="isLocalConnectionError" />
-      <call-remote-connection-error-badge v-else-if="isRemoteConnectionError" />
+      <call-connecting-loader :title="title" :subtitle="subtitle" />
     </div>
   </v-dialog>
 </template>
 
 <script>
-import CallReconnectingBadge from '@/components/CallReconnectingBadge';
-import CallRemoteConnectionErrorBadge from '@/components/CallRemoteConnectionErrorBadge';
+import CallConnectingLoader from '@/components/CallConnectingLoader';
 
 const DEFAULT_NETWORK_LEVEL = 5;
 
 export default {
   name: 'CallConnectionErrorPopup',
   components: {
-    CallReconnectingBadge,
-    CallRemoteConnectionErrorBadge,
+    CallConnectingLoader,
   },
   props: {
-    connected: {
-      type: Boolean,
-      default: true,
-    },
     connecting: {
       type: Boolean,
       default: false,
@@ -44,21 +34,35 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      isLocalConnectionError: false,
+      isRemoteConnectionError: false,
+    };
+  },
+  watch: {
+    connecting(val) {
+      this.isLocalConnectionError = val;
+    },
+    localParticipantNetworkLevel(val) {
+      this.isLocalConnectionError = !val;
+    },
+    remoteParticipantNetworkLevel(val) {
+      this.isRemoteConnectionError = !val;
+    },
+    remoteVideoFrozen(val) {
+      this.isRemoteConnectionError = val;
+    },
+  },
   computed: {
     isPopupShown() {
-      return (
-        this.remoteVideoFrozen ||
-        this.connecting ||
-        !this.connected ||
-        !this.localParticipantNetworkLevel ||
-        !this.remoteParticipantNetworkLevel
-      );
+      return this.isLocalConnectionError || this.isRemoteConnectionError;
     },
-    isLocalConnectionError() {
-      return this.connecting || !this.localParticipantNetworkLevel;
+    title() {
+      return this.isLocalConnectionError ? this.$t('call.local.connection.error') : this.$t('call.remote.connection.error');
     },
-    isRemoteConnectionError() {
-      return this.remoteVideoFrozen || !this.remoteParticipantNetworkLevel;
+    subtitle() {
+      return this.$t('call.reconnecting');
     },
   },
 };
@@ -74,6 +78,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
 .popup-content {
+  min-height: 200px;
   padding: 10px;
   background-image: radial-gradient(
     circle at 50% 0,

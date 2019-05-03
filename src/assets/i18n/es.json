@@ -189,6 +189,12 @@
   "call.permissions.popup.video": "TBD Camera",
   "call.permissions.popup.audio": "TBD Microphone",
   "call.permissions.popup.notifications": "TBD Notifications",
+  "call.local.connection.lost": "TBD Sorry, some problems with your call connection. The call is forced to end",
+  "call.remote.connection.lost": "TBD Sorry, the client side has some trouble with call connection. The call is forced to end",
+  "call.connecting": "TBD Connecting...",
+  "call.reconnecting": "TBD Reconnecting...",
+  "call.local.connection.error": "TBD Sorry, some problems with your call connection. Reconnecting...",
+  "call.remote.connection.error": "TBD Sorry, some problems with client call connection. Reconnecting...",
 
   "login.forgot": "TBD Forgot?",
   "back.to.login": "TBD Back to Login",

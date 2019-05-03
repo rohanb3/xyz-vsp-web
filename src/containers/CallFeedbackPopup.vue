@@ -104,6 +104,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    callbackAvailable: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -129,7 +133,7 @@ export default {
       );
     },
     isCallbackButtonDisabled() {
-      return this.loading;
+      return this.loading || !this.callbackAvailable;
     },
     isDispositionShown() {
       return !!this.feedback.callType;

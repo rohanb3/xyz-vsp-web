@@ -5,6 +5,7 @@ import {
   SET_OPERATOR_STATUS,
   SET_CALL_TOKEN,
   SET_CALL_DATA,
+  SET_CONNECTION_TO_CALL_SOCKET,
   SET_PENDING_CALLS_INFO,
 } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
@@ -35,7 +36,7 @@ export function initializeOperator() {
   return checkAndRequestCallPermissions().then(() => {
     const identity = store.getters.userId;
     const credentials = { identity };
-    return initiOperatorSocker(credentials, checkAndUpdateCallsInfo);
+    return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
   });
 }
 
@@ -52,7 +53,6 @@ export function acceptCall() {
     const credentials = { name: call.id, token };
     const handlers = {
       onRoomEmptied,
-      onRoomConnectionLost,
     };
     const media = { [VIDEO]: true };
     store.commit(SET_CALL_DATA, call);
@@ -74,7 +74,6 @@ export function reconnect() {
   };
   const handlers = {
     onRoomEmptied,
-    onRoomConnectionLost,
   };
   const media = { [VIDEO]: true };
   return connectToRoom(credentials, { media, handlers });
@@ -96,7 +95,6 @@ export function callBack() {
       const credentials = { name: call.id, token: store.state.call.token };
       const handlers = {
         onRoomEmptied,
-        onRoomConnectionLost,
       };
       store.commit(SET_CALL_DATA, call);
       return connectToRoom(credentials, { handlers });
@@ -119,10 +117,6 @@ export function setOfflineStatus() {
 function onRoomEmptied() {
   notifyAboutLeavingRoomEmpty();
   setFinishedCallOperatorStatus();
-}
-
-function onRoomConnectionLost() {
-  console.log('connection lost');
 }
 
 // store actors
@@ -150,6 +144,10 @@ function setFinishedCallOperatorStatus() {
 
 function setToken(token) {
   store.commit(SET_CALL_TOKEN, token);
+}
+
+function setConnectedToSocket(connected) {
+  store.commit(SET_CONNECTION_TO_CALL_SOCKET, connected);
 }
 
 function onCallAcceptingFailed(err) {

@@ -34,13 +34,13 @@
       :loading="loading"
       :connecting-to-callback="connectingToCallback"
       :callback-declined="callbackDeclined"
+      :callback-available="callbackAvailable"
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
     />
 
     <call-connection-error-popup
       v-if="isCallActive"
-      :connected="connectedToRoom"
       :connecting="connectingToRoom"
       :local-participant-network-level="localParticipantNetworkLevel"
       :remote-participant-network-level="remoteParticipantNetworkLevel"
@@ -152,6 +152,12 @@ export default {
     },
     isOnline() {
       return this.$store.getters.isOnline;
+    },
+    connectedToSocket() {
+      return this.$store.getters.connectedToSocket;
+    },
+    callbackAvailable() {
+      return this.isOnline && this.connectedToSocket;
     },
   },
   mounted() {
@@ -418,24 +424,28 @@ export default {
       this.isScreenSharingOn = false;
     },
     handleLocalParticipantNetworkLevelChanging(level) {
-      console.log('local level changed: ', level);
       this.localParticipantNetworkLevel = level;
     },
     handleRemoteParticipantNetworkLevelChanging(level) {
-      console.log('remote level changed: ', level);
       this.remoteParticipantNetworkLevel = level;
     },
     handleRoomReconnecting() {
-      console.log('room reconnecting');
       this.connectingToRoom = true;
     },
     handleRoomReconnected() {
-      console.log('room reconnected');
       this.connectingToRoom = false;
       this.connectedToRoom = true;
     },
     handleRoomDisconnectedWithError() {
+      const title = this.$t('call.local.connection.lost');
+      this.$notify({
+        group: 'call-notifications',
+        title,
+        type: 'error',
+        duration: NOTIFICATION_DURATION,
+      });
       this.connectedToRoom = false;
+      finishCall();
     },
     updatePreviewControlsByAddedLocalTrack(track) {
       if (track.kind === VIDEO) {

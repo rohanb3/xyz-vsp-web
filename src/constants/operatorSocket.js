@@ -1,4 +1,6 @@
 const CONNECT = 'connect';
+const DISCONNECT = 'disconnect';
+const RECONNECT = 'reconnect';
 const AUTHENTICATION = 'authentication';
 const AUTHENTICATED = 'authenticated';
 const UNAUTHORIZED = 'unauthorized';
@@ -29,6 +31,8 @@ const connectionOptions = {
 
 const events = {
   CONNECT,
+  DISCONNECT,
+  RECONNECT,
   AUTHENTICATION,
   AUTHENTICATED,
   UNAUTHORIZED,

@@ -236,7 +236,6 @@ function onRoomDisconnected(room, err) {
   disableScreenShare();
   activeRoom = null;
   if (err) {
-    console.log('Room disconnected with error');
     emitRoomDisconnectWithError();
   }
 }
