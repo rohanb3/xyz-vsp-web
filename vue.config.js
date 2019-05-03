@@ -35,8 +35,7 @@ module.exports = {
         changeOrigin: true,
       },
       '/api/video/socket.io': {
-        // target: 'wss://vsp.xyzies.ardas.biz' || 'ws://127.0.0.1:3000',
-        target: 'ws://127.0.0.1:3000',
+        target: process.env.VUE_APP_PROXY_CALL_WS_URL || 'ws://127.0.0.1:3000',
         ws: true,
         changeOrigin: true,
         pathRewrite: {
