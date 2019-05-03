@@ -1,3 +1,7 @@
+const packageFile = require('./package.json');
+
+process.env.VUE_APP_BUILD_VERSION = packageFile.version;
+
 module.exports = {
   configureWebpack: {
     optimization: {
