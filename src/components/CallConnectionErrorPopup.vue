@@ -59,7 +59,9 @@ export default {
       return this.isLocalConnectionError || this.isRemoteConnectionError;
     },
     title() {
-      return this.isLocalConnectionError ? this.$t('call.local.connection.error') : this.$t('call.remote.connection.error');
+      return this.isLocalConnectionError
+        ? this.$t('call.local.connection.error')
+        : this.$t('call.remote.connection.error');
     },
     subtitle() {
       return this.$t('call.reconnecting');
@@ -80,12 +82,7 @@ export default {
 .popup-content {
   min-height: 200px;
   padding: 10px;
-  background-image: radial-gradient(
-    circle at 50% 0,
-    #737373,
-    #4a4a4a 85%,
-    #3b3b3b
-  );
+  background-image: radial-gradient(circle at 50% 0, #737373, #4a4a4a 85%, #3b3b3b);
   font-size: 24px;
   color: $base-white;
   text-align: center;
