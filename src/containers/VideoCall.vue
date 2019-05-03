@@ -1,16 +1,16 @@
 <template>
   <div class="video-call-wrapper" v-cssBlurOverlay>
     <v-dialog v-model="show" :content-class="dialogClassList" persistent>
-    <div v-show="isCallActive" class="local-media" ref="localMedia">
+    <div v-show="isOperatorOnCall" class="local-media" ref="localMedia">
       <div v-if="!isCameraOn" class="video-off">
         <p>{{ $t('video.off') }}</p>
       </div>
     </div>
 
-    <div v-show="isCallActive" class="remote-media" ref="remoteMedia"/>
+    <div v-show="isOperatorOnCall" class="remote-media" ref="remoteMedia"/>
     <notifications group="call-notifications" />
     <video-call-controls
-      v-show="isCallActive"
+      v-show="isOperatorOnCall"
       class="video-call-controls"
       :is-camera-on="isCameraOn"
       :is-microphone-on="isMicrophoneOn"
@@ -34,15 +34,26 @@
       :loading="loading"
       :connecting-to-callback="connectingToCallback"
       :callback-declined="callbackDeclined"
+      :callback-available="callbackAvailable"
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
     />
-        </v-dialog>
+
+    <call-connection-error-popup
+      v-if="isOperatorOnCall"
+      :connecting="connectingToRoom"
+      :local-participant-network-level="localParticipantNetworkLevel"
+      :remote-participant-network-level="remoteParticipantNetworkLevel"
+      :remote-video-frozen="remoteVideoFrozen"
+    />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import { mapGetters } from 'vuex';
+
 import { finishCall, callBack } from '@/services/call';
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import {
@@ -66,22 +77,31 @@ import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
 import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import VideoCallControls from '@/components/VideoCallControls';
+import CallConnectionErrorPopup from '@/components/CallConnectionErrorPopup';
 
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
 const VOLUME_GAIN = 10;
+const VIDEO_UPDATE_INTERVAL = 2000;
 
 export default {
   name: 'VideoCall',
   components: {
     CallFeedbackPopup,
     VideoCallControls,
+    CallConnectionErrorPopup,
   },
   directives: {
     cssBlurOverlay,
   },
   data() {
     return {
+      connectedToRoom: true,
+      connectingToRoom: false,
+      localParticipantNetworkLevel: 5,
+      remoteParticipantNetworkLevel: 5,
+      remoteVideoFrozen: false,
+      remoteVideoFreezingTimer: null,
       show: true,
       isCameraOn: false,
       isMicrophoneOn: false,
@@ -100,9 +120,21 @@ export default {
       localTracksRemovingUnsubscriber: null,
       remoteTracksAddingUnsubscriber: null,
       remoteTracksRemovingUnsubscriber: null,
+      localParticipantNetworkLevelUnsubscriber: null,
+      remoteParticipantNetworkLevelUnsubscriber: null,
+      roomReconnectingUnsubscriber: null,
+      roomReconnectedUnsubscriber: null,
+      rooomDisconnectedWithErrorUnsubscriber: null,
     };
   },
   computed: {
+    ...mapGetters([
+      'isOperatorOnCall',
+      'callTypes',
+      'callDispositions',
+      'isOnline',
+      'connectedToSocket',
+    ]),
     callDuration() {
       return moment()
         .hour(0)
@@ -110,23 +142,17 @@ export default {
         .second(this.counter)
         .format('mm : ss');
     },
-    isCallActive() {
-      return this.$store.getters.isOperatorOnCall;
-    },
-    callTypes() {
-      return this.$store.getters.callTypes;
-    },
-    callDispositions() {
-      return this.$store.getters.dispositions;
-    },
     dialogClassList() {
       const defaultList = ['video-call'];
 
-      if (!this.isCallActive) {
+      if (!this.isOperatorOnCall) {
         defaultList.push('finished');
       }
 
       return defaultList;
+    },
+    callbackAvailable() {
+      return this.isOnline && this.connectedToSocket;
     },
   },
   mounted() {
@@ -139,10 +165,15 @@ export default {
     this.unsubscribeFromTwilioEvents();
   },
   watch: {
-    isCallActive(val, old) {
+    isOperatorOnCall(val, old) {
       if (!val && old) {
         this.deactivateCallTimer();
         this.showFeedbackPopup();
+      }
+    },
+    isOnline(val) {
+      if (!val) {
+        this.connectingToRoom = true;
       }
     },
   },
@@ -189,7 +220,9 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
+      return this.isScreenSharingOn
+        ? disableScreenShare()
+        : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -223,6 +256,18 @@ export default {
         gainNode.connect(audioCtx.destination);
         source.connect(gainNode);
         this.volumeGainer = gainNode.gain;
+      }
+    },
+    subscribeToVideoFreezing() {
+      const remoteVideo = this.$refs.remoteMedia.querySelector('video');
+      if (remoteVideo) {
+        remoteVideo.addEventListener('timeupdate', () => {
+          this.remoteVideoFrozen = false;
+          clearTimeout(this.remoteVideoFreezingTimer);
+          this.remoteVideoFreezingTimer = setTimeout(() => {
+            this.remoteVideoFrozen = true;
+          }, VIDEO_UPDATE_INTERVAL);
+        });
       }
     },
     saveFeedback(feedback) {
@@ -301,6 +346,31 @@ export default {
         TWILIO_EVENTS.SCREEN_UNSHARED,
         this.handleScreenShareRemoving
       );
+
+      this.localParticipantNetworkLevelUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.LOCAL_PARTICIPANT_NETWORK_LEVEL_CHANGED,
+        this.handleLocalParticipantNetworkLevelChanging
+      );
+
+      this.remoteParticipantNetworkLevelUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.REMOTE_PARTICIPANT_NETWORK_LEVEL_CHANGED,
+        this.handleRemoteParticipantNetworkLevelChanging
+      );
+
+      this.roomReconnectingUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.RECONNECTING,
+        this.handleRoomReconnecting
+      );
+
+      this.roomReconnectedUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.RECONNECTED,
+        this.handleRoomReconnected
+      );
+
+      this.rooomDisconnectedWithErrorUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.DISCONNECTED_WITH_ERROR,
+        this.handleRoomDisconnectedWithError
+      );
     },
     unsubscribeFromTwilioEvents() {
       this.localTracksAddingUnsubscriber();
@@ -309,6 +379,11 @@ export default {
       this.remoteTracksRemovingUnsubscriber();
       this.screenShareAddingUnsubscriber();
       this.screenShareRemovingUnsubscriber();
+      this.localParticipantNetworkLevelUnsubscriber();
+      this.remoteParticipantNetworkLevelUnsubscriber();
+      this.roomReconnectingUnsubscriber();
+      this.roomReconnectedUnsubscriber();
+      this.rooomDisconnectedWithErrorUnsubscriber();
     },
     handleLocalTracksAdding(tracks) {
       tracks.forEach(this.updatePreviewControlsByAddedLocalTrack);
@@ -318,6 +393,9 @@ export default {
       tracks.forEach(track => {
         if (track.kind === AUDIO) {
           setTimeout(this.gainRemoteAudioVolume);
+        }
+        if (track.kind === VIDEO) {
+          setTimeout(this.subscribeToVideoFreezing);
         }
       });
       this.handleTracksAdding(tracks, this.$refs.remoteMedia);
@@ -339,6 +417,30 @@ export default {
     },
     handleScreenShareRemoving() {
       this.isScreenSharingOn = false;
+    },
+    handleLocalParticipantNetworkLevelChanging(level) {
+      this.localParticipantNetworkLevel = level;
+    },
+    handleRemoteParticipantNetworkLevelChanging(level) {
+      this.remoteParticipantNetworkLevel = level;
+    },
+    handleRoomReconnecting() {
+      this.connectingToRoom = true;
+    },
+    handleRoomReconnected() {
+      this.connectingToRoom = false;
+      this.connectedToRoom = true;
+    },
+    handleRoomDisconnectedWithError() {
+      const title = this.$t('call.local.connection.lost');
+      this.$notify({
+        group: 'call-notifications',
+        title,
+        type: 'error',
+        duration: NOTIFICATION_DURATION,
+      });
+      this.connectedToRoom = false;
+      finishCall();
     },
     updatePreviewControlsByAddedLocalTrack(track) {
       if (track.kind === VIDEO) {
@@ -408,6 +510,13 @@ export default {
     flex-flow: row;
     justify-content: center;
     align-items: center;
+  }
+
+  .call-reconnecting-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>

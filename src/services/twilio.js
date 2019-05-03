@@ -9,7 +9,7 @@ const previewTracks = {};
 const remoteTracks = new Set();
 let activeRoom = null;
 let extensionInstalled = false;
-let onLastParticipantDisconnected = null;
+let onLastParticipantDisconnected = () => {};
 let disconnectAfterConnection = false;
 
 const TRACK_SUBSCRIBED = 'trackSubscribed';
@@ -18,9 +18,12 @@ const TRACK_STARTED = 'trackStarted';
 const PARTICIPANT_CONNECTED = 'participantConnected';
 const PARTICIPANT_DISCONNECTED = 'participantDisconnected';
 const DISCONNECTED = 'disconnected';
+const RECONNECTING = 'reconnecting';
+const RECONNECTED = 'reconnected';
+const NETWORK_QUALITY_LEVEL_CHANGED = 'networkQualityLevelChanged';
 
 export function connect({ name, token }, { media = {}, handlers = {} }) {
-  onLastParticipantDisconnected = handlers.onRoomEmptied || (() => {});
+  onLastParticipantDisconnected = handlers.onRoomEmptied || onLastParticipantDisconnected;
   disconnectAfterConnection = false;
 
   if (!activeRoom) {
@@ -36,6 +39,10 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
       .then(() => {
         const connectOptions = {
           name,
+          networkQuality: {
+            local: 3,
+            remote: 3,
+          },
           // logLevel: 'debug',
         };
 
@@ -196,6 +203,8 @@ function onRoomJoined(room) {
     }
     const roomResolver = () => resolve(room);
 
+    room.localParticipant.on(NETWORK_QUALITY_LEVEL_CHANGED, onLocalParticipantNetworkLevelChanged);
+
     room.participants.forEach(participant =>
       handleRemoteParticipantAdding(participant, roomResolver)
     );
@@ -206,6 +215,8 @@ function onRoomJoined(room) {
     room.on(PARTICIPANT_DISCONNECTED, onParticipantDisconnected);
     room.on(DISCONNECTED, onRoomDisconnected);
     room.on(TRACK_STARTED, track => onTrackStarted(track, roomResolver));
+    room.on(RECONNECTING, onRoomReconnecting);
+    room.on(RECONNECTED, onRoomReconnected);
 
     if (localStorage.getItem('GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO')) {
       roomResolver();
@@ -220,13 +231,17 @@ function onRoomConnectionFailed(err) {
   });
 }
 
-function onRoomDisconnected() {
+function onRoomDisconnected(room, err) {
   disableLocalPreview();
   disableScreenShare();
   activeRoom = null;
+  if (err) {
+    emitRoomDisconnectWithError(err);
+  }
 }
 
 function handleRemoteParticipantAdding(participant, resolve) {
+  participant.on(NETWORK_QUALITY_LEVEL_CHANGED, onRemoteParticipantNetworkLevelChanged);
   const tracks = Array.from(participant.tracks.values()).filter(track => !!track);
   tracks.forEach(track => {
     if (track.kind === VIDEO && track.isStarted) {
@@ -249,7 +264,8 @@ function onTrackUnsubscribed(track) {
   emitRemoteTracksRemoving([track]);
 }
 
-function onParticipantConnected() {
+function onParticipantConnected(participant) {
+  participant.on(NETWORK_QUALITY_LEVEL_CHANGED, onRemoteParticipantNetworkLevelChanged);
   emitParticpantConnecting();
 }
 
@@ -259,6 +275,22 @@ function onParticipantDisconnected() {
     onLastParticipantDisconnected();
     disconnect();
   }
+}
+
+function onRoomReconnecting() {
+  emitRoomReconnecting();
+}
+
+function onRoomReconnected() {
+  emitRoomReconnected();
+}
+
+function onLocalParticipantNetworkLevelChanged(level) {
+  emitLocalParticipantNetworkLevelChanging(level);
+}
+
+function onRemoteParticipantNetworkLevelChanged(level) {
+  emitRemoteParticipantNetworkLevelChanging(level);
 }
 
 function onTrackStarted(track, resolve) {
@@ -380,6 +412,26 @@ function emitParticpantConnecting() {
 
 function emitParticpantDisconnecting() {
   twilioEvents.emit(TWILIO_EVENTS.PARTICIPANT_DISCONNECTED);
+}
+
+function emitRoomReconnecting() {
+  twilioEvents.emit(TWILIO_EVENTS.RECONNECTING);
+}
+
+function emitRoomReconnected() {
+  twilioEvents.emit(TWILIO_EVENTS.RECONNECTED);
+}
+
+function emitRoomDisconnectWithError(err) {
+  twilioEvents.emit(TWILIO_EVENTS.DISCONNECTED_WITH_ERROR, err);
+}
+
+function emitLocalParticipantNetworkLevelChanging(level) {
+  twilioEvents.emit(TWILIO_EVENTS.LOCAL_PARTICIPANT_NETWORK_LEVEL_CHANGED, level);
+}
+
+function emitRemoteParticipantNetworkLevelChanging(level) {
+  twilioEvents.emit(TWILIO_EVENTS.REMOTE_PARTICIPANT_NETWORK_LEVEL_CHANGED, level);
 }
 
 /**

@@ -46,7 +46,7 @@ export default {
   callTypes(state) {
     return state.callTypes;
   },
-  dispositions(state) {
+  callDispositions(state) {
     return state.dispositions;
   },
   callsInDateRange({ calls }, { callsTableDateRange }) {

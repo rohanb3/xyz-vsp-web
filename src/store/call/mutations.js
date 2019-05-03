@@ -2,6 +2,7 @@ import {
   SET_OPERATOR_STATUS,
   SET_CALL_TOKEN,
   SET_CALL_DATA,
+  SET_CONNECTION_TO_CALL_SOCKET,
   SET_PENDING_CALLS_INFO,
   SET_EXTENSION_AVAILABILITY,
 } from './mutationTypes';
@@ -20,6 +21,9 @@ export default {
     } else {
       state.activeCallData = callData;
     }
+  },
+  [SET_CONNECTION_TO_CALL_SOCKET](state, connected) {
+    state.connectedToSocket = connected;
   },
   [SET_PENDING_CALLS_INFO](state, { size, peak }) {
     state.pendingCallsInfo.size = size;

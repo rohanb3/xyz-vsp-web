@@ -1,7 +1,7 @@
 <template>
   <v-dialog content-class="call-feedback-popup-wrapper" v-model="dialog" persistent>
     <div class="call-feedback-popup">
-      <call-connecting-loader v-if="connectingToCallback" />
+      <call-connecting-loader v-if="connectingToCallback" :title="connectingLoaderTitle" />
       <template v-else>
         <div class="header section">
           <div class="name">{{$t("call.info")}}</div>
@@ -104,6 +104,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    callbackAvailable: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -129,7 +133,7 @@ export default {
       );
     },
     isCallbackButtonDisabled() {
-      return this.loading;
+      return this.loading || !this.callbackAvailable;
     },
     isDispositionShown() {
       return !!this.feedback.callType;
@@ -140,6 +144,9 @@ export default {
         .minute(0)
         .second(this.callDuration)
         .format('mm:ss');
+    },
+    connectingLoaderTitle() {
+      return this.$t('call.connecting');
     },
   },
   methods: {

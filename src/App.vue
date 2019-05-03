@@ -21,9 +21,3 @@
 </style>
 <style lang="scss" src="./assets/styles/common.scss">
 </style>
-
-<script>
-export default {
-  name: 'App',
-};
-</script>

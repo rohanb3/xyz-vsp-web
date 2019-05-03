@@ -43,7 +43,7 @@
           </div>
         </div>
 
-        <call-connecting-loader v-if="connectInProgress"/>
+        <call-connecting-loader v-if="connectInProgress" :title="$t('call.connecting')"/>
 
         <div v-if="connectingError" class="connecting-error">
           <div>

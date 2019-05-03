@@ -5,6 +5,7 @@ import {
   SET_OPERATOR_STATUS,
   SET_CALL_TOKEN,
   SET_CALL_DATA,
+  SET_CONNECTION_TO_CALL_SOCKET,
   SET_PENDING_CALLS_INFO,
 } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
@@ -35,7 +36,7 @@ export function initializeOperator() {
   return checkAndRequestCallPermissions().then(() => {
     const identity = store.getters.userId;
     const credentials = { identity };
-    return initiOperatorSocker(credentials, checkAndUpdateCallsInfo);
+    return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
   });
 }
 
@@ -63,6 +64,19 @@ export function acceptCall() {
   return Promise.race([roomConnectionPromise, callFinishingPromise])
     .then(setOnCallOperatorStatus)
     .catch(onCallAcceptingFailed);
+}
+
+export function reconnect() {
+  const { token, activeCallData } = store.state.call;
+  const credentials = {
+    name: activeCallData.id,
+    token,
+  };
+  const handlers = {
+    onRoomEmptied,
+  };
+  const media = { [VIDEO]: true };
+  return connectToRoom(credentials, { media, handlers });
 }
 
 export function finishCall() {
@@ -130,6 +144,10 @@ function setFinishedCallOperatorStatus() {
 
 function setToken(token) {
   store.commit(SET_CALL_TOKEN, token);
+}
+
+function setConnectedToSocket(connected) {
+  store.commit(SET_CONNECTION_TO_CALL_SOCKET, connected);
 }
 
 function onCallAcceptingFailed(err) {

@@ -11,6 +11,7 @@ import store from './store';
 import i18n from './i18n';
 import './datepicker';
 import '@/registerServiceWorker';
+import { init as listenNetworkStatusChange } from '@/services/networkStatus';
 
 Vue.config.productionTip = false;
 
@@ -24,6 +25,8 @@ Vue.use(Vuetify, {
 Vue.use(Notifications);
 
 Vue.use(VueHotKey);
+
+listenNetworkStatusChange(store);
 
 new Vue({
   router,
