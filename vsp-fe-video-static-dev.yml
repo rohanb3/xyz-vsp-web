@@ -16,7 +16,7 @@ spec:
         env: applications
       containers:
       - name: dev-video-static
-        image: xyzies.azurecr.io/vsp-fe-video-dev:0.0.0.0
+        image: xyziesdevregistry.azurecr.io/vsp-fe-video-dev:0.0.0.0
         resources:
           requests:
             cpu: 150m
@@ -39,4 +39,4 @@ spec:
     name: "http"
   selector:
     app: dev-video-static
-  clusterIP: 172.18.3.90
+  clusterIP: 172.20.0.90
