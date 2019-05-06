@@ -8,6 +8,7 @@ export default {
       const installed = await checkExtension();
       commit(SET_EXTENSION_AVAILABILITY, installed);
     } catch (e) {
+      // eslint-disable-next-line
       console.warn('Error during checking extension foe screen sharing is installed.');
     }
   },
