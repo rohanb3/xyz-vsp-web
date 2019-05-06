@@ -12,8 +12,8 @@ spec:
       labels:
         app: dev-video-static
     spec:
-      nodeSelector:
-        env: applications
+#      nodeSelector:
+#        env: applications
       containers:
       - name: dev-video-static
         image: xyziesdevregistry.azurecr.io/vsp-fe-video-dev:0.0.0.0
