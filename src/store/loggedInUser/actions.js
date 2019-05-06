@@ -29,7 +29,8 @@ export default {
     }
   },
   async [LOGIN]({ commit }, { email, password }) {
-    const response = await login(email, password);
+    const emailLowerCase = email.toLowerCase();
+    const response = await login(emailLowerCase, password);
     const { access_token: accessToken, refresh_token: refreshToken } = response.data;
 
     commit(SET_TOKEN, { accessToken, refreshToken });
