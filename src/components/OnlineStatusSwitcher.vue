@@ -5,7 +5,8 @@
       color="#1657a8"
       :label="label"
       :input-value="isOnline"
-      @change="onStatusChanged" />
+      @change="onStatusChanged"
+    />
   </div>
 </template>
 
@@ -31,6 +32,7 @@ export default {
   watch: {
     isOnline: {
       handler(val) {
+        // eslint-disable-next-line
         console.log('isOnline', val);
       },
       immediate: true,

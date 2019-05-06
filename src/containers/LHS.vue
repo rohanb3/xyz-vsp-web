@@ -45,7 +45,14 @@
       <div class="lhs-item" :class="{ active: activeIndex === 8 }" @click="setActive(8)">
         <v-icon class="item-icon">settings</v-icon>
       </div>
-    </router-link> -->
+    </router-link>-->
+
+    <router-link :to="{ name: 'dashboard' }" class="lhs-item-link">
+      <div class="lhs-item" :class="{ active: activeIndex === 0 }" @click="setActive(0)">
+        <v-icon class="item-icon">view_compact</v-icon>
+      </div>
+    </router-link>
+    <v-spacer class="spacer"/>
   </nav>
 </template>
 
