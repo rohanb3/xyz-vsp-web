@@ -26,6 +26,7 @@ import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { checkAndRequestCallPermissions } from '@/services/callPermissions';
+import { log } from '@/services/sentry';
 
 export const errors = {
   ...socketErrors,
@@ -34,7 +35,9 @@ export const errors = {
 export function initializeOperator() {
   return checkAndRequestCallPermissions().then(() => {
     const identity = store.getters.userId;
+    const { userName, displayName } = store.state.loggedInUser.profileData;
     const credentials = { identity };
+    log('call.js -> initializeOperator()', identity, displayName, userName);
     return initiOperatorSocker(credentials, checkAndUpdateCallsInfo);
   });
 }
@@ -47,8 +50,11 @@ export function disconnectOperator() {
 
 export function acceptCall() {
   setConnectingStatus();
+  const identity = store.getters.userId;
+  log('call.js -> acceptCall()', identity);
 
   const roomConnectionPromise = notifyAboutAcceptingCall().then(({ token, ...call }) => {
+    log('call.js -> onCallAccepted()', call);
     const credentials = { name: call.id, token };
     const handlers = {
       onRoomEmptied,
@@ -66,7 +72,8 @@ export function acceptCall() {
 }
 
 export function finishCall() {
-  const { activeCallData } = store.getters;
+  const { activeCallData, userId } = store.getters;
+  log('call.js -> finishCall()', userId, activeCallData);
   notifyAboutFinishingCall(activeCallData);
   disconnectFromRoom();
   setFinishedCallOperatorStatus();
@@ -74,7 +81,8 @@ export function finishCall() {
 }
 
 export function callBack() {
-  const { activeCallData } = store.getters;
+  const { activeCallData, userId } = store.getters;
+  log('call.js -> callBack()', userId, activeCallData);
   setConnectingStatus();
   return requestCallback(activeCallData.id)
     .then(call => {
