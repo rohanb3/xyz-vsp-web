@@ -15,7 +15,7 @@ import {
   getAllPaymentsLength,
 } from '@/services/repository';
 
-import { getCallsTypes } from '@/services/operatorFeedback';
+import { getCallsTypes } from '@/services/callRepository';
 
 import {
   LOAD_CUSTOMERS,

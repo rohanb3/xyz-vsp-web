@@ -27,17 +27,20 @@ import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { checkAndRequestCallPermissions } from '@/services/callPermissions';
+import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
 
 export const errors = {
   ...socketErrors,
 };
 
 export function initializeOperator() {
-  return checkAndRequestCallPermissions().then(() => {
-    const identity = store.getters.userId;
-    const credentials = { identity };
-    return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
-  });
+  return checkAndRequestCallPermissions()
+    .then(() => {
+      const identity = store.getters.userId;
+      const credentials = { identity };
+      return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
+    })
+    .then(checkAndSaveWaitingFeedbacks);
 }
 
 export function disconnectOperator() {

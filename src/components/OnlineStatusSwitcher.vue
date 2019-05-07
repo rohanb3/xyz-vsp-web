@@ -28,14 +28,6 @@ export default {
       this.$emit('statusChanged');
     },
   },
-  watch: {
-    isOnline: {
-      handler(val) {
-        console.log('isOnline', val);
-      },
-      immediate: true,
-    },
-  },
 };
 </script>
 
