@@ -31,7 +31,8 @@ module.exports = {
         target: process.env.VUE_APP_PROXY_URL || 'https://ardas-xyz-vsp.firebaseapp.com',
       },
       '/api/identity/api': {
-        target: 'https://dev-demo.xyzies.ardas.biz/',
+        // target: 'https://dev-demo.xyzies.ardas.biz/',
+        target: 'http://portal.xyzreviews.com',
         changeOrigin: true,
       },
       '/api/video/call-feedback-operator': {
