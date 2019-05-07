@@ -11,6 +11,9 @@ import store from './store';
 import i18n from './i18n';
 import './datepicker';
 import '@/registerServiceWorker';
+import { init as initSentry } from '@/services/sentry';
+
+initSentry();
 
 Vue.config.productionTip = false;
 

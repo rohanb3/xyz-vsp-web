@@ -16,10 +16,13 @@ import {
 } from './actionTypes';
 import { SET_TOKEN, SET_PROFILE_DATA, SET_RESET_TOKEN } from './mutationTypes';
 import { STATUS_OK } from '@/constants/responseStatuses';
+import { log } from '@/services/sentry';
 
 export default {
   async [GET_PROFILE_DATA]({ commit }) {
+    log('store/loggedInUser/actions.js -> GET_PROFILE_DATA start');
     const data = await getProfileData();
+    log('store/loggedInUser/actions.js -> GET_PROFILE_DATA success', data);
     commit(SET_PROFILE_DATA, data);
   },
   async [CHANGE_PROFILE_DATA]({ commit }, data) {
@@ -46,7 +49,10 @@ export default {
   async [GET_PHOTO]({ commit, state }) {
     const { status, data: avatarBase64Url } = await getAvatar(state.profileData.objectId);
     if (status === STATUS_OK) {
-      commit(SET_PROFILE_DATA, { ...state.profileData, avatarLink: avatarBase64Url });
+      commit(SET_PROFILE_DATA, {
+        ...state.profileData,
+        avatarLink: avatarBase64Url,
+      });
     } else {
       throw new Error();
     }
