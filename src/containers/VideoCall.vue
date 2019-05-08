@@ -83,6 +83,7 @@ import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
 const VOLUME_GAIN = 10;
 const VIDEO_UPDATE_INTERVAL = 2000;
+const ERROR = 'error';
 
 export default {
   name: 'VideoCall',
@@ -125,6 +126,7 @@ export default {
       roomReconnectingUnsubscriber: null,
       roomReconnectedUnsubscriber: null,
       rooomDisconnectedWithErrorUnsubscriber: null,
+      screenShareErrorUnsubscriber: null,
     };
   },
   computed: {
@@ -296,12 +298,7 @@ export default {
     },
     onRequestingCallbackFailed(error) {
       const title = this.$t(error.message || 'callback.declined');
-      this.$notify({
-        group: 'call-notifications',
-        title,
-        type: 'error',
-        duration: NOTIFICATION_DURATION,
-      });
+      this.$notify(title);
       this.callbackDeclined = true;
     },
     leaveScreen() {
@@ -369,6 +366,11 @@ export default {
         TWILIO_EVENTS.DISCONNECTED_WITH_ERROR,
         this.handleRoomDisconnectedWithError
       );
+
+      this.screenShareErrorUnsubscriber = twilioEvents.subscribe(
+        TWILIO_EVENTS.SCREEN_SHARING_ERROR,
+        this.handleScreenShareError
+      );
     },
     unsubscribeFromTwilioEvents() {
       this.localTracksAddingUnsubscriber();
@@ -382,6 +384,7 @@ export default {
       this.roomReconnectingUnsubscriber();
       this.roomReconnectedUnsubscriber();
       this.rooomDisconnectedWithErrorUnsubscriber();
+      this.screenShareErrorUnsubscriber();
     },
     handleLocalTracksAdding(tracks) {
       tracks.forEach(this.updatePreviewControlsByAddedLocalTrack);
@@ -431,14 +434,13 @@ export default {
     },
     handleRoomDisconnectedWithError() {
       const title = this.$t('call.local.connection.lost');
-      this.$notify({
-        group: 'call-notifications',
-        title,
-        type: 'error',
-        duration: NOTIFICATION_DURATION,
-      });
+      this.notify(title);
       this.connectedToRoom = false;
       finishCall();
+    },
+    handleScreenShareError() {
+      const title = this.$t('call.screen.share.error');
+      this.notify(title);
     },
     updatePreviewControlsByAddedLocalTrack(track) {
       if (track.kind === VIDEO) {
@@ -455,6 +457,14 @@ export default {
       if (track.kind === AUDIO) {
         this.isMicrophoneOn = false;
       }
+    },
+    notify(title, type = ERROR) {
+      this.$notify({
+        group: 'call-notifications',
+        title,
+        type,
+        duration: NOTIFICATION_DURATION,
+      });
     },
   },
 };

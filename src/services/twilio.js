@@ -21,6 +21,8 @@ const DISCONNECTED = 'disconnected';
 const RECONNECTING = 'reconnecting';
 const RECONNECTED = 'reconnected';
 const NETWORK_QUALITY_LEVEL_CHANGED = 'networkQualityLevelChanged';
+const INACTIVE = 'inactive';
+const ERROR = 'error';
 
 export function connect({ name, token }, { media = {}, handlers = {} }) {
   onLastParticipantDisconnected = handlers.onRoomEmptied || onLastParticipantDisconnected;
@@ -158,8 +160,21 @@ export function enableScreenShare() {
         previewTracks.screenShare = track;
         publishTrack(track);
         emitScreenShareAdding([track]);
+        const onStreamInactive = () => {
+          unpublishTrack(track);
+          emitScreenShareRemoving([track]);
+          delete previewTracks.screenShare;
+          stream.removeEventListener(INACTIVE, onStreamInactive);
+        };
+        const onStreamError = err => {
+          emitScreenSharingError(err);
+          stopTracks([track]);
+          stream.removeEventListener(ERROR, onStreamError);
+        };
+        stream.addEventListener(INACTIVE, onStreamInactive);
+        stream.addEventListener(ERROR, onStreamError);
       })
-      .catch(() => new Error('Could not get stream'));
+      .catch(err => emitScreenSharingError(err));
   });
 }
 
@@ -167,9 +182,6 @@ export function disableScreenShare() {
   const track = previewTracks.screenShare;
   if (track) {
     stopTracks([track]);
-    unpublishTrack(track);
-    emitScreenShareRemoving([track]);
-    delete previewTracks.screenShare;
   }
   return Promise.resolve();
 }
@@ -432,6 +444,10 @@ function emitLocalParticipantNetworkLevelChanging(level) {
 
 function emitRemoteParticipantNetworkLevelChanging(level) {
   twilioEvents.emit(TWILIO_EVENTS.REMOTE_PARTICIPANT_NETWORK_LEVEL_CHANGED, level);
+}
+
+function emitScreenSharingError(err) {
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_SHARING_ERROR, err);
 }
 
 /**
