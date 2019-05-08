@@ -29,15 +29,6 @@ export default {
       this.$emit('statusChanged');
     },
   },
-  watch: {
-    isOnline: {
-      handler(val) {
-        // eslint-disable-next-line
-        console.log('isOnline', val);
-      },
-      immediate: true,
-    },
-  },
 };
 </script>
 

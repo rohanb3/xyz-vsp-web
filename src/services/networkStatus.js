@@ -1,9 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { SET_NETWORK_STATUS } from '@/store/network/mutationTypes';
-
-const ONLINE = 'online';
-const OFFLINE = 'offline';
-const BEFORE_UNLOAD = 'beforeunload';
+import { ONLINE, OFFLINE, BEFORE_UNLOAD } from '@/constants/DOMEvents';
 
 let initialized = false;
 let store = null;

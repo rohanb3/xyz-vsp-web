@@ -27,6 +27,7 @@ import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { checkAndRequestCallPermissions } from '@/services/callPermissions';
+import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
 import { log } from '@/services/sentry';
 
 export const errors = {
@@ -34,13 +35,15 @@ export const errors = {
 };
 
 export function initializeOperator() {
-  return checkAndRequestCallPermissions().then(() => {
-    const identity = store.getters.userId;
-    const { userName, displayName } = store.state.loggedInUser.profileData;
-    const credentials = { identity };
-    log('call.js -> initializeOperator()', identity, displayName || userName);
-    return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
-  });
+  return checkAndRequestCallPermissions()
+    .then(() => {
+      const identity = store.getters.userId;
+      const { userName, displayName } = store.state.loggedInUser.profileData;
+      const credentials = { identity };
+      log('call.js -> initializeOperator()', identity, displayName || userName);
+      return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
+    })
+    .then(checkAndSaveWaitingFeedbacks);
 }
 
 export function disconnectOperator() {
