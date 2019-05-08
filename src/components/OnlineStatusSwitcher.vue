@@ -5,7 +5,8 @@
       color="#1657a8"
       :label="label"
       :input-value="isOnline"
-      @change="onStatusChanged" />
+      @change="onStatusChanged"
+    />
   </div>
 </template>
 

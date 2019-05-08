@@ -17,9 +17,10 @@ export default {
   },
   methods: {
     async sendVerificationCode(email) {
-      const status = await requestVerificationCode(email);
+      const emailLowerCase = email.toLowerCase();
+      const status = await requestVerificationCode(emailLowerCase);
       if (status === STATUS_OK) {
-        this.$store.commit(SET_EMAIL, email);
+        this.$store.commit(SET_EMAIL, emailLowerCase);
         this.$router.push({ name: 'verification-code' });
       }
     },

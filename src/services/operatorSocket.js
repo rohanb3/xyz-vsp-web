@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 import io from 'socket.io-client';
 import { namespace, connectionOptions, events, errorMessages } from '@/constants/operatorSocket';
+import { log } from '@/services/sentry';
 
 let socket = null;
 
@@ -13,6 +14,7 @@ export function init(authData, onCallsChanged, onConnectionChanged) {
       resolve(data);
     };
     const onConnected = () => {
+      log('operatorSocket.js -> init()', authData);
       socket.emit(events.AUTHENTICATION, authData);
       socket.once(events.AUTHENTICATED, onAuthenticated);
       socket.once(events.UNAUTHORIZED, reject);
@@ -35,6 +37,7 @@ export function disconnect() {
 }
 
 export function notifyAboutAcceptingCall() {
+  log('operatorSocket.js -> notifyAboutAcceptingCall()');
   return new Promise((resolve, reject) => {
     socket.emit(events.CALL_ACCEPTED);
     socket.once(events.ROOM_CREATED, resolve);
