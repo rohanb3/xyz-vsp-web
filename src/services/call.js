@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define, import/prefer-default-export */
 
 import store from '@/store';
+import { GET_CALL_CUSTOMER_DATA } from '@/store/call/actionTypes';
 import {
   SET_OPERATOR_STATUS,
   SET_CALL_TOKEN,
@@ -65,6 +66,7 @@ export function acceptCall() {
     };
     const media = { [VIDEO]: true };
     store.commit(SET_CALL_DATA, call);
+    store.dispatch(GET_CALL_CUSTOMER_DATA, call.salesRepId);
     setToken(token);
     return connectToRoom(credentials, { media, handlers });
   });

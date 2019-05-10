@@ -8,6 +8,9 @@
     </div>
 
     <div v-show="isOperatorOnCall" class="remote-media" ref="remoteMedia"/>
+    <div v-show="isOperatorOnCall && customerInfo" class="customer-info">
+      {{ customerInfo }}
+    </div>
     <notifications group="call-notifications" />
     <video-call-controls
       v-show="isOperatorOnCall"
@@ -134,6 +137,10 @@ export default {
       'callDispositions',
       'isOnline',
       'connectedToSocket',
+      'activeCallData',
+      'userId',
+      'customerDisplayName',
+      'companyName',
     ]),
     callDuration() {
       return moment()
@@ -153,6 +160,11 @@ export default {
     },
     callbackAvailable() {
       return this.isOnline && this.connectedToSocket;
+    },
+    customerInfo() {
+      return this.companyName
+        ? `${this.companyName} - ${this.customerDisplayName}`
+        : this.customerDisplayName;
     },
   },
   mounted() {
@@ -269,8 +281,8 @@ export default {
       }
     },
     saveFeedback(feedback) {
-      const callId = this.$store.getters.activeCallData.id;
-      const operatorId = this.$store.getters.userId;
+      const callId = this.activeCallData.id;
+      const operatorId = this.userId;
       this.loading = true;
       saveFeedback({ callId, operatorId, ...feedback });
       this.loading = false;
@@ -515,6 +527,18 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .customer-info {
+    position: absolute;
+    bottom: 55px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 16px;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 4px;
+    background-color: $call-controls-background-color;
   }
 }
 </style>
