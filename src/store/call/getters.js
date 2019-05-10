@@ -25,4 +25,14 @@ export default {
   connectedToSocket(state) {
     return state.connectedToSocket;
   },
+  customerDisplayName(state) {
+    return state.activeCallData && state.activeCallData.customer
+      ? state.activeCallData.customer.displayName
+      : '';
+  },
+  companyName(state) {
+    return state.activeCallData && state.activeCallData.branch
+      ? state.activeCallData.branch.companyName
+      : '';
+  },
 };
