@@ -188,12 +188,17 @@
   "call.permissions.popup.video": "Camera",
   "call.permissions.popup.audio": "Microphone",
   "call.permissions.popup.notifications": "Notifications",
-  "call.local.connection.lost": "Sorry, some problems with your call connection. The call is forced to end",
-  "call.remote.connection.lost": "Sorry, the client side has some trouble with call connection. The call is forced to end",
+  "call.local.connection.lost":
+    "Sorry, some problems with your call connection. The call is forced to end",
+  "call.remote.connection.lost":
+    "Sorry, the client side has some trouble with call connection. The call is forced to end",
   "call.connecting": "Connecting...",
   "call.reconnecting": "Reconnecting...",
-  "call.local.connection.error": "Sorry, some problems with your call connection.",
-  "call.remote.connection.error": "Sorry, some problems with client call connection.",
+  "call.local.connection.error":
+    "Sorry, some problems with your call connection.",
+  "call.remote.connection.error":
+    "Sorry, some problems with client call connection.",
+  "call.screen.share.error": "Screen sharing failed. Please try again later",
 
   "login.forgot": "Forgot?",
   "back.to.login": "Back to Login",
