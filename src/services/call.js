@@ -41,7 +41,7 @@ export function initializeOperator() {
       const identity = store.getters.userId;
       const { userName, displayName } = store.state.loggedInUser.profileData;
       const credentials = { identity };
-      log('call.js -> initializeOperator()', identity, displayName || userName);
+      log('call.js -> initializeOperator()', identity, displayName, userName);
       return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
     })
     .then(checkAndSaveWaitingFeedbacks);
@@ -91,9 +91,8 @@ export function reconnect() {
 }
 
 export function finishCall() {
-  const identity = store.getters.userId;
-  const { activeCallData } = store.getters;
-  log('call.js -> finishCall()', identity, activeCallData);
+  const { activeCallData, userId } = store.getters;
+  log('call.js -> finishCall()', userId, activeCallData);
   notifyAboutFinishingCall(activeCallData.id);
   disconnectFromRoom();
   setFinishedCallOperatorStatus();
@@ -101,9 +100,8 @@ export function finishCall() {
 }
 
 export function callBack() {
-  const { activeCallData } = store.getters;
-  const identity = store.getters.userId;
-  log('call.js -> callBack()', identity, activeCallData);
+  const { activeCallData, userId } = store.getters;
+  log('call.js -> callBack()', userId, activeCallData);
   setConnectingStatus();
   return requestCallback(activeCallData.id)
     .then(call => {

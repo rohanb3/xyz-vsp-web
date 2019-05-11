@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import Vue from 'vue';
 import * as Sentry from '@sentry/browser';
 import * as Integrations from '@sentry/integrations';
