@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stage-video-static
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stage-video-static
+  template:
+    metadata:
+      labels:
+        app: stage-video-static
+    spec:
+      nodeSelector:
+        env: applications
+      containers:
+      - name: stage-video-static
+        image: xyziesstagingregistry.azurecr.io/vsp-fe-video-stage:0.0.0.0
+        resources:
+          requests:
+            cpu: 150m
+            memory: 512Mi
+          limits:
+            cpu: 300m
+            memory: 1024Mi
+        ports:
+        - containerPort: 8090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stage-video-static
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 8090
+    targetPort: 8090
+    name: "http"
+  selector:
+    app: stage-video-static
+  clusterIP: 172.28.0.90
