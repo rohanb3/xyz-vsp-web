@@ -12,8 +12,8 @@ spec:
       labels:
         app: stage-video-static
     spec:
-      nodeSelector:
-        env: applications
+#      nodeSelector:
+#        env: applications
       containers:
       - name: stage-video-static
         image: xyziesstagingregistry.azurecr.io/vsp-fe-video-stage:0.0.0.0
