@@ -69,6 +69,14 @@ import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/se
 import { errorMessages as permissionErrors } from '@/constants/permissions';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
 
+const errorsHash = {
+  [errors.CALLS_EMPTY]: 'incoming.call.popup.call.was.answered',
+  [errors.CALL_FINISED_BY_CUSTOMER]: 'incoming.call.popup.call.finished.by.customer',
+  [errors.USER_MEDIA_FAILED]: 'incoming.call.popup.user.media.failed',
+};
+
+const DEFAULT_ACCEPTING_ERROR = 'incoming.call.popup.call.accepting.failed';
+
 export default {
   name: 'IncomingCallPopup',
   components: {
@@ -192,13 +200,7 @@ export default {
       this.$router.push({ name: 'call' });
     },
     onCallAcceptingFailed(error) {
-      if (error.message === errors.CALLS_EMPTY) {
-        this.connectingError = this.$t('incoming.call.popup.call.was.answered');
-      } else if (error.message === errors.CALL_FINISED_BY_CUSTOMER) {
-        this.connectingError = this.$t('incoming.call.popup.call.finished.by.customer');
-      } else {
-        this.connectingError = this.$t('incoming.call.popup.call.accepting.failed');
-      }
+      this.connectingError = this.$t(errorsHash[error.message] || DEFAULT_ACCEPTING_ERROR);
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;
@@ -250,7 +252,8 @@ export default {
 
 .popup-content {
   padding: 22px 15px 13px 22px;
-  width: 311px;
+  max-width: 50vw;
+  min-width: 311px;
   border-radius: 10px;
   background-size: cover;
   background-position: center center;

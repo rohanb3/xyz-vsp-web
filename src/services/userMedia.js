@@ -1,5 +1,10 @@
-/* eslint-disable import/prefer-default-export, no-use-before-define */
+/* eslint-disable no-use-before-define */
 import { statuses } from '@/constants/permissions';
+
+const defaultConstraints = {
+  audio: true,
+  video: true,
+};
 
 export function requestPermission() {
   return queryPermissions()
@@ -8,6 +13,10 @@ export function requestPermission() {
       /* eslint-disable-next-line no-console */
       console.error('Media permissions request failed: ', err);
     });
+}
+
+export function getUserMediaStreams(constraints = defaultConstraints) {
+  return navigator.mediaDevices.getUserMedia(constraints);
 }
 
 function queryPermissions() {
@@ -20,24 +29,23 @@ function queryPermissions() {
 }
 
 function testUserMedia(options = {}) {
-  const constaints = {
+  const constraints = {
     video: !isPermissionGranted(options.video),
     audio: !isPermissionGranted(options.audio),
   };
-  if (!constaints.video && !constaints.audio) {
+  if (!constraints.video && !constraints.audio) {
     return Promise.resolve(options);
   }
 
   if (options.audio) {
-    constaints.audio = true;
+    constraints.audio = true;
   }
 
   if (options.video) {
-    constaints.video = { width: 1280, height: 720 };
+    constraints.video = { width: 1280, height: 720 };
   }
 
-  return navigator.mediaDevices
-    .getUserMedia(constaints)
+  return getUserMediaStreams(constraints)
     .then(stream => {
       const tracks = stream.getTracks();
       tracks.forEach(track => track.stop());

@@ -24,15 +24,18 @@ import {
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import { VIDEO } from '@/constants/twilio';
 import { errorMessages as socketErrors } from '@/constants/operatorSocket';
+import { errorMessages as userMediaErrors } from '@/constants/userMedia';
 import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { checkAndRequestCallPermissions } from '@/services/callPermissions';
 import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
+import { getUserMediaStreams } from '@/services/userMedia';
 import { log } from '@/services/sentry';
 
 export const errors = {
   ...socketErrors,
+  ...userMediaErrors,
 };
 
 export function initializeOperator() {
@@ -58,18 +61,20 @@ export function acceptCall() {
   const identity = store.getters.userId;
   log('call.js -> acceptCall()', identity);
 
-  const roomConnectionPromise = notifyAboutAcceptingCall().then(({ token, ...call }) => {
-    log('call.js -> onCallAccepted()', call);
-    const credentials = { name: call.id, token };
-    const handlers = {
-      onRoomEmptied,
-    };
-    const media = { [VIDEO]: true };
-    store.commit(SET_CALL_DATA, call);
-    store.dispatch(GET_CALL_CUSTOMER_DATA, call.salesRepId);
-    setToken(token);
-    return connectToRoom(credentials, { media, handlers });
-  });
+  const roomConnectionPromise = getUserMediaStreams()
+    .then(() => notifyAboutAcceptingCall())
+    .then(({ token, ...call }) => {
+      log('call.js -> onCallAccepted()', call);
+      const credentials = { name: call.id, token };
+      const handlers = {
+        onRoomEmptied,
+      };
+      const media = { [VIDEO]: true };
+      store.commit(SET_CALL_DATA, call);
+      store.dispatch(GET_CALL_CUSTOMER_DATA, call.salesRepId);
+      setToken(token);
+      return connectToRoom(credentials, { media, handlers });
+    });
   const callFinishingPromise = listenToCallFinishing();
 
   return Promise.race([roomConnectionPromise, callFinishingPromise])
@@ -165,13 +170,24 @@ function setConnectedToSocket(connected) {
 
 function onCallAcceptingFailed(err) {
   disconnectFromRoom();
+  return Promise.reject(getAcceptingCallError(err));
+}
+
+function getAcceptingCallError(err) {
+  let acceptingCallError = err;
+
+  if (err instanceof DOMException) {
+    acceptingCallError = new Error(errors.USER_MEDIA_FAILED);
+  }
+
   if (err.message === socketErrors.CALLS_EMPTY) {
-    return Promise.reject(new Error(errors.CALLS_EMPTY));
+    acceptingCallError = new Error(errors.CALLS_EMPTY);
   }
   if (err.message === socketErrors.CALL_ACCEPTING_FAILED) {
-    return Promise.reject(new Error(errors.CALL_ACCEPTING_FAILED));
+    acceptingCallError = new Error(errors.CALL_ACCEPTING_FAILED);
   }
-  return Promise.reject(err);
+
+  return acceptingCallError;
 }
 
 export const getCallInfo = () => api.get('/call/info').then(response => response.data);

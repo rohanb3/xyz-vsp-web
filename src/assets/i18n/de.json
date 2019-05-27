@@ -173,6 +173,8 @@
   "incoming.call.popup.call.accepting.failed":
     "TBD Sorry, call can not be accepted",
   "incoming.call.popup.call.finished.by.customer": "TBD User finished call",
+  "incoming.call.popup.user.media.failed":
+    "TBD Probably you are streaming yourself somewhere. Please make sure your web camera is not used by side application and try again",
   "link.to.download": "TBD Link to download",
   "extension.for.sharing.screen.not.installed":
     "TBD The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",

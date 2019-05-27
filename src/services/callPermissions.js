@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 
 import { requestPermission as requestNotificationsPermission } from '@/services/callNotificationsUtils';
-import { requestPermission as requestUserMediaPermission } from '@/services/userMediaPermissions';
+import { requestPermission as requestUserMediaPermission } from '@/services/userMedia';
 import { statuses, errorMessages } from '@/constants/permissions';
 
 export function checkAndRequestCallPermissions() {
