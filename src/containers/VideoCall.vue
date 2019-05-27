@@ -8,6 +8,7 @@
     </div>
 
     <div v-show="isOperatorOnCall" class="remote-media" ref="remoteMedia"/>
+    <video v-show="isScreenSharingOn" autoplay class="screen-sharing-video" ref="screenSharingVideo"/>
     <div v-show="isOperatorOnCall && customerInfo" class="customer-info">
       {{ customerInfo }}
     </div>
@@ -87,6 +88,7 @@ import cssBlurOverlay from '@/directives/cssBlurOverlay';
 const VOLUME_GAIN = 10;
 const VIDEO_UPDATE_INTERVAL = 2000;
 const ERROR = 'error';
+const TIME_UPDATE = 'timeupdate';
 
 export default {
   name: 'VideoCall',
@@ -105,7 +107,9 @@ export default {
       localParticipantNetworkLevel: 5,
       remoteParticipantNetworkLevel: 5,
       remoteVideoFrozen: false,
+      screenSharingFrozen: false,
       remoteVideoFreezingTimer: null,
+      screenSharingVideoFreezingTimer: null,
       show: true,
       isCameraOn: false,
       isMicrophoneOn: false,
@@ -273,7 +277,7 @@ export default {
     subscribeToVideoFreezing() {
       const remoteVideo = this.$refs.remoteMedia.querySelector('video');
       if (remoteVideo) {
-        remoteVideo.addEventListener('timeupdate', () => {
+        remoteVideo.addEventListener(TIME_UPDATE, () => {
           this.remoteVideoFrozen = false;
           clearTimeout(this.remoteVideoFreezingTimer);
           this.remoteVideoFreezingTimer = setTimeout(() => {
@@ -425,11 +429,33 @@ export default {
     handleTracksRemoving(tracks) {
       detachTracks(tracks);
     },
-    handleScreenShareAdding() {
+    handleScreenShareAdding(stream) {
+      const { screenSharingVideo } = this.$refs;
       this.isScreenSharingOn = true;
+      this.screenSharingFrozen = false;
+      if (screenSharingVideo) {
+        screenSharingVideo.srcObject = stream;
+        screenSharingVideo.addEventListener(TIME_UPDATE, this.onScreenSharingTimeUpdated);
+      }
     },
     handleScreenShareRemoving() {
+      const { screenSharingVideo } = this.$refs;
       this.isScreenSharingOn = false;
+      this.screenSharingFrozen = false;
+      clearTimeout(this.screenSharingVideoFreezingTimer);
+      if (screenSharingVideo) {
+        screenSharingVideo.removeEventListener(TIME_UPDATE, this.onScreenSharingTimeUpdated);
+        screenSharingVideo.srcObject = null;
+      }
+    },
+    onScreenSharingTimeUpdated() {
+      this.screenSharingFrozen = false;
+      console.log('Time updated');
+      clearTimeout(this.screenSharingVideoFreezingTimer);
+      this.screenSharingVideoFreezingTimer = setTimeout(() => {
+        this.screenSharingFrozen = true;
+        console.log('screenSharingFrozen!!!!!!');
+      }, VIDEO_UPDATE_INTERVAL);
     },
     handleLocalParticipantNetworkLevelChanging(level) {
       this.localParticipantNetworkLevel = level;
@@ -530,6 +556,15 @@ export default {
     flex-flow: row;
     justify-content: center;
     align-items: center;
+  }
+
+  .screen-sharing-video {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: -9999px;
+    left: -9999px;
+    background-color: black;
   }
 
   .call-reconnecting-badge {
