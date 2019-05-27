@@ -161,20 +161,25 @@ export function enableScreenShare() {
         publishTrack(track);
         emitScreenShareAdding([track]);
         const onStreamInactive = () => {
-          unpublishTrack(track);
-          emitScreenShareRemoving([track]);
-          delete previewTracks.screenShare;
+          /* eslint-disable-next-line */
+          console.log('onStreamInactive');
+          disableScreenShare();
           stream.removeEventListener(INACTIVE, onStreamInactive);
         };
         const onStreamError = err => {
+          /* eslint-disable-next-line */
+          console.log('onStreamError', err);
+          disableScreenShare();
           emitScreenSharingError(err);
-          stopTracks([track]);
           stream.removeEventListener(ERROR, onStreamError);
         };
         stream.addEventListener(INACTIVE, onStreamInactive);
         stream.addEventListener(ERROR, onStreamError);
       })
-      .catch(err => emitScreenSharingError(err));
+      .catch(err => {
+        /* eslint-disable-next-line */
+        console.log('Can not get stream', err);
+      });
   });
 }
 
@@ -182,6 +187,9 @@ export function disableScreenShare() {
   const track = previewTracks.screenShare;
   if (track) {
     stopTracks([track]);
+    unpublishTrack(track);
+    emitScreenShareRemoving([track]);
+    delete previewTracks.screenShare;
   }
   return Promise.resolve();
 }
