@@ -239,9 +239,7 @@ export default {
       return this.isMicrophoneOn ? disableLocalAudio() : enableLocalAudio();
     },
     toggleScreen() {
-      return this.isScreenSharingOn
-        ? disableScreenShare()
-        : enableScreenShare();
+      return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
@@ -438,10 +436,7 @@ export default {
       this.screenSharingFrozen = false;
       if (screenSharingVideo) {
         screenSharingVideo.srcObject = stream;
-        screenSharingVideo.addEventListener(
-          TIME_UPDATE,
-          this.onScreenSharingTimeUpdated
-        );
+        screenSharingVideo.addEventListener(TIME_UPDATE, this.onScreenSharingTimeUpdated);
       }
     },
     handleScreenShareRemoving() {
@@ -450,10 +445,7 @@ export default {
       this.screenSharingFrozen = false;
       clearTimeout(this.screenSharingVideoFreezingTimer);
       if (screenSharingVideo) {
-        screenSharingVideo.removeEventListener(
-          TIME_UPDATE,
-          this.onScreenSharingTimeUpdated
-        );
+        screenSharingVideo.removeEventListener(TIME_UPDATE, this.onScreenSharingTimeUpdated);
         screenSharingVideo.srcObject = null;
       }
     },

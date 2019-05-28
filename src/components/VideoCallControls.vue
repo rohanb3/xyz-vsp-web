@@ -149,10 +149,7 @@ export default {
   methods: {
     startDecrementing() {
       this.screenSharingCounter = INITIAL_COUNTER;
-      this.screenSharingTimer = setInterval(
-        this.descrementCounter,
-        COUNTER_DECREMENT_TIME
-      );
+      this.screenSharingTimer = setInterval(this.descrementCounter, COUNTER_DECREMENT_TIME);
     },
     stopDecrementing() {
       clearInterval(this.screenSharingTimer);
