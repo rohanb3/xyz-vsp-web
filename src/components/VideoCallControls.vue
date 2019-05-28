@@ -78,7 +78,7 @@ import moment from 'moment';
 import Popper from 'vue-popperjs';
 
 const COUNTER_DECREMENT_TIME = 1000;
-const INITIAL_COUNTER = 9;
+const INITIAL_COUNTER = 10;
 
 export default {
   name: 'VideoCallControls',
@@ -160,7 +160,7 @@ export default {
       }
     },
     screenSharingCounter(count) {
-      if (count === 1) {
+      if (!count) {
         this.$emit('toggleScreen');
         this.stopDecrementing();
       }
@@ -174,7 +174,6 @@ export default {
     stopDecrementing() {
       clearInterval(this.screenSharingTimer);
       this.screenSharingTimer = null;
-      this.screenSharingCounter = INITIAL_COUNTER;
     },
     descrementCounter() {
       this.screenSharingCounter = this.screenSharingCounter - 1;
