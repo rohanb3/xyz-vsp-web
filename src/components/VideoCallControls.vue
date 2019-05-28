@@ -160,7 +160,7 @@ export default {
       }
     },
     screenSharingCounter(count) {
-      if (!count) {
+      if (count === 1) {
         this.$emit('toggleScreen');
         this.stopDecrementing();
       }
