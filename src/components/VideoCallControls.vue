@@ -51,30 +51,40 @@
     </div>
 
     <div class="controls-section right-section">
-      <div v-if="screenSharingFrozen" class="screen-sharing-frozen-notification">
-        Problems with screen sharing. It will be disabled in {{ screenSharingCounter }} seconds.
-      </div>
-      <v-icon
-        color="#fff"
-        class="icon icon-screen-sharing"
-        :disabled="isScreenSharingDisabled"
-        :class="{ 'icon-off': !isScreenSharingOn, 'disabled': isScreenSharingDisabled }"
-        @click="$emit('toggleScreen')"
-      >
-        add_to_queue
-      </v-icon>
+      <popper trigger="click" ref="popper" :options="options" :boundaries-selector="'.video-call-wrapper'">
+        <div slot="reference">
+          <v-icon
+          color="#fff"
+          class="icon icon-screen-sharing"
+          :disabled="isScreenSharingDisabled"
+          :class="{ 'icon-off': !isScreenSharingOn, 'disabled': isScreenSharingDisabled }"
+          @click.stop.prevent="$emit('toggleScreen')"
+          >
+          add_to_queue
+        </v-icon>
+        </div>
+        <div class="popper">
+          <div class="screen-sharing-frozen-notification">
+            Problems with screen sharing. It will be disabled in {{ screenSharingCounter }} seconds.
+          </div>
+        </div>
+      </popper>
     </div>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import Popper from 'vue-popperjs';
 
 const COUNTER_DECREMENT_TIME = 1000;
-const INITIAL_COUNTER = 10;
+const INITIAL_COUNTER = 9;
 
 export default {
   name: 'VideoCallControls',
+  components: {
+    Popper,
+  },
   props: {
     isCameraOn: {
       type: Boolean,
@@ -109,6 +119,14 @@ export default {
     return {
       screenSharingCounter: INITIAL_COUNTER,
       screenSharingTimer: null,
+      options: {
+        placement: 'top-end',
+        modifiers: {
+          offset: {
+            offset: '0,20px',
+          },
+        },
+      },
     };
   },
   computed: {
@@ -135,7 +153,9 @@ export default {
     screenSharingFrozen(isFrozen) {
       if (isFrozen) {
         this.startDecrementing();
+        this.$refs.popper.doShow();
       } else {
+        this.$refs.popper.doClose();
         this.stopDecrementing();
       }
     },
@@ -268,8 +288,12 @@ export default {
   }
 
   .screen-sharing-frozen-notification {
-    margin-right: 20px;
-    color: $base-white;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .popper {
+    left: -5px;
   }
 }
 </style>

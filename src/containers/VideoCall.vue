@@ -451,11 +451,9 @@ export default {
     },
     onScreenSharingTimeUpdated() {
       this.screenSharingFrozen = false;
-      console.log('Time updated');
       clearTimeout(this.screenSharingVideoFreezingTimer);
       this.screenSharingVideoFreezingTimer = setTimeout(() => {
         this.screenSharingFrozen = true;
-        console.log('screenSharingFrozen!!!!!!');
       }, VIDEO_UPDATE_INTERVAL);
     },
     handleLocalParticipantNetworkLevelChanging(level) {
