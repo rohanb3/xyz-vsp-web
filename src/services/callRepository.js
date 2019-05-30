@@ -1,4 +1,3 @@
-import api from '@/services/api';
 import callsApi from '@/services/callsApi';
 
 export const getCalls = filters => {
@@ -7,7 +6,10 @@ export const getCalls = filters => {
 };
 
 export const getCallsTypes = () =>
-  api.get('/operator-feedback/calls-type').then(response => response.data);
+  Promise.resovle({
+    callTypes: ['info', 'help', 'sale'],
+    dispositions: ['Long Name', 'Another Name', 'One more'],
+  });
 
 export const saveFeedback = data =>
   callsApi.post('/call-feedback-operator', data).then(response => response.data);

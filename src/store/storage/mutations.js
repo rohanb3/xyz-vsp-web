@@ -6,6 +6,7 @@ import {
   RESET_ITEMS,
   SET_ALL_ITEMS_LOADED,
   SET_ITEMS_TOTAL,
+  SET_CALL_TYPES_AND_DISPOSITIONS,
 } from './mutationTypes';
 
 export default {
@@ -35,6 +36,10 @@ export default {
   },
   [SET_ITEMS_TOTAL](state, { itemType, total = 0 }) {
     Vue.set(state[itemType], 'total', total);
+  },
+  [SET_CALL_TYPES_AND_DISPOSITIONS](state, data) {
+    state.callTypes = data.types;
+    state.dispositions = data.dispositions;
   },
   /* eslint-enable no-param-reassign */
 };
