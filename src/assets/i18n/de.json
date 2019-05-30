@@ -225,5 +225,6 @@
     "TBD We sended verification code to your email",
   "password.must.contain.capital.letter":
     "TBD Password must contain at least 1 capital letter",
-  "table.no.results.found": "TBD No Results found"
+  "table.no.results.found": "TBD No Results found",
+  "email.is.not.registered": "TBD This email is not registered in this system. Please, check and try again."
 }
