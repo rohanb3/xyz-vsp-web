@@ -4,85 +4,29 @@ jest.mock('@/services/tablesColumnsList', () => ({
   getCallsTableColumns() {
     return [{ name: 'date' }, { name: 'operator' }, { name: 'type' }];
   },
-  getOperatorsTableColumns() {
-    return [{ name: 'id' }, { name: 'name' }, { name: 'department' }];
-  },
-  getCallsDurationTableColumns() {
-    return [{ type: 'help' }, { type: 'info' }, { type: 'sale' }];
-  },
-  getCallsFeedbackTableColumns() {
-    return [{ type: 'help' }, { type: 'info' }, { type: 'sale' }];
-  },
-  getSuperadminOperatorsTableColumns() {
-    return [{ name: 'id' }, { name: 'name' }, { name: 'department' }];
-  },
-  getPaymentsTableColumns() {
-    return [{ name: 'date' }, { name: 'type' }, { name: 'status' }];
-  },
 }));
 
 import mutations from '@/store/tables/mutations';
 import * as types from '@/store/tables/mutationTypes';
-import { CALLS_TABLE } from '@/constants/tablesNames';
+import { ENTITY_TYPES } from '@/constants';
 
 describe('tables mutations', () => {
   describe('SET_COLUMNS', () => {
     it('should set columns by tableName', () => {
       const state = {
-        [CALLS_TABLE]: {
+        [ENTITY_TYPES.CALLS]: {
           columns: [],
         },
       };
 
       const columns = [{ name: 'operator' }, { name: 'date' }];
 
-      mutations[types.SET_COLUMNS](state, { tableName: CALLS_TABLE, columns });
-
-      expect(state[CALLS_TABLE].columns).toEqual(columns);
-    });
-  });
-
-  describe('RESET_COLUMNS', () => {
-    it('should set columns by tableName', () => {
-      const state = {
-        [CALLS_TABLE]: {
-          columns: [
-            { name: 'clientFeedback' },
-            { name: 'operatorFeedback' },
-            { name: 'disposition' },
-          ],
-        },
-      };
-
-      const expectedColumns = [{ name: 'date' }, { name: 'operator' }, { name: 'type' }];
-
-      mutations[types.RESET_COLUMNS](state, CALLS_TABLE);
-
-      expect(state[CALLS_TABLE].columns).toEqual(expectedColumns);
-    });
-  });
-
-  describe('SHOW_COLUMN', () => {
-    it('should append column', () => {
-      const columns = [
-        { name: 'clientFeedback' },
-        { name: 'operatorFeedback' },
-        { name: 'disposition' },
-      ];
-      const state = {
-        [CALLS_TABLE]: {
-          columns,
-        },
-      };
-
-      const expectedColumns = [...columns, { name: 'type' }];
-
-      mutations[types.SHOW_COLUMN](state, {
-        tableName: CALLS_TABLE,
-        columnName: 'type',
+      mutations[types.SET_COLUMNS](state, {
+        tableName: ENTITY_TYPES.CALLS,
+        columns,
       });
 
-      expect(state[CALLS_TABLE].columns).toEqual(expectedColumns);
+      expect(state[ENTITY_TYPES.CALLS].columns).toEqual(columns);
     });
   });
 
@@ -94,7 +38,7 @@ describe('tables mutations', () => {
         { name: 'disposition' },
       ];
       const state = {
-        [CALLS_TABLE]: {
+        [ENTITY_TYPES.CALLS]: {
           columns,
         },
       };
@@ -102,11 +46,11 @@ describe('tables mutations', () => {
       const expectedColumns = [columns[0], columns[2]];
 
       mutations[types.HIDE_COLUMN](state, {
-        tableName: CALLS_TABLE,
+        tableName: ENTITY_TYPES.CALLS,
         columnName: 'operatorFeedback',
       });
 
-      expect(state[CALLS_TABLE].columns).toEqual(expectedColumns);
+      expect(state[ENTITY_TYPES.CALLS].columns).toEqual(expectedColumns);
     });
   });
 
@@ -118,7 +62,7 @@ describe('tables mutations', () => {
       };
 
       const state = {
-        [CALLS_TABLE]: {
+        [ENTITY_TYPES.CALLS]: {
           dateRange: {
             startDate: null,
             endDate: null,
@@ -127,11 +71,35 @@ describe('tables mutations', () => {
       };
 
       mutations[types.SET_DATE_RANGE](state, {
-        tableName: CALLS_TABLE,
+        tableName: ENTITY_TYPES.CALLS,
         dateRange,
       });
 
-      expect(state[CALLS_TABLE].dateRange).toEqual(dateRange);
+      expect(state[ENTITY_TYPES.CALLS].dateRange).toEqual(dateRange);
+    });
+  });
+
+  describe('SET_FILTER', () => {
+    it('should set filter', () => {
+      const state = {
+        [ENTITY_TYPES.CALLS]: {
+          filters: {
+            search: '',
+          },
+          applyingFilters: false,
+        },
+      };
+
+      mutations[types.SET_FILTER](state, {
+        tableName: ENTITY_TYPES.CALLS,
+        filter: {
+          name: 'search',
+          value: 'aaaa',
+        },
+      });
+
+      expect(state[ENTITY_TYPES.CALLS].filters.search).toBe('aaaa');
+      expect(state[ENTITY_TYPES.CALLS].applyingFilters).toBeTruthy();
     });
   });
 });

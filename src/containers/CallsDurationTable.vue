@@ -51,8 +51,9 @@ import CallEfficiencyCell from '@/components/tableCells/CallEfficiencyCell';
 
 import smartTable from '@/mixins/smartTable';
 
-import { LOAD_CALLS_DURATION } from '@/store/storage/actionTypes';
-import { CALLS_DURATION_TABLE } from '@/constants/tablesNames';
+import { ENTITY_TYPES } from '@/constants';
+
+const LOAD_CALLS_DURATION = 'test';
 
 export default {
   name: 'CallsDurationTable',
@@ -67,7 +68,7 @@ export default {
   mixins: [smartTable],
   data() {
     return {
-      tableName: CALLS_DURATION_TABLE,
+      tableName: ENTITY_TYPES.CALLS_DURATION,
       rowComponentsHash: {
         default: 'DefaultCell',
         callDuration: 'CallDurationCell',

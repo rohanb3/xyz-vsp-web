@@ -1,19 +1,14 @@
 <template>
-  <div class='default-cell'>
-    {{ item[column.field] }}
+  <div class="default-cell">
+    {{ value || column.placeholder }}
   </div>
 </template>
 
 <script>
+import nestedFieldCell from '@/mixins/nestedFieldCell';
+
 export default {
   name: 'DefaultCell',
-  props: {
-    item: {
-      type: Object,
-    },
-    column: {
-      type: Object,
-    },
-  },
+  mixins: [nestedFieldCell],
 };
 </script>

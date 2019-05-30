@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import VueDraggableResizable from 'vue-draggable-resizable';
 import VueDraggable from 'vuedraggable';
 
@@ -118,8 +117,6 @@ export default {
         this.compileColumnsStyles();
         this.checkResizerPositions();
       },
-      // deep: true,
-      // immediate: true,
     },
     preparedColumns: 'checkColumnsWidth',
     width: 'checkColumnsWidth',
@@ -130,14 +127,12 @@ export default {
         .map(className => {
           const styles = Object.keys(this.columnsStyles[className] || {})
             .map(prop => `${prop}: ${this.columnsStyles[className][prop]};`)
-            // eslint-disable-next-line quotes
             .join('\n');
 
           return `.wombat-table .cell.${className} {
             ${styles}
           }`;
         })
-        // eslint-disable-next-line quotes
         .join('\n');
 
       let stylesContainer =
@@ -304,8 +299,9 @@ export default {
   },
   beforeDestroy() {
     const stylesFile = document.querySelector(`#${this.tableNameIdentificator}`);
-    // eslint-disable-next-line no-unused-expressions
-    stylesFile && stylesFile.remove();
+    if (stylesFile) {
+      stylesFile.remove();
+    }
   },
 };
 

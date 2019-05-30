@@ -7,7 +7,7 @@
  <script>
 import PasswordRecoveryForm from '@/components/PasswordRecoveryForm';
 import { requestVerificationCode } from '@/services/identityRepository';
-import { STATUS_OK } from '@/constants/responseStatuses';
+import { RESPONSE_STATUSES } from '@/constants';
 import { SET_EMAIL } from '@/store/loggedInUser/mutationTypes';
 
 export default {
@@ -19,7 +19,7 @@ export default {
     async sendVerificationCode(email) {
       const emailLowerCase = email.toLowerCase();
       const status = await requestVerificationCode(emailLowerCase);
-      if (status === STATUS_OK) {
+      if (status === RESPONSE_STATUSES.OK) {
         this.$store.commit(SET_EMAIL, emailLowerCase);
         this.$router.push({ name: 'verification-code' });
       }

@@ -7,7 +7,7 @@
 <script>
 import ConfigurableLazyLoadTable from './ConfigurableLazyLoadTable';
 
-import { PAYMENTS_TABLE } from '@/constants/tablesNames';
+import { ENTITY_TYPES } from '@/constants';
 
 export default {
   name: 'PaymentsTable',
@@ -16,7 +16,7 @@ export default {
   },
   data() {
     return {
-      name: PAYMENTS_TABLE,
+      name: ENTITY_TYPES.PAYMENTS,
     };
   },
 };

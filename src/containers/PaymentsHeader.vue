@@ -40,13 +40,12 @@
 
 <script>
 import moment from 'moment';
-import {
-  SHORT_DAY_SHORT_MONTH_FULL_YEAR_REVERSE,
-  DEFAULT_TIME_FORMAT,
-} from '@/constants/dateFormats';
+import { DATE_FORMATS } from '@/constants';
 
 const mastercardIcon = require('@/assets/icons/mastercard.png');
 const visaIcon = require('@/assets/icons/visa.png');
+
+const { SHORT_DAY_SHORT_MONTH_FULL_YEAR_REVERSE, DEFAULT_TIME_FORMAT } = DATE_FORMATS;
 
 // mock data
 const paymentMethods = [

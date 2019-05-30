@@ -17,6 +17,9 @@ export default {
 .table-loader {
   display: flex;
   flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  height: $table-loader-height;
 }
 
 .text {

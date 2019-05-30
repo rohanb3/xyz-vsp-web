@@ -44,11 +44,9 @@ import TableLoader from '@/components/TableLoader';
 
 import smartTable from '@/mixins/smartTable';
 
-import {
-  LOAD_SUPERADMIN_COMPANIES,
-  LOAD_SUPERADMIN_COMPANIES_LENGTH,
-} from '@/store/storage/actionTypes';
-import { SUPERADMIN_COMPANIES_TABLE } from '@/constants/tablesNames';
+import { ENTITY_TYPES } from '@/constants';
+
+const { LOAD_SUPERADMIN_COMPANIES, LOAD_SUPERADMIN_COMPANIES_LENGTH } = {};
 
 export default {
   name: 'SuperadminCompaniesTable',
@@ -64,7 +62,7 @@ export default {
   mixins: [smartTable],
   data() {
     return {
-      tableName: SUPERADMIN_COMPANIES_TABLE,
+      tableName: ENTITY_TYPES.COMPANIES,
       loading: false,
       rowComponentsHash: {
         default: 'DefaultCell',

@@ -22,9 +22,7 @@ import {
   listenToCallFinishing,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
-import { VIDEO } from '@/constants/twilio';
-import { errorMessages as socketErrors } from '@/constants/operatorSocket';
-import { errorMessages as userMediaErrors } from '@/constants/userMedia';
+import { TWILIO, OPERATOR_SOCKET, USER_MEDIA_ERROR_MESSAGES } from '@/constants';
 import api from '@/services/api';
 
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
@@ -33,9 +31,11 @@ import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
 import { getUserMediaStreams } from '@/services/userMedia';
 import { log } from '@/services/sentry';
 
+const { VIDEO } = TWILIO;
+
 export const errors = {
-  ...socketErrors,
-  ...userMediaErrors,
+  ...OPERATOR_SOCKET.ERROR_MESSAGES,
+  ...USER_MEDIA_ERROR_MESSAGES,
 };
 
 export function initializeOperator() {
@@ -180,10 +180,10 @@ function getAcceptingCallError(err) {
     acceptingCallError = new Error(errors.USER_MEDIA_FAILED);
   }
 
-  if (err.message === socketErrors.CALLS_EMPTY) {
+  if (err.message === OPERATOR_SOCKET.ERROR_MESSAGES.CALLS_EMPTY) {
     acceptingCallError = new Error(errors.CALLS_EMPTY);
   }
-  if (err.message === socketErrors.CALL_ACCEPTING_FAILED) {
+  if (err.message === OPERATOR_SOCKET.ERROR_MESSAGES.CALL_ACCEPTING_FAILED) {
     acceptingCallError = new Error(errors.CALL_ACCEPTING_FAILED);
   }
 

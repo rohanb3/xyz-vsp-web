@@ -1,6 +1,6 @@
 <template>
   <div class="default-header-cell">
-    <span>{{ column.title }}</span>
+    <span>{{ $t(column.title) }}</span>
   </div>
 </template>
 
@@ -15,3 +15,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.default-header-cell {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+</style>

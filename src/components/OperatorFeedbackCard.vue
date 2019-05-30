@@ -64,19 +64,19 @@ export default {
   },
   computed: {
     feedback() {
-      return this.call.operatorFeedback;
+      return this.call.operatorFeedback || {};
     },
     disposition() {
       return this.call.disposition;
     },
     message() {
-      return this.feedback.message;
+      return this.feedback.note;
     },
     quality() {
       return Number(this.feedback.quality);
     },
     type() {
-      return this.$t(this.call.type);
+      return this.feedback.callType ? this.$t(this.feedback.callType) : '';
     },
   },
   methods: {

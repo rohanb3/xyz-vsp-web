@@ -74,8 +74,7 @@ import {
   getCachedRemoteTracks,
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
-import { AUDIO, VIDEO } from '@/constants/twilio';
-import { NOTIFICATION_DURATION } from '@/constants/notifications';
+import { TWILIO, NOTIFICATIONS } from '@/constants';
 
 import { LOAD_CALL_TYPES_AND_DISPOSITIONS } from '@/store/storage/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
@@ -86,6 +85,8 @@ import CallConnectionErrorPopup from '@/components/CallConnectionErrorPopup';
 
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
+const { AUDIO, VIDEO } = TWILIO;
+const { NOTIFICATION_DURATION } = NOTIFICATIONS;
 const VOLUME_GAIN = 10;
 const VIDEO_UPDATE_INTERVAL = 2000;
 const ERROR = 'error';

@@ -3,7 +3,9 @@ import Video from 'twilio-video';
 
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import { isChrome, isFirefox } from '@/services/browser';
-import { EXTENSION_ID, VIDEO, AUDIO } from '@/constants/twilio';
+import { TWILIO } from '@/constants';
+
+const { EXTENSION_ID, VIDEO, AUDIO } = TWILIO;
 
 const previewTracks = {};
 const remoteTracks = new Set();

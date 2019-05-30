@@ -18,15 +18,6 @@ html {
   }
 }
 
-.calls-table {
-  .virtual-list {
-    max-height: calc(
-      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$calls-table-toolbar-height} -
-        #{$table-header-height} - #{$table-footer-height} - #{$calls-dashboard-height}
-    );
-  }
-}
-
 .payments-table {
   .virtual-list {
     max-height: calc(
