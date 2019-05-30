@@ -62,12 +62,12 @@ import moment from 'moment';
 import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
-import { NOTIFICATION_DURATION } from '@/constants/notifications';
+import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO } from '@/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-import { EXTENSION_URL } from '@/constants/twilio';
 import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
-import { errorMessages as permissionErrors } from '@/constants/permissions';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
+
+const { NOTIFICATION_DURATION } = NOTIFICATIONS;
 
 const errorsHash = {
   [errors.CALLS_EMPTY]: 'incoming.call.popup.call.was.answered',
@@ -90,7 +90,7 @@ export default {
       dialogMinimizedByUser: false,
       counter: 0,
       interval: null,
-      extensionLink: EXTENSION_URL,
+      extensionLink: TWILIO.EXTENSION_URL,
       connectInProgress: false,
       connectingError: null,
       initializingError: null,
@@ -173,7 +173,7 @@ export default {
   },
   mounted() {
     initializeOperator().catch(({ message, blockedPermissions = [] }) => {
-      if (message === permissionErrors.PERMISSIONS_BLOCKED) {
+      if (message === PERMISSION_ERROR_MESSAGES.PERMISSIONS_BLOCKED) {
         this.permissionsError = this.$t('call.permissions.popup.title');
         this.blockedPermissions = blockedPermissions;
       } else {

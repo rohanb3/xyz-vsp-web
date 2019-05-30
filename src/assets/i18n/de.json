@@ -18,8 +18,8 @@
   "calls": "TBD Calls",
   "loading": "TBD Loading",
   "date": "TBD Date",
-  "operator": "TBD Operator",
-  "retailers": "TBD Retailers",
+  "operator": "TBD Support Admin",
+  "company": "TBD Company",
   "type": "TBD Type",
   "disposition": "TBD Disposition",
   "wait.time": "TBD Wait time",
@@ -48,7 +48,7 @@
   "change.password": "TBD Change password",
   "save": "TBD Save",
   "client.feedback": "TBD Client Feedback",
-  "operator.feedback": "TBD Operator Feedback",
+  "operator.feedback": "TBD Support Admin Feedback",
   "type.of.call": "TBD Type Of Call",
   "system.quality.rating": "TBD System Quality Rating",
   "rate.and.experience.with.operator": "TBD Rate and experience with operator",
@@ -224,5 +224,6 @@
   "we.sended.verification.code.again":
     "TBD We sended verification code to your email",
   "password.must.contain.capital.letter":
-    "TBD Password must contain at least 1 capital letter"
+    "TBD Password must contain at least 1 capital letter",
+  "table.no.results.found": "TBD No Results found"
 }

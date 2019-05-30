@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { statuses } from '@/constants/permissions';
+import { PERMISSION_STATUSES } from '@/constants';
 
 const defaultConstraints = {
   audio: true,
@@ -55,5 +55,5 @@ function testUserMedia(options = {}) {
 }
 
 function isPermissionGranted(status) {
-  return status === statuses.GRANTED;
+  return status === PERMISSION_STATUSES.GRANTED;
 }

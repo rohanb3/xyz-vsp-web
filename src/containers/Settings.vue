@@ -110,7 +110,7 @@
 </template>
 
 <script>
-import { CHANGE_PROFILE_DATA } from '@/store/loggedInUser/actionTypes';
+const CHANGE_PROFILE_DATA = 'test';
 
 export default {
   name: 'Settings',

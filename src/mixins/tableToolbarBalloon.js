@@ -1,6 +1,7 @@
 import Popper from 'vue-popperjs';
-import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
+
+const DELAY_BEFORE_OPENING = 10;
 
 export default {
   name: 'TableDatesEditor',
@@ -31,20 +32,15 @@ export default {
       };
     },
   },
-  mounted() {
-    if (this.$refs.popper2) {
-      this.scrollBbr = new PerfectScrollbar(this.$refs.popper2);
-    }
-  },
   methods: {
     checkAndShow() {
       if (!this.isShown) {
-        this.$nextTick(this.show);
+        setTimeout(this.show.bind(this), DELAY_BEFORE_OPENING);
       }
     },
     checkAndHide() {
       if (this.isShown) {
-        this.$nextTick(this.hide);
+        setTimeout(this.hide.bind(this), DELAY_BEFORE_OPENING);
       }
     },
     show() {

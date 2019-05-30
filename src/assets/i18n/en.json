@@ -18,8 +18,8 @@
   "calls": "Calls",
   "loading": "Loading",
   "date": "Date",
-  "operator": "Operator",
-  "retailers": "Retailers",
+  "operator": "Support Admin",
+  "company": "Company",
   "type": "Type",
   "disposition": "Disposition",
   "wait.time": "Wait time",
@@ -48,7 +48,7 @@
   "change.password": "Change password",
   "save": "Save",
   "client.feedback": "Client Feedback",
-  "operator.feedback": "Operator Feedback",
+  "operator.feedback": "Support Admin Feedback",
   "type.of.call": "Type Of Call",
   "system.quality.rating": "System Quality Rating",
   "rate.and.experience.with.operator": "Rate and experience with operator",
@@ -223,5 +223,6 @@
   "we.sended.verification.code.again":
     "We sended verification code to your email",
   "password.must.contain.capital.letter":
-    "Password must contain at least 1 capital letter"
+    "Password must contain at least 1 capital letter",
+  "table.no.results.found": "No Results found"
 }

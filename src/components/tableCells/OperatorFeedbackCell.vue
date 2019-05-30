@@ -1,7 +1,7 @@
 <template>
   <div
     class='operator-feedback-cell'
-    @click="onClick">
+    @click.stop="onClick">
     <call-feedback-icon
       :feedback="feedback"
       :color="color" />
@@ -26,7 +26,7 @@ export default {
       return this.item.operatorFeedback;
     },
     color() {
-      return this.feedback.message ? '#398ffb' : null;
+      return this.feedback.note ? '#398ffb' : null;
     },
   },
   methods: {

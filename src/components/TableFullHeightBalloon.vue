@@ -50,5 +50,6 @@ export default {
   top: $header-height;
   right: 0;
   bottom: 0;
+  z-index: 100;
 }
 </style>

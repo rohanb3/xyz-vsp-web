@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="wombat-header"
-    :style="globalStyles"
-  >
+  <div class="wombat-header" :style="globalStyles">
     <vue-draggable
       v-model="preparedColumns"
       class="wombat-header"
@@ -15,15 +12,18 @@
         :key="column.name"
         :ref="column._machineName"
         :title="column.title"
-        :class="[column.class, column._className, isColumnsEllipsisModeAlways
-        ? 'header-column-ellipsis' : '', columnsReorder ? 'allow-redorder' : '']"
+        :class="[
+          column.class,
+          column._className,
+          isColumnsEllipsisModeAlways ? 'header-column-ellipsis' : '',
+          columnsReorder ? 'allow-redorder' : '',
+        ]"
       >
         <div class="content">
-          <slot
-            name="header-cell"
-            :column="column"
-          >
-            {{ column.title }}
+          <slot name="header-cell" :column="column">
+            <div class="default-header-cell">
+              <span>{{ column.title }}</span>
+            </div>
           </slot>
         </div>
         <vue-draggable-resizable
@@ -36,7 +36,7 @@
           :minw="RESIZER_WIDTH"
           axis="x"
           @mousedown.native="preventColumnDragging"
-          @dragstop="(left) => onResizeFinish(column, left)"
+          @dragstop="left => onResizeFinish(column, left)"
         />
       </div>
     </vue-draggable>

@@ -44,8 +44,9 @@ import TableLoader from '@/components/TableLoader';
 
 import smartTable from '@/mixins/smartTable';
 
-import { LOAD_CUSTOMERS, LOAD_ALL_CUSTOMERS_LENGTH } from '@/store/storage/actionTypes';
-import { CUSTOMERS_TABLE } from '@/constants/tablesNames';
+import { ENTITY_TYPES } from '@/constants';
+
+const { LOAD_CUSTOMERS, LOAD_ALL_CUSTOMERS_LENGTH } = {};
 
 export default {
   name: 'CustomersTable',
@@ -61,7 +62,7 @@ export default {
   mixins: [smartTable],
   data() {
     return {
-      tableName: CUSTOMERS_TABLE,
+      tableName: ENTITY_TYPES.CUSTOMERS,
       loading: false,
       rowComponentsHash: {
         default: 'DefaultCell',

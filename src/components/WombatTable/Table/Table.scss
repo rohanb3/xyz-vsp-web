@@ -1,3 +1,31 @@
+@import '~@/assets/styles/variables.scss';
+
 .virtual-list {
   position: relative;
+}
+
+.row-wrapper {
+  padding-bottom: 12px;
+}
+
+.vue-recycle-scroller.direction-vertical:not(.page-mode) {
+  overflow-y: hidden;
+}
+
+.header-cell {
+  height: 100%;
+}
+
+.no-result-found {
+  display: flex;
+  justify-content: center;
+  opacity: 0.6;
+  color: $lhs-icon-color;
+  font-size: 30px;
+  margin-top: 7%;
+  height: 100vh;
+  max-height: calc(
+    100vh - #{$header-height} - #{$table-toolbar-height} - #{$table-header-height} - #{$no-result-found-height}
+  );
+  overflow: hidden;
 }

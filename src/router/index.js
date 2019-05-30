@@ -27,6 +27,7 @@ import IncomingCallPopup from '@/containers/IncomingCallPopup';
 
 import identityApi from '@/services/identityApi';
 import branchesApi from '@/services/branchesApi';
+import callsApi from '@/services/callsApi';
 import applyAuthInterceptors from '@/services/authInterceptors';
 
 import store from '@/store';
@@ -188,5 +189,6 @@ router.beforeEach((to, from, next) => {
 
 applyAuthInterceptors(identityApi, router);
 applyAuthInterceptors(branchesApi, router);
+applyAuthInterceptors(callsApi, router);
 
 export default router;

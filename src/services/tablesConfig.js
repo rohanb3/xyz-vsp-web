@@ -1,13 +1,6 @@
 import Vue from 'vue';
 
-import {
-  LOAD_SUPERADMIN_OPERATORS,
-  LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH,
-  LOAD_PAYMENTS,
-  LOAD_ALL_PAYMENTS_LENGTH,
-} from '@/store/storage/actionTypes';
-
-import { SUPERADMIN_OPERATORS_TABLE, PAYMENTS_TABLE } from '@/constants/tablesNames';
+import { ENTITY_TYPES } from '@/constants';
 
 import {
   getSuperadminOperatorsTableColumns,
@@ -42,6 +35,13 @@ import DollarsCell from '@/components/tableCells/DollarsCell';
 import PaymentStatusCell from '@/components/tableCells/PaymentStatusCell';
 import PaymentTypeCell from '@/components/tableCells/PaymentTypeCell';
 
+const {
+  LOAD_SUPERADMIN_OPERATORS,
+  LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH,
+  LOAD_PAYMENTS,
+  LOAD_ALL_PAYMENTS_LENGTH,
+} = {};
+
 Vue.component('AdditionalCell', AdditionalCell);
 Vue.component('CallDurationCell', CallDurationCell);
 Vue.component('CallEfficiencyCell', CallEfficiencyCell);
@@ -71,7 +71,7 @@ Vue.component('PaymentStatusCell', PaymentStatusCell);
 Vue.component('PaymentTypeCell', PaymentTypeCell);
 
 const tables = {
-  [SUPERADMIN_OPERATORS_TABLE]: {
+  [ENTITY_TYPES.SUPERADMIN_OPERATORS]: {
     loadItemsAction: LOAD_SUPERADMIN_OPERATORS,
     loadItemsLengthAction: LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH,
     allTableColumns: getSuperadminOperatorsTableColumns(),
@@ -90,7 +90,7 @@ const tables = {
       id: 'IdCell',
     },
   },
-  [PAYMENTS_TABLE]: {
+  [ENTITY_TYPES.PAYMENTS]: {
     loadItemsAction: LOAD_PAYMENTS,
     loadItemsLengthAction: LOAD_ALL_PAYMENTS_LENGTH,
     allTableColumns: getPaymentsTableColumns(),

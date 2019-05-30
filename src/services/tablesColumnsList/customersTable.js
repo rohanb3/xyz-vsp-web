@@ -1,0 +1,51 @@
+export default () => [
+  {
+    name: 'company',
+    field: 'company',
+    title: 'company',
+    width: '200px',
+  },
+  {
+    name: 'contactPerson',
+    field: 'contactPerson',
+    class: 'text',
+    title: 'contact.person',
+    width: '200px',
+  },
+  {
+    name: 'email',
+    field: 'email',
+    fieldType: 'email',
+    class: 'text',
+    title: 'email',
+    width: '250px',
+  },
+  {
+    name: 'phone',
+    field: 'phone',
+    class: 'text',
+    title: 'phone',
+    width: '150px',
+  },
+  {
+    name: 'lastPayment',
+    field: 'lastPayment',
+    fieldType: 'lastPayment',
+    title: 'last.payment',
+    width: '120px',
+  },
+  {
+    name: 'amount',
+    field: 'amount',
+    title: 'amount',
+    class: 'number',
+    width: '120px',
+  },
+  {
+    name: 'additional',
+    field: null,
+    fieldType: 'additional',
+    title: '',
+    width: '100px',
+  },
+];

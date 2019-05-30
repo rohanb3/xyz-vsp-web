@@ -6,7 +6,9 @@
 
 <script>
 import moment from 'moment';
-import { DEFAULT_DATE_FORMAT } from '@/constants/dateFormats';
+import { DATE_FORMATS } from '@/constants';
+
+const { DEFAULT_DATE_FORMAT } = DATE_FORMATS;
 
 export default {
   name: 'DateCell',

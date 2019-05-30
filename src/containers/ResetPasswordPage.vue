@@ -7,7 +7,7 @@
  <script>
 import ResetPasswordForm from '@/components/ResetPasswordForm';
 import { resetPassword } from '@/services/identityRepository';
-import { STATUS_OK } from '@/constants/responseStatuses';
+import { RESPONSE_STATUSES } from '@/constants';
 
 export default {
   name: 'ResetPasswordPage',
@@ -19,7 +19,7 @@ export default {
       try {
         const token = this.$store.state.loggedInUser.resetToken;
         const { status } = await resetPassword(token, password);
-        if (status === STATUS_OK) {
+        if (status === RESPONSE_STATUSES.OK) {
           this.$router.push({ name: 'login' });
         } else throw new Error();
       } catch {
