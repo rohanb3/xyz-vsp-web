@@ -19,7 +19,6 @@
   "loading": "Loading",
   "date": "Date",
   "operator": "Support Admin",
-  "company": "Company",
   "type": "Type",
   "disposition": "Disposition",
   "wait.time": "Wait time",
@@ -221,7 +220,7 @@
     "Please, enter your new password and confirm it to reset",
   "invalid.code.entered": "Invalid code entered",
   "we.sended.verification.code.again":
-    "We sended verification code to your email",
+    "We have sent a new verification code to your email",
   "password.must.contain.capital.letter":
     "Password must contain at least 1 capital letter",
   "table.no.results.found": "No Results found"
