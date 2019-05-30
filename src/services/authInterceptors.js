@@ -43,7 +43,7 @@ async function errorResponseInterceptor(data, router) {
       const { headers } = data.config;
       headers.Authorization = `Bearer ${accessToken}`;
 
-      axios.request({
+      return axios.request({
         ...data.config,
         url: data.config.url.replace(data.config.baseURL, ''),
         ...headers,
