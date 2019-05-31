@@ -55,14 +55,20 @@
                 @input="onInputCode"
               ></v-text-field>
             </div>
+            <div class="resend-code-wrapper">
+              <a
+                class="resend-link"
+                href="#"
+                @click.prevent="$emit('resendCode')"
+              >{{ $t('resend.code') }}</a>
+            </div>
             <v-container fluid>
               <v-layout row mt-4 align-center justify-space-around>
                 <v-flex order-lg2>
-                  <a
+                  <router-link
                     class="back-to-login"
-                    href="#"
-                    @click.prevent="$emit('resendCode')"
-                  >{{ $t('resend.code') }}</a>
+                    :to="{ name: 'login' }"
+                  >{{ $t('back.to.login') }}</router-link>
                 </v-flex>
                 <v-flex order-lg2>
                   <v-btn
@@ -176,6 +182,18 @@ export default {
     text-decoration: none;
     font-size: 16px;
   }
+
+  .resend-code-wrapper {
+    text-align: right;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    font-size: 12px;
+
+    .resend-link {
+      text-decoration: none;
+    }
+  }
+
   .button {
     width: 100%;
     border-radius: 4px;
