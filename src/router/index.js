@@ -7,6 +7,7 @@ import AppContent from '@/views/AppContent';
 import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
+import Devices from '@/views/Devices';
 import OperatorReview from '@/views/OperatorReview';
 import Payments from '@/views/Payments';
 import SettingsPage from '@/views/SettingsPage';
@@ -28,6 +29,7 @@ import IncomingCallPopup from '@/containers/IncomingCallPopup';
 import identityApi from '@/services/identityApi';
 import branchesApi from '@/services/branchesApi';
 import callsApi from '@/services/callsApi';
+import devicesApi from '@/services/devicesApi';
 import applyAuthInterceptors from '@/services/authInterceptors';
 
 import store from '@/store';
@@ -101,6 +103,18 @@ const router = new Router({
               path: 'calls',
               name: 'calls',
               component: Calls,
+            },
+            {
+              path: 'devices',
+              name: 'devices',
+              component: Devices,
+              beforeEnter(to, from, next) {
+                if (store.getters.isSupportAdmin) {
+                  next({ path: 'dashboard' });
+                } else {
+                  next();
+                }
+              },
             },
             {
               path: 'operators',
@@ -190,5 +204,6 @@ router.beforeEach((to, from, next) => {
 applyAuthInterceptors(identityApi, router);
 applyAuthInterceptors(branchesApi, router);
 applyAuthInterceptors(callsApi, router);
+applyAuthInterceptors(devicesApi, router);
 
 export default router;

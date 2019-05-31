@@ -14,15 +14,15 @@ export default {
     return state.profileData ? state.profileData.objectId : null;
   },
   role(state) {
-    return state.profileData ? state.profileData.role : null;
+    return state.profileData ? state.profileData.role.toLowerCase() : null;
   },
   isSuperAdmin(state, { role = '' }) {
-    return [OPERATION_ADMIN, SYSTEM_ADMIN, ACCOUNT_ADMIN].includes(role.toLowerCase());
+    return [OPERATION_ADMIN, SYSTEM_ADMIN, ACCOUNT_ADMIN].includes(role);
   },
-  isOperationAdmin(state, { role }) {
+  isOperationAdmin(state, { role = '' }) {
     return role === OPERATION_ADMIN;
   },
-  isSupportAdmin(state, { role }) {
+  isSupportAdmin(state, { role = '' }) {
     return role === SUPPORT_ADMIN;
   },
 };

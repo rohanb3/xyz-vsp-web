@@ -52,13 +52,22 @@
         <v-icon class="item-icon secondary-icon">list</v-icon>
       </div>
     </router-link>
+    <router-link v-if="!isSupportAdmin" :to="{ name: 'devices' }" class="lhs-item-link">
+      <div class="lhs-item">
+        <v-icon class="item-icon">tablet_mac</v-icon>
+      </div>
+    </router-link>
     <v-spacer class="spacer"/>
   </nav>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'lhs',
+  computed: {
+    ...mapGetters(['isSupportAdmin']),
+  },
 };
 </script>
 
