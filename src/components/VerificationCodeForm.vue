@@ -20,6 +20,7 @@
                 maxlength="1"
                 @focus="activeField = 1"
                 @input="onInputCode"
+                @keydown.space.prevent
               ></v-text-field>
               <v-text-field
                 class="entered-code"
@@ -31,6 +32,7 @@
                 maxlength="1"
                 @focus="activeField = 2"
                 @input="onInputCode"
+                @keydown.space.prevent
               ></v-text-field>
               <v-text-field
                 class="entered-code"
@@ -42,6 +44,7 @@
                 maxlength="1"
                 @focus="activeField = 3"
                 @input="onInputCode"
+                @keydown.space.prevent
               ></v-text-field>
               <v-text-field
                 class="entered-code"
@@ -53,6 +56,7 @@
                 maxlength="1"
                 @focus="activeField = 4"
                 @input="onInputCode"
+                @keydown.space.prevent
               ></v-text-field>
             </div>
             <div class="resend-code-wrapper">

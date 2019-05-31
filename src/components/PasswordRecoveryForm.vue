@@ -16,6 +16,7 @@
               required
               class="pa-3"
               :rules="emailRules"
+              @keydown.space.prevent
             ></v-text-field>
             <v-container fluid>
               <v-layout row mt-5 align-center justify-space-around>
