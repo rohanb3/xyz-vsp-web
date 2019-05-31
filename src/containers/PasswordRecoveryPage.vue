@@ -23,11 +23,25 @@ export default {
         this.$store.commit(SET_EMAIL, emailLowerCase);
         this.$router.push({ name: 'verification-code' });
       } catch (e) {
-        this.$notify({
-          group: 'notifications',
-          title: this.$t('email.is.not.registered'),
-          type: 'error',
-        });
+        const {
+          response: {
+            data: { errors: message },
+          },
+        } = e;
+
+        if (message.Email) {
+          this.$notify({
+            group: 'notifications',
+            title: this.$t('email.is.not.registered'),
+            type: 'error',
+          });
+        } else {
+          this.$notify({
+            group: 'notifications',
+            title: this.$t('something.went.wrong'),
+            type: 'error',
+          });
+        }
       }
     },
   },

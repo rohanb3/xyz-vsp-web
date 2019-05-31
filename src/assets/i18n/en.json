@@ -225,5 +225,6 @@
   "password.must.contain.capital.letter":
     "Password must contain at least 1 capital letter",
   "table.no.results.found": "No Results found",
-  "email.is.not.registered": "This email is not registered in this system. Please, check and try again."
+  "email.is.not.registered": "This email is not registered in this system. Please, check and try again.",
+  "something.went.wrong": "Opps, something went wrong :("
 }
