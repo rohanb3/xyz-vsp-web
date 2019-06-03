@@ -1,7 +1,7 @@
 import api from './identityApi';
 import { imageEncode } from '@/services/utils';
 
-const scope = 'xyzies.authorization.vsp.operator';
+const scope = 'xyzies.authorization.vsp.web';
 
 export const getProfileData = () => api.get(`/users/profile`).then(({ data }) => data);
 
