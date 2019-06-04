@@ -7,7 +7,6 @@
  <script>
 import PasswordRecoveryForm from '@/components/PasswordRecoveryForm';
 import { requestVerificationCode } from '@/services/identityRepository';
-import { RESPONSE_STATUSES } from '@/constants';
 import { SET_EMAIL } from '@/store/loggedInUser/mutationTypes';
 
 export default {
@@ -17,11 +16,26 @@ export default {
   },
   methods: {
     async sendVerificationCode(email) {
-      const emailLowerCase = email.toLowerCase();
-      const status = await requestVerificationCode(emailLowerCase);
-      if (status === RESPONSE_STATUSES.OK) {
+      try {
+        const emailLowerCase = email.toLowerCase();
+        await requestVerificationCode(emailLowerCase);
+
         this.$store.commit(SET_EMAIL, emailLowerCase);
         this.$router.push({ name: 'verification-code' });
+      } catch (e) {
+        const {
+          response: {
+            data: { errors: message },
+          },
+        } = e;
+
+        this.$notify({
+          group: 'notifications',
+          title: message.Email
+            ? this.$t('email.is.not.registered')
+            : this.$t('something.went.wrong'),
+          type: 'error',
+        });
       }
     },
   },
