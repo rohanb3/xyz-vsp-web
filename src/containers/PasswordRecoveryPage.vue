@@ -29,19 +29,13 @@ export default {
           },
         } = e;
 
-        if (message.Email) {
-          this.$notify({
-            group: 'notifications',
-            title: this.$t('email.is.not.registered'),
-            type: 'error',
-          });
-        } else {
-          this.$notify({
-            group: 'notifications',
-            title: this.$t('something.went.wrong'),
-            type: 'error',
-          });
-        }
+        this.$notify({
+          group: 'notifications',
+          title: message.Email
+            ? this.$t('email.is.not.registered')
+            : this.$t('something.went.wrong'),
+          type: 'error',
+        });
       }
     },
   },
