@@ -42,6 +42,10 @@ module.exports = {
         target: 'https://vsp.xyzies.ardas.biz/',
         changeOrigin: true,
       },
+      '/api/public-api': {
+        target: 'https://reviews.xyzies.ardas.biz/',
+        changeOrigin: true,
+      },
       '/api/video/calls': {
         target: process.env.VUE_APP_PROXY_CALLS_REST_URL || 'http://localhost:3000',
         changeOrigin: true,

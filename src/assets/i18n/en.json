@@ -231,5 +231,6 @@
   "location.status": "Location status",
   "comments": "Comments",
   "branch.name": "Branch name",
-  "logged.in.as": "Logged in as"
+  "logged.in.as": "Logged in as",
+  "add.device": "Add Device"
 }

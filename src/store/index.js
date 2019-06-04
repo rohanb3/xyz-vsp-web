@@ -7,6 +7,7 @@ import storage from './storage';
 import tables from './tables';
 import call from './call';
 import network from './network';
+import search from './search';
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     tables,
     call,
     network,
+    search,
   },
   plugins: [persistedStatePlugin],
   strict: debug,
