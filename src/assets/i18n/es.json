@@ -226,5 +226,12 @@
     "TBD We sended verification code to your email",
   "password.must.contain.capital.letter":
     "TBD Password must contain at least 1 capital letter",
-  "table.no.results.found": "TBD No Results found"
+  "table.no.results.found": "TBD No Results found",
+  "device.management": "TBD Device Management",
+  "udid": "TBD UDID",
+  "status.since": "TBD Online/offline since",
+  "location.status": "TBD Location status",
+  "comments": "TBD Comments",
+  "branch.name": "TBD Branch name",
+  "logged.in.as": "TBD Logged in as"
 }

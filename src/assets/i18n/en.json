@@ -224,5 +224,12 @@
     "We sended verification code to your email",
   "password.must.contain.capital.letter":
     "Password must contain at least 1 capital letter",
-  "table.no.results.found": "No Results found"
+  "table.no.results.found": "No Results found",
+  "device.management": "Device Management",
+  "udid": "UDID",
+  "status.since": "Online/offline since",
+  "location.status": "Location status",
+  "comments": "Comments",
+  "branch.name": "Branch name",
+  "logged.in.as": "Logged in as"
 }
