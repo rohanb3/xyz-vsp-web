@@ -231,7 +231,7 @@
   "location.status": "Location status",
   "comments": "Comments",
   "branch.name": "Branch name",
-  "logged.in.as": "Logged in as"
+  "logged.in.as": "Logged in as",
   "email.is.not.registered": "This email is not registered in this system. Please, check and try again.",
   "something.went.wrong": "Opps, something went wrong :("
 }
