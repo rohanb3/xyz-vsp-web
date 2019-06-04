@@ -38,7 +38,7 @@
       :call-dispositions="callDispositions"
       :loading="loading"
       :connecting-to-callback="connectingToCallback"
-      :callback-declined="callbackDeclined"
+      :callback-declined="callbackDeclined || !callbackEnabled"
       :callback-available="callbackAvailable"
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
@@ -173,6 +173,9 @@ export default {
       return this.companyName
         ? `${this.companyName} - ${this.customerDisplayName}`
         : this.customerDisplayName;
+    },
+    callbackEnabled() {
+      return this.activeCallData && this.activeCallData.callbackEnabled;
     },
   },
   mounted() {
