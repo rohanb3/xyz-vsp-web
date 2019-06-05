@@ -74,7 +74,7 @@ export function acceptCall() {
 export function finishCall() {
   const { activeCallData, userId } = store.getters;
   log('call.js -> finishCall()', userId, activeCallData);
-  notifyAboutFinishingCall(activeCallData);
+  notifyAboutFinishingCall(activeCallData.id);
   disconnectFromRoom();
   setFinishedCallOperatorStatus();
   return Promise.resolve();
