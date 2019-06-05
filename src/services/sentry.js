@@ -5,7 +5,7 @@ import moment from 'moment';
 
 export function init() {
   Sentry.init({
-    dsn: 'https://76f2311f29fd403b89b53c96c0b354ef@sentry.io/1454113',
+    dsn: 'https://37e26f89eb3d4443ab5a7f8f78017656@sentry.io/1470572',
     integrations: [
       new Integrations.Vue({
         Vue,
@@ -17,6 +17,7 @@ export function init() {
 
 export function log(...args) {
   const now = moment().format();
-  const message = [now, ...args].map(item => `[${JSON.stringify(item)}]`).join(' ');
+  const app = 'WEB';
+  const message = [now, app, ...args].map(item => `[${JSON.stringify(item)}]`).join(' ');
   Sentry.captureMessage(message, Sentry.Severity.Info);
 }
