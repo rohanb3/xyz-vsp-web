@@ -28,6 +28,7 @@ export const ENTITY_TYPES = {
   CALLS_FEEDBACK: 'callsFeedback',
   SUPERADMIN_OPERATORS: 'superAdminOperators',
   PAYMENTS: 'payments',
+  COMPANY_LIST: 'COMPANY_LIST',
 };
 
 export const DATE_FORMATS = {

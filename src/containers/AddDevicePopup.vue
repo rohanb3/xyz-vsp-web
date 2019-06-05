@@ -23,6 +23,7 @@
           </v-text-field>
         </div>
         <div class="company__section add-device__section">
+          <quick-search-filter />
           <quick-search
             class="quick-search"
             label="company"
@@ -93,8 +94,6 @@
 </template>
 
 <script>
-import { GET_COMPANIES, GET_BRANCHES } from '@/store/search/actionTypes';
-
 import {
   validateFieldCantBeEmpty,
   validateOnlyDigits,
@@ -103,11 +102,13 @@ import {
 
 import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
 import QuickSearch from '@/components/QuickSearch';
+import QuickSearchFilter from '@/containers/QuickSearchFilter';
 
 export default {
   name: 'AddDevicePopup',
   components: {
     TableFullHeightBalloon,
+    QuickSearchFilter,
     QuickSearch,
   },
   data() {
@@ -133,7 +134,6 @@ export default {
     },
     onSearchCompany(keyword) {
       console.log({ keyword });
-      this.$store.dispatch(GET_COMPANIES, { keyword });
     },
     validate() {
       return this.$refs.form.validate();

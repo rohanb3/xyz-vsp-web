@@ -20,6 +20,10 @@ import { ITEMS_TO_LOAD } from './constants';
 import { getCallsTypes } from '@/services/callRepository';
 
 async function loadItems({ commit, state }, { itemType, filters = {} }, resetPrevious) {
+  console.log('y');
+  
+  console.log(state[itemType], itemType);
+  
   const { items } = state[itemType];
   const filtersToApply = {
     ...filters,

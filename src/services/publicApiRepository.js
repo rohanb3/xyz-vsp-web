@@ -6,8 +6,8 @@ export const getBranches = (companyId, keyword) => {
   return publicApi.get(`/company/${companyId}/branch`, { params }).then(({ data }) => data);
 };
 
-export const getCompanies = keyword => {
-  const params = { SearchFilter: keyword };
+export const getCompanies = filters => {
+  const params = { ...filters };
 
   return publicApi.get('/company', { params }).then(({ data }) => console.log({ data }) || data);
 };
