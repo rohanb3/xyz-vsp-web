@@ -232,5 +232,7 @@
   "comments": "Comments",
   "branch.name": "Branch name",
   "logged.in.as": "Logged in as",
-  "add.device": "Add Device"
+  "add.device": "Add Device",
+
+  "retailer.not.found": "Sorry, any retailer according to your query doesn't found."
 }

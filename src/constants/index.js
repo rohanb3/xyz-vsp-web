@@ -146,3 +146,20 @@ export const ROLE_TYPES = {
   SUPPORT_ADMIN: 'supportadmin',
   SALES_REP: 'salesrep',
 };
+
+export const FILTER_NAMES_COMPANY_LIST = {
+  SEARCH_FILTER: 'SearchFilter',
+  SORT_BY: 'SortBy',
+  SKIP: 'Skip',
+  TAKE: 'Take',
+  SORT_ORDER: 'SortOrder',
+};
+
+export const COMPANY_LIST_COLUMNS_SORTED = {
+  COMPANY_NAME: 'companyName',
+};
+
+export const SORTING_DIRECTION = {
+  DESC: 'desc',
+  ASC: 'asc',
+};

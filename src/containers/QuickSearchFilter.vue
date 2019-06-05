@@ -1,5 +1,11 @@
 <template>
-  <div>{{storageData}}u</div>
+  <quick-search
+    :items="items"
+    name="companyName"
+    :loading-items="loading"
+    @input="loadItems"
+    @loadMoreItems="loadMoreItems"
+  />
 </template>
 
 
@@ -8,10 +14,10 @@ import QuickSearch from '@/components/QuickSearch';
 import tableFilterAutocomplete from '@/mixins/tableFilterAutocomplete';
 import { LOAD_ITEMS, LOAD_MORE_ITEMS } from '@/store/storage/actionTypes';
 
-import { ENTITY_TYPES } from '@/constants';
+import { ENTITY_TYPES, FILTER_NAMES_COMPANY_LIST } from '@/constants';
 
 export default {
-  name: "QuickSearchFilter",
+  name: 'QuickSearchFilter',
   mixins: [tableFilterAutocomplete],
   components: {
     QuickSearch,
@@ -20,19 +26,35 @@ export default {
     this.loadItems();
   },
   computed: {
-   /* tableData() {
-      return this.$store.state.tables[this.tableName] || {};
+    items() {
+      return this.$store.state.storage[this.entityName].items || [];
     },
-    filters() {
-      return this.tableData.filters || {};
-    },*/
-    storageData() {
-      return this.$store.state.storage[this.entityName] || {};
+    total() {
+      return this.items.length;
     },
-    loadItems() {
+  },
+  methods: {
+    loadItems(searchPhrase = '') {
       this.loading = true;
-      const data = { itemType: this.entityName, filters: {} };
+      const data = {
+        itemType: this.entityName,
+        filters: {
+          [FILTER_NAMES_COMPANY_LIST.SEARCH_FILTER]: searchPhrase,
+        },
+      };
       return this.$store.dispatch(LOAD_ITEMS, data).finally(() => {
+        this.loading = false;
+      });
+    },
+    loadMoreItems() {
+      this.loading = true;
+      const data = {
+        itemType: this.entityName,
+        filters: {
+          [FILTER_NAMES_COMPANY_LIST.SKIP]: this.total,
+        },
+      };
+      return this.$store.dispatch(LOAD_MORE_ITEMS, data).finally(() => {
         this.loading = false;
       });
     },
@@ -40,9 +62,8 @@ export default {
   data() {
     return {
       loading: false,
-      SearchFilter:'',
       entityName: ENTITY_TYPES.COMPANY_LIST,
-    }
-  }
-}
+    };
+  },
+};
 </script>

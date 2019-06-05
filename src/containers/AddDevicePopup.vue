@@ -24,21 +24,8 @@
         </div>
         <div class="company__section add-device__section">
           <quick-search-filter />
-          <quick-search
-            class="quick-search"
-            label="company"
-            :initial-phrase="company"
-            :placeholder="company"
-            @input="onSearchCompany"
-          ></quick-search>
         </div>
         <div class="branch__section add-device__section">
-          <quick-search
-            label="branch"
-            :initial-phrase="branch"
-            :placeholder="branch"
-            @input="onSearchBranch"
-          ></quick-search>
         </div>
         <span class="location-title">{{$t("branch.location")}}</span>
         <div class="latitude__section add-device__section">
@@ -101,7 +88,6 @@ import {
 } from '@/services/validators';
 
 import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
-import QuickSearch from '@/components/QuickSearch';
 import QuickSearchFilter from '@/containers/QuickSearchFilter';
 
 export default {
@@ -109,7 +95,6 @@ export default {
   components: {
     TableFullHeightBalloon,
     QuickSearchFilter,
-    QuickSearch,
   },
   data() {
     return {
