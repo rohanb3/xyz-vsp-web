@@ -59,6 +59,10 @@ import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
+import {
+  subscribeToDeviceChnages,
+  unsubscribeFromDeviceChanges,
+} from '@/services/deviceManagementSocket';
 
 const { DEVICES } = ENTITY_TYPES;
 
@@ -94,6 +98,19 @@ export default {
       selectedDevice: null,
     };
   },
+  computed: {
+    deviceIds() {
+      return this.rows.map(column => column.id);
+    },
+  },
+  watch: {
+    deviceIds(ids) {
+      subscribeToDeviceChnages(ids);
+    },
+  },
+  beforeDestroy() {
+    unsubscribeFromDeviceChanges(this.deviceIds);
+  },
   methods: {
     showDeviceComments(id) {
       this.selectDeviceById(id);
@@ -118,7 +135,8 @@ export default {
 .device-management-table /deep/ {
   .virtual-list {
     max-height: calc(
-      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} - #{$device-management-table-toolbar-height}
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} -
+        #{$device-management-table-toolbar-height}
     );
   }
   .column-comments {

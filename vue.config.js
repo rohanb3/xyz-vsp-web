@@ -58,6 +58,11 @@ module.exports = {
           '^/api/video/socket.io': '/socket.io',
         },
       },
+      '/deviceSocket': {
+        target: 'ws://192.168.6.138:8095',
+        ws: true,
+        changeOrigin: true,
+      },
     },
   },
 };
