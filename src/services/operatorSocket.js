@@ -44,8 +44,8 @@ export function notifyAboutAcceptingCall() {
   });
 }
 
-export function notifyAboutFinishingCall(call) {
-  socket.emit(events.CALL_FINISHED, call);
+export function notifyAboutFinishingCall(callId) {
+  socket.emit(events.CALL_FINISHED, callId);
 }
 
 export function notifyAboutLeavingRoomEmpty() {
