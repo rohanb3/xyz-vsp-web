@@ -36,12 +36,18 @@
             :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
             :item="rowCell.item"
             :column="rowCell.column"
+            @selectId="onSelectId"
           />
         </wombat-row>
       </div>
 
       <table-loader v-if="loading" slot="loader" />
     </wombat-table>
+    <DeviceHistory
+      :tableName="tableName"
+      v-if="deviceHistoryShow"
+      @close="close"
+    />
   </div>
 </template>
 
@@ -55,10 +61,15 @@ import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
 import DeviceLocationCell from '@/components/tableCells/DeviceLocationCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
+import IdCell from '../components/tableCells/IdCell';
 
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
+import DeviceHistory from './DeviceHistory';
+
+import { APPLY_FILTERS } from '@/store/tables/actionTypes';
+import { addBackground, removeBackground } from '../services/utils';
 
 const { DEVICES } = ENTITY_TYPES;
 
@@ -74,6 +85,8 @@ export default {
     DeviceStatusSinceCell,
     DeviceCommentsCell,
     TableLoader,
+    IdCell,
+    DeviceHistory,
   },
   mixins: [configurableColumnsTable, lazyLoadTable],
   data() {
@@ -89,9 +102,11 @@ export default {
         locationStatus: 'DeviceLocationCell',
         statusSince: 'DeviceStatusSinceCell',
         comments: 'DeviceCommentsCell',
+        id: 'IdCell',
       },
       deviceCommentsShown: false,
       selectedDevice: null,
+      deviceHistoryShow: false,
     };
   },
   methods: {
@@ -106,6 +121,28 @@ export default {
     selectDeviceById(id) {
       const device = this.rows.find(row => row.id === id);
       this.selectedDevice = device;
+    },
+    onSelectId(deviceId) {
+      try {
+        const data = {
+          tableName: DEVICES,
+          filters: [
+            {
+              name: DEVICES,
+              value: deviceId,
+            },
+          ],
+        };
+        this.$store.dispatch(APPLY_FILTERS, data);
+        this.deviceHistoryShow = true;
+        addBackground('device-management-table-toolbar');
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    close() {
+      this.deviceHistoryShow = false;
+      removeBackground('device-management-table-toolbar');
     },
   },
 };

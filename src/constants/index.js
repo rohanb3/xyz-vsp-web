@@ -145,3 +145,5 @@ export const ROLE_TYPES = {
   SUPPORT_ADMIN: 'supportadmin',
   SALES_REP: 'salesrep',
 };
+
+export const DEVICE_DETAILS_TABS = ['details', 'history', 'comments'];

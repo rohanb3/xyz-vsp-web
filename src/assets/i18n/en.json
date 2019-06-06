@@ -233,5 +233,15 @@
   "branch.name": "Branch name",
   "logged.in.as": "Logged in as",
   "email.is.not.registered": "This email is not registered in this system. Please, check and try again.",
-  "something.went.wrong": "Opps, something went wrong :("
+  "something.went.wrong": "Opps, something went wrong :(",
+
+  "device.id": "Device Id",
+  "history": "History",
+  "branch.location": "Branch location",
+  "latitude": "Latitude",
+  "longitude": "Longitude",
+  "branch": "Branch",
+  "allowed.location.radius": "Allowed location radius",
+  "current.device.location": "Current device location",
+  "cancel": "Cancel"
 }
