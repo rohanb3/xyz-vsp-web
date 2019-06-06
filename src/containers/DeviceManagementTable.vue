@@ -42,6 +42,7 @@
 
       <table-loader v-if="loading" slot="loader" />
     </wombat-table>
+    <device-management-updates :devices="rows" />
   </div>
 </template>
 
@@ -55,17 +56,11 @@ import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
 import DeviceLocationCell from '@/components/tableCells/DeviceLocationCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
+import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
-import {
-  connect,
-  disconnect,
-  subscribeToDeviceChanges,
-  unsubscribeFromDeviceChanges,
-} from '@/services/deviceManagementSocket';
-import { CHANGE_ITEM } from '@/store/storage/mutationTypes';
 
 const { DEVICES } = ENTITY_TYPES;
 
@@ -81,6 +76,7 @@ export default {
     DeviceStatusSinceCell,
     DeviceCommentsCell,
     TableLoader,
+    DeviceManagementUpdates,
   },
   mixins: [configurableColumnsTable, lazyLoadTable],
   data() {
@@ -101,22 +97,6 @@ export default {
       selectedDevice: null,
     };
   },
-  computed: {
-    devicesUdids() {
-      return this.rows.map(column => column.udid);
-    },
-  },
-  mounted() {
-    connect(this.updateDevice);
-  },
-  watch: {
-    devicesUdids(udids) {
-      subscribeToDeviceChanges(udids);
-    },
-  },
-  beforeDestroy() {
-    unsubscribeFromDeviceChanges(this.deviceIds).then(disconnect);
-  },
   methods: {
     showDeviceComments(id) {
       this.selectDeviceById(id);
@@ -129,9 +109,6 @@ export default {
     selectDeviceById(id) {
       const device = this.rows.find(row => row.id === id);
       this.selectedDevice = device;
-    },
-    updateDevice(updates) {
-      this.$store.commit(CHANGE_ITEM, { itemType: DEVICES, ...updates });
     },
   },
 };

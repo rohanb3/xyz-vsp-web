@@ -16,7 +16,7 @@ export function connect(onDeviceUpdated = () => {}) {
   return hubConnection
     .start()
     .then(() => {
-      hubConnection.on(DEVICE_UPDATED, updates => handleUpdates(updates, onDeviceUpdated));
+      hubConnection.on(DEVICE_UPDATED, updates => onDeviceUpdated(pickNeededFields(updates)));
     })
     .catch(e => console.error('Device management socket failed', e));
 }
@@ -33,12 +33,7 @@ export function unsubscribeFromDeviceChanges() {
   return hubConnection.invoke(SUBSCRIBE_DEVICES_UPDATES, { Udids: [] });
 }
 
-function handleUpdates(updatesRaw, callback) {
-  console.log(JSON.parse(updatesRaw));
-  callback(pickOnlyNeededFields(updatesRaw));
-}
-
-function pickOnlyNeededFields(updatesRaw) {
+function pickNeededFields(updatesRaw) {
   let updates = null;
   try {
     const {
