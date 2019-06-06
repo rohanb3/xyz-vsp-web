@@ -60,9 +60,12 @@ import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
 import {
-  subscribeToDeviceChnages,
+  connect,
+  disconnect,
+  subscribeToDeviceChanges,
   unsubscribeFromDeviceChanges,
 } from '@/services/deviceManagementSocket';
+import { CHANGE_ITEM } from '@/store/storage/mutationTypes';
 
 const { DEVICES } = ENTITY_TYPES;
 
@@ -99,17 +102,20 @@ export default {
     };
   },
   computed: {
-    deviceIds() {
-      return this.rows.map(column => column.id);
+    devicesUdids() {
+      return this.rows.map(column => column.udid);
     },
   },
+  mounted() {
+    connect(this.updateDevice);
+  },
   watch: {
-    deviceIds(ids) {
-      subscribeToDeviceChnages(ids);
+    devicesUdids(udids) {
+      subscribeToDeviceChanges(udids);
     },
   },
   beforeDestroy() {
-    unsubscribeFromDeviceChanges(this.deviceIds);
+    unsubscribeFromDeviceChanges(this.deviceIds).then(disconnect);
   },
   methods: {
     showDeviceComments(id) {
@@ -124,6 +130,9 @@ export default {
       const device = this.rows.find(row => row.id === id);
       this.selectedDevice = device;
     },
+    updateDevice(updates) {
+      this.$store.commit(CHANGE_ITEM, { itemType: DEVICES, ...updates });
+    },
   },
 };
 </script>
@@ -135,8 +144,7 @@ export default {
 .device-management-table /deep/ {
   .virtual-list {
     max-height: calc(
-      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} -
-        #{$device-management-table-toolbar-height}
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} - #{$device-management-table-toolbar-height}
     );
   }
   .column-comments {

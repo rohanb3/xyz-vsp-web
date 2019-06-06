@@ -1,6 +1,9 @@
 import { HubConnectionBuilder, HttpTransportType, LogLevel } from '@aspnet/signalr';
 
-const hubUrl = '/deviceSocket';
+const hubUrl = '/operatorSocket';
+const SUBSCRIBE_DEVICES_UPDATES = 'SubscribeDevicesUpdates';
+const DEVICE_UPDATED = 'DeviceUpdated';
+
 const hubConnection = new HubConnectionBuilder()
   .withUrl(hubUrl, {
     skipNegotiation: true,
@@ -9,20 +12,47 @@ const hubConnection = new HubConnectionBuilder()
   .configureLogging(LogLevel.Information)
   .build();
 
-hubConnection.on('Send', data => {
-  console.log('Send', data);
-});
-
-setTimeout(() => {
-  hubConnection.invoke('Send', [1, 2, 3]);
-}, 2000);
-
-hubConnection.start();
-
-export function subscribeToDeviceChnages(ids = []) {
-  console.log('Subscribe', ids);
+export function connect(onDeviceUpdated = () => {}) {
+  return hubConnection
+    .start()
+    .then(() => {
+      hubConnection.on(DEVICE_UPDATED, updates => handleUpdates(updates, onDeviceUpdated));
+    })
+    .catch(e => console.error('Device management socket failed', e));
 }
 
-export function unsubscribeFromDeviceChanges(ids = []) {
-  console.log('Unsubscribe', ids);
+export function disconnect() {
+  return hubConnection.stop();
+}
+
+export function subscribeToDeviceChanges(ids = []) {
+  return hubConnection.invoke(SUBSCRIBE_DEVICES_UPDATES, { Udids: ids });
+}
+
+export function unsubscribeFromDeviceChanges() {
+  return hubConnection.invoke(SUBSCRIBE_DEVICES_UPDATES, { Udids: [] });
+}
+
+function handleUpdates(updatesRaw, callback) {
+  callback(pickOnlyNeededFields(updatesRaw));
+}
+
+function pickOnlyNeededFields(updatesRaw) {
+  let updates = null;
+  try {
+    const {
+      device: { id },
+      isOnline,
+      isInLocation,
+    } = JSON.parse(updatesRaw);
+    updates = {
+      id,
+      isOnline,
+      isInLocation,
+    };
+  } catch (e) {
+    updates = {};
+  }
+
+  return updates;
 }

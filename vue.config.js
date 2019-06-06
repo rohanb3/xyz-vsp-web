@@ -58,8 +58,8 @@ module.exports = {
           '^/api/video/socket.io': '/socket.io',
         },
       },
-      '/deviceSocket': {
-        target: 'ws://192.168.6.138:8095',
+      '/operatorSocket': {
+        target: 'https://vsp.xyzies.ardas.biz/api/device-management-api',
         ws: true,
         changeOrigin: true,
       },
