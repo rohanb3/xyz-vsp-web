@@ -1,6 +1,6 @@
 import { HubConnectionBuilder, HttpTransportType, LogLevel } from '@aspnet/signalr';
 
-const hubUrl = '/operatorSocket';
+const hubUrl = '/api/device-management-api/operatorSocket';
 const SUBSCRIBE_DEVICES_UPDATES = 'SubscribeDevicesUpdates';
 const DEVICE_UPDATED = 'DeviceUpdated';
 
@@ -34,6 +34,7 @@ export function unsubscribeFromDeviceChanges() {
 }
 
 function handleUpdates(updatesRaw, callback) {
+  console.log(JSON.parse(updatesRaw));
   callback(pickOnlyNeededFields(updatesRaw));
 }
 

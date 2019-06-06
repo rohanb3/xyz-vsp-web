@@ -38,7 +38,7 @@ module.exports = {
         target: 'https://vsp.xyzies.ardas.biz/',
         changeOrigin: true,
       },
-      '/api/device-management-api': {
+      '/api/device-management-api/devices': {
         target: 'https://vsp.xyzies.ardas.biz/',
         changeOrigin: true,
       },
@@ -58,8 +58,8 @@ module.exports = {
           '^/api/video/socket.io': '/socket.io',
         },
       },
-      '/operatorSocket': {
-        target: 'https://vsp.xyzies.ardas.biz/api/device-management-api',
+      '/api/device-management-api/operatorSocket': {
+        target: 'https://vsp.xyzies.ardas.biz/',
         ws: true,
         changeOrigin: true,
       },
