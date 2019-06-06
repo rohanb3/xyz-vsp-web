@@ -3,15 +3,10 @@
     <div class="add-device-popup" @close="close">
       <div class="card-header">
         <h3>{{ $t('add.device') }}</h3>
-        <v-icon
-          class="close-icon"
-          @click="close"
-        >
-          clear
-        </v-icon>
+        <v-icon class="close-icon" @click="close">clear</v-icon>
       </div>
       <v-form ref="form" class="card-body">
-       <div class="udid__section add-device__section">
+        <div class="udid__section add-device__section">
           <v-text-field
             class="input"
             label="udid"
@@ -19,13 +14,17 @@
             :rules="udidRules"
             required
             clearable
-          >
-          </v-text-field>
+          ></v-text-field>
         </div>
         <div class="company__section add-device__section">
-          <quick-search-filter />
+          <company-quick-search @select="selectCompany"/>
         </div>
         <div class="branch__section add-device__section">
+          <branch-quick-search
+            :company-id="companyId"
+            :disabled="!companyId"
+            @select="selectBranch"
+          />
         </div>
         <span class="location-title">{{$t("branch.location")}}</span>
         <div class="latitude__section add-device__section">
@@ -36,8 +35,7 @@
             :rules="coordinatesRules"
             required
             clearable
-          >
-          </v-text-field>
+          ></v-text-field>
         </div>
         <div class="longitude__section add-device__section">
           <v-text-field
@@ -47,8 +45,7 @@
             :rules="coordinatesRules"
             required
             clearable
-          >
-          </v-text-field>
+          ></v-text-field>
         </div>
         <div class="radius__section add-device__section">
           <v-text-field
@@ -58,24 +55,13 @@
             :rules="radiusRules"
             required
             clearable
-          >
-          </v-text-field>
+          ></v-text-field>
         </div>
       </v-form>
-    <div class="controls">
-      <v-btn
-        @click="onCancel"
-        class="button button-cancel"
-      >
-        {{ $t('cancel') }}
-      </v-btn>
-      <v-btn
-        @click="onSave"
-        class="button button-save"
-      >
-        {{ $t('save') }}
-      </v-btn>
-    </div>
+      <div class="controls">
+        <v-btn @click="onCancel" class="button button-cancel">{{ $t('cancel') }}</v-btn>
+        <v-btn @click="onSave" class="button button-save">{{ $t('save') }}</v-btn>
+      </div>
     </div>
   </table-full-height-balloon>
 </template>
@@ -88,13 +74,15 @@ import {
 } from '@/services/validators';
 
 import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
-import QuickSearchFilter from '@/containers/QuickSearchFilter';
+import CompanyQuickSearch from '@/containers/CompanyQuickSearch';
+import BranchQuickSearch from '@/containers/BranchQuickSearch';
 
 export default {
   name: 'AddDevicePopup',
   components: {
     TableFullHeightBalloon,
-    QuickSearchFilter,
+    CompanyQuickSearch,
+    BranchQuickSearch,
   },
   data() {
     return {
@@ -106,7 +94,10 @@ export default {
       longitude: '',
       radius: '',
       udidRules: [validateFieldCantBeEmpty()],
-      coordinatesRules: [validateFieldCantBeEmpty(), validateOnlyDigitsAndDots()],
+      coordinatesRules: [
+        validateFieldCantBeEmpty(),
+        validateOnlyDigitsAndDots(),
+      ],
       radiusRules: [validateFieldCantBeEmpty(), validateOnlyDigits()],
     };
   },
@@ -114,11 +105,11 @@ export default {
     close() {
       this.$emit('close');
     },
-    onSearchBranch(keyword) {
-      console.log({ keyword });
+    selectBranch(branch) {
+      console.log({ branch });
     },
-    onSearchCompany(keyword) {
-      console.log({ keyword });
+    selectCompany(id) {
+      this.companyId = id;
     },
     validate() {
       return this.$refs.form.validate();

@@ -1,22 +1,26 @@
 <template>
   <div class="quick-search">
     <v-autocomplete
-      content-class="quick-search-select-list"
+      :content-class="`quick-search-select-list select-list-${this.name}`"
       v-model="model"
       :items="items"
+      :disabled="disabled"
       persistent-hint
       :item-value="itemKey"
       :item-text="name"
       :loading="loadingItems"
-      ref="dd"
+      ref="quickSearch"
+      :no-data-text="notFoundMessage"
       @update:searchInput="debounceInput"
+      @input="selectItem"
+      @focus="showList = true"
+      @blur="showList = false"
     ></v-autocomplete>
   </div>
 </template>
 
 <script>
 import tableToolbarBalloon from '@/mixins/tableToolbarBalloon';
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 import PerfectScrollbar from 'perfect-scrollbar';
 import debounce from 'lodash.debounce';
 
@@ -24,9 +28,6 @@ const SEARCH_TIMEOUT = 500;
 
 function debounceInput(value) {
   this.textValue = value;
-  console.log(value);
-
-  this.$emit('input', value.trim());
 }
 
 export default {
@@ -36,17 +37,9 @@ export default {
   },
   mixins: [tableToolbarBalloon],
   props: {
-    placeholder: {
-      type: String,
-    },
-    label: {
-      type: String,
-    },
-    initialPhrase: {
-      default: '',
-      validator(value) {
-        return typeof value === 'string' || typeof value === 'number';
-      },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
     items: {
       type: Array,
@@ -62,45 +55,51 @@ export default {
     },
     loadingItems: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     notFoundMessage: {
       type: String,
       default: 'table.no.results.found',
+    },
+    initialItem: {
+      type: Number,
     },
   },
   data() {
     return {
       textValue: '',
       model: null,
+      showList: false,
     };
+  },
+  computed: {
+    initialItem: {
+      get() {
+        return this.initialItem;
+      },
+      set(itemId) {},
+    },
   },
   mounted() {
     this.updateScrollBar();
-    if (this.initialPhrase) {
-      this.textValue = this.initialPhrase;
-    }
-  },
-  computed: {
-    isItemNotFound() {
-      return !this.items.length;
-    },
   },
   methods: {
     debounceInput: debounce(debounceInput, SEARCH_TIMEOUT),
-    onClickItem(item) {
-      console.log('=>', item);
+    selectItem(item) {
+      this.$emit('select', item);
     },
     updateScrollBar() {
       this.$nextTick(() => {
         if (this.scrollbar) {
-          this.$refs.dd.onScroll();
+          this.$refs.quickSearch.onScroll();
           this.scrollbar.update();
         } else {
-          const el = document.querySelector('.v-select-list');
+          const el = document.querySelector(
+            `.select-list-${this.name} .v-select-list`
+          );
           this.scrollbar = new PerfectScrollbar(el);
           el.addEventListener('ps-y-reach-end', () => {
-            if (!this.loadingItems) {
+            if (!this.loadingItems && this.showList) {
               this.$emit('loadMoreItems', this.textValue);
             }
           });
@@ -109,8 +108,15 @@ export default {
     },
   },
   watch: {
-    items() {
-      this.updateScrollBar();
+    items: {
+      handler() {
+        this.updateScrollBar();
+      },
+      deep: true,
+    },
+    textValue(newVal, oldVal) {
+      if (newVal === '') this.model = null;
+      this.$emit('load', (newVal || '').trim());
     },
   },
 };
@@ -120,7 +126,7 @@ export default {
 .quick-search-select-list {
   .v-select-list {
     position: relative;
-    height: 200px;
+    max-height: 25vh;
 
     .v-list__tile__title {
       text-overflow: ellipsis;

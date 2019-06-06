@@ -19,5 +19,5 @@ export const getCompanies = filters => {
     [FILTER_NAMES_COMPANY_LIST.SORT_ORDER]: SORTING_DIRECTION.ASC,
   };
 
-  return publicApi.get('/company', { params }).then(({ data }) => console.log({ data }) || data);
+  return publicApi.get('/company', { params }).then(({ data }) => data);
 };

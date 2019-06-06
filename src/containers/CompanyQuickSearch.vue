@@ -3,22 +3,20 @@
     :items="items"
     name="companyName"
     :loading-items="loading"
-    @input="loadItems"
+    @load="loadItems"
     @loadMoreItems="loadMoreItems"
+    @select="item => this.$emit('select', item)"
   />
 </template>
 
-
 <script>
 import QuickSearch from '@/components/QuickSearch';
-import tableFilterAutocomplete from '@/mixins/tableFilterAutocomplete';
 import { LOAD_ITEMS, LOAD_MORE_ITEMS } from '@/store/storage/actionTypes';
 
 import { ENTITY_TYPES, FILTER_NAMES_COMPANY_LIST } from '@/constants';
 
 export default {
-  name: 'QuickSearchFilter',
-  mixins: [tableFilterAutocomplete],
+  name: 'CompanyQuickSearch',
   components: {
     QuickSearch,
   },
@@ -26,8 +24,11 @@ export default {
     this.loadItems();
   },
   computed: {
+    storageData() {
+      return this.$store.state.storage[this.entityName] || {};
+    },
     items() {
-      return this.$store.state.storage[this.entityName].items || [];
+      return this.storageData.items || [];
     },
     total() {
       return this.items.length;
