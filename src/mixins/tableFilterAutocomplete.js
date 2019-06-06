@@ -78,11 +78,12 @@ export default {
       this.loading = true;
       getItemList(searchField)
         .then(data => {
-          const newListOfItems = data.result.filter(newItem => {
-            return !this[this.filterName].some(
-              existingItem => existingItem[itemKey] === newItem[itemKey]
-            );
-          });
+          const newListOfItems = data.result.filter(
+            newItem =>
+              !this[this.filterName].some(
+                existingItem => existingItem[itemKey] === newItem[itemKey]
+              )
+          );
           this.$set(this, this.filterName, [...this[this.filterName], ...newListOfItems]);
         })
         .finally(() => {

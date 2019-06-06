@@ -25,7 +25,7 @@ const SEARCH_TIMEOUT = 500;
 function debounceInput(value) {
   this.textValue = value;
   console.log(value);
-  
+
   this.$emit('input', value.trim());
 }
 
