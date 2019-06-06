@@ -46,11 +46,12 @@ export default {
         this.loading = false;
       });
     },
-    loadMoreItems() {
+    loadMoreItems(searchPhrase = '') {
       this.loading = true;
       const data = {
         itemType: this.entityName,
         filters: {
+          [FILTER_NAMES_COMPANY_LIST.SEARCH_FILTER]: searchPhrase,
           [FILTER_NAMES_COMPANY_LIST.SKIP]: this.total,
         },
       };

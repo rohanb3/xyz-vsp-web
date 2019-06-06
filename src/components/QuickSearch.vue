@@ -1,55 +1,38 @@
 <template>
   <div class="quick-search">
-    <v-text-field
-      v-model.trim="textValue"
-      :label="label"
-      :placeholder="placeholder"
-      hide-details
-      @input="debounceInput"
-      @focus="checkAndShow"
-    ></v-text-field>
-    <popper
-      trigger="click"
-      ref="popper"
-      :options="options"
-      boundaries-selector="company__section"
-      @show="onShow"
-      @hide="onHide"
-    >
-      <div class="popper dropdown-list">
-        <VuePerfectScrollbar class="scroll-area ps" @ps-y-reach-end="bottomReached">
-          <ul class="list-selector">
-            <li
-              class="item-row"
-              v-for="item in items"
-              :key="item[itemKey]"
-              @click.stop="onClickItem(item)"
-              :title="item[name]"
-            >{{ item[name] }}</li>
-            <li v-show="isItemNotFound" class="item-not-found">{{ $t('notFoundMessage') }}</li>
-            <slot name="loader"></slot>
-          </ul>
-        </VuePerfectScrollbar>
-      </div>
-    </popper>
+    <v-autocomplete
+      content-class="quick-search-select-list"
+      v-model="model"
+      :items="items"
+      persistent-hint
+      :item-value="itemKey"
+      :item-text="name"
+      :loading="loadingItems"
+      ref="dd"
+      @update:searchInput="debounceInput"
+    ></v-autocomplete>
   </div>
 </template>
 
 <script>
 import tableToolbarBalloon from '@/mixins/tableToolbarBalloon';
-import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
+import PerfectScrollbar from 'perfect-scrollbar';
 import debounce from 'lodash.debounce';
 
 const SEARCH_TIMEOUT = 500;
 
 function debounceInput(value) {
+  this.textValue = value;
+  console.log(value);
+  
   this.$emit('input', value.trim());
 }
 
 export default {
   name: 'QuickSearch',
   components: {
-    VuePerfectScrollbar,
+    PerfectScrollbar,
   },
   mixins: [tableToolbarBalloon],
   props: {
@@ -89,9 +72,11 @@ export default {
   data() {
     return {
       textValue: '',
+      model: null,
     };
   },
   mounted() {
+    this.updateScrollBar();
     if (this.initialPhrase) {
       this.textValue = this.initialPhrase;
     }
@@ -104,60 +89,44 @@ export default {
   methods: {
     debounceInput: debounce(debounceInput, SEARCH_TIMEOUT),
     onClickItem(item) {
-      console.log('=>',item);
+      console.log('=>', item);
     },
-    bottomReached() {
-      console.log('e');
-      
-      if (!this.loadingItems) {
-       // this.$emit('loadMoreItems');
-      }
+    updateScrollBar() {
+      this.$nextTick(() => {
+        if (this.scrollbar) {
+          this.$refs.dd.onScroll();
+          this.scrollbar.update();
+        } else {
+          const el = document.querySelector('.v-select-list');
+          this.scrollbar = new PerfectScrollbar(el);
+          el.addEventListener('ps-y-reach-end', () => {
+            if (!this.loadingItems) {
+              this.$emit('loadMoreItems', this.textValue);
+            }
+          });
+        }
+      });
+    },
+  },
+  watch: {
+    items() {
+      this.updateScrollBar();
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
-@import '~@/assets/styles/variables.scss';
+<style lang="scss">
+.quick-search-select-list {
+  .v-select-list {
+    position: relative;
+    height: 200px;
 
-.quick-search {
-  position: relative;
-}
-
-.dropdown-list {
-  background: $base-white;
-  width: 284px;
-}
-
-.item-row {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.scroll-area {
-  max-height: 25vh;
-}
-
-.item-not-found {
-  text-align: center;
-}
-
-.popper {
-  background-color: $popper-background-color;
-  border-radius: 8px;
-  border: none;
-  box-shadow: 0 2px 24px 0 $popper-shadow-color;
-  padding: 0px;
-  top: 10px !important;
-
-  &[x-placement^="bottom"] {
-    .popper__arrow {
-      border-width: 0 10px 10px 10px !important;
-      top: -10px !important;
-      border-bottom-color: $popper-background-color;
+    .v-list__tile__title {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      width: 240px;
     }
   }
 }
-
 </style>
