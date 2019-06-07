@@ -12,6 +12,7 @@
           :id="'Latitude'"
           v-model="selected.latitude"
           field="latitude"
+          inputType="number"
           @change="onInputChange"
         />
       </div>
@@ -70,7 +71,7 @@
       </div>
     </div>
     <div class="control" v-if="changes">
-      <button>{{ $t('cancel') }}</button>
+      <button @click="$emit('cancel')">{{ $t('cancel') }}</button>
       <button class="save">{{ $t('save ') }}</button>
     </div>
   </div>

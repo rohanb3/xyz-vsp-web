@@ -33,6 +33,8 @@
             :selected="selected"
             :changes="changes"
             @onInputChange="onInputChange"
+            @save="saveChanges"
+            @cancel="close"
           />
         </v-tab-item>
         <v-tab-item>
@@ -43,6 +45,18 @@
         </v-tab-item>
       </v-tabs-items>
     </div>
+    <v-dialog v-model="dialog" persistent max-width="290">
+      <v-card>
+        <v-card-text>
+          {{ $t('are.you.sure.you.want.to.go.away') }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" flat @click="cancelChanges">Yes</v-btn>
+          <v-btn color="green darken-1" flat @click="dialog = false">No</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </table-full-height-balloon>
 </template>
 
@@ -69,12 +83,18 @@ export default {
       tab: 0,
       selected: this.selectedDevice || {},
       changes: false,
+      dialog: false,
     };
   },
   watch: {
+    deviceId(val) {
+      if (!val) {
+        this.$emit('close');
+      }
+    },
     selectedDevice: {
       handler(val) {
-        this.selected = val;
+        this.selected = { ...val };
       },
       deep: true,
     },
@@ -94,20 +114,32 @@ export default {
     filters() {
       return this.tableData.filters || {};
     },
-    disputeId() {
+    deviceId() {
       return this.filters[DEVICES];
     },
     selectedDevice() {
-      return this.$store.getters.getItemById(this.disputeId, this.tableName, item => item.id);
+      return this.$store.getters.getItemById(this.deviceId, this.tableName, item => item.id);
     },
   },
   methods: {
     close() {
-      this.$emit('close');
+      if (this.changes) {
+        this.dialog = true;
+      } else {
+        this.$emit('close');
+      }
     },
     onInputChange(val) {
       this.selected[val.field] = val.value;
     },
+    cancelChanges() {
+      this.selected = { ...this.selectedDevice };
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.changes = false;
+      });
+    },
+    saveChanges() {},
   },
 };
 </script>

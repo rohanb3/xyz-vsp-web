@@ -243,5 +243,6 @@
   "branch": "Branch",
   "allowed.location.radius": "Allowed location radius",
   "current.device.location": "Current device location",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved."
 }

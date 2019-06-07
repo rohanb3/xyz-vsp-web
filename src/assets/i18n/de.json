@@ -244,5 +244,6 @@
   "branch": "TBD Branch",
   "allowed.location.radius": "TBD Allowed location radius",
   "current.device.location": "TBD Current device location",
-  "cancel": "TBD Cancel"
+  "cancel": "TBD Cancel",
+  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved."
 }
