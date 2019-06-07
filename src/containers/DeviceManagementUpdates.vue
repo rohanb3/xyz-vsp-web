@@ -40,7 +40,17 @@ export default {
   },
   methods: {
     updateDevice(updates) {
-      this.$store.commit(CHANGE_ITEM, { itemType: DEVICES, ...updates });
+      const { id, isInLocation, isOnline, ...newHistoryItem } = updates;
+      const deviceToUpdate =
+        this.devices.find(device => device.id === id) || {};
+      const historyToUpdate = deviceToUpdate.history || [];
+      const deviceUpdates = {
+        id,
+        isInLocation,
+        isOnline,
+        history: [newHistoryItem, ...historyToUpdate],
+      };
+      this.$store.commit(CHANGE_ITEM, { itemType: DEVICES, ...deviceUpdates });
     },
   },
 };

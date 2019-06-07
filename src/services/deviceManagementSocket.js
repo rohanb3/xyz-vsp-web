@@ -1,4 +1,8 @@
-import { HubConnectionBuilder, HttpTransportType, LogLevel } from '@aspnet/signalr';
+import {
+  HubConnectionBuilder,
+  HttpTransportType,
+  LogLevel,
+} from '@aspnet/signalr';
 
 const hubUrl = '/api/device-management-api/operatorSocket';
 const SUBSCRIBE_DEVICES_UPDATES = 'SubscribeDevicesUpdates';
@@ -16,7 +20,9 @@ export function connect(onDeviceUpdated = () => {}) {
   return hubConnection
     .start()
     .then(() => {
-      hubConnection.on(DEVICE_UPDATED, updates => onDeviceUpdated(pickNeededFields(updates)));
+      hubConnection.on(DEVICE_UPDATED, updates =>
+        onDeviceUpdated(pickNeededFields(updates))
+      );
     })
     .catch(e => console.error('Device management socket failed', e));
 }
@@ -38,14 +44,26 @@ export function pickNeededFields(updatesRaw) {
   let updates = null;
   try {
     const {
-      device: { id },
+      device: {
+        id,
+        latitude: deviceLocationLatitude,
+        longitude: deviceLocationLongitude,
+      },
       isOnline,
       isInLocation,
+      createdOn,
+      currentDeviceLocationLatitude,
+      currentDeviceLocationLongitude,
     } = JSON.parse(updatesRaw);
     updates = {
       id,
       isOnline,
       isInLocation,
+      createdOn,
+      currentDeviceLocationLatitude,
+      currentDeviceLocationLongitude,
+      deviceLocationLatitude,
+      deviceLocationLongitude,
     };
   } catch (e) {
     updates = {};

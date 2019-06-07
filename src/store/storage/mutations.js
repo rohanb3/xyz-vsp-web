@@ -17,12 +17,21 @@ export default {
   [CHANGE_ITEM](state, { itemType, id, ...updates }) {
     const itemIndex = state[itemType].items.findIndex(item => item.id === id);
     if (itemIndex >= 0) {
-      const updated = Object.assign({}, state[itemType].items[itemIndex], updates);
+      const updated = Object.assign(
+        {},
+        state[itemType].items[itemIndex],
+        updates
+      );
       Vue.set(state[itemType].items, itemIndex, updated);
+      // Object.keys(updates).forEach(key => {
+      //   Vue.set(state[itemType].items[itemIndex], key, updates[key]);
+      // });
     }
   },
   [REMOVE_ITEM](state, { itemType, id }) {
-    const itemIndex = state[itemType].items.findIndex(template => template.id === id);
+    const itemIndex = state[itemType].items.findIndex(
+      template => template.id === id
+    );
     if (itemIndex >= 0) {
       Vue.delete(state[itemType].items, itemIndex);
     }

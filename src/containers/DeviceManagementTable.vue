@@ -4,6 +4,7 @@
       <div class="devices-amount">{{ $t('device.management') }}</div>
     </div>
     <wombat-table
+      class="device-management-wombat-table"
       :name="tableName"
       :items="rows"
       :columns="columns"
@@ -45,8 +46,9 @@
     </wombat-table>
     <device-management-updates :devices="rows" />
     <DeviceHistory
-      :tableName="tableName"
       v-if="deviceHistoryShow"
+      :tableName="tableName"
+      :selected-device="selectedDevice"
       @close="close"
     />
   </div>
@@ -59,7 +61,7 @@ import TableLoader from '@/components/TableLoader';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
 import DefaultCell from '@/components/tableCells/DefaultCell';
 import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
-import DeviceLocationCell from '@/components/tableCells/DeviceLocationCell';
+import DeviceLocationStatusCell from '@/components/tableCells/DeviceLocationStatusCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
 import IdCell from '../components/tableCells/IdCell';
@@ -83,7 +85,7 @@ export default {
     DefaultHeaderCell,
     DefaultCell,
     DeviceStatusCell,
-    DeviceLocationCell,
+    DeviceLocationStatusCell,
     DeviceStatusSinceCell,
     DeviceCommentsCell,
     TableLoader,
@@ -102,7 +104,7 @@ export default {
       rowComponentsHash: {
         default: 'DefaultCell',
         status: 'DeviceStatusCell',
-        locationStatus: 'DeviceLocationCell',
+        locationStatus: 'DeviceLocationStatusCell',
         statusSince: 'DeviceStatusSinceCell',
         comments: 'DeviceCommentsCell',
         id: 'IdCell',
@@ -123,20 +125,22 @@ export default {
     },
     selectDeviceById(id) {
       const device = this.rows.find(row => row.id === id);
+      console.log(device);
       this.selectedDevice = device;
     },
     onSelectId(deviceId) {
       try {
-        const data = {
-          tableName: DEVICES,
-          filters: [
-            {
-              name: DEVICES,
-              value: deviceId,
-            },
-          ],
-        };
-        this.$store.dispatch(APPLY_FILTERS, data);
+        // const data = {
+        //   tableName: DEVICES,
+        //   filters: [
+        //     {
+        //       name: DEVICES,
+        //       value: deviceId,
+        //     },
+        //   ],
+        // };
+        // this.$store.dispatch(APPLY_FILTERS, data);
+        this.selectDeviceById(deviceId);
         this.deviceHistoryShow = true;
         addBackground('device-management-table-toolbar');
       } catch (error) {
@@ -156,12 +160,13 @@ export default {
 @import '~@/assets/styles/mixins.scss';
 
 .device-management-table /deep/ {
-  .virtual-list {
+  .device-management-wombat-table .virtual-list {
     max-height: calc(
-      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} - #{$device-management-table-toolbar-height}
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} -
+        #{$device-management-table-toolbar-height}
     );
   }
-  .column-comments {
+  .device-management-wombat-table .column-comments {
     .header-cell {
       justify-content: center;
     }

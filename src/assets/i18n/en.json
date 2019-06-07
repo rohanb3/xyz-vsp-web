@@ -232,17 +232,21 @@
   "comments": "Comments",
   "branch.name": "Branch name",
   "logged.in.as": "Logged in as",
-  "email.is.not.registered": "This email is not registered in this system. Please, check and try again.",
+  "email.is.not.registered":
+    "This email is not registered in this system. Please, check and try again.",
   "something.went.wrong": "Opps, something went wrong :(",
 
   "device.id": "Device Id",
   "history": "History",
   "branch.location": "Branch location",
+  "device.location.with.hint": "Device location (Lat/Long)",
+  "branch.location.with.hint": "Branch location (Lat/Long)",
   "latitude": "Latitude",
   "longitude": "Longitude",
   "branch": "Branch",
   "allowed.location.radius": "Allowed location radius",
   "current.device.location": "Current device location",
   "cancel": "Cancel",
-  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved."
+  "are.you.sure.you.want.to.go.away":
+    "Are you sure you want to go away? Changes will not be saved."
 }

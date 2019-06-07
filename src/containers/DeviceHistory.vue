@@ -38,7 +38,7 @@
           />
         </v-tab-item>
         <v-tab-item>
-          History
+          <device-history-table :device="selectedDevice" />
         </v-tab-item>
         <v-tab-item>
           Comments
@@ -63,18 +63,23 @@
 <script>
 import TableFullHeightBalloon from '../components/TableFullHeightBalloon';
 import DeviceDetailsTab from '../components/DeviceDetailsTab';
+import DeviceHistoryTable from '@/containers/DeviceHistoryTable';
 import { ENTITY_TYPES, DEVICE_DETAILS_TABS } from '@/constants';
 
 const { DEVICES } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceHistory',
-  components: { DeviceDetailsTab, TableFullHeightBalloon },
+  components: { DeviceDetailsTab, TableFullHeightBalloon, DeviceHistoryTable },
   props: {
     tableName: {
       type: String,
       default: '',
       changes: false,
+    },
+    selectedDevice: {
+      type: Object,
+      default: () => ({}),
     },
   },
   data() {
@@ -94,6 +99,7 @@ export default {
     },
     selectedDevice: {
       handler(val) {
+        console.log('changed', val);
         this.selected = { ...val };
       },
       deep: true,
@@ -117,9 +123,13 @@ export default {
     deviceId() {
       return this.filters[DEVICES];
     },
-    selectedDevice() {
-      return this.$store.getters.getItemById(this.deviceId, this.tableName, item => item.id);
-    },
+    // selectedDevice() {
+    //   return this.$store.getters.getItemById(
+    //     this.deviceId,
+    //     this.tableName,
+    //     item => item.id
+    //   );
+    // },
   },
   methods: {
     close() {
@@ -168,7 +178,7 @@ export default {
     font-size: 14px;
     font-weight: bold;
     justify-content: space-between;
-    height: 51px;
+    height: $device-info-popup-header-height;
 
     &-wrapper {
       display: flex;

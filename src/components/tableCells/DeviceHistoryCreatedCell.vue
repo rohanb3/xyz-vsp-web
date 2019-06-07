@@ -1,9 +1,9 @@
 <template>
   <div
-    class='device-status-since-cell'
+    class='device-history-created-cell'
     :class="{ 'device-online': item.isOnline, 'device-oflline': !item.isOnline }"
   >
-    {{ date || watchedDate }}
+    {{ date }}
   </div>
 </template>
 
@@ -14,30 +14,15 @@ import { DATE_FORMATS } from '@/constants';
 const { DEFAULT_DATE_FORMAT } = DATE_FORMATS;
 
 export default {
-  name: 'DeviceStatusSinceCell',
+  name: 'DeviceHistoryCreatedCell',
   props: {
     item: {
       type: Object,
     },
   },
-  data() {
-    return {
-      watchedDate: null,
-    };
-  },
-  watch: {
-    isOnline() {
-      this.watchedDate = moment().format(DEFAULT_DATE_FORMAT);
-    },
-  },
   computed: {
     date() {
-      return this.item.statusSince
-        ? moment(this.item.statusSince).format(DEFAULT_DATE_FORMAT)
-        : '';
-    },
-    isOnline() {
-      return this.item.isOnline;
+      return moment(this.item.createdOn).format(DEFAULT_DATE_FORMAT);
     },
   },
 };

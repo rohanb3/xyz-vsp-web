@@ -1,5 +1,5 @@
 <template>
-  <div class="wombat-table">
+  <div class="wombat-table" :class="[name]">
     <wombat-header
       :name="name"
       :columns="columns"

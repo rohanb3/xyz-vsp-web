@@ -1,14 +1,14 @@
 <template>
   <location-cell
-    :latitude="item.currentDeviceLocationLatitude"
-    :longitude="item.currentDeviceLocationLongitude"
+    :latitude="item.deviceLocationLatitude"
+    :longitude="item.deviceLocationLongitude"
   />
 </template>
 
 <script>
 import LocationCell from '@/components/tableCells/LocationCell';
 export default {
-  name: 'DeviceLocationCell',
+  name: 'BranchLocationCell',
   props: {
     item: {
       type: Object,
