@@ -5,59 +5,61 @@
         <h3>{{ $t('add.device') }}</h3>
         <v-icon class="close-icon" @click="close">clear</v-icon>
       </div>
-      <v-form ref="form" class="card-body">
-        <div class="udid__section add-device__section">
-          <v-text-field
-            class="input"
-            label="udid"
-            v-model="udid"
-            :rules="udidRules"
-            required
-            clearable
-          ></v-text-field>
-        </div>
-        <div class="company__section add-device__section">
-          <company-quick-search @select="selectCompany"/>
-        </div>
-        <div class="branch__section add-device__section">
-          <branch-quick-search
-            :company-id="companyId"
-            :disabled="!companyId"
-            @select="selectBranch"
-          />
-        </div>
-        <span class="location-title">{{$t("branch.location")}}</span>
-        <div class="latitude__section add-device__section">
-          <v-text-field
-            class="input"
-            label="latitude"
-            v-model="latitude"
-            :rules="coordinatesRules"
-            required
-            clearable
-          ></v-text-field>
-        </div>
-        <div class="longitude__section add-device__section">
-          <v-text-field
-            class="input"
-            label="longitude"
-            v-model="longitude"
-            :rules="coordinatesRules"
-            required
-            clearable
-          ></v-text-field>
-        </div>
-        <div class="radius__section add-device__section">
-          <v-text-field
-            class="input"
-            label="radius"
-            v-model="radius"
-            :rules="radiusRules"
-            required
-            clearable
-          ></v-text-field>
-        </div>
-      </v-form>
+      <VuePerfectScrollbar>
+        <v-form ref="form" class="card-body">
+          <div class="udid__section add-device__section">
+            <v-text-field
+              class="input"
+              label="udid"
+              v-model="udid"
+              :rules="udidRules"
+              required
+              clearable
+            ></v-text-field>
+          </div>
+          <div class="company__section add-device__section">
+            <company-quick-search @select="selectCompany"/>
+          </div>
+          <div class="branch__section add-device__section">
+            <branch-quick-search
+              :company-id="companyId"
+              :disabled="!companyId"
+              @select="selectBranch"
+            />
+          </div>
+          <span class="location-title">{{$t("branch.location")}}</span>
+          <div class="latitude__section add-device__section">
+            <v-text-field
+              class="input"
+              label="latitude"
+              v-model="latitude"
+              :rules="coordinatesRules"
+              required
+              clearable
+            ></v-text-field>
+          </div>
+          <div class="longitude__section add-device__section">
+            <v-text-field
+              class="input"
+              label="longitude"
+              v-model="longitude"
+              :rules="coordinatesRules"
+              required
+              clearable
+            ></v-text-field>
+          </div>
+          <div class="radius__section add-device__section">
+            <v-text-field
+              class="input"
+              label="radius"
+              v-model="radius"
+              :rules="radiusRules"
+              required
+              clearable
+            ></v-text-field>
+          </div>
+        </v-form>
+      </VuePerfectScrollbar>
       <div class="controls">
         <v-btn @click="onCancel" class="button button-cancel">{{ $t('cancel') }}</v-btn>
         <v-btn @click="onSave" class="button button-save">{{ $t('save') }}</v-btn>
@@ -67,15 +69,17 @@
 </template>
 
 <script>
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+
+import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
+import CompanyQuickSearch from '@/containers/CompanyQuickSearch';
+import BranchQuickSearch from '@/containers/BranchQuickSearch';
+
 import {
   validateFieldCantBeEmpty,
   validateOnlyDigits,
   validateOnlyDigitsAndDots,
 } from '@/services/validators';
-
-import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
-import CompanyQuickSearch from '@/containers/CompanyQuickSearch';
-import BranchQuickSearch from '@/containers/BranchQuickSearch';
 
 export default {
   name: 'AddDevicePopup',
@@ -83,6 +87,7 @@ export default {
     TableFullHeightBalloon,
     CompanyQuickSearch,
     BranchQuickSearch,
+    VuePerfectScrollbar,
   },
   data() {
     return {
@@ -120,7 +125,7 @@ export default {
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
 .add-device-popup /deep/ {
-  width: 321px;
+  width: 335px;
   .v-input__slot {
     width: 284px;
     height: 42px;

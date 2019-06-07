@@ -1,42 +1,46 @@
 <template>
   <div class="quick-search">
     <v-autocomplete
-      :content-class="`quick-search-select-list select-list-${this.name}`"
-      v-model="model"
+      :menu-props="{contentClass:`quick-search-select-list select-list-${this.entityNameLowerCase}`}"
+      :value="initialItem"
       :items="items"
       :disabled="disabled"
       persistent-hint
       :item-value="itemKey"
       :item-text="name"
       :loading="loadingItems"
-      ref="quickSearch"
       :no-data-text="notFoundMessage"
-      @update:searchInput="debounceInput"
+      clearable
+      :entity-name="entityNameLowerCase"
       @input="selectItem"
-      @focus="showList = true"
-      @blur="showList = false"
+      @searchInput="debounceInput"
+      @loadMoreItems="searchPhrase => $emit('loadMoreItems', searchPhrase)"
     ></v-autocomplete>
   </div>
 </template>
 
 <script>
 import tableToolbarBalloon from '@/mixins/tableToolbarBalloon';
-import PerfectScrollbar from 'perfect-scrollbar';
 import debounce from 'lodash.debounce';
+import VAutocomplete from './VAutocomplete';
 
 const SEARCH_TIMEOUT = 500;
 
 function debounceInput(value) {
-  this.textValue = value;
+  this.$emit('load', (value || '').trim());
 }
 
 export default {
   name: 'QuickSearch',
   components: {
-    PerfectScrollbar,
+    VAutocomplete,
   },
   mixins: [tableToolbarBalloon],
   props: {
+    entityName: {
+      type: String,
+      required: true,
+    },
     disabled: {
       type: Boolean,
       default: false,
@@ -63,60 +67,18 @@ export default {
     },
     initialItem: {
       type: Number,
+      default: null,
     },
-  },
-  data() {
-    return {
-      textValue: '',
-      model: null,
-      showList: false,
-    };
   },
   computed: {
-    initialItem: {
-      get() {
-        return this.initialItem;
-      },
-      set(itemId) {},
+    entityNameLowerCase() {
+      return this.entityName.toLowerCase();
     },
-  },
-  mounted() {
-    this.updateScrollBar();
   },
   methods: {
     debounceInput: debounce(debounceInput, SEARCH_TIMEOUT),
     selectItem(item) {
       this.$emit('select', item);
-    },
-    updateScrollBar() {
-      this.$nextTick(() => {
-        if (this.scrollbar) {
-          this.$refs.quickSearch.onScroll();
-          this.scrollbar.update();
-        } else {
-          const el = document.querySelector(
-            `.select-list-${this.name} .v-select-list`
-          );
-          this.scrollbar = new PerfectScrollbar(el);
-          el.addEventListener('ps-y-reach-end', () => {
-            if (!this.loadingItems && this.showList) {
-              this.$emit('loadMoreItems', this.textValue);
-            }
-          });
-        }
-      });
-    },
-  },
-  watch: {
-    items: {
-      handler() {
-        this.updateScrollBar();
-      },
-      deep: true,
-    },
-    textValue(newVal, oldVal) {
-      if (newVal === '') this.model = null;
-      this.$emit('load', (newVal || '').trim());
     },
   },
 };

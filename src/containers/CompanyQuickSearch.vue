@@ -1,6 +1,7 @@
 <template>
   <quick-search
-    :items="items"
+    :items="companies"
+    :entity-name="entityName"
     name="companyName"
     :loading-items="loading"
     @load="loadItems"
@@ -27,11 +28,11 @@ export default {
     storageData() {
       return this.$store.state.storage[this.entityName] || {};
     },
-    items() {
+    companies() {
       return this.storageData.items || [];
     },
     total() {
-      return this.items.length;
+      return this.companies.length;
     },
   },
   methods: {

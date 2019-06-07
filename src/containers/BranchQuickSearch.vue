@@ -1,5 +1,11 @@
 <template>
-  <quick-search :items="items" name="branchName" @select="selectBranch" :disabled="disabled"/>
+  <quick-search
+    entity-name="branchName"
+    :items="branches"
+    name="branchName"
+    @select="selectBranch"
+    :disabled="disabled"
+  />
 </template>
 
 
@@ -25,17 +31,17 @@ export default {
     },
   },
   computed: {
-    items() {
+    company() {
       return (
-        (
-          this.$store.getters.getItemById(
-            this.companyId,
-            ENTITY_TYPES.COMPANY_LIST,
-            item => item.id
-          ) || {}
-        ).branches || []
+        this.$store.getters.getItemById(
+          this.companyId,
+          ENTITY_TYPES.COMPANY_LIST,
+          item => item.id
+        ) || {}
       );
-      // return this.$store.getters.getBranchesByCompanyId(this.companyId) || [];
+    },
+    branches() {
+      return this.company.branches || [];
     },
   },
   methods: {
