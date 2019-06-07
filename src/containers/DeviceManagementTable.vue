@@ -42,6 +42,7 @@
 
       <table-loader v-if="loading" slot="loader" />
     </wombat-table>
+    <device-management-updates :devices="rows" />
   </div>
 </template>
 
@@ -55,6 +56,7 @@ import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
 import DeviceLocationCell from '@/components/tableCells/DeviceLocationCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
+import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
@@ -74,6 +76,7 @@ export default {
     DeviceStatusSinceCell,
     DeviceCommentsCell,
     TableLoader,
+    DeviceManagementUpdates,
   },
   mixins: [configurableColumnsTable, lazyLoadTable],
   data() {

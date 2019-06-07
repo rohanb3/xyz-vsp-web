@@ -26,14 +26,9 @@ export default {
 
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
-.device-location-cell {
-  display: flex;
-  flex-flow: row;
-  align-items: center;
-}
 
 .location-badge {
-  display: block;
+  display: inline-block;
   width: 10px;
   height: 10px;
   margin-right: 5px;
