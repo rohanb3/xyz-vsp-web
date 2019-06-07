@@ -244,8 +244,9 @@
     "Sorry, any branch according to your query doesn't found.",
   "field.cant.be.empty": "This field should be filled.",
 
-  "something.went.wrong": "Opps, something went wrong :(",
-
   "changes.will.not.be.saved": "Are you sure your changes will not be saved?",
-  "sure": "Sure"
+  "sure": "Sure",
+  "email.is.not.registered":
+    "This email is not registered in this system. Please, check and try again.",
+  "something.went.wrong": "Opps, something went wrong :("
 }

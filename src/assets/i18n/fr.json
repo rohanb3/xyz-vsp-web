@@ -233,5 +233,7 @@
   "location.status": "TBD Location status",
   "comments": "TBD Comments",
   "branch.name": "TBD Branch name",
-  "logged.in.as": "TBD Logged in as"
+  "logged.in.as": "TBD Logged in as",
+  "email.is.not.registered": "TBD This email is not registered in this system. Please, check and try again.",
+  "something.went.wrong": "TBD Opps, something went wrong :("
 }

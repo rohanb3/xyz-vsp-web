@@ -48,6 +48,7 @@
       @close="closeAddDevicePopup"
       @saveDevice="onSaveDevice"
     />
+    <device-management-updates :devices="rows" />
   </div>
 </template>
 
@@ -61,6 +62,7 @@ import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
 import DeviceLocationCell from '@/components/tableCells/DeviceLocationCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
+import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 
 import AddDevicePopup from '@/containers/AddDevicePopup';
 
@@ -86,6 +88,7 @@ export default {
     DeviceCommentsCell,
     TableLoader,
     AddDevicePopup,
+    DeviceManagementUpdates,
   },
   mixins: [configurableColumnsTable, lazyLoadTable],
   data() {
