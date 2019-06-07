@@ -43,6 +43,7 @@
 
       <table-loader v-if="loading" slot="loader" />
     </wombat-table>
+    <device-management-updates :devices="rows" />
     <DeviceHistory
       :tableName="tableName"
       v-if="deviceHistoryShow"
@@ -62,6 +63,7 @@ import DeviceLocationCell from '@/components/tableCells/DeviceLocationCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
 import IdCell from '../components/tableCells/IdCell';
+import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
@@ -87,6 +89,7 @@ export default {
     TableLoader,
     IdCell,
     DeviceHistory,
+    DeviceManagementUpdates,
   },
   mixins: [configurableColumnsTable, lazyLoadTable],
   data() {

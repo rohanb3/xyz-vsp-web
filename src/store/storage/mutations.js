@@ -15,7 +15,7 @@ export default {
     state[itemType].items.push(...items);
   },
   [CHANGE_ITEM](state, { itemType, id, ...updates }) {
-    const itemIndex = state[itemType].items.findIndex(template => template.id === id);
+    const itemIndex = state[itemType].items.findIndex(item => item.id === id);
     if (itemIndex >= 0) {
       const updated = Object.assign({}, state[itemType].items[itemIndex], updates);
       Vue.set(state[itemType].items, itemIndex, updated);

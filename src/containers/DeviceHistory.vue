@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import isEqual from 'lodash.isequal';
 import TableFullHeightBalloon from '../components/TableFullHeightBalloon';
 import DeviceDetailsTab from '../components/DeviceDetailsTab';
 import { ENTITY_TYPES, DEVICE_DETAILS_TABS } from '@/constants';
@@ -100,7 +101,7 @@ export default {
     },
     selected: {
       handler(val, oldVal) {
-        if (Object.keys(oldVal).length) {
+        if (Object.keys(oldVal).length && !isEqual(val, this.selectedDevice)) {
           this.changes = true;
         }
       },
