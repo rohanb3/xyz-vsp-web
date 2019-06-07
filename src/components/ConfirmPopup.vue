@@ -33,7 +33,6 @@ export default {
       if (status) {
         addBackgroundBlur();
       } else {
-        console.log('g');
         removeBackgroundBlur();
       }
     },

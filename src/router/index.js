@@ -205,7 +205,6 @@ applyAuthInterceptors(identityApi, router);
 applyAuthInterceptors(branchesApi, router);
 applyAuthInterceptors(callsApi, router);
 applyAuthInterceptors(devicesApi, router);
-applyAuthInterceptors(devicesApi, router);
 applyAuthInterceptors(publicApi, router);
 
 export default router;

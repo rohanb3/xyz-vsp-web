@@ -5,7 +5,7 @@
         <h3>{{ $t('add.device') }}</h3>
         <v-icon class="close-icon" @click="close">clear</v-icon>
       </div>
-      <VuePerfectScrollbar>
+      <vue-perfect-scrollbar>
         <v-form ref="form" class="card-body">
           <div class="udid__section add-device__section">
             <UdidField v-model="deviceInfo"/>
@@ -27,7 +27,7 @@
             <radius-field v-model="deviceInfo"/>
           </div>
         </v-form>
-      </VuePerfectScrollbar>
+      </vue-perfect-scrollbar>
       <div class="controls">
         <v-btn @click="close" class="button button-cancel">{{ $t('cancel') }}</v-btn>
         <v-btn @click="onSave" class="button button-save">{{ $t('save') }}</v-btn>
