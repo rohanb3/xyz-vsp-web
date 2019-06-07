@@ -3,14 +3,17 @@
     <v-autocomplete
       :menu-props="{contentClass:`quick-search-select-list select-list-${this.entityNameLowerCase}`}"
       :value="initialItem"
+      :label="$t(label)"
       :items="items"
       :disabled="disabled"
       persistent-hint
-      :item-value="itemKey"
+      :item-value="itemKeyExtractor"
       :item-text="name"
       :loading="loadingItems"
       :no-data-text="notFoundMessage"
       clearable
+      :required="required"
+      :rules="rules"
       :entity-name="entityNameLowerCase"
       @input="selectItem"
       @searchInput="debounceInput"
@@ -23,6 +26,7 @@
 import tableToolbarBalloon from '@/mixins/tableToolbarBalloon';
 import debounce from 'lodash.debounce';
 import VAutocomplete from './VAutocomplete';
+import i18n from '@/i18n';
 
 const SEARCH_TIMEOUT = 500;
 
@@ -37,6 +41,10 @@ export default {
   },
   mixins: [tableToolbarBalloon],
   props: {
+    label: {
+      type: String,
+      default: '',
+    },
     entityName: {
       type: String,
       required: true,
@@ -49,13 +57,13 @@ export default {
       type: Array,
       required: true,
     },
-    itemKey: {
-      type: String,
-      default: 'id',
+    itemKeyExtractor: {
+      type: Function,
+      default: item => item.id,
     },
     name: {
-      type: String,
-      default: 'name',
+      type: Function,
+      default: item => item.name,
     },
     loadingItems: {
       type: Boolean,
@@ -63,11 +71,21 @@ export default {
     },
     notFoundMessage: {
       type: String,
-      default: 'table.no.results.found',
+      default: i18n.t('table.no.results.found'),
     },
     initialItem: {
-      type: Number,
       default: null,
+      validator(value) {
+        return typeof value === 'string' || typeof value === 'number';
+      },
+    },
+    required: {
+      type: Boolean,
+      default: false,
+    },
+    rules: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: {
@@ -78,7 +96,11 @@ export default {
   methods: {
     debounceInput: debounce(debounceInput, SEARCH_TIMEOUT),
     selectItem(item) {
-      this.$emit('select', item);
+      if (item) {
+        this.$emit('select', item);
+      } else {
+        this.$emit('select', null);
+      }
     },
   },
 };

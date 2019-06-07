@@ -19,7 +19,6 @@
   "loading": "Loading",
   "date": "Date",
   "operator": "Support Admin",
-  "company": "Company",
   "type": "Type",
   "disposition": "Disposition",
   "wait.time": "Wait time",
@@ -226,7 +225,12 @@
     "Password must contain at least 1 capital letter",
   "table.no.results.found": "No Results found",
   "device.management": "Device Management",
+  "branch.location": "Branch location",
   "udid": "UDID",
+  "latitude": "Latitude",
+  "longitude": "Longitude",
+  "radius": "Radius",
+  "branch": "Branch",
   "status.since": "Online/offline since",
   "location.status": "Location status",
   "comments": "Comments",
@@ -234,5 +238,14 @@
   "logged.in.as": "Logged in as",
   "add.device": "Add Device",
 
-  "retailer.not.found": "Sorry, any retailer according to your query doesn't found."
+  "retailer.not.found":
+    "Sorry, any retailer according to your query doesn't found.",
+  "branch.not.found":
+    "Sorry, any branch according to your query doesn't found.",
+  "field.cant.be.empty": "This field should be filled.",
+
+  "something.went.wrong": "Opps, something went wrong :(",
+
+  "changes.will.not.be.saved": "Are you sure your changes will not be saved?",
+  "sure": "Sure"
 }

@@ -2,11 +2,16 @@
   <quick-search
     :items="companies"
     :entity-name="entityName"
-    name="companyName"
+    :name="company => company.companyName"
     :loading-items="loading"
+    :initial-item="companyId"
+    :label="$t('company')"
+    required
+    :rules="companyRules"
+    :not-found-message="$t('retailer.not.found')"
     @load="loadItems"
     @loadMoreItems="loadMoreItems"
-    @select="item => this.$emit('select', item)"
+    @select="companyId => this.$emit('input', {...this.value, companyId})"
   />
 </template>
 
@@ -16,10 +21,18 @@ import { LOAD_ITEMS, LOAD_MORE_ITEMS } from '@/store/storage/actionTypes';
 
 import { ENTITY_TYPES, FILTER_NAMES_COMPANY_LIST } from '@/constants';
 
+import { validateFieldCantBeEmpty } from '@/services/validators';
+
 export default {
   name: 'CompanyQuickSearch',
   components: {
     QuickSearch,
+  },
+  props: {
+    value: {
+      type: Object,
+      required: true,
+    },
   },
   mounted() {
     this.loadItems();
@@ -33,6 +46,9 @@ export default {
     },
     total() {
       return this.companies.length;
+    },
+    companyId() {
+      return this.value.companyId;
     },
   },
   methods: {
@@ -66,6 +82,7 @@ export default {
     return {
       loading: false,
       entityName: ENTITY_TYPES.COMPANY_LIST,
+      companyRules: [validateFieldCantBeEmpty()],
     };
   },
 };

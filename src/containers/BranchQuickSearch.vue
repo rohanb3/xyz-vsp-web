@@ -2,9 +2,14 @@
   <quick-search
     entity-name="branchName"
     :items="branches"
-    name="branchName"
-    @select="selectBranch"
-    :disabled="disabled"
+    :label="$t('branch')"
+    :name="branch => branch.branchName"
+    :initial-item="branchId"
+    :disabled="!branches.length"
+    required
+    :not-found-message="$t('branch.not.found')"
+    :rules="branchRules"
+    @select="branchId => this.$emit('input', {...this.value, branchId})"
   />
 </template>
 
@@ -12,7 +17,9 @@
 <script>
 import QuickSearch from '@/components/QuickSearch';
 
-import { ENTITY_TYPES, FILTER_NAMES_COMPANY_LIST } from '@/constants';
+import { ENTITY_TYPES } from '@/constants';
+
+import { validateFieldCantBeEmpty } from '@/services/validators';
 
 export default {
   name: 'BranchQuickSearch',
@@ -20,13 +27,8 @@ export default {
     QuickSearch,
   },
   props: {
-    companyId: {
-      validator(value) {
-        return typeof value === 'string' || typeof value === 'number';
-      },
-    },
-    disabled: {
-      type: Boolean,
+    value: {
+      type: Object,
       required: true,
     },
   },
@@ -34,7 +36,7 @@ export default {
     company() {
       return (
         this.$store.getters.getItemById(
-          this.companyId,
+          this.value.companyId,
           ENTITY_TYPES.COMPANY_LIST,
           item => item.id
         ) || {}
@@ -43,11 +45,28 @@ export default {
     branches() {
       return this.company.branches || [];
     },
-  },
-  methods: {
-    selectBranch(item) {
-      this.$emit('selectBranch', item);
+    branchId: {
+      get() {
+        return this.value.branchId;
+      },
+      set(branchId) {
+        this.$emit('input', { ...this.value, branchId });
+      },
     },
+  },
+  watch: {
+    'value.companyId': function name(companyId) {
+      if (!companyId) {
+        this.branchId = null;
+      }
+    },
+  },
+  data() {
+    return {
+      loading: false,
+      entityName: ENTITY_TYPES.COMPANY_LIST,
+      branchRules: [validateFieldCantBeEmpty()],
+    };
   },
 };
 </script>

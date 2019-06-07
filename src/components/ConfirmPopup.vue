@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { addBackgroundBlur, removeBackgroundBlur } from '@/services/utils';
+import { addBackgroundBlur, removeBackgroundBlur } from '@/services/background';
 
 export default {
   name: 'ConfirmPopup',
@@ -33,6 +33,7 @@ export default {
       if (status) {
         addBackgroundBlur();
       } else {
+        console.log('g');
         removeBackgroundBlur();
       }
     },

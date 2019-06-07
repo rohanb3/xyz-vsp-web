@@ -1,5 +1,5 @@
 <template>
-  <table-full-height-balloon>
+  <table-full-height-balloon @close="close">
     <div class="add-device-popup" @close="close">
       <div class="card-header">
         <h3>{{ $t('add.device') }}</h3>
@@ -8,63 +8,41 @@
       <VuePerfectScrollbar>
         <v-form ref="form" class="card-body">
           <div class="udid__section add-device__section">
-            <v-text-field
-              class="input"
-              label="udid"
-              v-model="udid"
-              :rules="udidRules"
-              required
-              clearable
-            ></v-text-field>
+            <UdidField v-model="deviceInfo"/>
           </div>
           <div class="company__section add-device__section">
-            <company-quick-search @select="selectCompany"/>
+            <company-quick-search v-model="deviceInfo"/>
           </div>
           <div class="branch__section add-device__section">
-            <branch-quick-search
-              :company-id="companyId"
-              :disabled="!companyId"
-              @select="selectBranch"
-            />
+            <branch-quick-search v-model="deviceInfo"/>
           </div>
           <span class="location-title">{{$t("branch.location")}}</span>
           <div class="latitude__section add-device__section">
-            <v-text-field
-              class="input"
-              label="latitude"
-              v-model="latitude"
-              :rules="coordinatesRules"
-              required
-              clearable
-            ></v-text-field>
+            <latitude-field v-model="deviceInfo"/>
           </div>
           <div class="longitude__section add-device__section">
-            <v-text-field
-              class="input"
-              label="longitude"
-              v-model="longitude"
-              :rules="coordinatesRules"
-              required
-              clearable
-            ></v-text-field>
+            <longitude-field v-model="deviceInfo"/>
           </div>
           <div class="radius__section add-device__section">
-            <v-text-field
-              class="input"
-              label="radius"
-              v-model="radius"
-              :rules="radiusRules"
-              required
-              clearable
-            ></v-text-field>
+            <radius-field v-model="deviceInfo"/>
           </div>
         </v-form>
       </VuePerfectScrollbar>
       <div class="controls">
-        <v-btn @click="onCancel" class="button button-cancel">{{ $t('cancel') }}</v-btn>
+        <v-btn @click="close" class="button button-cancel">{{ $t('cancel') }}</v-btn>
         <v-btn @click="onSave" class="button button-save">{{ $t('save') }}</v-btn>
       </div>
     </div>
+    <confirm-popup
+      :visible-popup="visiblePopup"
+      :title="$t('changes.will.not.be.saved')"
+      @close="visiblePopup = false"
+    >
+      <template v-slot:buttons>
+        <v-btn small depressed color="warning" @click="discardChanges">{{ $t('sure') }}</v-btn>
+        <v-btn small depressed @click="visiblePopup = false">{{ $t('cancel') }}</v-btn>
+      </template>
+    </confirm-popup>
   </table-full-height-balloon>
 </template>
 
@@ -75,11 +53,13 @@ import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
 import CompanyQuickSearch from '@/containers/CompanyQuickSearch';
 import BranchQuickSearch from '@/containers/BranchQuickSearch';
 
-import {
-  validateFieldCantBeEmpty,
-  validateOnlyDigits,
-  validateOnlyDigitsAndDots,
-} from '@/services/validators';
+import UdidField from '@/components/AddDevice/UdidField';
+import LatitudeField from '@/components/AddDevice/LatitudeField';
+import LongitudeField from '@/components/AddDevice/LongitudeField';
+import RadiusField from '@/components/AddDevice/RadiusField';
+import ConfirmPopup from '@/components/ConfirmPopup';
+
+import { addBackgroundShadow, removeBackgroundShadow } from '@/services/background';
 
 export default {
   name: 'AddDevicePopup',
@@ -88,36 +68,64 @@ export default {
     CompanyQuickSearch,
     BranchQuickSearch,
     VuePerfectScrollbar,
+    UdidField,
+    LatitudeField,
+    LongitudeField,
+    RadiusField,
+    ConfirmPopup,
+  },
+  props: {
+    visibleDevice: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  mounted() {
+    addBackgroundShadow();
+  },
+  destroyed() {
+    removeBackgroundShadow();
   },
   data() {
     return {
-      udid: '',
-      company: '',
-      companyId: null,
-      branch: '',
-      latitude: '',
-      longitude: '',
-      radius: '',
-      udidRules: [validateFieldCantBeEmpty()],
-      coordinatesRules: [
-        validateFieldCantBeEmpty(),
-        validateOnlyDigitsAndDots(),
-      ],
-      radiusRules: [validateFieldCantBeEmpty(), validateOnlyDigits()],
+      deviceInfo: {},
+      visiblePopup: false,
+      isNewData: false,
     };
   },
   methods: {
     close() {
-      this.$emit('close');
-    },
-    selectBranch(branch) {
-      console.log({ branch });
-    },
-    selectCompany(id) {
-      this.companyId = id;
+      if (this.isNewData) {
+        this.visiblePopup = true;
+      } else {
+        this.discardChanges();
+
+        this.$emit('close');
+      }
     },
     validate() {
       return this.$refs.form.validate();
+    },
+    onSave() {
+      if (this.validate()) {
+        this.$emit('saveDevice', this.deviceInfo);
+        this.discardChanges();
+      }
+    },
+    discardChanges() {
+      this.visiblePopup = false;
+      this.$nextTick(() => {
+        this.deviceInfo = {};
+        this.isNewData = false;
+        this.$emit('close');
+      });
+    },
+  },
+  watch: {
+    deviceInfo() {
+      if (this.visibleDevice) {
+        this.isNewData = true;
+      }
     },
   },
 };
@@ -155,8 +163,7 @@ export default {
   }
   .v-label {
     color: #4a4a4a;
-    font-size: 12px;
-    text-transform: uppercase;
+    font-size: 14px;
   }
   .v-input__slot::before {
     display: none;
@@ -164,8 +171,7 @@ export default {
   .v-label--active {
     padding-bottom: 3px;
     top: -5px;
-    font-size: 10px;
-    text-transform: uppercase;
+    font-size: 14px;
     color: #4a4a4a;
   }
   .location-title {

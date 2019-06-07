@@ -2,19 +2,51 @@
   <div class="device-management-table">
     <div class="device-management-table-toolbar">
       <div class="devices-amount">{{ $t('device.management') }}</div>
-      <v-btn @click="showAddDevicePopup" class="add-device-button">
-        <v-icon
-          class="add-icon"
-        >
-          add_circle
-        </v-icon>
+      <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
+        <v-icon class="add-icon">add_circle</v-icon>
         {{ $t('add.device') }}
       </v-btn>
     </div>
+    <wombat-table
+      :name="tableName"
+      :items="rows"
+      :columns="columns"
+      :item-height="50"
+      :infinite-loading="!allItemsLoaded"
+      :loading-items="loading"
+      @bottomReached="checkAndLoadItems"
+      @columnsResized="onColumnsResized"
+      @columnsReordered="onColumnsReordered"
+    >
+      <component
+        slot="header-cell"
+        slot-scope="headerCell"
+        class="header-cell"
+        :is="
+          headerComponentsHash[headerCell.column.fieldHeaderType] || headerComponentsHash.default
+        "
+        :column="headerCell.column"
+      />
+      <div v-if="rows && rows.length" slot="row" slot-scope="row">
+        <wombat-row :item="row.item" :columns="row.columns" :height="row.item.height">
+          <component
+            slot="row-cell"
+            slot-scope="rowCell"
+            class="row-cell"
+            :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
+            :item="rowCell.item"
+            :column="rowCell.column"
+          />
+        </wombat-row>
+      </div>
 
+      <table-loader v-if="loading" slot="loader"/>
+    </wombat-table>
     <add-device-popup
       v-if="isAddDevicePopupShown"
+      :visible-device="isAddDevicePopupShown"
       @close="closeAddDevicePopup"
+      @saveDevice="onSaveDevice"
     />
   </div>
 </template>
@@ -35,6 +67,9 @@ import AddDevicePopup from '@/containers/AddDevicePopup';
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
+
+import { createDevice } from '@/services/devicesRepository';
+import { errorMessage } from '@/services/notifications';
 
 const { DEVICES } = ENTITY_TYPES;
 
@@ -69,7 +104,7 @@ export default {
       },
       deviceCommentsShown: false,
       selectedDevice: null,
-      isAddDevicePopupShown: true,
+      isAddDevicePopupShown: false,
     };
   },
   methods: {
@@ -90,6 +125,14 @@ export default {
     },
     closeAddDevicePopup() {
       this.isAddDevicePopupShown = false;
+    },
+    async onSaveDevice(deviceInfo) {
+      try {
+        await createDevice(deviceInfo);
+        await this.loadItems();
+      } catch {
+        errorMessage();
+      }
     },
   },
 };

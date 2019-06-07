@@ -49,6 +49,8 @@ export default {
 @import '~@/assets/styles/variables.scss';
 
 .app-header {
+  position: relative;
+  z-index: 1;
   font-family: 'Roboto', sans-serif;
   color: $base-white;
 }
