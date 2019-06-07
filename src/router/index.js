@@ -31,7 +31,7 @@ import branchesApi from '@/services/branchesApi';
 import callsApi from '@/services/callsApi';
 import devicesApi from '@/services/devicesApi';
 import applyAuthInterceptors from '@/services/authInterceptors';
-
+import publicApi from '@/services/publicApi';
 import store from '@/store';
 
 Vue.use(Router);
@@ -205,5 +205,6 @@ applyAuthInterceptors(identityApi, router);
 applyAuthInterceptors(branchesApi, router);
 applyAuthInterceptors(callsApi, router);
 applyAuthInterceptors(devicesApi, router);
+applyAuthInterceptors(publicApi, router);
 
 export default router;

@@ -16,12 +16,9 @@
           @change="onInputChange"
         />
       </div>
-      <form-select
-        :label="$t('company')"
-        :id="'company'"
+      <company-select
+        v-if="selected && selected.company"
         v-model="selected.company"
-        :items="[selected.company]"
-        item-text="companyName"
       />
       <form-input
         :label="$t('longitude')"
@@ -31,12 +28,10 @@
         inputType="number"
         @change="onInputChange"
       />
-      <form-select
-        :label="$t('branch')"
-        :id="'branch'"
+      <branch-select
+        v-if="selected && selected.branch"
+        :company-id="selected.company.id"
         v-model="selected.branch"
-        :items="[selected.branch]"
-        item-text="branchName"
       />
       <form-input
         :label="$t('allowed.location.radius')"
@@ -79,11 +74,12 @@
 
 <script>
 import FormInput from './FormInput';
-import FormSelect from './FormSelect';
+import BranchSelect from './BranchSelect';
+import CompanySelect from './CompanySelect';
 
 export default {
   name: 'DeviceDetailsTab',
-  components: { FormSelect, FormInput },
+  components: { CompanySelect, BranchSelect, FormInput },
   props: {
     tableName: {
       type: String,
@@ -109,6 +105,75 @@ export default {
 
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
+
+.v-input__slot {
+  width: 284px;
+  height: 42px;
+  opacity: 0.6;
+  border-radius: 5px;
+  border: solid 1px #979797;
+  box-shadow: none !important;
+  color: #4a4a4a;
+  font-size: 12px;
+  padding-left: 10px;
+  align-items: center;
+}
+.v-input--is-focused {
+  .v-input__slot {
+    border: solid 1px #398ffb;
+  }
+}
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  margin-bottom: 0px !important;
+}
+.v-input__append-inner:after {
+  display: none;
+}
+.mx-3 {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.v-label {
+  color: #4a4a4a;
+  font-size: 14px;
+}
+.v-input__slot::before {
+  display: none;
+}
+.v-label--active {
+  padding-bottom: 3px;
+  top: -5px;
+  font-size: 14px;
+  color: #4a4a4a;
+}
+.location-title {
+  padding-bottom: 9px;
+  font-size: 14px;
+  color: #4a4a4a;
+}
+.controls {
+  display: flex;
+  font-size: 14px;
+  justify-content: flex-end;
+  align-items: center;
+  .button {
+    text-transform: capitalize;
+  }
+  .button-cancel,
+  .button-cancel:hover,
+  .button-cancel:before {
+    background-color: transparent;
+    box-shadow: none;
+    color: #398ffb;
+  }
+  .button-save {
+    width: 60px;
+    border-radius: 4px;
+    background-color: #7ed321;
+    color: #ffffff;
+    font-weight: bold;
+  }
+}
 
 .device-info {
   display: flex;

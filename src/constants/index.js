@@ -28,6 +28,7 @@ export const ENTITY_TYPES = {
   CALLS_FEEDBACK: 'callsFeedback',
   SUPERADMIN_OPERATORS: 'superAdminOperators',
   PAYMENTS: 'payments',
+  COMPANY_LIST: 'COMPANY_LIST',
 };
 
 export const DATE_FORMATS = {
@@ -147,3 +148,20 @@ export const ROLE_TYPES = {
 };
 
 export const DEVICE_DETAILS_TABS = ['details', 'history', 'comments'];
+
+export const FILTER_NAMES_COMPANY_LIST = {
+  SEARCH_FILTER: 'SearchFilter',
+  SORT_BY: 'SortBy',
+  SKIP: 'Skip',
+  TAKE: 'Take',
+  SORT_ORDER: 'SortOrder',
+};
+
+export const COMPANY_LIST_COLUMNS_SORTED = {
+  COMPANY_NAME: 'companyName',
+};
+
+export const SORTING_DIRECTION = {
+  DESC: 'desc',
+  ASC: 'asc',
+};

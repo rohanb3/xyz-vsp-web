@@ -1,19 +1,34 @@
 <template>
   <div class="form-select">
     <label :for="id">{{ label }}</label>
-    <v-select
-      :id="id"
-      :items="items"
-      :item-text="itemText"
-      v-model="value[itemText]"
-      @change="onChange"
-    ></v-select>
+    <!--<v-select-->
+      <!--:id="id"-->
+      <!--:items="items"-->
+      <!--:item-text="itemText"-->
+      <!--v-model="value[itemText]"-->
+      <!--@change="onChange"-->
+    <!--&gt;</v-select>-->
+    <quick-search
+      entity-name="branchName"
+      :items="branches"
+      :label="$t('branch')"
+      :name="branch => branch.branchName"
+      :initial-item="branchId"
+      :disabled="!branches.length"
+      required
+      :not-found-message="$t('branch.not.found')"
+      :rules="branchRules"
+      @select="branchId => this.$emit('input', {...this.value, branchId})"
+    />
   </div>
 </template>
 
 <script>
+import QuickSearch from './QuickSearch/index';
+
 export default {
   name: 'FormSelect',
+  components: { QuickSearch },
   props: {
     label: {
       type: String,

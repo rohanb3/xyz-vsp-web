@@ -107,6 +107,11 @@ export default {
       },
       deep: true,
     },
+    'selected.company': function(val, oldVal) {
+      if (Object.keys(val).length && oldVal) {
+        this.selected.branch = {};
+      }
+    },
   },
   computed: {
     tableData() {

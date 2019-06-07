@@ -81,7 +81,8 @@ html {
   }
 }
 
-#app .call-feedback-card {
+#app .call-feedback-card,
+.add-device-popup {
   width: $calls-feedback-card-width;
   height: 100%;
   display: flex;
@@ -263,6 +264,16 @@ button {
   filter: url(#blur-filter);
   -webkit-filter: blur(3px);
   filter: blur(3px);
+}
+
+.application--wrap.shadow-overlay::after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $table-shadow-color;
 }
 
 .blur-svg {
