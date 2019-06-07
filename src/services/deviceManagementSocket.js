@@ -33,7 +33,8 @@ export function unsubscribeFromDeviceChanges() {
   return hubConnection.invoke(SUBSCRIBE_DEVICES_UPDATES, { Udids: [] });
 }
 
-function pickNeededFields(updatesRaw) {
+// only for tests
+export function pickNeededFields(updatesRaw) {
   let updates = null;
   try {
     const {
