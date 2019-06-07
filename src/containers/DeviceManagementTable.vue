@@ -2,6 +2,10 @@
   <div class="device-management-table">
     <div class="device-management-table-toolbar">
       <div class="devices-amount">{{ $t('device.management') }}</div>
+      <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
+        <v-icon class="add-icon">add_circle</v-icon>
+        {{ $t('add.device') }}
+      </v-btn>
     </div>
     <wombat-table
       :name="tableName"
@@ -24,11 +28,7 @@
         :column="headerCell.column"
       />
       <div v-if="rows && rows.length" slot="row" slot-scope="row">
-        <wombat-row
-          :item="row.item"
-          :columns="row.columns"
-          :height="row.item.height"
-        >
+        <wombat-row :item="row.item" :columns="row.columns" :height="row.item.height">
           <component
             slot="row-cell"
             slot-scope="rowCell"
@@ -40,8 +40,14 @@
         </wombat-row>
       </div>
 
-      <table-loader v-if="loading" slot="loader" />
+      <table-loader v-if="loading" slot="loader"/>
     </wombat-table>
+    <add-device-popup
+      v-if="isAddDevicePopupShown"
+      :visible-device="isAddDevicePopupShown"
+      @close="closeAddDevicePopup"
+      @saveDevice="onSaveDevice"
+    />
     <device-management-updates :devices="rows" />
   </div>
 </template>
@@ -58,9 +64,14 @@ import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
 import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 
+import AddDevicePopup from '@/containers/AddDevicePopup';
+
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
+
+import { createDevice } from '@/services/devicesRepository';
+import { errorMessage } from '@/services/notifications';
 
 const { DEVICES } = ENTITY_TYPES;
 
@@ -76,6 +87,7 @@ export default {
     DeviceStatusSinceCell,
     DeviceCommentsCell,
     TableLoader,
+    AddDevicePopup,
     DeviceManagementUpdates,
   },
   mixins: [configurableColumnsTable, lazyLoadTable],
@@ -95,6 +107,7 @@ export default {
       },
       deviceCommentsShown: false,
       selectedDevice: null,
+      isAddDevicePopupShown: false,
     };
   },
   methods: {
@@ -109,6 +122,20 @@ export default {
     selectDeviceById(id) {
       const device = this.rows.find(row => row.id === id);
       this.selectedDevice = device;
+    },
+    showAddDevicePopup() {
+      this.isAddDevicePopupShown = true;
+    },
+    closeAddDevicePopup() {
+      this.isAddDevicePopupShown = false;
+    },
+    async onSaveDevice(deviceInfo) {
+      try {
+        await createDevice(deviceInfo);
+        await this.loadItems();
+      } catch {
+        errorMessage();
+      }
     },
   },
 };
@@ -166,5 +193,25 @@ export default {
 .dashboard-container {
   display: flex;
   padding: 15px 15px 5px 15px;
+}
+.theme--light.v-btn:not(.v-btn--icon):not(.v-btn--flat) {
+  background: transparent;
+  box-shadow: none;
+}
+.add-device-button {
+  width: 105px;
+  height: 22px;
+  border-radius: 11px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.25) !important;
+  background-color: #ffffff;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.7px;
+  color: #398ffb;
+  .add-icon {
+    margin-right: 7px;
+    width: 16px;
+    height: 16px;
+  }
 }
 </style>

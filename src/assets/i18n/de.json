@@ -19,7 +19,6 @@
   "loading": "TBD Loading",
   "date": "TBD Date",
   "operator": "TBD Support Admin",
-  "company": "TBD Company",
   "type": "TBD Type",
   "disposition": "TBD Disposition",
   "wait.time": "TBD Wait time",
@@ -233,6 +232,7 @@
   "comments": "TBD Comments",
   "branch.name": "TBD Branch name",
   "logged.in.as": "TBD Logged in as",
+  "add.device": "TBD ADD DEVICE",
   "email.is.not.registered": "TBD This email is not registered in this system. Please, check and try again.",
   "something.went.wrong": "TBD Opps, something went wrong :("
 }
