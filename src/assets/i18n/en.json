@@ -261,5 +261,8 @@
   "allowed.location.radius": "Allowed location radius",
   "current.device.location": "Current device location",
   "cancel": "Cancel",
-  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved."
+  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved.",
+  "online": "Online",
+  "offline": "Offline",
+  "show.on.maps": "Show on maps"
 }

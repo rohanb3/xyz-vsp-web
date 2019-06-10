@@ -4,7 +4,7 @@
     <quick-search
       :items="companies"
       :entity-name="entityName"
-      :name="company => company.companyName"
+      :name="getCompanyName"
       :loading-items="loading"
       :initial-item="companyId"
       required
@@ -12,7 +12,7 @@
       :not-found-message="$t('retailer.not.found')"
       @load="loadItems"
       @loadMoreItems="loadMoreItems"
-      @select="id => this.$emit('input', {...this.value, id})"
+      @select="selectCompany"
     />
   </div>
 </template>
@@ -43,6 +43,10 @@ export default {
       return this.$store.state.storage[this.entityName] || {};
     },
     companies() {
+      this.$store.commit('INSERT_ITEMS', {
+        itemType: this.entityName,
+        items: [this.value],
+      });
       return this.storageData.items || [];
     },
     total() {
@@ -62,7 +66,6 @@ export default {
         },
       };
       return this.$store.dispatch(LOAD_ITEMS, data).finally(() => {
-        this.companies.push(this.value);
         this.loading = false;
       });
     },
@@ -78,6 +81,12 @@ export default {
       return this.$store.dispatch(LOAD_MORE_ITEMS, data).finally(() => {
         this.loading = false;
       });
+    },
+    getCompanyName(company) {
+      return company.companyName;
+    },
+    selectCompany(id) {
+      this.$emit('input', { ...this.value, id });
     },
   },
   data() {

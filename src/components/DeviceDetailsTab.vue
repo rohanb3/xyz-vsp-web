@@ -45,34 +45,47 @@
     <div class="current-device-info">
       <div class="statuses">
         <div>
-          Online/offline since
+          {{ $t('status.since') }}
         </div>
-        <div class="status">
-          14 Apr 2019 20:32
+        <div class="status" :class="!isOnline ? 'offline' : null">
+          {{ statusSince }}
         </div>
         <div>
           {{ $t('status') }}
         </div>
         <div class="status">
-          Online
+          <span v-if="isOnline">{{ $t('online') }}</span>
+          <span v-else class="offline">{{ $t('offline') }}</span>
         </div>
       </div>
       <div class="locations">
-        <p class="current-location">{{ $t('current.device.location') }}</p>
+        <p class="current-location">
+          {{ $t('current.device.location') }}
+          <a
+            :href="mapLink"
+            class="show-on-maps"
+            target="_blank"
+            :title="$t('show.on.maps')"
+          >
+            <v-icon>maps</v-icon>
+          </a>
+        </p>
         <p><span>{{ $t('latitude') }}</span></p>
-        <p>{{ selected.latitude }}</p>
+        <p>{{ selected.currentDeviceLocationLatitude }}</p>
         <p><span>{{ $t('longitude') }}</span></p>
-        <p>{{ selected.longitude }}</p>
+        <p>{{ selected.currentDeviceLocationLongitude }}</p>
       </div>
     </div>
     <div class="control" v-if="changes">
       <button @click="$emit('cancel')">{{ $t('cancel') }}</button>
-      <button class="save">{{ $t('save ') }}</button>
+      <button @click="$emit('save')" class="save">{{ $t('save ') }}</button>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment';
+import { DATE_FORMATS } from '@/constants';
 import FormInput from './FormInput';
 import BranchSelect from './BranchSelect';
 import CompanySelect from './CompanySelect';
@@ -95,9 +108,22 @@ export default {
       required: true,
     },
   },
+  computed: {
+    mapLink() {
+      return `https://www.google.com.ua/maps/@${this.selected.latitude},${
+        this.selected.longitude
+      },10.00z`;
+    },
+    statusSince() {
+      return moment(this.selected.statusSince || moment()).format(DATE_FORMATS.DEFAULT_DATE_FORMAT);
+    },
+    isOnline() {
+      return this.selected.isOnline;
+    },
+  },
   methods: {
     onInputChange(val) {
-      this.$emit('onInputChange', val);
+      this.$emit('onChange', val);
     },
   },
 };
@@ -105,6 +131,10 @@ export default {
 
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
+
+.offline {
+  color: $base-red !important;
+}
 
 .v-input__slot {
   width: 284px;
@@ -253,7 +283,17 @@ export default {
         margin-bottom: 17px;
 
         &.current-location {
+          display: flex;
+          justify-content: space-between;
           font-size: 14px;
+        }
+
+        .show-on-maps {
+          text-decoration: none;
+
+          i {
+            font-size: 20px;
+          }
         }
 
         span {

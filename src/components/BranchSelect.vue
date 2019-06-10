@@ -4,13 +4,13 @@
     <quick-search
       entity-name="branchName"
       :items="branches"
-      :name="branch => branch.branchName"
+      :name="getBranchName"
       :initial-item="value.id"
-      :disabled="!branches.length"
+      :disabled="!branchesLength"
       required
       :not-found-message="$t('branch.not.found')"
       :rules="branchRules"
-      @select="id => this.$emit('input', {...this.value, id})"
+      @select="selectBranch"
     />
   </div>
 </template>
@@ -19,6 +19,7 @@
 import QuickSearch from './QuickSearch/index';
 
 import { ENTITY_TYPES } from '@/constants';
+import { getBranches } from '../services/publicApiRepository';
 
 import { validateFieldCantBeEmpty } from '@/services/validators';
 
@@ -35,18 +36,6 @@ export default {
     },
   },
   computed: {
-    company() {
-      return (
-        this.$store.getters.getItemById(
-          this.companyId,
-          ENTITY_TYPES.COMPANY_LIST,
-          item => item.id
-        ) || {}
-      );
-    },
-    branches() {
-      return this.company.branches || [];
-    },
     branchId: {
       get() {
         return this.value.branchId;
@@ -55,6 +44,9 @@ export default {
         this.$emit('input', { ...this.value, branchId });
       },
     },
+    branchesLength() {
+      return this.branches.length;
+    },
   },
   watch: {
     'value.companyId': function name(companyId) {
@@ -62,13 +54,33 @@ export default {
         this.branchId = null;
       }
     },
+    companyId() {
+      this.getBranches();
+    },
+  },
+  mounted() {
+    this.getBranches();
   },
   data() {
     return {
       loading: false,
       entityName: ENTITY_TYPES.COMPANY_LIST,
       branchRules: [validateFieldCantBeEmpty()],
+      branches: [],
     };
+  },
+  methods: {
+    getBranchName(branch) {
+      return branch.branchName;
+    },
+    selectBranch(id) {
+      this.$emit('input', { ...this.value, id });
+    },
+    getBranches() {
+      getBranches(this.companyId).then(response => {
+        this.branches = [...response.data];
+      });
+    },
   },
 };
 </script>

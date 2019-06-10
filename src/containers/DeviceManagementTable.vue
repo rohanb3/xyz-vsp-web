@@ -50,7 +50,8 @@
       @saveDevice="onSaveDevice"
     />
     <device-management-updates :devices="rows" />
-    <DeviceHistory
+    <device-details
+      :selected-device-id="selectedDeviceId"
       :tableName="tableName"
       v-if="deviceHistoryShow"
       @close="close"
@@ -76,19 +77,20 @@ import AddDevicePopup from '@/containers/AddDevicePopup';
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
-import DeviceHistory from './DeviceHistory';
+import DeviceDetails from './DeviceDetails';
 
-import { APPLY_FILTERS } from '@/store/tables/actionTypes';
-import { addBackground, removeBackground } from '../services/utils';
+import { addBackgroundShadow, removeBackgroundShadow } from '../services/background';
 
 import { createDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
+import DeviceDetailsTab from '../components/DeviceDetailsTab';
 
 const { DEVICES } = ENTITY_TYPES;
 
 export default {
   name: 'devicesTable',
   components: {
+    DeviceDetailsTab,
     WombatTable,
     WombatRow,
     DefaultHeaderCell,
@@ -99,7 +101,7 @@ export default {
     DeviceCommentsCell,
     TableLoader,
     IdCell,
-    DeviceHistory,
+    DeviceDetails,
     AddDevicePopup,
     DeviceManagementUpdates,
   },
@@ -123,6 +125,7 @@ export default {
       selectedDevice: null,
       deviceHistoryShow: false,
       isAddDevicePopupShown: false,
+      selectedDeviceId: null,
     };
   },
   methods: {
@@ -140,25 +143,16 @@ export default {
     },
     onSelectId(deviceId) {
       try {
-        const data = {
-          tableName: DEVICES,
-          filters: [
-            {
-              name: DEVICES,
-              value: deviceId,
-            },
-          ],
-        };
-        this.$store.dispatch(APPLY_FILTERS, data);
+        this.selectedDeviceId = deviceId;
         this.deviceHistoryShow = true;
-        addBackground('device-management-table-toolbar');
+        addBackgroundShadow('device-management-table-toolbar');
       } catch (error) {
         console.log(error);
       }
     },
     close() {
       this.deviceHistoryShow = false;
-      removeBackground('device-management-table-toolbar');
+      removeBackgroundShadow('device-management-table-toolbar');
     },
     showAddDevicePopup() {
       this.isAddDevicePopupShown = true;
