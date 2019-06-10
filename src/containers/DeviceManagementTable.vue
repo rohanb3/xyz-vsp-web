@@ -72,10 +72,10 @@ import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
 import DeviceHistory from './DeviceHistory';
 
-import { APPLY_FILTERS } from '@/store/tables/actionTypes';
+import { SET_FILTER, APPLYING_FILTERS_DONE } from '@/store/tables/mutationTypes';
 import { addBackground, removeBackground } from '../services/utils';
 
-const { DEVICES } = ENTITY_TYPES;
+const { DEVICES, DEVICE_HISTORY } = ENTITY_TYPES;
 
 export default {
   name: 'devicesTable',
@@ -125,27 +125,21 @@ export default {
     },
     selectDeviceById(id) {
       const device = this.rows.find(row => row.id === id);
-      console.log(device);
+      const data = {
+        tableName: DEVICE_HISTORY,
+        filter: {
+          name: 'deviceId',
+          value: id,
+        },
+      };
       this.selectedDevice = device;
+      this.$store.commit(SET_FILTER, data);
+      this.$store.commit(APPLYING_FILTERS_DONE, DEVICE_HISTORY);
     },
     onSelectId(deviceId) {
-      try {
-        // const data = {
-        //   tableName: DEVICES,
-        //   filters: [
-        //     {
-        //       name: DEVICES,
-        //       value: deviceId,
-        //     },
-        //   ],
-        // };
-        // this.$store.dispatch(APPLY_FILTERS, data);
-        this.selectDeviceById(deviceId);
-        this.deviceHistoryShow = true;
-        addBackground('device-management-table-toolbar');
-      } catch (error) {
-        console.log(error);
-      }
+      this.selectDeviceById(deviceId);
+      this.deviceHistoryShow = true;
+      addBackground('device-management-table-toolbar');
     },
     close() {
       this.deviceHistoryShow = false;
@@ -162,8 +156,7 @@ export default {
 .device-management-table /deep/ {
   .device-management-wombat-table .virtual-list {
     max-height: calc(
-      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} -
-        #{$device-management-table-toolbar-height}
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} - #{$device-management-table-toolbar-height}
     );
   }
   .device-management-wombat-table .column-comments {

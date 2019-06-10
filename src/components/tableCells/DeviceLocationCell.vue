@@ -7,6 +7,7 @@
 
 <script>
 import LocationCell from '@/components/tableCells/LocationCell';
+
 export default {
   name: 'DeviceLocationCell',
   props: {

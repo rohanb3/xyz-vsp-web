@@ -6,7 +6,10 @@ export default {
   [actionTypes.APPLY_FILTERS]({ state, commit, dispatch }, { tableName, filters = [] }) {
     commit(mutationTypes.SET_FILTERS, { tableName, filters });
     const allFilters = state[tableName].filters;
-    return dispatch(LOAD_ITEMS, { itemType: tableName, filters: allFilters }).finally(() => {
+    return dispatch(LOAD_ITEMS, {
+      itemType: tableName,
+      filters: allFilters,
+    }).finally(() => {
       commit(mutationTypes.APPLYING_FILTERS_DONE, tableName);
     });
   },

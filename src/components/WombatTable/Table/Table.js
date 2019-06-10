@@ -92,9 +92,7 @@ export default {
         if (this.scrollbar) {
           this.scrollbar.update();
         } else {
-          const selector = this.name
-            ? `.${this.name} .virtual-list`
-            : '.virtual-list';
+          const selector = this.name ? `.${this.name} .virtual-list` : '.virtual-list';
           const el = document.querySelector(selector);
           this.scrollbar = new PerfectScrollbar(el);
           el.addEventListener('ps-y-reach-end', () => {
@@ -106,8 +104,7 @@ export default {
       });
     },
     scrollToFirstInsertedtem() {
-      const scrollTop =
-        this.lastScrollTop + this.lastScrollHeight - this.itemHeight;
+      const scrollTop = this.lastScrollTop + this.lastScrollHeight - this.itemHeight;
       this.scrollToPosition(scrollTop);
     },
     scrollToPrependedItem() {
@@ -127,11 +124,8 @@ export default {
       const oldLength = old && old.length;
       const nextLength = next && next.length;
       const itemsPrepended =
-        !!oldLength &&
-        !!nextLength &&
-        old[0][this.itemKeyName] !== next[0][this.itemKeyName];
-      const itemsAppended =
-        !!oldLength && !!nextLength && nextLength > oldLength;
+        !!oldLength && !!nextLength && old[0][this.itemKeyName] !== next[0][this.itemKeyName];
+      const itemsAppended = !!oldLength && !!nextLength && nextLength > oldLength;
 
       if (this.scrollOnItemsAdding && itemsPrepended) {
         this.$nextTick(this.scrollToPrependedItem);

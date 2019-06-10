@@ -32,9 +32,7 @@ export default {
   },
   computed: {
     date() {
-      return this.item.statusSince
-        ? moment(this.item.statusSince).format(DEFAULT_DATE_FORMAT)
-        : '';
+      return this.item.statusSince ? moment(this.item.statusSince).format(DEFAULT_DATE_FORMAT) : '';
     },
     isOnline() {
       return this.item.isOnline;

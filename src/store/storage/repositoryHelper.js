@@ -1,8 +1,8 @@
 import { getCalls } from '@/services/callRepository';
-import { getDevices } from '@/services/devicesRepository';
+import { getDevices, getDeviceHistory } from '@/services/devicesRepository';
 import { ENTITY_TYPES } from '@/constants';
 
-const { CALLS, DEVICES } = ENTITY_TYPES;
+const { CALLS, DEVICES, DEVICE_HISTORY } = ENTITY_TYPES;
 
 const handlers = {
   [CALLS]: {
@@ -10,6 +10,9 @@ const handlers = {
   },
   [DEVICES]: {
     getAll: getDevices,
+  },
+  [DEVICE_HISTORY]: {
+    getAll: getDeviceHistory,
   },
 };
 

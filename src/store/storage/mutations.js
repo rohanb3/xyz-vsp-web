@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import {
   INSERT_ITEMS,
+  UPSERT_ITEMS,
   CHANGE_ITEM,
   REMOVE_ITEM,
   RESET_ITEMS,
@@ -14,24 +15,20 @@ export default {
   [INSERT_ITEMS](state, { itemType, items }) {
     state[itemType].items.push(...items);
   },
+  [UPSERT_ITEMS](state, { itemType, items = [] }) {
+    const existedItems = state[itemType].items || [];
+    const updatedItems = items.concat(existedItems);
+    state[itemType].items = updatedItems;
+  },
   [CHANGE_ITEM](state, { itemType, id, ...updates }) {
     const itemIndex = state[itemType].items.findIndex(item => item.id === id);
     if (itemIndex >= 0) {
-      const updated = Object.assign(
-        {},
-        state[itemType].items[itemIndex],
-        updates
-      );
+      const updated = Object.assign({}, state[itemType].items[itemIndex], updates);
       Vue.set(state[itemType].items, itemIndex, updated);
-      // Object.keys(updates).forEach(key => {
-      //   Vue.set(state[itemType].items[itemIndex], key, updates[key]);
-      // });
     }
   },
   [REMOVE_ITEM](state, { itemType, id }) {
-    const itemIndex = state[itemType].items.findIndex(
-      template => template.id === id
-    );
+    const itemIndex = state[itemType].items.findIndex(template => template.id === id);
     if (itemIndex >= 0) {
       Vue.delete(state[itemType].items, itemIndex);
     }
