@@ -10,6 +10,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-nested-ternary': 'off',
     'no-use-before-define': 'off',
+    'no-underscore-dangle': 'off',
     'import/extensions': [
       'error',
       'always',

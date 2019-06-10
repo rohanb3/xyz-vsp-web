@@ -18,7 +18,7 @@
 import ConfigurableLazyLoadTable from './ConfigurableLazyLoadTable';
 import OperatorDetailsCard from '@/containers/OperatorDetailsCard';
 
-import { SUPERADMIN_OPERATORS_TABLE } from '@/constants/tablesNames';
+import { ENTITY_TYPES } from '@/constants';
 
 export default {
   name: 'SuperadminOperators',
@@ -30,7 +30,7 @@ export default {
     return {
       operatorDetailsShown: false,
       selectedOperator: null,
-      name: SUPERADMIN_OPERATORS_TABLE,
+      name: ENTITY_TYPES.SUPERADMIN_OPERATORS,
     };
   },
   methods: {

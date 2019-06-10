@@ -10,7 +10,6 @@
  <script>
 import VerificationCodeForm from '@/components/VerificationCodeForm';
 import { GET_RESET_TOKEN } from '@/store/loggedInUser/actionTypes';
-import { STATUS_OK } from '@/constants/responseStatuses';
 import { requestVerificationCode } from '@/services/identityRepository';
 
 export default {
@@ -22,13 +21,11 @@ export default {
     async onSendVerificationCode(code) {
       try {
         const userEmail = this.$store.state.loggedInUser.email;
-        const status = await this.$store.dispatch(GET_RESET_TOKEN, {
+        await this.$store.dispatch(GET_RESET_TOKEN, {
           email: userEmail,
           code,
         });
-        if (status === STATUS_OK) {
-          this.$router.push({ name: 'reset-password' });
-        } else throw new Error();
+        this.$router.push({ name: 'reset-password' });
       } catch {
         this.$notify({
           group: 'notifications',
@@ -38,15 +35,15 @@ export default {
       }
     },
     async onResendCode() {
-      const userEmail = this.$store.state.loggedInUser.email;
-      const status = await requestVerificationCode(userEmail);
-      if (status === STATUS_OK) {
+      try {
+        const userEmail = this.$store.state.loggedInUser.email;
+        await requestVerificationCode(userEmail);
         this.$notify({
           group: 'notifications',
           title: this.$t('we.sended.verification.code.again'),
           type: 'success',
         });
-      } else {
+      } catch {
         this.$notify({
           group: 'notifications',
           title: this.$t('something.went.wrong'),

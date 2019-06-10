@@ -4,3 +4,4 @@ export const SET_TOKEN = 'SET_TOKEN';
 export const REMOVE_TOKEN = 'REMOVE_TOKEN';
 export const SET_RESET_TOKEN = 'SET_RESET_TOKEN';
 export const SET_EMAIL = 'SET_EMAIL';
+export const SET_PROMISE_REFRESH_TOKEN = 'SET_PROMISE_REFRESH_TOKEN';

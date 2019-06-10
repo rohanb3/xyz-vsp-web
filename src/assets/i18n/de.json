@@ -1,6 +1,6 @@
 {
-  "app.title": "XYZies VSP Platform",
-  "dashboard": "Tablero",
+  "app.title": "TBD XYZies VSP Platform",
+  "dashboard": "TBD Dashboard",
   "welcome.back": "TBD Welcome Back",
   "username.is.required": "TBD Username is required",
   "password.is.required": "TBD Password is required",
@@ -18,8 +18,7 @@
   "calls": "TBD Calls",
   "loading": "TBD Loading",
   "date": "TBD Date",
-  "operator": "TBD Operator",
-  "retailers": "TBD Retailers",
+  "operator": "TBD Support Admin",
   "type": "TBD Type",
   "disposition": "TBD Disposition",
   "wait.time": "TBD Wait time",
@@ -48,7 +47,7 @@
   "change.password": "TBD Change password",
   "save": "TBD Save",
   "client.feedback": "TBD Client Feedback",
-  "operator.feedback": "TBD Operator Feedback",
+  "operator.feedback": "TBD Support Admin Feedback",
   "type.of.call": "TBD Type Of Call",
   "system.quality.rating": "TBD System Quality Rating",
   "rate.and.experience.with.operator": "TBD Rate and experience with operator",
@@ -100,7 +99,7 @@
   "team.effort": "TBD Team Effort",
   "personal.effort": "TBD Personal Effort",
   "total.calls": "TBD total calls",
-  "answered": "TDB Answered",
+  "answered": "TBD Answered",
   "call.efficiency": "TBD Call Efficiency",
   "average.waiting.time": "TBD Average Waiting Time",
   "calls.on.hold": "TBD Calls on Hold",
@@ -127,7 +126,7 @@
   "work.since": "TBD Work Since",
   "about": "TBD About",
   "address": "TBD Address",
-  "show.review": "Show review",
+  "show.review": "TBD Show review",
   "settings": "TBD Settings",
   "profile": "TBD Profile",
   "personal.email": "TBD Personal E-mail",
@@ -159,12 +158,12 @@
   "change.plan": "TBD change plan",
   "payment.method": "TBD Payment Method",
   "add.new.payment.method": "TBD Add New Payment Method",
-  "i.agree.to.the": "I agree to the",
-  "terms.and.conditions": "Terms and Conditions",
-  "email.is.required": "Email is required",
+  "i.agree.to.the": "TBD I agree to the",
+  "terms.and.conditions": "TBD Terms and Conditions",
+  "email.is.required": "TBD Email is required",
   "email.should.not.be.longer.than.50.symbols":
-    "Email should not be longer than 50 symbols",
-  "email.should.be.valid": "Email should be valid",
+    "TBD Email should not be longer than 50 symbols",
+  "email.should.be.valid": "TBD Email should be valid",
 
   "incoming.call.popup": "TBD Incoming call",
   "incoming.call.popup.brand.from": "TBD from",
@@ -173,6 +172,8 @@
   "incoming.call.popup.call.accepting.failed":
     "TBD Sorry, call can not be accepted",
   "incoming.call.popup.call.finished.by.customer": "TBD User finished call",
+  "incoming.call.popup.user.media.failed":
+    "TBD Probably you are streaming yourself somewhere. Please make sure your web camera is not used by side application and try again",
   "link.to.download": "TBD Link to download",
   "extension.for.sharing.screen.not.installed":
     "TBD The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
@@ -180,9 +181,9 @@
   "callback.declined": "TBD Callback was declined",
   "peer.offline": "TBD User is offline",
   "peer.busy": "TBD User is on call",
-  "callback.requesting.failed": "TBD Unable to call back",
   "already.logged.in": "TBD Sorry, you are already connected",
   "operator.connecting.error": "TBD Sorry, we can not connect you",
+  "callback.requesting.failed": "TBD Unable to call back",
   "call.permissions.popup.title":
     "TBD Please, allow next permissions and reload page",
   "call.permissions.popup.video": "TBD Camera",
@@ -215,12 +216,23 @@
   "confirm.new.password": "TBD Confirm new password",
   "password.must.be.at.least.8.chracters":
     "TBD Password must be at least 8 chracters",
-  "password.do.not.match": "TBDPassword do not match",
+  "password.do.not.match": "TBD Password do not match",
   "enter.your.new.password":
     "TBD Please, enter your new password and confirm it to reset",
   "invalid.code.entered": "TBD Invalid code entered",
   "we.sended.verification.code.again":
-    "TBD We sended verification code to your email",
+    "TBD We have sent a new verification code to your email",
   "password.must.contain.capital.letter":
-    "TBD Password must contain at least 1 capital letter"
+    "TBD Password must contain at least 1 capital letter",
+  "table.no.results.found": "TBD No Results found",
+  "device.management": "TBD Device Management",
+  "udid": "TBD UDID",
+  "status.since": "TBD Online/offline since",
+  "location.status": "TBD Location status",
+  "comments": "TBD Comments",
+  "branch.name": "TBD Branch name",
+  "logged.in.as": "TBD Logged in as",
+  "add.device": "TBD ADD DEVICE",
+  "email.is.not.registered": "TBD This email is not registered in this system. Please, check and try again.",
+  "something.went.wrong": "TBD Opps, something went wrong :("
 }

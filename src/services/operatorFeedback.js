@@ -1,6 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import * as callRepository from '@/services/callRepository';
-import { ONLINE } from '@/constants/DOMEvents';
+import { DOM_EVENTS } from '@/constants';
+
+const { ONLINE } = DOM_EVENTS;
 
 const FEEDBACKS_TO_SAVE = 'FEEDBACKS_TO_SAVE';
 

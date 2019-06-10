@@ -14,7 +14,7 @@
 
       <div class="labelled-description rate-and-experience">
         <div class="label">{{ $t('rate.and.experience.with.operator') }}</div>
-        <div class="description">{{ rate }}</div>
+        <div class="description">{{ rate || '-' }}</div>
       </div>
 
       <div class="labelled-description call-quality">
@@ -38,12 +38,12 @@
 
       <div class="technical-details">
 
-        <div class="technical-detail">
+        <div v-if="isSuperAdmin" class="technical-detail">
           <div class="detail-title">{{ $t('retailer') }}</div>
           <div class="detail-value">{{ retailer }}</div>
         </div>
 
-        <div class="technical-detail">
+        <!-- <div class="technical-detail">
           <div class="detail-title">{{ $t('vsp.id') }}</div>
           <div class="detail-value">{{ vspId }}</div>
         </div>
@@ -51,7 +51,7 @@
         <div class="technical-detail">
           <div class="detail-title">{{ $t('location') }}</div>
           <div class="detail-value">{{ location }}</div>
-        </div>
+        </div> -->
 
       </div>
 
@@ -72,22 +72,26 @@ export default {
       type: Object,
       required: true,
     },
+    isSuperAdmin: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     feedback() {
-      return this.call.clientFeedback;
+      return this.call.customerFeedback || {};
     },
     rate() {
-      return this.$t(this.feedback.rate);
+      return this.$t(this.feedback.experienceRate);
     },
     quality() {
       return Number(this.feedback.quality);
     },
     message() {
-      return this.feedback.message;
+      return this.feedback.note;
     },
     retailer() {
-      return this.call.retailers;
+      return this.call.company;
     },
     location() {
       return this.call.location;

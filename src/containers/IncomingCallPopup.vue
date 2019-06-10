@@ -62,12 +62,20 @@ import moment from 'moment';
 import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
-import { NOTIFICATION_DURATION } from '@/constants/notifications';
+import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO } from '@/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-import { EXTENSION_URL } from '@/constants/twilio';
 import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
-import { errorMessages as permissionErrors } from '@/constants/permissions';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
+
+const { NOTIFICATION_DURATION } = NOTIFICATIONS;
+
+const errorsHash = {
+  [errors.CALLS_EMPTY]: 'incoming.call.popup.call.was.answered',
+  [errors.CALL_FINISED_BY_CUSTOMER]: 'incoming.call.popup.call.finished.by.customer',
+  [errors.USER_MEDIA_FAILED]: 'incoming.call.popup.user.media.failed',
+};
+
+const DEFAULT_ACCEPTING_ERROR = 'incoming.call.popup.call.accepting.failed';
 
 export default {
   name: 'IncomingCallPopup',
@@ -82,7 +90,7 @@ export default {
       dialogMinimizedByUser: false,
       counter: 0,
       interval: null,
-      extensionLink: EXTENSION_URL,
+      extensionLink: TWILIO.EXTENSION_URL,
       connectInProgress: false,
       connectingError: null,
       initializingError: null,
@@ -165,7 +173,7 @@ export default {
   },
   mounted() {
     initializeOperator().catch(({ message, blockedPermissions = [] }) => {
-      if (message === permissionErrors.PERMISSIONS_BLOCKED) {
+      if (message === PERMISSION_ERROR_MESSAGES.PERMISSIONS_BLOCKED) {
         this.permissionsError = this.$t('call.permissions.popup.title');
         this.blockedPermissions = blockedPermissions;
       } else {
@@ -192,13 +200,7 @@ export default {
       this.$router.push({ name: 'call' });
     },
     onCallAcceptingFailed(error) {
-      if (error.message === errors.CALLS_EMPTY) {
-        this.connectingError = this.$t('incoming.call.popup.call.was.answered');
-      } else if (error.message === errors.CALL_FINISED_BY_CUSTOMER) {
-        this.connectingError = this.$t('incoming.call.popup.call.finished.by.customer');
-      } else {
-        this.connectingError = this.$t('incoming.call.popup.call.accepting.failed');
-      }
+      this.connectingError = this.$t(errorsHash[error.message] || DEFAULT_ACCEPTING_ERROR);
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;
@@ -250,7 +252,8 @@ export default {
 
 .popup-content {
   padding: 22px 15px 13px 22px;
-  width: 311px;
+  max-width: 50vw;
+  min-width: 311px;
   border-radius: 10px;
   background-size: cover;
   background-position: center center;

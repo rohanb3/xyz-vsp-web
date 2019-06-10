@@ -17,6 +17,7 @@
                 required
                 :rules="emailRules"
                 :validate-on-blur="true"
+                @keydown.space.prevent
               ></v-text-field>
               <v-text-field
                 label="Password"
@@ -29,6 +30,7 @@
                 :append-icon="e1 ? 'visibility' : 'visibility_off'"
                 :type="e1 ? 'password' : 'text'"
                 @click:append="() => (e1 = !e1)"
+                @keydown.space.prevent
               ></v-text-field>
 
               <div class="forgot-link-wrapper">

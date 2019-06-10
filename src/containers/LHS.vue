@@ -10,12 +10,6 @@
         <v-icon class="item-icon">group</v-icon>
       </div>
     </router-link>
-    <router-link :to="{ name: 'calls' }" class="lhs-item-link">
-      <div class="lhs-item call" :class="{ active: activeIndex === 2 }" @click="setActive(2)">
-        <v-icon class="item-icon">call</v-icon>
-        <v-icon class="item-icon secondary-icon">list</v-icon>
-      </div>
-    </router-link>
     <router-link class="lhs-item-link" :to="{ name: 'operatorReview' }">
       <div class="lhs-item" :class="{ active: activeIndex === 3 }" @click="setActive(3)">
         <v-icon class="item-icon">insert_chart</v-icon>
@@ -48,8 +42,19 @@
     </router-link>-->
 
     <router-link :to="{ name: 'dashboard' }" class="lhs-item-link">
-      <div class="lhs-item" :class="{ active: activeIndex === 0 }" @click="setActive(0)">
+      <div class="lhs-item">
         <v-icon class="item-icon">view_compact</v-icon>
+      </div>
+    </router-link>
+    <router-link :to="{ name: 'calls' }" class="lhs-item-link">
+      <div class="lhs-item call">
+        <v-icon class="item-icon">call</v-icon>
+        <v-icon class="item-icon secondary-icon">list</v-icon>
+      </div>
+    </router-link>
+    <router-link v-if="!isSupportAdmin" :to="{ name: 'devices' }" class="lhs-item-link">
+      <div class="lhs-item">
+        <v-icon class="item-icon">tablet_mac</v-icon>
       </div>
     </router-link>
     <v-spacer class="spacer"/>
@@ -57,17 +62,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'lhs',
-  data() {
-    return {
-      activeIndex: 0,
-    };
-  },
-  methods: {
-    setActive(index) {
-      this.activeIndex = index;
-    },
+  computed: {
+    ...mapGetters(['isSupportAdmin']),
   },
 };
 </script>
@@ -106,7 +106,7 @@ export default {
   height: $lhs-width;
 }
 
-.active {
+.router-link-active {
   .item-icon {
     color: $lhs-active-icon-color;
   }

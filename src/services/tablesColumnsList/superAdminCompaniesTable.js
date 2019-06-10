@@ -1,0 +1,51 @@
+export default () => [
+  {
+    name: 'company',
+    field: 'company',
+    title: 'company',
+    width: '250px',
+  },
+  {
+    name: 'contactPerson',
+    field: 'contactPerson',
+    class: 'text',
+    title: 'contact.person',
+    width: '250px',
+  },
+  {
+    name: 'email',
+    field: 'email',
+    fieldType: 'email',
+    class: 'text',
+    title: 'email',
+    width: '250px',
+  },
+  {
+    name: 'phone',
+    field: 'phone',
+    class: 'text',
+    title: 'phone',
+    width: '150px',
+  },
+  {
+    name: 'created',
+    field: 'created',
+    fieldType: 'created',
+    title: 'created',
+    width: '150px',
+  },
+  {
+    name: 'qtyOfOperators',
+    field: 'qtyOfOperators',
+    title: 'qte.of.operators',
+    class: 'number',
+    width: '100px',
+  },
+  {
+    name: 'additional',
+    field: null,
+    fieldType: 'additional',
+    title: '',
+    width: '100px',
+  },
+];

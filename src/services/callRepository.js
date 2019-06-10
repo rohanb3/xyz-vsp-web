@@ -1,8 +1,15 @@
-import api from '@/services/api';
-import callApi from '@/services/callApi';
+import callsApi from '@/services/callsApi';
+
+export const getCalls = filters => {
+  const params = { ...filters };
+  return callsApi.get('/calls', { params }).then(({ data }) => data);
+};
 
 export const getCallsTypes = () =>
-  api.get('/operator-feedback/calls-type').then(response => response.data);
+  Promise.resovle({
+    callTypes: ['info', 'help', 'sale'],
+    dispositions: ['Long Name', 'Another Name', 'One more'],
+  });
 
 export const saveFeedback = data =>
-  callApi.post('/call-feedback-operator', data).then(response => response.data);
+  callsApi.post('/call-feedback-operator', data).then(response => response.data);

@@ -62,11 +62,9 @@
 import moment from 'moment';
 import InlineDatepicker from '@/components/InlineDatepicker';
 import tableToolbarBalloon from '@/mixins/tableToolbarBalloon';
-import {
-  DAY_FULL_MONTH,
-  FULL_YEAR_SHORT_MONTH_SHORT_DAY,
-  MONTH_ONLY,
-} from '@/constants/dateFormats';
+import { DATE_FORMATS } from '@/constants';
+
+const { DAY_FULL_MONTH, FULL_YEAR_SHORT_MONTH_SHORT_DAY, MONTH_ONLY } = DATE_FORMATS;
 
 const START_OF_TIME = '2018-01-01';
 

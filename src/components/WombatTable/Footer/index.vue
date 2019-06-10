@@ -8,10 +8,7 @@
       :class="[column.class, column._className]"
     >
       <div class="content">
-        <slot
-          name="footer-cell"
-          :column="column"
-        >
+        <slot name="footer-cell" :column="column">
           {{ column.title }}
         </slot>
       </div>

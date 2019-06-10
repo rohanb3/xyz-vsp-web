@@ -1,14 +1,23 @@
 import actions from '@/store/loggedInUser/actions';
 import {
+  GET_PROFILE_DATA,
   LOGIN,
   REFRESH_TOKEN,
-  GET_PROFILE_DATA,
   GET_PHOTO,
   GET_RESET_TOKEN,
+  USER_LOGOUT,
 } from '@/store/loggedInUser/actionTypes';
-import { SET_TOKEN, SET_PROFILE_DATA, SET_RESET_TOKEN } from '@/store/loggedInUser/mutationTypes';
+
+import {
+  SET_PROFILE_DATA,
+  SET_TOKEN,
+  SET_PROMISE_REFRESH_TOKEN,
+  SET_RESET_TOKEN,
+  REMOVE_TOKEN,
+  CLEAR_PROFILE_DATA,
+} from '@/store/loggedInUser/mutationTypes';
+
 import * as identityRepository from '@/services/identityRepository';
-import { STATUS_OK, STATUS_INTERNAL_SERVER_ERROR } from '@/constants/responseStatuses';
 
 describe('loggedInUser actions: ', () => {
   describe('GET_PROFILE_DATA: ', () => {
@@ -64,32 +73,25 @@ describe('loggedInUser actions: ', () => {
     });
   });
   describe('REFRESH_TOKEN: ', () => {
-    it('should get new token instead of expired one', async () => {
+    it('should get new Promise', async () => {
+      const refreshToken = '123';
+
       const fakeStore = {
         commit: jest.fn(),
         state: {
           token: {
-            refreshToken: '123',
+            refreshToken,
           },
+          refreshTokenPromise: null,
         },
       };
 
-      const response = {
-        data: {
-          access_token: '123',
-          refresh_token: '456',
-        },
-      };
-      const { access_token: accessToken, refresh_token: refreshToken } = response.data;
-      identityRepository.refreshToken = jest.fn(() => Promise.resolve(response));
+      identityRepository.refreshToken = jest.fn(() => Promise.resolve());
 
       await actions[REFRESH_TOKEN](fakeStore);
 
-      expect(fakeStore.commit).toHaveBeenCalledWith(SET_TOKEN, {
-        accessToken,
-        refreshToken,
-      });
-      expect(identityRepository.refreshToken).toHaveBeenCalled();
+      expect(identityRepository.refreshToken).toHaveBeenCalledWith(refreshToken);
+      expect(fakeStore.commit).toHaveBeenCalledWith(SET_PROMISE_REFRESH_TOKEN, expect.any(Object));
     });
   });
 
@@ -108,9 +110,7 @@ describe('loggedInUser actions: ', () => {
         },
       };
 
-      identityRepository.getAvatar = jest.fn(() =>
-        Promise.resolve({ status: STATUS_OK, data: avatarBase64Url })
-      );
+      identityRepository.getAvatar = jest.fn(() => Promise.resolve({ data: avatarBase64Url }));
 
       await actions[GET_PHOTO](fakeStore);
 
@@ -119,35 +119,6 @@ describe('loggedInUser actions: ', () => {
         avatarLink: avatarBase64Url,
         objectId,
       });
-    });
-
-    it('should throw exception if failed to get photo', async () => {
-      const objectId = '23gh234jhhwej';
-
-      const fakeStore = {
-        commit: jest.fn(),
-        state: {
-          profileData: {
-            objectId,
-            avatarLink: null,
-          },
-        },
-      };
-
-      identityRepository.getAvatar = jest.fn(() =>
-        Promise.resolve({ status: STATUS_INTERNAL_SERVER_ERROR })
-      );
-
-      let exceptionFlag = false;
-      try {
-        await actions[GET_PHOTO](fakeStore);
-      } catch {
-        exceptionFlag = true;
-      }
-
-      expect(identityRepository.getAvatar).toHaveBeenCalledWith(objectId);
-      expect(fakeStore.commit).not.toHaveBeenCalled();
-      expect(exceptionFlag).toBeTruthy();
     });
   });
 
@@ -161,14 +132,24 @@ describe('loggedInUser actions: ', () => {
         commit: jest.fn(),
       };
 
-      identityRepository.verifyCode = jest.fn(() =>
-        Promise.resolve({ status: STATUS_OK, data: { resetToken } })
-      );
+      identityRepository.verifyCode = jest.fn(() => Promise.resolve({ data: { resetToken } }));
 
-      const status = await actions[GET_RESET_TOKEN](fakeStore, { email, code });
+      await actions[GET_RESET_TOKEN](fakeStore, { email, code });
 
-      expect(status).toEqual(STATUS_OK);
       expect(fakeStore.commit).toHaveBeenCalledWith(SET_RESET_TOKEN, resetToken);
+    });
+  });
+
+  describe('USER_LOGOUT: ', () => {
+    it('should user logout', async () => {
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+
+      await actions[USER_LOGOUT](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(REMOVE_TOKEN);
+      expect(fakeStore.commit).toHaveBeenCalledWith(CLEAR_PROFILE_DATA);
     });
   });
 });

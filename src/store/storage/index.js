@@ -1,25 +1,24 @@
 import getters from './getters';
 import actions from './actions';
 import mutations from './mutations';
+import { ENTITY_TYPES } from '@/constants';
+
+const { CALLS, DEVICES, COMPANY_LIST } = ENTITY_TYPES;
 
 export default {
   state: {
-    allOperatorsLength: 0,
-    allCustomersLength: 0,
-    allSuperadminCompaniesLength: 0,
-    allCallsLength: 0,
-    allSuperadminOperatorsLength: 0,
-    allPaymentsLength: 0,
-    operators: [],
-    customers: [],
-    superadminCompanies: [],
-    calls: [],
-    callTypes: [],
-    dispositions: [],
-    callsDuration: [],
-    callsFeedback: [],
-    superadminOperators: [],
-    payments: [],
+    [CALLS]: {
+      items: [],
+      allItemsLoaded: false,
+    },
+    [DEVICES]: {
+      items: [],
+      allItemsLoaded: false,
+    },
+    [COMPANY_LIST]: {
+      items: [],
+      allItemsLoaded: false,
+    },
   },
   getters,
   actions,

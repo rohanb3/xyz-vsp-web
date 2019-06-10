@@ -64,10 +64,11 @@ import IdCell from '@/components/tableCells/IdCell';
 
 import smartTable from '@/mixins/smartTable';
 
-import { LOAD_OPERATORS, LOAD_ALL_OPERATORS_LENGTH } from '@/store/storage/actionTypes';
-import { OPERATORS_TABLE } from '@/constants/tablesNames';
+import { ENTITY_TYPES } from '@/constants';
 
 import { getOperatorsTableColumns } from '@/services/tablesColumnsList';
+
+const { LOAD_OPERATORS, LOAD_ALL_OPERATORS_LENGTH } = {};
 
 const allColumns = getOperatorsTableColumns()
   .map(({ name, title }) => ({
@@ -97,7 +98,7 @@ export default {
   mixins: [smartTable],
   data() {
     return {
-      tableName: OPERATORS_TABLE,
+      tableName: ENTITY_TYPES.OPERATORS,
       loading: false,
       rowComponentsHash: {
         qtyOfReviews: 'QtyOfReviewsCell',

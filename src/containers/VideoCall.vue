@@ -8,6 +8,7 @@
     </div>
 
     <div v-show="isOperatorOnCall" class="remote-media" ref="remoteMedia"/>
+    <video v-show="isScreenSharingOn" autoplay class="screen-sharing-video" ref="screenSharingVideo"/>
     <div v-show="isOperatorOnCall && customerInfo" class="customer-info">
       {{ customerInfo }}
     </div>
@@ -21,6 +22,7 @@
       :is-screen-sharing-on="isScreenSharingOn"
       :volume-level="volume"
       :call-duration="counter"
+      :screen-sharing-frozen="screenSharingFrozen"
       @toggleCamera="toggleCamera"
       @toggleMicrophone="toggleMicrophone"
       @toggleSound="toggleSound"
@@ -36,7 +38,7 @@
       :call-dispositions="callDispositions"
       :loading="loading"
       :connecting-to-callback="connectingToCallback"
-      :callback-declined="callbackDeclined"
+      :callback-declined="callbackDeclined || !callbackEnabled"
       :callback-available="callbackAvailable"
       @saveFeedback="saveFeedback"
       @callback="requestCallback"
@@ -72,8 +74,7 @@ import {
   getCachedRemoteTracks,
 } from '@/services/twilio';
 import { saveFeedback } from '@/services/operatorFeedback';
-import { AUDIO, VIDEO } from '@/constants/twilio';
-import { NOTIFICATION_DURATION } from '@/constants/notifications';
+import { TWILIO, NOTIFICATIONS } from '@/constants';
 
 import { LOAD_CALL_TYPES_AND_DISPOSITIONS } from '@/store/storage/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
@@ -84,9 +85,12 @@ import CallConnectionErrorPopup from '@/components/CallConnectionErrorPopup';
 
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 
+const { AUDIO, VIDEO } = TWILIO;
+const { NOTIFICATION_DURATION } = NOTIFICATIONS;
 const VOLUME_GAIN = 10;
 const VIDEO_UPDATE_INTERVAL = 2000;
 const ERROR = 'error';
+const TIME_UPDATE = 'timeupdate';
 
 export default {
   name: 'VideoCall',
@@ -105,7 +109,9 @@ export default {
       localParticipantNetworkLevel: 5,
       remoteParticipantNetworkLevel: 5,
       remoteVideoFrozen: false,
+      screenSharingFrozen: false,
       remoteVideoFreezingTimer: null,
+      screenSharingVideoFreezingTimer: null,
       show: true,
       isCameraOn: false,
       isMicrophoneOn: false,
@@ -167,6 +173,9 @@ export default {
       return this.companyName
         ? `${this.companyName} - ${this.customerDisplayName}`
         : this.customerDisplayName;
+    },
+    callbackEnabled() {
+      return this.activeCallData && this.activeCallData.callbackEnabled;
     },
   },
   mounted() {
@@ -273,7 +282,7 @@ export default {
     subscribeToVideoFreezing() {
       const remoteVideo = this.$refs.remoteMedia.querySelector('video');
       if (remoteVideo) {
-        remoteVideo.addEventListener('timeupdate', () => {
+        remoteVideo.addEventListener(TIME_UPDATE, () => {
           this.remoteVideoFrozen = false;
           clearTimeout(this.remoteVideoFreezingTimer);
           this.remoteVideoFreezingTimer = setTimeout(() => {
@@ -425,11 +434,31 @@ export default {
     handleTracksRemoving(tracks) {
       detachTracks(tracks);
     },
-    handleScreenShareAdding() {
+    handleScreenShareAdding(stream) {
+      const { screenSharingVideo } = this.$refs;
       this.isScreenSharingOn = true;
+      this.screenSharingFrozen = false;
+      if (screenSharingVideo) {
+        screenSharingVideo.srcObject = stream;
+        screenSharingVideo.addEventListener(TIME_UPDATE, this.onScreenSharingTimeUpdated);
+      }
     },
     handleScreenShareRemoving() {
+      const { screenSharingVideo } = this.$refs;
       this.isScreenSharingOn = false;
+      this.screenSharingFrozen = false;
+      clearTimeout(this.screenSharingVideoFreezingTimer);
+      if (screenSharingVideo) {
+        screenSharingVideo.removeEventListener(TIME_UPDATE, this.onScreenSharingTimeUpdated);
+        screenSharingVideo.srcObject = null;
+      }
+    },
+    onScreenSharingTimeUpdated() {
+      this.screenSharingFrozen = false;
+      clearTimeout(this.screenSharingVideoFreezingTimer);
+      this.screenSharingVideoFreezingTimer = setTimeout(() => {
+        this.screenSharingFrozen = true;
+      }, VIDEO_UPDATE_INTERVAL);
     },
     handleLocalParticipantNetworkLevelChanging(level) {
       this.localParticipantNetworkLevel = level;
@@ -530,6 +559,15 @@ export default {
     flex-flow: row;
     justify-content: center;
     align-items: center;
+  }
+
+  .screen-sharing-video {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    top: -9999px;
+    left: -9999px;
+    background-color: black;
   }
 
   .call-reconnecting-badge {

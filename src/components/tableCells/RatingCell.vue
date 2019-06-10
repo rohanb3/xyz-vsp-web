@@ -20,7 +20,8 @@ export default {
   },
   computed: {
     rating() {
-      return this.item.rating;
+      const { customerFeedback = {} } = this.item;
+      return customerFeedback.experienceRate;
     },
   },
 };

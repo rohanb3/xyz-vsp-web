@@ -3,7 +3,9 @@ import Video from 'twilio-video';
 
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import { isChrome, isFirefox } from '@/services/browser';
-import { EXTENSION_ID, VIDEO, AUDIO } from '@/constants/twilio';
+import { TWILIO } from '@/constants';
+
+const { EXTENSION_ID, VIDEO, AUDIO } = TWILIO;
 
 const previewTracks = {};
 const remoteTracks = new Set();
@@ -159,22 +161,27 @@ export function enableScreenShare() {
         const [track] = stream.getVideoTracks();
         previewTracks.screenShare = track;
         publishTrack(track);
-        emitScreenShareAdding([track]);
+        emitScreenShareAdding(stream);
         const onStreamInactive = () => {
-          unpublishTrack(track);
-          emitScreenShareRemoving([track]);
-          delete previewTracks.screenShare;
+          /* eslint-disable-next-line */
+          console.log('onStreamInactive');
+          disableScreenShare();
           stream.removeEventListener(INACTIVE, onStreamInactive);
         };
         const onStreamError = err => {
+          /* eslint-disable-next-line */
+          console.log('onStreamError', err);
+          disableScreenShare();
           emitScreenSharingError(err);
-          stopTracks([track]);
           stream.removeEventListener(ERROR, onStreamError);
         };
         stream.addEventListener(INACTIVE, onStreamInactive);
         stream.addEventListener(ERROR, onStreamError);
       })
-      .catch(err => emitScreenSharingError(err));
+      .catch(err => {
+        /* eslint-disable-next-line */
+        console.log('Can not get stream', err);
+      });
   });
 }
 
@@ -182,6 +189,9 @@ export function disableScreenShare() {
   const track = previewTracks.screenShare;
   if (track) {
     stopTracks([track]);
+    unpublishTrack(track);
+    emitScreenShareRemoving(track);
+    delete previewTracks.screenShare;
   }
   return Promise.resolve();
 }
@@ -410,12 +420,12 @@ function emitRemoteTracksRemoving(tracks) {
   twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACKS_REMOVED, tracks);
 }
 
-function emitScreenShareAdding(tracks) {
-  twilioEvents.emit(TWILIO_EVENTS.SCREEN_SHARED, tracks);
+function emitScreenShareAdding(stream) {
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_SHARED, stream);
 }
 
-function emitScreenShareRemoving(tracks) {
-  twilioEvents.emit(TWILIO_EVENTS.SCREEN_UNSHARED, tracks);
+function emitScreenShareRemoving(stream) {
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_UNSHARED, stream);
 }
 
 function emitParticpantConnecting() {

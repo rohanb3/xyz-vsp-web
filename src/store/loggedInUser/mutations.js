@@ -5,12 +5,13 @@ import {
   REMOVE_TOKEN,
   SET_RESET_TOKEN,
   SET_EMAIL,
+  SET_PROMISE_REFRESH_TOKEN,
 } from './mutationTypes';
 
 export default {
   /* eslint-disable no-param-reassign */
-  [SET_PROFILE_DATA](state, data) {
-    state.profileData = data;
+  [SET_PROFILE_DATA](state, profile) {
+    state.profileData = profile;
   },
   [CLEAR_PROFILE_DATA](state) {
     state.profileData = {};
@@ -26,6 +27,9 @@ export default {
   },
   [SET_EMAIL](state, email) {
     state.email = email;
+  },
+  [SET_PROMISE_REFRESH_TOKEN](state, payload) {
+    state.refreshTokenPromise = payload;
   },
   /* eslint-enable no-param-reassign */
 };

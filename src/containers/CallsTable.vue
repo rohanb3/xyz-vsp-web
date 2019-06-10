@@ -1,35 +1,28 @@
 <template>
   <div class="calls-table">
-    <!-- <div class="dashboard-container">
-      <calls-dashboard/>
-    </div>
     <div class="calls-table-toolbar">
-      <div class="calls-amount">{{ filteredCallsLength }} {{ $t('calls') }}</div>
-      <v-spacer></v-spacer>
-      <table-dates-editor
-        :startDate="startDate"
-        :endDate="endDate"
-        :boundariesSelector="'.calls-page'"
-        @applyDateRange="setDateRange"
-      />
-      <columns-list-editor
-        :columns="columnsVisibilityData"
-        :boundariesSelector="'.calls-page'"
-        @visibilityChanged="onColumnVisibilityChanged"
-        @revertToDefault="setDefaultColumns"
-      />
+      <div class="calls-amount">{{ totalItems }} {{ $t('calls') }}</div>
     </div>
-
     <wombat-table
-      v-if="rows && rows.length"
+      :name="tableName"
       :items="rows"
       :columns="columns"
       :item-height="50"
-      :infinite-loading="!allCallsLoaded"
-      @bottomReached="checkAndInsertCalls"
+      :infinite-loading="!allItemsLoaded"
+      :loading-items="loading"
+      @bottomReached="checkAndLoadItems"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
     >
+      <component
+        slot="header-cell"
+        slot-scope="headerCell"
+        class="header-cell"
+        :is="
+          headerComponentsHash[headerCell.column.fieldHeaderType] || headerComponentsHash.default
+        "
+        :column="headerCell.column"
+      />
       <div v-if="rows && rows.length" slot="row" slot-scope="row">
         <wombat-row
           :item="row.item"
@@ -50,87 +43,83 @@
         </wombat-row>
       </div>
 
-      <div slot="footer" class="calls-table-footer wombat-footer">
-        <table-loader v-if="loading"/>
-      </div>
+      <table-loader v-if="loading" slot="loader" />
     </wombat-table>
     <client-feedback-card
       v-if="clientFeedbackShown"
       :call="selectedCall"
+      :is-super-admin="isSuperAdmin"
       @close="closeClientFeedback"
     />
     <operator-feedback-card
       v-if="operatorFeedbackShown"
       :call="selectedCall"
       @close="closeOperatorFeedback"
-    />-->
+    />
   </div>
 </template>
 
 <script>
-// import WombatTable from '@/components/WombatTable/Table';
-// import WombatRow from '@/components/WombatTable/Row';
-// import TableLoader from '@/components/TableLoader';
-// import DefaultCell from '@/components/tableCells/DefaultCell';
-// import DateCell from '@/components/tableCells/DateCell';
-// import CallTypeCell from '@/components/tableCells/CallTypeCell';
-// import WaitTimeCell from '@/components/tableCells/WaitTimeCell';
-// import DurationCell from '@/components/tableCells/DurationCell';
-// import RatingCell from '@/components/tableCells/RatingCell';
-// import StatusCell from '@/components/tableCells/StatusCell';
-// import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
-// import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
-// import ClientFeedbackCard from '@/components/ClientFeedbackCard';
-// import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
-// import TableDatesEditor from '@/components/TableDatesEditor';
-// import ColumnsListEditor from '@/components/ColumnsListEditor';
-// import CallsDashboard from '@/components/CallsDashboard';
+import { mapGetters } from 'vuex';
 
-import smartTable from '@/mixins/smartTable';
+import WombatTable from '@/components/WombatTable/Table';
+import WombatRow from '@/components/WombatTable/Row';
+import TableLoader from '@/components/TableLoader';
+import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
+import DefaultCell from '@/components/tableCells/DefaultCell';
+import DateCell from '@/components/tableCells/DateCell';
+import CallTypeCell from '@/components/tableCells/CallTypeCell';
+import DurationCell from '@/components/tableCells/DurationCell';
+import RatingCell from '@/components/tableCells/RatingCell';
+import StatusCell from '@/components/tableCells/StatusCell';
+import ClientFeedbackCell from '@/components/tableCells/ClientFeedbackCell';
+import OperatorFeedbackCell from '@/components/tableCells/OperatorFeedbackCell';
+import ClientFeedbackCard from '@/components/ClientFeedbackCard';
+import OperatorFeedbackCard from '@/components/OperatorFeedbackCard';
+import TableDatesEditor from '@/components/TableDatesEditor';
+import ColumnsListEditor from '@/components/ColumnsListEditor';
+import CallsDashboard from '@/components/CallsDashboard';
 
-import { LOAD_CALLS, LOAD_ALL_CALLS_LENGTH } from '@/store/storage/actionTypes';
-import { CALLS_TABLE } from '@/constants/tablesNames';
+import configurableColumnsTable from '@/mixins/configurableColumnsTable';
+import lazyLoadTable from '@/mixins/lazyLoadTable';
+import { ENTITY_TYPES } from '@/constants';
 
-import { getCallsTableColumns } from '@/services/tablesColumnsList';
-
-const allColumns = getCallsTableColumns()
-  .map(({ name, title }) => ({
-    name,
-    title,
-  }))
-  .sort((first, second) => (first.title < second.title ? -1 : 1));
+const operationAdminOnlyColumns = ['company'];
+const { CALLS } = ENTITY_TYPES;
 
 export default {
   name: 'CallsTable',
   components: {
-    // WombatTable,
-    // WombatRow,
-    // DefaultCell,
-    // DateCell,
-    // CallTypeCell,
-    // WaitTimeCell,
-    // DurationCell,
-    // RatingCell,
-    // StatusCell,
-    // ClientFeedbackCell,
-    // OperatorFeedbackCell,
-    // TableLoader,
-    // ClientFeedbackCard,
-    // OperatorFeedbackCard,
-    // TableDatesEditor,
-    // ColumnsListEditor,
-    // CallsDashboard,
+    WombatTable,
+    WombatRow,
+    DefaultHeaderCell,
+    DefaultCell,
+    DateCell,
+    CallTypeCell,
+    DurationCell,
+    RatingCell,
+    StatusCell,
+    ClientFeedbackCell,
+    OperatorFeedbackCell,
+    TableLoader,
+    ClientFeedbackCard,
+    OperatorFeedbackCard,
+    TableDatesEditor,
+    ColumnsListEditor,
+    CallsDashboard,
   },
-  mixins: [smartTable],
+  mixins: [configurableColumnsTable, lazyLoadTable],
   data() {
     return {
-      tableName: CALLS_TABLE,
+      tableName: CALLS,
       loading: false,
+      headerComponentsHash: {
+        default: 'DefaultHeaderCell',
+      },
       rowComponentsHash: {
         default: 'DefaultCell',
         date: 'DateCell',
         type: 'CallTypeCell',
-        waitTime: 'WaitTimeCell',
         duration: 'DurationCell',
         rating: 'RatingCell',
         status: 'StatusCell',
@@ -142,50 +131,15 @@ export default {
       selectedCall: null,
     };
   },
-  mounted() {
-    this.getAllCallsLength().then(this.insertCalls);
-  },
   computed: {
-    columnsVisibilityData() {
-      return allColumns.map(column => ({
-        ...column,
-        visible: !!this.columns.find(c => c.name === column.name),
-      }));
-    },
-    rows() {
-      return this.$store.getters.callsInDateRange.map(item => ({
-        ...item,
-        height: '50px',
-      }));
-    },
-    filteredCallsLength() {
-      return this.$store.getters.filteredCallsLength;
-    },
-    allCallsLoaded() {
-      return this.$store.getters.allCallsLoaded;
-    },
-    startDate() {
-      return this.$store.getters.callsTableDateRange.startDate;
-    },
-    endDate() {
-      return this.$store.getters.callsTableDateRange.endDate;
+    ...mapGetters(['isOperationAdmin', 'isSuperAdmin']),
+    columns() {
+      return this.tableData.columns.filter(
+        column => this.isOperationAdmin || !operationAdminOnlyColumns.includes(column.name)
+      );
     },
   },
   methods: {
-    checkAndInsertCalls() {
-      if (!this.allCallsLoaded) {
-        this.insertCalls();
-      }
-    },
-    insertCalls() {
-      this.loading = true;
-      return this.$store.dispatch(LOAD_CALLS).then(() => {
-        this.loading = false;
-      });
-    },
-    getAllCallsLength() {
-      return this.$store.dispatch(LOAD_ALL_CALLS_LENGTH);
-    },
     showClientFeedback(id) {
       this.selectCallById(id);
       this.clientFeedbackShown = true;
@@ -212,6 +166,31 @@ export default {
 
 <style lang="scss" scoped>
 @import '~@/assets/styles/variables.scss';
+@import '~@/assets/styles/mixins.scss';
+
+.calls-table /deep/ {
+  .virtual-list {
+    max-height: calc(
+      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} - #{$calls-table-toolbar-height}
+    );
+  }
+  .wombat-row.call-missed {
+    background-color: $calls-missed-call-background-color;
+
+    .column-type {
+      @include inactive-cell;
+    }
+  }
+  .column-duration,
+  .column-rating,
+  .column-clientfeedback,
+  .column-operatorfeedback,
+  .column-type {
+    .header-cell {
+      justify-content: center;
+    }
+  }
+}
 
 .calls-table {
   width: 100%;
