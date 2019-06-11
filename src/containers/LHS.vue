@@ -80,6 +80,7 @@ export default {
   flex-flow: column;
   align-items: center;
   box-shadow: 3px 0 4px 0 $lhs-shadow-color;
+  z-index: 2;
 
   a {
     text-decoration: none;

@@ -233,5 +233,16 @@
   "branch.name": "TBD Branch name",
   "logged.in.as": "TBD Logged in as",
   "email.is.not.registered": "TBD This email is not registered in this system. Please, check and try again.",
-  "something.went.wrong": "TBD Opps, something went wrong :("
+  "something.went.wrong": "TBD Opps, something went wrong :(",
+
+  "device.id": "TBD Device Id",
+  "history": "TBD History",
+  "branch.location": "TBD Branch location",
+  "latitude": "TBD Latitude",
+  "longitude": "TBD Longitude",
+  "branch": "TBD Branch",
+  "allowed.location.radius": "TBD Allowed location radius",
+  "current.device.location": "TBD Current device location",
+  "cancel": "TBD Cancel",
+  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved."
 }

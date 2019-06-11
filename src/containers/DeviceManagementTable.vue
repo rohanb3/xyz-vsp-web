@@ -36,6 +36,7 @@
             :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
             :item="rowCell.item"
             :column="rowCell.column"
+            @selectId="onSelectId"
           />
         </wombat-row>
       </div>
@@ -49,6 +50,12 @@
       @saveDevice="onSaveDevice"
     />
     <device-management-updates :devices="rows" />
+    <device-details
+      :selected-device-id="selectedDeviceId"
+      :tableName="tableName"
+      v-if="deviceHistoryShow"
+      @close="close"
+    />
   </div>
 </template>
 
@@ -62,6 +69,7 @@ import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
 import DeviceLocationCell from '@/components/tableCells/DeviceLocationCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
+import IdCell from '../components/tableCells/IdCell';
 import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 
 import AddDevicePopup from '@/containers/AddDevicePopup';
@@ -69,15 +77,20 @@ import AddDevicePopup from '@/containers/AddDevicePopup';
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
+import DeviceDetails from './DeviceDetails';
+
+import { addBackgroundShadow, removeBackgroundShadow } from '../services/background';
 
 import { createDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
+import DeviceDetailsTab from '../components/DeviceDetailsTab';
 
 const { DEVICES } = ENTITY_TYPES;
 
 export default {
   name: 'devicesTable',
   components: {
+    DeviceDetailsTab,
     WombatTable,
     WombatRow,
     DefaultHeaderCell,
@@ -87,6 +100,8 @@ export default {
     DeviceStatusSinceCell,
     DeviceCommentsCell,
     TableLoader,
+    IdCell,
+    DeviceDetails,
     AddDevicePopup,
     DeviceManagementUpdates,
   },
@@ -104,10 +119,13 @@ export default {
         locationStatus: 'DeviceLocationCell',
         statusSince: 'DeviceStatusSinceCell',
         comments: 'DeviceCommentsCell',
+        id: 'IdCell',
       },
       deviceCommentsShown: false,
       selectedDevice: null,
+      deviceHistoryShow: false,
       isAddDevicePopupShown: false,
+      selectedDeviceId: null,
     };
   },
   methods: {
@@ -122,6 +140,19 @@ export default {
     selectDeviceById(id) {
       const device = this.rows.find(row => row.id === id);
       this.selectedDevice = device;
+    },
+    onSelectId(deviceId) {
+      try {
+        this.selectedDeviceId = deviceId;
+        this.deviceHistoryShow = true;
+        addBackgroundShadow('device-management-table-toolbar');
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    close() {
+      this.deviceHistoryShow = false;
+      removeBackgroundShadow('device-management-table-toolbar');
     },
     showAddDevicePopup() {
       this.isAddDevicePopupShown = true;

@@ -53,6 +53,7 @@ export default {
   z-index: 1;
   font-family: 'Roboto', sans-serif;
   color: $base-white;
+  z-index: 2;
 }
 .header-toolbar {
   align-items: center;

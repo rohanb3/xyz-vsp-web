@@ -147,6 +147,8 @@ export const ROLE_TYPES = {
   SALES_REP: 'salesrep',
 };
 
+export const DEVICE_DETAILS_TABS = ['details', 'history', 'comments'];
+
 export const FILTER_NAMES_COMPANY_LIST = {
   SEARCH_FILTER: 'SearchFilter',
   SORT_BY: 'SortBy',

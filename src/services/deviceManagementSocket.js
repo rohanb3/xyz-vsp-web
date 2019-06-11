@@ -38,14 +38,22 @@ export function pickNeededFields(updatesRaw) {
   let updates = null;
   try {
     const {
-      device: { id },
+      device: { id, latitude: deviceLocationLatitude, longitude: deviceLocationLongitude },
       isOnline,
       isInLocation,
+      createdOn,
+      currentDeviceLocationLatitude,
+      currentDeviceLocationLongitude,
     } = JSON.parse(updatesRaw);
     updates = {
       id,
       isOnline,
       isInLocation,
+      statusSince: createdOn,
+      currentDeviceLocationLatitude,
+      currentDeviceLocationLongitude,
+      deviceLocationLatitude,
+      deviceLocationLongitude,
     };
   } catch (e) {
     updates = {};
