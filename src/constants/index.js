@@ -28,6 +28,7 @@ export const ENTITY_TYPES = {
   CALLS_FEEDBACK: 'callsFeedback',
   SUPERADMIN_OPERATORS: 'superAdminOperators',
   PAYMENTS: 'payments',
+  DEVICE_COMMENTS: 'deviceComments',
 };
 
 export const DATE_FORMATS = {

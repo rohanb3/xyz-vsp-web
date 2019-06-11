@@ -41,7 +41,7 @@
           History
         </v-tab-item>
         <v-tab-item>
-          Comments
+          <device-comment-tab :selected-device-id="selectedDeviceId" />
         </v-tab-item>
       </v-tabs-items>
     </div>
@@ -64,17 +64,22 @@
 import TableFullHeightBalloon from '../components/TableFullHeightBalloon';
 import DeviceDetailsTab from '../components/DeviceDetailsTab';
 import { ENTITY_TYPES, DEVICE_DETAILS_TABS } from '@/constants';
+import DeviceCommentTab from '../components/DeviceCommentTab';
 
 const { DEVICES } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceHistory',
-  components: { DeviceDetailsTab, TableFullHeightBalloon },
+  components: { DeviceCommentTab, DeviceDetailsTab, TableFullHeightBalloon },
   props: {
     tableName: {
       type: String,
       default: '',
       changes: false,
+    },
+    selectedDeviceId: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -121,6 +126,7 @@ export default {
       return this.$store.getters.getItemById(this.deviceId, this.tableName, item => item.id);
     },
   },
+  mounted() {},
   methods: {
     close() {
       if (this.changes) {

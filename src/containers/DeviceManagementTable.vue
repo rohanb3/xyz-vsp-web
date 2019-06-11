@@ -44,6 +44,7 @@
       <table-loader v-if="loading" slot="loader" />
     </wombat-table>
     <DeviceHistory
+      :selected-device-id="selectedDeviceId"
       :tableName="tableName"
       v-if="deviceHistoryShow"
       @close="close"
@@ -71,7 +72,7 @@ import DeviceHistory from './DeviceHistory';
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 import { addBackground, removeBackground } from '../services/utils';
 
-const { DEVICES } = ENTITY_TYPES;
+const { DEVICES, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'devicesTable',
@@ -107,6 +108,7 @@ export default {
       deviceCommentsShown: false,
       selectedDevice: null,
       deviceHistoryShow: false,
+      selectedDeviceId: null,
     };
   },
   methods: {
@@ -124,11 +126,12 @@ export default {
     },
     onSelectId(deviceId) {
       try {
+        this.selectedDeviceId = deviceId;
         const data = {
-          tableName: DEVICES,
+          tableName: DEVICE_COMMENTS,
           filters: [
             {
-              name: DEVICES,
+              name: 'id',
               value: deviceId,
             },
           ],
