@@ -6,7 +6,7 @@
       :items="branches"
       :name="getBranchName"
       :initial-item="value.id"
-      :disabled="!branchesLength"
+      :disabled="disabled"
       required
       :not-found-message="$t('branch.not.found')"
       :rules="branchRules"
@@ -44,8 +44,8 @@ export default {
         this.$emit('input', { ...this.value, branchId });
       },
     },
-    branchesLength() {
-      return this.branches.length;
+    disabled() {
+      return !this.branches.length;
     },
   },
   watch: {
