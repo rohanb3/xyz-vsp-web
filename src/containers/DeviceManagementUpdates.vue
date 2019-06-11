@@ -42,7 +42,7 @@ export default {
     },
   },
   beforeDestroy() {
-    unsubscribeFromDeviceChanges(this.deviceIds).finally(disconnect);
+    return unsubscribeFromDeviceChanges(this.deviceIds).finally(disconnect);
   },
   methods: {
     updateDevice(updates) {
@@ -52,8 +52,8 @@ export default {
         isInLocation,
         isOnline,
       };
-      this.$store.commit(CHANGE_ITEM, { itemType: DEVICES, ...deviceUpdates });
 
+      this.$store.commit(CHANGE_ITEM, { itemType: DEVICES, ...deviceUpdates });
       if (id === this.selectedDeviceId) {
         this.$store.commit(UPSERT_ITEMS, {
           itemType: DEVICE_HISTORY,

@@ -3,6 +3,7 @@ import Vue from 'vue';
 import mutations from '@/store/storage/mutations';
 import {
   INSERT_ITEMS,
+  UPSERT_ITEMS,
   RESET_ITEMS,
   SET_ALL_ITEMS_LOADED,
   CHANGE_ITEM,
@@ -24,6 +25,25 @@ describe('storage mutations: ', () => {
       mutations[INSERT_ITEMS](state, {
         itemType: ENTITY_TYPES.CALLS,
         items: [{ id: 321 }],
+      });
+
+      expect(state[ENTITY_TYPES.CALLS].items).toEqual(expectedItems);
+    });
+  });
+
+  describe('UPSERT_ITEMS: ', () => {
+    it('should upsert items', () => {
+      const state = {
+        [ENTITY_TYPES.CALLS]: {
+          items: [{ id: 321 }],
+        },
+      };
+
+      const expectedItems = [{ id: 123 }, { id: 321 }];
+
+      mutations[UPSERT_ITEMS](state, {
+        itemType: ENTITY_TYPES.CALLS,
+        items: [{ id: 123 }],
       });
 
       expect(state[ENTITY_TYPES.CALLS].items).toEqual(expectedItems);
