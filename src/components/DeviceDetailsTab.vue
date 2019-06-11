@@ -16,12 +16,9 @@
           @change="onInputChange"
         />
       </div>
-      <form-select
-        :label="$t('company')"
-        :id="'company'"
+      <company-select
+        v-if="selected && selected.company"
         v-model="selected.company"
-        :items="[selected.company]"
-        item-text="companyName"
       />
       <form-input
         :label="$t('longitude')"
@@ -31,12 +28,10 @@
         inputType="number"
         @change="onInputChange"
       />
-      <form-select
-        :label="$t('branch')"
-        :id="'branch'"
+      <branch-select
+        v-if="selected && selected.branch"
+        :company-id="selected.company.id"
         v-model="selected.branch"
-        :items="[selected.branch]"
-        item-text="branchName"
       />
       <form-input
         :label="$t('allowed.location.radius')"
@@ -50,40 +45,54 @@
     <div class="current-device-info">
       <div class="statuses">
         <div>
-          Online/offline since
+          {{ $t('status.since') }}
         </div>
-        <div class="status">
-          14 Apr 2019 20:32
+        <div class="status" :class="!isOnline ? 'offline' : null">
+          {{ statusSince }}
         </div>
         <div>
           {{ $t('status') }}
         </div>
         <div class="status">
-          Online
+          <span v-if="isOnline">{{ $t('online') }}</span>
+          <span v-else class="offline">{{ $t('offline') }}</span>
         </div>
       </div>
       <div class="locations">
-        <p class="current-location">{{ $t('current.device.location') }}</p>
+        <p class="current-location">
+          {{ $t('current.device.location') }}
+          <a
+            :href="mapLink"
+            class="show-on-maps"
+            target="_blank"
+            :title="$t('show.on.maps')"
+          >
+            <v-icon>maps</v-icon>
+          </a>
+        </p>
         <p><span>{{ $t('latitude') }}</span></p>
-        <p>{{ selected.latitude }}</p>
+        <p>{{ selected.currentDeviceLocationLatitude }}</p>
         <p><span>{{ $t('longitude') }}</span></p>
-        <p>{{ selected.longitude }}</p>
+        <p>{{ selected.currentDeviceLocationLongitude }}</p>
       </div>
     </div>
     <div class="control" v-if="changes">
       <button @click="$emit('cancel')">{{ $t('cancel') }}</button>
-      <button class="save">{{ $t('save ') }}</button>
+      <button @click="$emit('save')" class="save">{{ $t('save ') }}</button>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment';
+import { DATE_FORMATS } from '@/constants';
 import FormInput from './FormInput';
-import FormSelect from './FormSelect';
+import BranchSelect from './BranchSelect';
+import CompanySelect from './CompanySelect';
 
 export default {
   name: 'DeviceDetailsTab',
-  components: { FormSelect, FormInput },
+  components: { CompanySelect, BranchSelect, FormInput },
   props: {
     tableName: {
       type: String,
@@ -99,9 +108,22 @@ export default {
       required: true,
     },
   },
+  computed: {
+    mapLink() {
+      return `https://www.google.com.ua/maps/@${this.selected.latitude},${
+        this.selected.longitude
+      },10.00z`;
+    },
+    statusSince() {
+      return moment(this.selected.statusSince || moment()).format(DATE_FORMATS.DEFAULT_DATE_FORMAT);
+    },
+    isOnline() {
+      return this.selected.isOnline;
+    },
+  },
   methods: {
     onInputChange(val) {
-      this.$emit('onInputChange', val);
+      this.$emit('onChange', val);
     },
   },
 };
@@ -109,6 +131,79 @@ export default {
 
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
+
+.offline {
+  color: $base-red !important;
+}
+
+.v-input__slot {
+  width: 284px;
+  height: 42px;
+  opacity: 0.6;
+  border-radius: 5px;
+  border: solid 1px #979797;
+  box-shadow: none !important;
+  color: #4a4a4a;
+  font-size: 12px;
+  padding-left: 10px;
+  align-items: center;
+}
+.v-input--is-focused {
+  .v-input__slot {
+    border: solid 1px #398ffb;
+  }
+}
+.v-text-field.v-text-field--enclosed .v-text-field__details {
+  margin-bottom: 0px !important;
+}
+.v-input__append-inner:after {
+  display: none;
+}
+.mx-3 {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.v-label {
+  color: #4a4a4a;
+  font-size: 14px;
+}
+.v-input__slot::before {
+  display: none;
+}
+.v-label--active {
+  padding-bottom: 3px;
+  top: -5px;
+  font-size: 14px;
+  color: #4a4a4a;
+}
+.location-title {
+  padding-bottom: 9px;
+  font-size: 14px;
+  color: #4a4a4a;
+}
+.controls {
+  display: flex;
+  font-size: 14px;
+  justify-content: flex-end;
+  align-items: center;
+  .button {
+    text-transform: capitalize;
+  }
+  .button-cancel,
+  .button-cancel:hover,
+  .button-cancel:before {
+    background-color: transparent;
+    box-shadow: none;
+    color: #398ffb;
+  }
+  .button-save {
+    width: 60px;
+    border-radius: 4px;
+    background-color: #7ed321;
+    color: #ffffff;
+    font-weight: bold;
+  }
+}
 
 .device-info {
   display: flex;
@@ -188,7 +283,17 @@ export default {
         margin-bottom: 17px;
 
         &.current-location {
+          display: flex;
+          justify-content: space-between;
           font-size: 14px;
+        }
+
+        .show-on-maps {
+          text-decoration: none;
+
+          i {
+            font-size: 20px;
+          }
         }
 
         span {

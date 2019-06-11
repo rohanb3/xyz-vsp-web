@@ -1,5 +1,5 @@
 import api from '@/services/devicesApi';
-import { getDevices, getDeviceHistory } from '@/services/devicesRepository';
+import { getDevices, getDeviceHistory, createDevice } from '@/services/devicesRepository';
 
 describe('devicesRepository', () => {
   describe('getDevices(): ', () => {
@@ -64,6 +64,21 @@ describe('devicesRepository', () => {
         expect(res).toEqual(expectedResponse);
         expect(api.get).toHaveBeenCalledWith(expectedUrl, expectedParams);
       });
+    });
+  });
+
+  describe('createDevice', () => {
+    it('should call api.post and return corect data', async () => {
+      const data = {
+        id: 123,
+      };
+
+      api.post = jest.fn(() => Promise.resolve({ data }));
+
+      const response = await createDevice(data);
+
+      expect(response).toEqual(data);
+      expect(api.post).toHaveBeenCalledWith('/devices', data);
     });
   });
 });

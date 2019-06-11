@@ -32,7 +32,7 @@
             :table-name="tableName"
             :selected="selected"
             :changes="changes"
-            @onInputChange="onInputChange"
+            @onChange="onChange"
             @save="saveChanges"
             @cancel="close"
           />
@@ -61,12 +61,12 @@
 </template>
 
 <script>
-import TableFullHeightBalloon from '../components/TableFullHeightBalloon';
-import DeviceDetailsTab from '../components/DeviceDetailsTab';
+import isEqual from 'lodash.isequal';
+import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
+import DeviceDetailsTab from '@/components/DeviceDetailsTab';
 import DeviceHistoryTable from '@/containers/DeviceHistoryTable';
-import { ENTITY_TYPES, DEVICE_DETAILS_TABS } from '@/constants';
-
-const { DEVICES } = ENTITY_TYPES;
+import { DEVICE_DETAILS_TABS } from '@/constants';
+import { updateDevice } from '@/services/devicesRepository';
 
 export default {
   name: 'DeviceHistory',
@@ -77,40 +77,39 @@ export default {
       default: '',
       changes: false,
     },
-    selectedDevice: {
-      type: Object,
-      default: () => ({}),
+    selectedDeviceId: {
+      type: String,
+      default: '',
     },
   },
   data() {
     return {
       tabs: DEVICE_DETAILS_TABS,
       tab: 0,
-      selected: this.selectedDevice || {},
+      selected: {},
       changes: false,
       dialog: false,
     };
   },
   watch: {
-    deviceId(val) {
-      if (!val) {
-        this.$emit('close');
-      }
-    },
     selectedDevice: {
       handler(val) {
-        console.log('changed', val);
         this.selected = { ...val };
       },
       deep: true,
     },
     selected: {
       handler(val, oldVal) {
-        if (Object.keys(oldVal).length) {
+        if (Object.keys(oldVal).length && !isEqual(val, this.selectedDevice)) {
           this.changes = true;
         }
       },
       deep: true,
+    },
+    selectedCompany(val, oldVal) {
+      if (Object.keys(val).length && oldVal && !isEqual(val, this.selectedDevice.company)) {
+        this.selected.branch = {};
+      }
     },
   },
   computed: {
@@ -120,16 +119,19 @@ export default {
     filters() {
       return this.tableData.filters || {};
     },
-    deviceId() {
-      return this.filters[DEVICES];
+    selectedDevice() {
+      return this.$store.getters.getItemById(
+        this.selectedDeviceId,
+        this.tableName,
+        item => item.id
+      );
     },
-    // selectedDevice() {
-    //   return this.$store.getters.getItemById(
-    //     this.deviceId,
-    //     this.tableName,
-    //     item => item.id
-    //   );
-    // },
+    selectedCompany() {
+      return this.selected.company;
+    },
+  },
+  mounted() {
+    this.selected = { ...this.selectedDevice };
   },
   methods: {
     close() {
@@ -139,7 +141,7 @@ export default {
         this.$emit('close');
       }
     },
-    onInputChange(val) {
+    onChange(val) {
       this.selected[val.field] = val.value;
     },
     cancelChanges() {
@@ -149,12 +151,27 @@ export default {
         this.changes = false;
       });
     },
-    saveChanges() {},
+    async saveChanges() {
+      try {
+        const data = {};
+        data.companyId = this.selected.company.id;
+        data.branchId = this.selected.branch.id;
+        data.latitude = this.selected.latitude;
+        data.longitude = this.selected.longitude;
+        data.radius = this.selected.radius;
+
+        await updateDevice(this.selectedDeviceId, data);
+
+        this.changes = false;
+      } catch (e) {
+        console.error(e);
+      }
+    },
   },
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '~@/assets/styles/variables.scss';
 
 .device-history {
@@ -171,6 +188,22 @@ export default {
     font-style: italic;
     color: $base-text-color;
   }
+
+  .device-info-tabs {
+    .v-window {
+      height: 100%;
+      &__container,
+      &-item {
+        height: 100%;
+      }
+
+      &-item {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+
   .additional-info {
     color: $calls-feedback-card-primary-color;
     display: flex;
@@ -202,6 +235,43 @@ export default {
     }
     .order-number {
       margin-left: 12px;
+    }
+
+    .v-toolbar {
+      background-color: transparent;
+      box-shadow: none;
+      height: 100%;
+
+      &__content {
+        height: 100% !important;
+        padding: 0;
+
+        .v-tabs {
+          height: 100%;
+
+          &__bar,
+          &__wrapper,
+          &__container {
+            height: 100%;
+          }
+
+          &__container {
+            border-bottom: 1px solid $base-grey-color-opacity;
+          }
+
+          &__slider-wrapper {
+            bottom: -1px;
+          }
+
+          &__div {
+            font-weight: bold;
+          }
+
+          &__item--active {
+            color: $base-blue;
+          }
+        }
+      }
     }
   }
 }

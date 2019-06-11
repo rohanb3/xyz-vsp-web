@@ -50,6 +50,7 @@ export function pickNeededFields(updatesRaw) {
       isOnline,
       isInLocation,
       createdOn,
+      statusSince: createdOn,
       currentDeviceLocationLatitude,
       currentDeviceLocationLongitude,
       deviceLocationLatitude,

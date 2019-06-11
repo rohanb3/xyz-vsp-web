@@ -3,7 +3,7 @@ import actions from './actions';
 import mutations from './mutations';
 import { ENTITY_TYPES } from '@/constants';
 
-const { CALLS, DEVICES, DEVICE_HISTORY } = ENTITY_TYPES;
+const { CALLS, DEVICES, COMPANY_LIST, DEVICE_HISTORY } = ENTITY_TYPES;
 
 export default {
   state: {
@@ -16,6 +16,10 @@ export default {
       allItemsLoaded: false,
     },
     [DEVICE_HISTORY]: {
+      items: [],
+      allItemsLoaded: false,
+    },
+    [COMPANY_LIST]: {
       items: [],
       allItemsLoaded: false,
     },
