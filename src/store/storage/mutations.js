@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import {
   INSERT_ITEMS,
+  UPSERT_ITEMS,
   CHANGE_ITEM,
   REMOVE_ITEM,
   RESET_ITEMS,
@@ -13,6 +14,11 @@ export default {
   /* eslint-disable no-param-reassign */
   [INSERT_ITEMS](state, { itemType, items }) {
     state[itemType].items.push(...items);
+  },
+  [UPSERT_ITEMS](state, { itemType, items = [] }) {
+    const existedItems = state[itemType].items || [];
+    const updatedItems = items.concat(existedItems);
+    state[itemType].items = updatedItems;
   },
   [CHANGE_ITEM](state, { itemType, id, ...updates }) {
     const itemIndex = state[itemType].items.findIndex(item => item.id === id);

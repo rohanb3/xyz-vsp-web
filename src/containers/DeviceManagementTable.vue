@@ -7,42 +7,17 @@
         {{ $t('add.device') }}
       </v-btn>
     </div>
-    <wombat-table
-      :name="tableName"
-      :items="rows"
-      :columns="columns"
-      :item-height="50"
-      :infinite-loading="!allItemsLoaded"
-      :loading-items="loading"
-      @bottomReached="checkAndLoadItems"
-      @columnsResized="onColumnsResized"
-      @columnsReordered="onColumnsReordered"
-    >
+    <lazy-load-table class="device-management-wombat-table" :tableName="tableName">
       <component
-        slot="header-cell"
-        slot-scope="headerCell"
-        class="header-cell"
-        :is="
-          headerComponentsHash[headerCell.column.fieldHeaderType] || headerComponentsHash.default
-        "
-        :column="headerCell.column"
+        slot="row-cell"
+        slot-scope="rowCell"
+        class="row-cell"
+        :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
+        :item="rowCell.item"
+        :column="rowCell.column"
+        @selectId="onSelectId"
       />
-      <div v-if="rows && rows.length" slot="row" slot-scope="row">
-        <wombat-row :item="row.item" :columns="row.columns" :height="row.item.height">
-          <component
-            slot="row-cell"
-            slot-scope="rowCell"
-            class="row-cell"
-            :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
-            :item="rowCell.item"
-            :column="rowCell.column"
-            @selectId="onSelectId"
-          />
-        </wombat-row>
-      </div>
-
-      <table-loader v-if="loading" slot="loader"/>
-    </wombat-table>
+    </lazy-load-table>
     <add-device-popup
       v-if="isAddDevicePopupShown"
       :visible-device="isAddDevicePopupShown"
@@ -51,61 +26,53 @@
     />
     <device-management-updates :devices="rows" />
     <device-details
-      :selected-device-id="selectedDeviceId"
+      v-if="deviceDetailsShow"
       :tableName="tableName"
-      v-if="deviceHistoryShow"
-      @close="close"
+      :selected-device-id="selectedDeviceId"
+      @close="closeDeviceDetails"
     />
   </div>
 </template>
 
 <script>
-import WombatTable from '@/components/WombatTable/Table';
-import WombatRow from '@/components/WombatTable/Row';
-import TableLoader from '@/components/TableLoader';
+import LazyLoadTable from '@/containers/LazyLoadTable';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
 import DefaultCell from '@/components/tableCells/DefaultCell';
 import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
-import DeviceLocationCell from '@/components/tableCells/DeviceLocationCell';
+import DeviceLocationStatusCell from '@/components/tableCells/DeviceLocationStatusCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
 import IdCell from '../components/tableCells/IdCell';
 import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
-
 import AddDevicePopup from '@/containers/AddDevicePopup';
 
-import configurableColumnsTable from '@/mixins/configurableColumnsTable';
-import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
 import DeviceDetails from './DeviceDetails';
 
-import { addBackgroundShadow, removeBackgroundShadow } from '../services/background';
+import { SET_FILTER, APPLYING_FILTERS_DONE } from '@/store/tables/mutationTypes';
+
+import { addBackgroundShadow, removeBackgroundShadow } from '@/services/background';
 
 import { createDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
-import DeviceDetailsTab from '../components/DeviceDetailsTab';
 
-const { DEVICES } = ENTITY_TYPES;
+const { DEVICES, DEVICE_HISTORY } = ENTITY_TYPES;
 
 export default {
-  name: 'devicesTable',
+  name: 'DeviceManagementTable',
   components: {
-    DeviceDetailsTab,
-    WombatTable,
-    WombatRow,
+    LazyLoadTable,
     DefaultHeaderCell,
     DefaultCell,
     DeviceStatusCell,
-    DeviceLocationCell,
+    DeviceLocationStatusCell,
     DeviceStatusSinceCell,
     DeviceCommentsCell,
-    TableLoader,
     IdCell,
     DeviceDetails,
     AddDevicePopup,
     DeviceManagementUpdates,
   },
-  mixins: [configurableColumnsTable, lazyLoadTable],
   data() {
     return {
       tableName: DEVICES,
@@ -116,42 +83,49 @@ export default {
       rowComponentsHash: {
         default: 'DefaultCell',
         status: 'DeviceStatusCell',
-        locationStatus: 'DeviceLocationCell',
+        locationStatus: 'DeviceLocationStatusCell',
         statusSince: 'DeviceStatusSinceCell',
         comments: 'DeviceCommentsCell',
         id: 'IdCell',
       },
       deviceCommentsShown: false,
-      selectedDevice: null,
-      deviceHistoryShow: false,
+      deviceDetailsShow: false,
       isAddDevicePopupShown: false,
       selectedDeviceId: null,
     };
   },
+  computed: {
+    storageData() {
+      return this.$store.state.storage[this.tableName] || {};
+    },
+    rows() {
+      return this.storageData.items || [];
+    },
+  },
   methods: {
-    showDeviceComments(id) {
-      this.selectDeviceById(id);
-      this.deviceCommentsShown = true;
-    },
-    closeDeviceComments() {
-      this.selectedDevice = null;
-      this.deviceCommentsShown = false;
-    },
-    selectDeviceById(id) {
-      const device = this.rows.find(row => row.id === id);
-      this.selectedDevice = device;
+    setDeviceHsitorySelectedDevice(id) {
+      const data = {
+        tableName: DEVICE_HISTORY,
+        filter: {
+          name: 'deviceId',
+          value: id,
+        },
+      };
+      this.$store.commit(SET_FILTER, data);
+      this.$store.commit(APPLYING_FILTERS_DONE, DEVICE_HISTORY);
     },
     onSelectId(deviceId) {
       try {
         this.selectedDeviceId = deviceId;
-        this.deviceHistoryShow = true;
+        this.setDeviceHsitorySelectedDevice(deviceId);
+        this.deviceDetailsShow = true;
         addBackgroundShadow('device-management-table-toolbar');
       } catch (error) {
         console.log(error);
       }
     },
-    close() {
-      this.deviceHistoryShow = false;
+    closeDeviceDetails() {
+      this.deviceDetailsShow = false;
       removeBackgroundShadow('device-management-table-toolbar');
     },
     showAddDevicePopup() {
@@ -177,12 +151,12 @@ export default {
 @import '~@/assets/styles/mixins.scss';
 
 .device-management-table /deep/ {
-  .virtual-list {
+  .device-management-wombat-table .virtual-list {
     max-height: calc(
       100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$table-header-height} - #{$device-management-table-toolbar-height}
     );
   }
-  .column-comments {
+  .device-management-wombat-table .column-comments {
     .header-cell {
       justify-content: center;
     }

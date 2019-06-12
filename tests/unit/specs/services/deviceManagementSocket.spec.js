@@ -1,4 +1,3 @@
-// jest.mock('@aspnet/signalr');
 import * as deviceManagementSocket from '@/services/deviceManagementSocket';
 import { hubConnection, hubConnectionBuilder, HttpTransportType, LogLevel } from '@aspnet/signalr';
 

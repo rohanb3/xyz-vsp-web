@@ -1,5 +1,6 @@
 import callsTableColumns from './callsTable';
 import devicesTablecolumns from './devicesTable';
+import deviceHistoryColumns from './deviceHistoryTable';
 import customersTableColumns from './customersTable';
 import superAdminCompaniesTableColumns from './superAdminCompaniesTable';
 import superAdminOperatorsTableColumns from './superAdminOperatorsTable';
@@ -10,6 +11,7 @@ import paymentsTableColumns from './paymentsTable';
 
 export const getCallsTableColumns = callsTableColumns;
 export const getDevicesTablecolumns = devicesTablecolumns;
+export const getDeviceHistoryTableColumns = deviceHistoryColumns;
 export const getCustomersTableColumns = customersTableColumns;
 export const getSuperadminCompaniesTableColumns = superAdminCompaniesTableColumns;
 export const getSuperadminOperatorsTableColumns = superAdminOperatorsTableColumns;

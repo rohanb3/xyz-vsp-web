@@ -11,6 +11,11 @@ export const RESPONSE_STATUSES = {
   REQUEST_ENTITY_TOO_LARGE: 413,
 };
 
+export const SORTING_DIRECTION = {
+  DESC: 'desc',
+  ASC: 'asc',
+};
+
 export const ROUTE_NAMES = {
   LOGIN: 'login',
   LOGOUT: 'logout',
@@ -21,6 +26,7 @@ export const ROUTE_NAMES = {
 export const ENTITY_TYPES = {
   CALLS: 'calls',
   DEVICES: 'devices',
+  DEVICE_HISTORY: 'deviceHistory',
   CUSTOMERS: 'customers',
   COMPANIES: 'companies',
   OPERATORS: 'operators',
@@ -32,7 +38,7 @@ export const ENTITY_TYPES = {
 };
 
 export const DATE_FORMATS = {
-  DEFAULT_DATE_FORMAT: 'DD MMM YYYY, hh:mm',
+  DEFAULT_DATE_FORMAT: 'DD MMM YYYY, HH:mm',
   DEFAULT_TIME_FORMAT: 'hh:mm',
   DAY_FULL_MONTH: 'DD MMMM',
   FULL_YEAR_SHORT_MONTH_SHORT_DAY: 'YYYY-MM-DD',
@@ -159,9 +165,4 @@ export const FILTER_NAMES_COMPANY_LIST = {
 
 export const COMPANY_LIST_COLUMNS_SORTED = {
   COMPANY_NAME: 'companyName',
-};
-
-export const SORTING_DIRECTION = {
-  DESC: 'desc',
-  ASC: 'asc',
 };
