@@ -6,7 +6,9 @@
       :items="rows"
       :columns="columns"
       :item-height="50"
-      :loading-items="loading"
+      :infinite-loading="!allItemsLoaded"
+      :item-key-name="'createOn'"
+      :loadingItems="loading"
       @bottomReached="checkAndLoadItems"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
@@ -19,25 +21,27 @@
           headerComponentsHash[headerCell.column.fieldHeaderType] || headerComponentsHash.default
         "
         :column="headerCell.column"
+      />
+      <div
+        v-if="rows && rows.length"
+        slot="row"
+        slot-scope="row"
+        :class="{ blurred: applyingFilters }"
       >
-        <div v-if="row && row.length" slot="row" slot-scope="row">
-          <wombat-row
-            :item="row.item"
-            :columns="row.columns"
-            :height="row.item.height"
-          >
-            <component
-              slot="row-cell"
-              slot-scope="rowCell"
-              class="row-cell"
-              :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
-              :item="rowCell.item"
-              :column="rowCell.column"
-            />
-          </wombat-row>
-          <table-loader v-if="loading" slot="loader" />
-        </div>
-      </component>
+        <wombat-row :item="row.item" :columns="row.columns" :height="row.item.height">
+          <component
+            slot="row-cell"
+            slot-scope="rowCell"
+            class="row-cell"
+            :role="role"
+            :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
+            :item="rowCell.item"
+            :column="rowCell.column"
+          />
+        </wombat-row>
+      </div>
+
+      <table-loader v-if="loading" slot="loader" />
     </wombat-table>
   </div>
 </template>
@@ -49,16 +53,18 @@ import TableLoader from '@/components/TableLoader';
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
+import DateCell from '@/components/tableCells/DateCell';
 
 import { submitComment } from '@/services/devicesRepository';
 import { ENTITY_TYPES } from '@/constants';
 import CommentArea from './CommentArea';
+import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 
 const { DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceCommentTab',
-  components: { CommentArea, TableLoader, WombatTable, WombatRow, DefaultHeaderCell },
+  components: { CommentArea, TableLoader, WombatTable, WombatRow, DefaultHeaderCell, DateCell },
   props: {
     selectedDeviceId: {
       type: String,
@@ -74,6 +80,7 @@ export default {
       },
       rowComponentsHash: {
         default: 'DefaultCell',
+        date: 'DateCell',
       },
       comment: '',
     };
@@ -85,8 +92,20 @@ export default {
     },
     async submit() {
       try {
-        await submitComment(this.selectedDeviceId, this.comment);
+        const comment = { comment: this.comment };
+        await submitComment(this.selectedDeviceId, comment);
         this.comment = '';
+
+        const data = {
+          tableName: DEVICE_COMMENTS,
+          filters: [
+            {
+              name: 'id',
+              value: this.selectedDeviceId,
+            },
+          ],
+        };
+        this.$store.dispatch(APPLY_FILTERS, data);
       } catch (e) {
         console.error(e);
       }

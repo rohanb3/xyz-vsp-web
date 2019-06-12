@@ -2,6 +2,7 @@
 @import './fonts.scss';
 @import './table.scss';
 @import './datepicker.scss';
+@import './deviceSelect.scss';
 @import './mixins.scss';
 
 html {
@@ -81,7 +82,8 @@ html {
   }
 }
 
-#app .call-feedback-card {
+#app .call-feedback-card,
+.add-device-popup {
   width: $calls-feedback-card-width;
   height: 100%;
   display: flex;
@@ -265,6 +267,16 @@ button {
   filter: blur(3px);
 }
 
+.application--wrap.shadow-overlay::after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $table-shadow-color;
+}
+
 .blur-svg {
   display: none;
 }
@@ -278,88 +290,4 @@ button {
 }
 .vue-notification.info {
   background-color: $base-blue;
-}
-
-.additional-info {
-  .v-toolbar {
-    background-color: transparent;
-    box-shadow: none;
-    height: 100%;
-
-    &__content {
-      height: 100% !important;
-      padding: 0;
-
-      .v-tabs {
-        height: 100%;
-
-        &__bar, &__wrapper, &__container {
-          height: 100%;
-        }
-
-        &__container {
-          border-bottom: 1px solid $base-grey-color-opacity;
-        }
-
-        &__slider-wrapper {
-          bottom: -1px;
-        }
-
-        &__div {
-          font-weight: bold;
-        }
-
-        &__item--active {
-          color: $base-blue;
-        }
-      }
-    }
-  }
-}
-
-.form-select {
-  .v-text-field {
-    margin-top: 0;
-    padding-top: 0;
-  }
-
-  .v-input__slot {
-    border: 1px solid $form-input-border-color;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    margin-bottom: 0;
-    padding: 5px 0 5px 5px;
-
-    &::before {
-      border: none !important;
-    }
-  }
-}
-
-.device-info-tabs {
-  .v-window {
-    height: 100%;
-    &__container, &-item {
-      height: 100%;
-    }
-
-    &-item {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-}
-
-.black-bg {
-  &::after {
-    background-color: rgba(0, 0, 0, 0.5);
-    content: '';
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-  }
 }

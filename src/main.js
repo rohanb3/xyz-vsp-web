@@ -4,6 +4,7 @@ import 'vuetify/dist/vuetify.min.css';
 import VueHotKey from 'v-hotkey';
 import Notifications from 'vue-notification';
 import 'vue-popperjs/dist/css/vue-popper.css';
+import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
 import App from './App';
 import router from './router';

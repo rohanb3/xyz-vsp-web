@@ -246,5 +246,10 @@
   "allowed.location.radius": "TBD Allowed location radius",
   "current.device.location": "TBD Current device location",
   "cancel": "TBD Cancel",
-  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved."
+  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved.",
+  "comment": "Comment",
+  "type.here": "Type here",
+  "add.your.comment": "Add your comment",
+  "date.time": "Date/Time",
+  "author": "Author"
 }

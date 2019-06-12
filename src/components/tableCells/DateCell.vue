@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     date() {
-      return moment(this.item.date).format(DEFAULT_DATE_FORMAT);
+      return moment(this.item.date || this.item.createOn).format(DEFAULT_DATE_FORMAT);
     },
   },
 };
