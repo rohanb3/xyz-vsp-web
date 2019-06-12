@@ -46,8 +46,6 @@ import IdCell from '../components/tableCells/IdCell';
 import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 import AddDevicePopup from '@/containers/AddDevicePopup';
 
-import configurableColumnsTable from '@/mixins/configurableColumnsTable';
-import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
 import DeviceDetails from './DeviceDetails';
 
@@ -61,7 +59,7 @@ import { errorMessage } from '@/services/notifications';
 const { DEVICES, DEVICE_HISTORY } = ENTITY_TYPES;
 
 export default {
-  name: 'devicesTable',
+  name: 'DeviceManagementTable',
   components: {
     LazyLoadTable,
     DefaultHeaderCell,
@@ -75,7 +73,6 @@ export default {
     AddDevicePopup,
     DeviceManagementUpdates,
   },
-  mixins: [configurableColumnsTable, lazyLoadTable],
   data() {
     return {
       tableName: DEVICES,
@@ -96,6 +93,14 @@ export default {
       isAddDevicePopupShown: false,
       selectedDeviceId: null,
     };
+  },
+  computed: {
+    storageData() {
+      return this.$store.state.storage[this.tableName] || {};
+    },
+    rows() {
+      return this.storageData.items || [];
+    },
   },
   methods: {
     setDeviceHsitorySelectedDevice(id) {

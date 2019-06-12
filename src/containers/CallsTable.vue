@@ -57,8 +57,6 @@ import TableDatesEditor from '@/components/TableDatesEditor';
 import ColumnsListEditor from '@/components/ColumnsListEditor';
 import CallsDashboard from '@/components/CallsDashboard';
 
-import configurableColumnsTable from '@/mixins/configurableColumnsTable';
-import lazyLoadTable from '@/mixins/lazyLoadTable';
 import { ENTITY_TYPES } from '@/constants';
 
 const operationAdminOnlyColumns = ['company'];
@@ -83,7 +81,6 @@ export default {
     ColumnsListEditor,
     CallsDashboard,
   },
-  mixins: [configurableColumnsTable, lazyLoadTable],
   data() {
     return {
       tableName: CALLS,
@@ -112,6 +109,12 @@ export default {
       return this.tableData.columns.filter(
         column => this.isOperationAdmin || !operationAdminOnlyColumns.includes(column.name)
       );
+    },
+    storageData() {
+      return this.$store.state.storage[this.tableName] || {};
+    },
+    totalItems() {
+      return this.storageData.total;
     },
   },
   methods: {
