@@ -1,6 +1,6 @@
 <template>
   <div class='date-cell'>
-    <span>{{ date }}</span>
+    <span>{{ filteredDate }}</span>
   </div>
 </template>
 
@@ -16,10 +16,16 @@ export default {
     item: {
       type: Object,
     },
+    column: {
+      type: Object,
+    },
   },
   computed: {
+    filteredDate() {
+      return moment(this.date).format(DEFAULT_DATE_FORMAT);
+    },
     date() {
-      return moment(this.item.date || this.item.createOn).format(DEFAULT_DATE_FORMAT);
+      return this.item[this.column.field] || this.item.date;
     },
   },
 };

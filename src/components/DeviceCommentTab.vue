@@ -66,7 +66,7 @@ export default {
   name: 'DeviceCommentTab',
   components: { CommentArea, TableLoader, WombatTable, WombatRow, DefaultHeaderCell, DateCell },
   props: {
-    selectedDeviceId: {
+    deviceId: {
       type: String,
       default: '',
     },
@@ -93,7 +93,7 @@ export default {
     async submit() {
       try {
         const comment = { comment: this.comment };
-        await submitComment(this.selectedDeviceId, comment);
+        await submitComment(this.deviceId, comment);
         this.comment = '';
 
         const data = {
@@ -101,7 +101,7 @@ export default {
           filters: [
             {
               name: 'id',
-              value: this.selectedDeviceId,
+              value: this.deviceId,
             },
           ],
         };

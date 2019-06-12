@@ -20,4 +20,4 @@ export const submitComment = (id, comment) =>
         'Content-Type': 'application/json',
       },
     })
-    .then(({ data }) => ({ data }));
+    .then(data => data);

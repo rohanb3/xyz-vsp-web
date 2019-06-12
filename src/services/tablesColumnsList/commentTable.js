@@ -1,10 +1,8 @@
-import i18n from '@/i18n';
-
 export default () => [
   {
     name: 'Date/Time',
     field: 'createOn',
-    title: i18n.t('date.time'),
+    title: 'date.time',
     fieldType: 'date',
     class: 'text',
     width: '3',
@@ -13,7 +11,7 @@ export default () => [
   {
     name: 'userName',
     field: 'userName',
-    title: i18n.t('author'),
+    title: 'author',
     class: 'text',
     width: '3',
     minWidth: '100px',
@@ -21,7 +19,7 @@ export default () => [
   {
     name: 'Comment',
     field: 'comment',
-    title: i18n.t('comment'),
+    title: 'comment',
     class: 'text',
     width: '3',
     minWidth: '100px',

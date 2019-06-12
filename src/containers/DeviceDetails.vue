@@ -41,7 +41,7 @@
           History
         </v-tab-item>
         <v-tab-item>
-          <device-comment-tab :selected-device-id="selectedDeviceId" />
+          <device-comment-tab :device-id="selectedDeviceId" />
         </v-tab-item>
       </v-tabs-items>
     </div>
