@@ -52,11 +52,10 @@
     />
     <device-management-updates :devices="rows" />
     <device-details
-      v-if="deviceHistoryShow"
+      v-if="deviceDetailsShow"
       :tableName="tableName"
       :selected-device-id="selectedDeviceId"
-      :selected-device="selectedDevice"
-      @close="close"
+      @close="closeDeviceDetails"
     />
   </div>
 </template>
@@ -125,23 +124,13 @@ export default {
         id: 'IdCell',
       },
       deviceCommentsShown: false,
-      selectedDevice: null,
-      deviceHistoryShow: false,
+      deviceDetailsShow: false,
       isAddDevicePopupShown: false,
       selectedDeviceId: null,
     };
   },
   methods: {
-    showDeviceComments(id) {
-      this.selectDeviceById(id);
-      this.deviceCommentsShown = true;
-    },
-    closeDeviceComments() {
-      this.selectedDevice = null;
-      this.deviceCommentsShown = false;
-    },
-    selectDeviceById(id) {
-      const device = this.rows.find(row => row.id === id);
+    setDeviceHsitorySelectedDevice(id) {
       const data = {
         tableName: DEVICE_HISTORY,
         filter: {
@@ -149,22 +138,21 @@ export default {
           value: id,
         },
       };
-      this.selectedDevice = device;
       this.$store.commit(SET_FILTER, data);
       this.$store.commit(APPLYING_FILTERS_DONE, DEVICE_HISTORY);
     },
     onSelectId(deviceId) {
       try {
         this.selectedDeviceId = deviceId;
-        this.selectDeviceById(deviceId);
-        this.deviceHistoryShow = true;
+        this.setDeviceHsitorySelectedDevice(deviceId);
+        this.deviceDetailsShow = true;
         addBackgroundShadow('device-management-table-toolbar');
       } catch (error) {
         console.log(error);
       }
     },
-    close() {
-      this.deviceHistoryShow = false;
+    closeDeviceDetails() {
+      this.deviceDetailsShow = false;
       removeBackgroundShadow('device-management-table-toolbar');
     },
     showAddDevicePopup() {
