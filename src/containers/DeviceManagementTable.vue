@@ -7,43 +7,17 @@
         {{ $t('add.device') }}
       </v-btn>
     </div>
-    <wombat-table
-      class="device-management-wombat-table"
-      :name="tableName"
-      :items="rows"
-      :columns="columns"
-      :item-height="50"
-      :infinite-loading="!allItemsLoaded"
-      :loading-items="loading"
-      @bottomReached="checkAndLoadItems"
-      @columnsResized="onColumnsResized"
-      @columnsReordered="onColumnsReordered"
-    >
+    <lazy-load-table class="device-management-wombat-table" :tableName="tableName">
       <component
-        slot="header-cell"
-        slot-scope="headerCell"
-        class="header-cell"
-        :is="
-          headerComponentsHash[headerCell.column.fieldHeaderType] || headerComponentsHash.default
-        "
-        :column="headerCell.column"
+        slot="row-cell"
+        slot-scope="rowCell"
+        class="row-cell"
+        :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
+        :item="rowCell.item"
+        :column="rowCell.column"
+        @selectId="onSelectId"
       />
-      <div v-if="rows && rows.length" slot="row" slot-scope="row">
-        <wombat-row :item="row.item" :columns="row.columns" :height="row.item.height">
-          <component
-            slot="row-cell"
-            slot-scope="rowCell"
-            class="row-cell"
-            :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
-            :item="rowCell.item"
-            :column="rowCell.column"
-            @selectId="onSelectId"
-          />
-        </wombat-row>
-      </div>
-
-      <table-loader v-if="loading" slot="loader"/>
-    </wombat-table>
+    </lazy-load-table>
     <add-device-popup
       v-if="isAddDevicePopupShown"
       :visible-device="isAddDevicePopupShown"
@@ -61,9 +35,7 @@
 </template>
 
 <script>
-import WombatTable from '@/components/WombatTable/Table';
-import WombatRow from '@/components/WombatTable/Row';
-import TableLoader from '@/components/TableLoader';
+import LazyLoadTable from '@/containers/LazyLoadTable';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
 import DefaultCell from '@/components/tableCells/DefaultCell';
 import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
@@ -85,23 +57,19 @@ import { addBackgroundShadow, removeBackgroundShadow } from '@/services/backgrou
 
 import { createDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
-import DeviceDetailsTab from '@/components/DeviceDetailsTab';
 
 const { DEVICES, DEVICE_HISTORY } = ENTITY_TYPES;
 
 export default {
   name: 'devicesTable',
   components: {
-    DeviceDetailsTab,
-    WombatTable,
-    WombatRow,
+    LazyLoadTable,
     DefaultHeaderCell,
     DefaultCell,
     DeviceStatusCell,
     DeviceLocationStatusCell,
     DeviceStatusSinceCell,
     DeviceCommentsCell,
-    TableLoader,
     IdCell,
     DeviceDetails,
     AddDevicePopup,

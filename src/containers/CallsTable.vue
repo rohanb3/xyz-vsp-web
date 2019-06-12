@@ -3,17 +3,7 @@
     <div class="calls-table-toolbar">
       <div class="calls-amount">{{ totalItems }} {{ $t('calls') }}</div>
     </div>
-    <wombat-table
-      :name="tableName"
-      :items="rows"
-      :columns="columns"
-      :item-height="50"
-      :infinite-loading="!allItemsLoaded"
-      :loading-items="loading"
-      @bottomReached="checkAndLoadItems"
-      @columnsResized="onColumnsResized"
-      @columnsReordered="onColumnsReordered"
-    >
+    <lazy-load-table :tableName="tableName">
       <component
         slot="header-cell"
         slot-scope="headerCell"
@@ -23,28 +13,17 @@
         "
         :column="headerCell.column"
       />
-      <div v-if="rows && rows.length" slot="row" slot-scope="row">
-        <wombat-row
-          :item="row.item"
-          :columns="row.columns"
-          :height="row.item.height"
-          :class="`call-${row.item.type}`"
-        >
-          <component
-            slot="row-cell"
-            slot-scope="rowCell"
-            class="row-cell"
-            :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
-            :item="rowCell.item"
-            :column="rowCell.column"
-            @clientFeedbackClick="showClientFeedback"
-            @operatorFeedbackClick="showOperatorFeedback"
-          />
-        </wombat-row>
-      </div>
-
-      <table-loader v-if="loading" slot="loader" />
-    </wombat-table>
+      <component
+        slot="row-cell"
+        slot-scope="rowCell"
+        class="row-cell"
+        :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
+        :item="rowCell.item"
+        :column="rowCell.column"
+        @clientFeedbackClick="showClientFeedback"
+        @operatorFeedbackClick="showOperatorFeedback"
+      />
+    </lazy-load-table>
     <client-feedback-card
       v-if="clientFeedbackShown"
       :call="selectedCall"
@@ -62,9 +41,7 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import WombatTable from '@/components/WombatTable/Table';
-import WombatRow from '@/components/WombatTable/Row';
-import TableLoader from '@/components/TableLoader';
+import LazyLoadTable from '@/containers/LazyLoadTable';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
 import DefaultCell from '@/components/tableCells/DefaultCell';
 import DateCell from '@/components/tableCells/DateCell';
@@ -90,8 +67,7 @@ const { CALLS } = ENTITY_TYPES;
 export default {
   name: 'CallsTable',
   components: {
-    WombatTable,
-    WombatRow,
+    LazyLoadTable,
     DefaultHeaderCell,
     DefaultCell,
     DateCell,
@@ -101,7 +77,6 @@ export default {
     StatusCell,
     ClientFeedbackCell,
     OperatorFeedbackCell,
-    TableLoader,
     ClientFeedbackCard,
     OperatorFeedbackCard,
     TableDatesEditor,
