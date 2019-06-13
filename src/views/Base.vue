@@ -12,10 +12,22 @@
         name="main"/>
     </div>
     <router-view
+      v-if="isSupportAdmin"
       class="incoming-call"
       name="incomingCall"/>
   </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex';
+
+export default {
+  name: 'Base',
+  computed: {
+    ...mapGetters(['isSupportAdmin']),
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 @import '~@/assets/styles/variables.scss';

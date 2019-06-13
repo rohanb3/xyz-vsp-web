@@ -11,6 +11,11 @@ export const RESPONSE_STATUSES = {
   REQUEST_ENTITY_TOO_LARGE: 413,
 };
 
+export const SORTING_DIRECTION = {
+  DESC: 'desc',
+  ASC: 'asc',
+};
+
 export const ROUTE_NAMES = {
   LOGIN: 'login',
   LOGOUT: 'logout',
@@ -21,6 +26,7 @@ export const ROUTE_NAMES = {
 export const ENTITY_TYPES = {
   CALLS: 'calls',
   DEVICES: 'devices',
+  DEVICE_HISTORY: 'deviceHistory',
   CUSTOMERS: 'customers',
   COMPANIES: 'companies',
   OPERATORS: 'operators',
@@ -160,9 +166,4 @@ export const FILTER_NAMES_COMPANY_LIST = {
 
 export const COMPANY_LIST_COLUMNS_SORTED = {
   COMPANY_NAME: 'companyName',
-};
-
-export const SORTING_DIRECTION = {
-  DESC: 'desc',
-  ASC: 'asc',
 };

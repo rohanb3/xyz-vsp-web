@@ -38,7 +38,7 @@
           />
         </v-tab-item>
         <v-tab-item>
-          History
+          <device-history-table :device="selectedDevice" />
         </v-tab-item>
         <v-tab-item>
           <device-comment-tab :device-id="selectedDeviceId" />
@@ -62,15 +62,16 @@
 
 <script>
 import isEqual from 'lodash.isequal';
-import TableFullHeightBalloon from '../components/TableFullHeightBalloon';
-import DeviceDetailsTab from '../components/DeviceDetailsTab';
-import { updateDevice } from '@/services/devicesRepository';
+import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
+import DeviceDetailsTab from '@/components/DeviceDetailsTab';
+import DeviceHistoryTable from '@/containers/DeviceHistoryTable';
 import { DEVICE_DETAILS_TABS } from '@/constants';
+import { updateDevice } from '@/services/devicesRepository';
 import DeviceCommentTab from '../components/DeviceCommentTab';
 
 export default {
   name: 'DeviceDetails',
-  components: { DeviceCommentTab, DeviceDetailsTab, TableFullHeightBalloon },
+  components: { DeviceCommentTab, DeviceDetailsTab, TableFullHeightBalloon, DeviceHistoryTable },
   props: {
     tableName: {
       type: String,
@@ -106,7 +107,7 @@ export default {
       },
       deep: true,
     },
-    'selected.company': function(val, oldVal) {
+    selectedCompany(val, oldVal) {
       if (Object.keys(val).length && oldVal && !isEqual(val, this.selectedDevice.company)) {
         this.selected.branch = {};
       }
@@ -125,6 +126,9 @@ export default {
         this.tableName,
         item => item.id
       );
+    },
+    selectedCompany() {
+      return this.selected.company;
     },
   },
   mounted() {
@@ -208,7 +212,7 @@ export default {
     font-size: 14px;
     font-weight: bold;
     justify-content: space-between;
-    height: 51px;
+    height: $device-info-popup-header-height;
 
     &-wrapper {
       display: flex;

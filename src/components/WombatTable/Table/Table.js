@@ -92,7 +92,8 @@ export default {
         if (this.scrollbar) {
           this.scrollbar.update();
         } else {
-          const el = document.querySelector('.virtual-list');
+          const selector = this.name ? `.${this.name} .virtual-list` : '.virtual-list';
+          const el = document.querySelector(selector);
           this.scrollbar = new PerfectScrollbar(el);
           el.addEventListener('ps-y-reach-end', () => {
             if (!this.loadingItems) {
