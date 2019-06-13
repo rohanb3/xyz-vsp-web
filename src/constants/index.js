@@ -35,6 +35,7 @@ export const ENTITY_TYPES = {
   SUPERADMIN_OPERATORS: 'superAdminOperators',
   PAYMENTS: 'payments',
   COMPANY_LIST: 'COMPANY_LIST',
+  DEVICE_COMMENTS: 'deviceComments',
 };
 
 export const DATE_FORMATS = {

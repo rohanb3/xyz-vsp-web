@@ -8,6 +8,7 @@ import operatorsTableColumns from './operatorsTable';
 import callsDurationTableColumns from './callsDurationTable';
 import callsFeedbackTableColumns from './callsFeedbackTable';
 import paymentsTableColumns from './paymentsTable';
+import commentTable from './commentTable';
 
 export const getCallsTableColumns = callsTableColumns;
 export const getDevicesTablecolumns = devicesTablecolumns;
@@ -19,3 +20,4 @@ export const getOperatorsTableColumns = operatorsTableColumns;
 export const getCallsDurationTableColumns = callsDurationTableColumns;
 export const getCallsFeedbackTableColumns = callsFeedbackTableColumns;
 export const getPaymentsTableColumns = paymentsTableColumns;
+export const getCommentTableColumns = commentTable;

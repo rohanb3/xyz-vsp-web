@@ -1,15 +1,17 @@
 import {
   getCallsTableColumns,
   getDevicesTablecolumns,
+  getCommentTableColumns,
   getDeviceHistoryTableColumns,
 } from '@/services/tablesColumnsList';
+
 import { ENTITY_TYPES } from '@/constants';
 
 import mutations from './mutations';
 import actions from './actions';
 import getters from './getters';
 
-const { CALLS, DEVICES, DEVICE_HISTORY } = ENTITY_TYPES;
+const { CALLS, DEVICES, DEVICE_COMMENTS, DEVICE_HISTORY } = ENTITY_TYPES;
 
 const state = {
   [CALLS]: {
@@ -27,6 +29,11 @@ const state = {
     filters: {
       deviceId: null,
     },
+    applyingFilters: false,
+  },
+  [DEVICE_COMMENTS]: {
+    columns: getCommentTableColumns(),
+    filters: {},
     applyingFilters: false,
   },
 };

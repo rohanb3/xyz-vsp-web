@@ -41,7 +41,7 @@
           <device-history-table :device="selectedDevice" />
         </v-tab-item>
         <v-tab-item>
-          Comments
+          <device-comment-tab :device-id="selectedDeviceId" />
         </v-tab-item>
       </v-tabs-items>
     </div>
@@ -67,10 +67,11 @@ import DeviceDetailsTab from '@/components/DeviceDetailsTab';
 import DeviceHistoryTable from '@/containers/DeviceHistoryTable';
 import { DEVICE_DETAILS_TABS } from '@/constants';
 import { updateDevice } from '@/services/devicesRepository';
+import DeviceCommentTab from '../components/DeviceCommentTab';
 
 export default {
-  name: 'DeviceHistory',
-  components: { DeviceDetailsTab, TableFullHeightBalloon, DeviceHistoryTable },
+  name: 'DeviceDetails',
+  components: { DeviceCommentTab, DeviceDetailsTab, TableFullHeightBalloon, DeviceHistoryTable },
   props: {
     tableName: {
       type: String,

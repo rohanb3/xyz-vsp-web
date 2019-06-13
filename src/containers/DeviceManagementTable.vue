@@ -26,9 +26,9 @@
     />
     <device-management-updates :devices="rows" />
     <device-details
-      v-if="deviceDetailsShow"
-      :tableName="tableName"
       :selected-device-id="selectedDeviceId"
+      :tableName="tableName"
+      v-if="deviceDetailsShow"
       @close="closeDeviceDetails"
     />
   </div>
@@ -46,6 +46,7 @@ import IdCell from '../components/tableCells/IdCell';
 import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 import AddDevicePopup from '@/containers/AddDevicePopup';
 
+import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 import { ENTITY_TYPES } from '@/constants';
 import DeviceDetails from './DeviceDetails';
 
@@ -56,7 +57,7 @@ import { addBackgroundShadow, removeBackgroundShadow } from '@/services/backgrou
 import { createDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
 
-const { DEVICES, DEVICE_HISTORY } = ENTITY_TYPES;
+const { DEVICES, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceManagementTable',
@@ -89,6 +90,7 @@ export default {
         id: 'IdCell',
       },
       deviceCommentsShown: false,
+      selectedDevice: null,
       deviceDetailsShow: false,
       isAddDevicePopupShown: false,
       selectedDeviceId: null,
@@ -118,10 +120,20 @@ export default {
       try {
         this.selectedDeviceId = deviceId;
         this.setDeviceHsitorySelectedDevice(deviceId);
+        const data = {
+          tableName: DEVICE_COMMENTS,
+          filters: [
+            {
+              name: 'id',
+              value: deviceId,
+            },
+          ],
+        };
+        this.$store.dispatch(APPLY_FILTERS, data);
         this.deviceDetailsShow = true;
         addBackgroundShadow('device-management-table-toolbar');
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     closeDeviceDetails() {

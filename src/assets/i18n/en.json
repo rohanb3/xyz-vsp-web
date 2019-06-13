@@ -268,5 +268,11 @@
     "Are you sure you want to go away? Changes will not be saved.",
   "online": "Online",
   "offline": "Offline",
-  "show.on.maps": "Show on maps"
+  "show.on.maps": "Show on maps",
+  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved.",
+  "comment": "Comment",
+  "type.here": "Type here",
+  "add.your.comment": "Add your comment",
+  "date.time": "Date/Time",
+  "author": "Author"
 }
