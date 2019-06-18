@@ -7,7 +7,11 @@
         {{ $t('add.device') }}
       </v-btn>
     </div>
-    <lazy-load-table class="device-management-wombat-table" :tableName="tableName">
+    <lazy-load-table
+      class="device-management-wombat-table"
+      ref="devicesTable"
+      :tableName="tableName"
+    >
       <component
         slot="row-cell"
         slot-scope="rowCell"
@@ -149,7 +153,7 @@ export default {
     async onSaveDevice(deviceInfo) {
       try {
         await createDevice(deviceInfo);
-        await this.loadItems();
+        await this.$refs.devicesTable.loadItems();
       } catch {
         errorMessage();
       }
