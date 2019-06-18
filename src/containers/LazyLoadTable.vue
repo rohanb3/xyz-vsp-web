@@ -28,7 +28,13 @@
         slot-scope="row"
         :class="{ blurred: applyingFilters }"
       >
-        <wombat-row :item="row.item" :columns="row.columns" :height="row.item.height">
+        <wombat-row
+          class="wombat-row"
+          :item="row.item"
+          :columns="row.columns"
+          :height="row.item.height"
+          :class="{ disabled: disabledItemFieldSelector(row.item) }"
+        >
           <slot
             name="row-cell"
             slot="row-cell"
@@ -88,6 +94,10 @@ export default {
     columnsReorder: {
       type: Boolean,
       default: true,
+    },
+    disabledItemFieldSelector: {
+      type: Function,
+      default: item => item.disabled,
     },
   },
   data() {

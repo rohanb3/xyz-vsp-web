@@ -1,5 +1,8 @@
 <template>
-  <div class='device-status-cell' :class="{ 'device-online': item.isOnline, 'device-oflline': !item.isOnline }">
+  <div
+    class='device-status-cell'
+    :class="{ 'device-online': isDeviceOnline, 'device-oflline': !isDeviceOnline }"
+  >
     {{ status }}
   </div>
 </template>
@@ -14,7 +17,17 @@ export default {
   },
   computed: {
     status() {
-      return this.item.isOnline ? 'Online' : 'Offline';
+      let message = 'offline';
+      if (this.item.isOnline) {
+        message = 'online';
+      }
+      if (this.item.isPending) {
+        message = 'status.pending';
+      }
+      return this.$t(message);
+    },
+    isDeviceOnline() {
+      return this.item.isOnline && !this.item.isPending;
     },
   },
 };

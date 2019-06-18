@@ -1,6 +1,7 @@
 <template>
   <div class='device-location-status-cell'>
     <span
+      v-if="!isPending"
       class="location-badge"
       :class="{ 'in-location': isInLocation, 'out-of-location': !isInLocation }"
     />
@@ -20,8 +21,15 @@ export default {
     isInLocation() {
       return this.item.isOnline && this.item.isInLocation;
     },
+    isPending() {
+      return this.item.isPending;
+    },
     title() {
-      return this.isInLocation ? 'In location' : 'Out of location';
+      if (this.isPending) {
+        return '';
+      }
+      const message = this.isInLocation ? 'in.location' : 'out.location';
+      return this.$t(message);
     },
   },
 };

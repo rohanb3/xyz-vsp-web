@@ -1,11 +1,12 @@
 <template>
   <v-text-field
-    class="input"
-    :label="$t('udid')"
     v-model="udid"
-    :rules="udidRules"
+    class="input"
     required
-    clearable
+    :disabled="disabled"
+    :clearable="!disabled"
+    :label="$t('idfv')"
+    :rules="udidRules"
   ></v-text-field>
 </template>
 
@@ -18,6 +19,10 @@ export default {
     value: {
       type: Object,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

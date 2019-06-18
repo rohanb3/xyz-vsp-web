@@ -2,15 +2,16 @@
   <div class="device-management-table">
     <div class="device-management-table-toolbar">
       <div class="devices-amount">{{ $t('device.management') }}</div>
-      <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
+      <!-- <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
         <v-icon class="add-icon">add_circle</v-icon>
         {{ $t('add.device') }}
-      </v-btn>
+      </v-btn> -->
     </div>
     <lazy-load-table
       class="device-management-wombat-table"
       ref="devicesTable"
-      :tableName="tableName"
+      :table-name="tableName"
+      :disabled-item-field-selector="isDevicePending"
     >
       <component
         slot="row-cell"
@@ -19,12 +20,14 @@
         :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
         :item="rowCell.item"
         :column="rowCell.column"
-        @selectId="onSelectId"
+        @deviceIdSelected="onSelectId"
+        @pendingDeviceSelected="showAddDevicePopup"
       />
     </lazy-load-table>
     <add-device-popup
       v-if="isAddDevicePopupShown"
       :visible-device="isAddDevicePopupShown"
+      :device-id="selectedDeviceId"
       @close="closeAddDevicePopup"
       @saveDevice="onSaveDevice"
     />
@@ -42,6 +45,8 @@
 import LazyLoadTable from '@/containers/LazyLoadTable';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
 import DefaultCell from '@/components/tableCells/DefaultCell';
+import DeviceIdCell from '@/components/tableCells/DeviceIdCell';
+import DeviceUdidCell from '@/components/tableCells/DeviceUdidCell';
 import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
 import DeviceLocationStatusCell from '@/components/tableCells/DeviceLocationStatusCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
@@ -58,7 +63,7 @@ import { SET_FILTER, APPLYING_FILTERS_DONE } from '@/store/tables/mutationTypes'
 
 import { addBackgroundShadow, removeBackgroundShadow } from '@/services/background';
 
-import { createDevice } from '@/services/devicesRepository';
+import { updateDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
 
 const { DEVICES, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
@@ -69,6 +74,8 @@ export default {
     LazyLoadTable,
     DefaultHeaderCell,
     DefaultCell,
+    DeviceIdCell,
+    DeviceUdidCell,
     DeviceStatusCell,
     DeviceLocationStatusCell,
     DeviceStatusSinceCell,
@@ -87,11 +94,12 @@ export default {
       },
       rowComponentsHash: {
         default: 'DefaultCell',
+        id: 'DeviceIdCell',
+        udid: 'DeviceUdidCell',
         status: 'DeviceStatusCell',
         locationStatus: 'DeviceLocationStatusCell',
         statusSince: 'DeviceStatusSinceCell',
         comments: 'DeviceCommentsCell',
-        id: 'IdCell',
       },
       deviceCommentsShown: false,
       selectedDevice: null,
@@ -144,19 +152,24 @@ export default {
       this.deviceDetailsShow = false;
       removeBackgroundShadow('device-management-table-toolbar');
     },
-    showAddDevicePopup() {
+    showAddDevicePopup(id) {
       this.isAddDevicePopupShown = true;
+      this.selectedDeviceId = id;
     },
     closeAddDevicePopup() {
       this.isAddDevicePopupShown = false;
+      this.selectedDeviceId = null;
     },
-    async onSaveDevice(deviceInfo) {
+    async onSaveDevice({ id, ...deviceInfo }) {
       try {
-        await createDevice(deviceInfo);
+        await updateDevice(id, deviceInfo);
         await this.$refs.devicesTable.loadItems();
       } catch {
         errorMessage();
       }
+    },
+    isDevicePending(item) {
+      return item.isPending;
     },
   },
 };
@@ -175,6 +188,22 @@ export default {
   .device-management-wombat-table .column-comments {
     .header-cell {
       justify-content: center;
+    }
+  }
+
+  .wombat-row.disabled {
+    background-color: #f3f1f1;
+    position: relative;
+    border-bottom: none;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      right: 0px;
+      height: 1px;
+      background-color: $table-row-border-color;
     }
   }
 }
