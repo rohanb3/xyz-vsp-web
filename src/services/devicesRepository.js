@@ -1,6 +1,7 @@
 import api from '@/services/devicesApi';
 
-export const getDevices = () => api.get('/devices');
+export const getDevices = () =>
+  api.get('/devices').then(({ data }) => ({ data: data.result, count: data.total }));
 
 export const getDeviceHistory = ({ deviceId, ...filters } = {}) => {
   const params = { ...filters };

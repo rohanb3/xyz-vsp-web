@@ -4,10 +4,19 @@ import { getDevices, getDeviceHistory, createDevice } from '@/services/devicesRe
 describe('devicesRepository', () => {
   describe('getDevices(): ', () => {
     it('should make request and return data', () => {
-      const data = {};
-      api.get = jest.fn(() => Promise.resolve(data));
+      const response = {
+        data: {
+          result: [],
+          total: 0,
+        },
+      };
+      const expectedResult = {
+        data: [],
+        count: 0,
+      };
+      api.get = jest.fn(() => Promise.resolve(response));
       return getDevices().then(res => {
-        expect(res).toEqual(data);
+        expect(res).toEqual(expectedResult);
         expect(api.get).toHaveBeenCalledWith('/devices');
       });
     });
