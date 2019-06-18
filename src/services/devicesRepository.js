@@ -17,10 +17,15 @@ export const createDevice = params => api.post('/devices', params).then(({ data 
 export const updateDevice = (id, params) =>
   api.put(`/devices/${id}`, params).then(({ data }) => data);
 
-export const getCommentByDevice = params =>
-  api
-    .get(`/devices/${params.id}/comments`)
-    .then(({ data }) => ({ data: data.result, count: data.total }));
+export const getCommentByDevice = ({ id, ...filters }) => {
+  const params = { ...filters };
+
+  return id
+    ? api
+        .get(`/devices/${id}/comments`, { params })
+        .then(({ data }) => ({ data: data.result, count: data.total }))
+    : Promise.resolve({ data: [], count: 0 });
+};
 
 export const submitComment = (id, comment) =>
   api
