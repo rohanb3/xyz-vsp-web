@@ -68,6 +68,7 @@ import DeviceHistoryTable from '@/containers/DeviceHistoryTable';
 import { DEVICE_DETAILS_TABS } from '@/constants';
 import { updateDevice } from '@/services/devicesRepository';
 import DeviceCommentTab from '../components/DeviceCommentTab';
+import { UPDATE_DEVICE } from '@/store/storage/actionTypes';
 
 export default {
   name: 'DeviceDetails',
@@ -162,6 +163,8 @@ export default {
         data.radius = this.selected.radius;
 
         await updateDevice(this.selectedDeviceId, data);
+
+        this.$store.dispatch(UPDATE_DEVICE, this.selected);
 
         this.changes = false;
       } catch (e) {
