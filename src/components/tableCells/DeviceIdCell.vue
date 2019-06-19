@@ -1,11 +1,11 @@
 <template>
   <div class='device-id-cell'>
-    <span v-if="item.isPending">{{ item.udid }}</span>
+    <span v-if="item.isPending">{{ item.id }}</span>
     <a
       v-else
       href="#"
       @click.prevent.stop="$emit('deviceIdSelected', item.id)"
-    >{{ item.udid }}</a>
+    >{{ item.id }}</a>
   </div>
 </template>
 
