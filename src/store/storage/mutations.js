@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import { ENTITY_TYPES } from '@/constants';
 import {
   INSERT_ITEMS,
   UPSERT_ITEMS,
@@ -9,7 +8,6 @@ import {
   SET_ALL_ITEMS_LOADED,
   SET_ITEMS_TOTAL,
   SET_CALL_TYPES_AND_DISPOSITIONS,
-  CHANGE_DEVICE,
 } from './mutationTypes';
 
 export default {
@@ -48,15 +46,6 @@ export default {
   [SET_CALL_TYPES_AND_DISPOSITIONS](state, data) {
     state.callTypes = data.types;
     state.dispositions = data.dispositions;
-  },
-  [CHANGE_DEVICE](state, device) {
-    console.log('CHANGE_DEVICE', state, device);
-    state[ENTITY_TYPES.DEVICES].items = state[ENTITY_TYPES.DEVICES].items.map(_device => {
-      if (_device.id === device.id) {
-        Object.assign(_device, device);
-      }
-      return _device;
-    });
   },
   /* eslint-enable no-param-reassign */
 };

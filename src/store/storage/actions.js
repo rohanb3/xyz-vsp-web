@@ -15,7 +15,6 @@ import {
   SET_ITEMS_TOTAL,
   RESET_ITEMS,
   SET_CALL_TYPES_AND_DISPOSITIONS,
-  CHANGE_DEVICE,
 } from './mutationTypes';
 import { getEntityActions } from './repositoryHelper';
 import { ITEMS_TO_LOAD } from './constants';
@@ -69,7 +68,7 @@ export default {
   async [LOAD_CALL_TYPES_AND_DISPOSITIONS]({ commit }) {
     commit(SET_CALL_TYPES_AND_DISPOSITIONS, await getCallsTypes());
   },
-  [UPDATE_DEVICE]({ commit }, device) {
-    commit(CHANGE_DEVICE, device);
+  [UPDATE_DEVICE]({ commit }, { itemType, id, ...updates }) {
+    commit(CHANGE_ITEM, { itemType, id, ...updates });
   },
 };

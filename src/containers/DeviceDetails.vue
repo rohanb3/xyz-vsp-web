@@ -65,7 +65,7 @@ import isEqual from 'lodash.isequal';
 import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
 import DeviceDetailsTab from '@/components/DeviceDetailsTab';
 import DeviceHistoryTable from '@/containers/DeviceHistoryTable';
-import { DEVICE_DETAILS_TABS } from '@/constants';
+import { DEVICE_DETAILS_TABS, ENTITY_TYPES } from '@/constants';
 import { updateDevice } from '@/services/devicesRepository';
 import DeviceCommentTab from '../components/DeviceCommentTab';
 import { UPDATE_DEVICE } from '@/store/storage/actionTypes';
@@ -164,7 +164,11 @@ export default {
 
         await updateDevice(this.selectedDeviceId, data);
 
-        this.$store.dispatch(UPDATE_DEVICE, this.selected);
+        this.$store.dispatch(UPDATE_DEVICE, {
+          itemType: ENTITY_TYPES.DEVICES,
+          id: this.selected.id,
+          ...this.selected,
+        });
 
         this.changes = false;
       } catch (e) {
