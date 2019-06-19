@@ -13,12 +13,15 @@ const hubConnection = new HubConnectionBuilder()
   .build();
 
 export function connect(onDeviceUpdated = () => {}) {
-  return hubConnection
-    .start()
-    .then(() => {
-      hubConnection.on(DEVICE_UPDATED, updates => onDeviceUpdated(pickNeededFields(updates)));
-    })
-    .catch(e => console.error('Device management socket failed', e));
+  return (
+    hubConnection
+      .start()
+      .then(() => {
+        hubConnection.on(DEVICE_UPDATED, updates => onDeviceUpdated(pickNeededFields(updates)));
+      })
+      /* eslint-disable-next-line no-console */
+      .catch(e => console.error('Device management socket failed', e))
+  );
 }
 
 export function disconnect() {
@@ -38,7 +41,13 @@ export function pickNeededFields(updatesRaw) {
   let updates = null;
   try {
     const {
-      device: { id, latitude: deviceLocationLatitude, longitude: deviceLocationLongitude },
+      device: {
+        id,
+        udid,
+        isPending,
+        latitude: deviceLocationLatitude,
+        longitude: deviceLocationLongitude,
+      },
       isOnline,
       isInLocation,
       createdOn,
@@ -47,6 +56,8 @@ export function pickNeededFields(updatesRaw) {
     } = JSON.parse(updatesRaw);
     updates = {
       id,
+      udid,
+      isPending,
       isOnline,
       isInLocation,
       createdOn,

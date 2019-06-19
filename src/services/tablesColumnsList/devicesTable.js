@@ -11,8 +11,9 @@ export default () => [
   {
     name: 'udid',
     field: 'udid',
+    fieldType: 'udid',
     class: 'text',
-    title: 'udid',
+    title: 'udid.idfv',
     width: '2',
     minWidth: '50px',
   },
@@ -31,7 +32,7 @@ export default () => [
     fieldType: 'status',
     class: 'text',
     title: 'status',
-    width: '1',
+    width: '2',
     minWidth: '60px',
   },
   {
@@ -73,7 +74,7 @@ export default () => [
     field: 'loggedInAs.displayName',
     fieldType: 'loggedInAs',
     title: 'logged.in.as',
-    width: '2',
+    width: '1',
     class: 'text',
     minWidth: '40px',
     placeholder: '-',

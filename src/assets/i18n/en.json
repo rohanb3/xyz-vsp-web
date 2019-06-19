@@ -237,6 +237,11 @@
   "branch.name": "Branch name",
   "logged.in.as": "Logged in as",
   "add.device": "Add Device",
+  "udid.idfv": "UDID/IDFV",
+  "status.pending": "Waiting for onboarding",
+  "idfv": "IDFV",
+  "in.location": "In location",
+  "out.location": "Out of location",
 
   "retailer.not.found":
     "Sorry, any retailer according to your query doesn't found.",
@@ -269,7 +274,8 @@
   "online": "Online",
   "offline": "Offline",
   "show.on.maps": "Show on maps",
-  "are.you.sure.you.want.to.go.away": "Are you sure you want to go away? Changes will not be saved.",
+  "are.you.sure.you.want.to.go.away":
+    "Are you sure you want to go away? Changes will not be saved.",
   "comment": "Comment",
   "type.here": "Type here",
   "add.your.comment": "Add your comment",

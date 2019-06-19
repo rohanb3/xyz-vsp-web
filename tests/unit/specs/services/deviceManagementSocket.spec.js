@@ -64,6 +64,8 @@ describe('deviceManagementSocket: ', () => {
       const data = {
         device: {
           id: '42',
+          udid: '777',
+          isPending: false,
           unusedField: '777',
         },
         isOnline: true,
@@ -73,6 +75,8 @@ describe('deviceManagementSocket: ', () => {
       const validJson = JSON.stringify(data);
       const expectedFields = {
         id: '42',
+        udid: '777',
+        isPending: false,
         isOnline: true,
         isInLocation: false,
       };
