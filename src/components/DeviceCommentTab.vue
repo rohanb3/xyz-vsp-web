@@ -1,55 +1,21 @@
 <template>
   <div class="comment-tab">
     <comment-area v-model="comment" @onInput="onInput" @submit="submit" />
-    <wombat-table
-      :name="tableName"
-      :items="rows"
-      :columns="columns"
-      :item-height="50"
-      :infinite-loading="!allItemsLoaded"
-      :item-key-name="'createOn'"
-      :loadingItems="loading"
-      @bottomReached="checkAndLoadItems"
-      @columnsResized="onColumnsResized"
-      @columnsReordered="onColumnsReordered"
-    >
+    <lazy-load-table item-key-name="createOn" :tableName="tableName" :resize="false" :columns-reorder="false">
       <component
-        slot="header-cell"
-        slot-scope="headerCell"
-        class="header-cell"
-        :is="
-          headerComponentsHash[headerCell.column.fieldHeaderType] || headerComponentsHash.default
-        "
-        :column="headerCell.column"
+        slot="row-cell"
+        slot-scope="rowCell"
+        class="row-cell"
+        :role="role"
+        :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
+        :item="rowCell.item"
+        :column="rowCell.column"
       />
-      <div
-        v-if="rows && rows.length"
-        slot="row"
-        slot-scope="row"
-        :class="{ blurred: applyingFilters }"
-      >
-        <wombat-row :item="row.item" :columns="row.columns" :height="row.item.height">
-          <component
-            slot="row-cell"
-            slot-scope="rowCell"
-            class="row-cell"
-            :role="role"
-            :is="rowComponentsHash[rowCell.column.fieldType] || rowComponentsHash.default"
-            :item="rowCell.item"
-            :column="rowCell.column"
-          />
-        </wombat-row>
-      </div>
-
-      <table-loader v-if="loading" slot="loader" />
-    </wombat-table>
+    </lazy-load-table>
   </div>
 </template>
 
 <script>
-import WombatTable from '@/components/WombatTable/Table';
-import WombatRow from '@/components/WombatTable/Row';
-import TableLoader from '@/components/TableLoader';
 import configurableColumnsTable from '@/mixins/configurableColumnsTable';
 import lazyLoadTable from '@/mixins/lazyLoadTable';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
@@ -59,12 +25,18 @@ import { submitComment } from '@/services/devicesRepository';
 import { ENTITY_TYPES } from '@/constants';
 import CommentArea from './CommentArea';
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
+import LazyLoadTable from '../containers/LazyLoadTable';
 
 const { DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceCommentTab',
-  components: { CommentArea, TableLoader, WombatTable, WombatRow, DefaultHeaderCell, DateCell },
+  components: {
+    LazyLoadTable,
+    CommentArea,
+    DefaultHeaderCell,
+    DateCell,
+  },
   props: {
     deviceId: {
       type: String,
@@ -115,4 +87,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '~@/assets/styles/variables.scss';
+
+.comment-tab /deep/ {
+  .virtual-list {
+    max-height: calc(
+      100vh - #{$header-height} - #{$device-info-popup-header-height} - #{$table-header-height} - #{$device-info-popup-padding} -
+        #{270px}
+    );
+  }
+}
 </style>
