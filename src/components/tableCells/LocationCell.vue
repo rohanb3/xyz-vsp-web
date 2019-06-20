@@ -1,5 +1,5 @@
 <template>
-  <a :href="linkToGoogleMaps" target="_blank">({{ latitude }}, {{ longitude }})</a>
+  <a :href="linkToGoogleMaps" target="_blank" class="location-cell">({{ latitude }}, {{ longitude }})</a>
 </template>
 
 <script>
