@@ -22,17 +22,3 @@
     }
   }
 }
-
-.device-history-table {
-  .column-devicelocation,
-  .column-branchlocation {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-
-    a {
-      line-height: normal !important;
-      white-space: normal !important;
-    }
-  }
-}

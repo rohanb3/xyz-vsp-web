@@ -291,3 +291,16 @@ button {
 .vue-notification.info {
   background-color: $base-blue;
 }
+
+#app .device-history-table {
+  .column-devicelocation, .column-branchlocation {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .location-cell {
+    line-height: normal;
+    white-space: normal;
+  }
+}
