@@ -65,9 +65,9 @@ import isEqual from 'lodash.isequal';
 import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
 import DeviceDetailsTab from '@/components/DeviceDetailsTab';
 import DeviceHistoryTable from '@/containers/DeviceHistoryTable';
-import { DEVICE_DETAILS_TABS } from '@/constants';
-import { updateDevice } from '@/services/devicesRepository';
+import { DEVICE_DETAILS_TABS, ENTITY_TYPES } from '@/constants';
 import DeviceCommentTab from '../components/DeviceCommentTab';
+import { UPDATE_ITEM } from '@/store/storage/actionTypes';
 
 export default {
   name: 'DeviceDetails',
@@ -161,7 +161,11 @@ export default {
         data.longitude = this.selected.longitude;
         data.radius = this.selected.radius;
 
-        await updateDevice(this.selectedDeviceId, data);
+        await this.$store.dispatch(UPDATE_ITEM, {
+          itemType: ENTITY_TYPES.DEVICES,
+          id: this.selected.id,
+          ...data,
+        });
 
         this.changes = false;
       } catch (e) {
