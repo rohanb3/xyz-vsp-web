@@ -4,6 +4,9 @@
     <v-dialog content-class="incoming-call-popup" v-model="isDialogShown" persistent>
       <div v-if="initializingError" class="initializing-error-content">
         <p>{{ initializingError }}</p>
+        <div class="action-buttons">
+          <v-btn @click="logout">{{ $t('log.out') }}</v-btn>
+        </div>
       </div>
 
       <div v-else-if="permissionsError" class="permissions-error">
@@ -62,6 +65,7 @@ import moment from 'moment';
 import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
+import { USER_LOGOUT } from '@/store/loggedInUser/actionTypes';
 import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO } from '@/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
@@ -227,6 +231,10 @@ export default {
       this.connectingError = false;
       this.$store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
     },
+    logout() {
+      this.$store.dispatch(USER_LOGOUT);
+      this.$router.replace({ name: 'login' });
+    },
   },
 };
 </script>
@@ -245,9 +253,16 @@ export default {
   width: 350px;
   height: 100px;
   display: flex;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
   font-size: 20px;
+
+  .action-buttons {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-end;
+  }
 }
 
 .popup-content {
