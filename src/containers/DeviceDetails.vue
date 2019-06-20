@@ -27,7 +27,7 @@
     </div>
     <div class="device-info-tabs">
       <v-tabs-items v-model="tab">
-        <v-tab-item>
+        <v-tab-item :lazy="true">
           <device-details-tab
             :table-name="tableName"
             :selected="selected"
@@ -37,10 +37,10 @@
             @cancel="close"
           />
         </v-tab-item>
-        <v-tab-item>
+        <v-tab-item :lazy="true">
           <device-history-table :device="selectedDevice" />
         </v-tab-item>
-        <v-tab-item>
+        <v-tab-item :lazy="true">
           <device-comment-tab :device-id="selectedDeviceId" />
         </v-tab-item>
       </v-tabs-items>
