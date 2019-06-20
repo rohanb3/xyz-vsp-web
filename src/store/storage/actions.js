@@ -5,7 +5,6 @@ import {
   UPDATE_ITEM,
   DELETE_ITEM,
   LOAD_CALL_TYPES_AND_DISPOSITIONS,
-  UPDATE_DEVICE,
 } from './actionTypes';
 import {
   INSERT_ITEMS,
@@ -67,8 +66,5 @@ export default {
   },
   async [LOAD_CALL_TYPES_AND_DISPOSITIONS]({ commit }) {
     commit(SET_CALL_TYPES_AND_DISPOSITIONS, await getCallsTypes());
-  },
-  [UPDATE_DEVICE]({ commit }, { itemType, id, ...updates }) {
-    commit(CHANGE_ITEM, { itemType, id, ...updates });
   },
 };
