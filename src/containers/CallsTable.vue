@@ -59,7 +59,6 @@ import CallsDashboard from '@/components/CallsDashboard';
 
 import { ENTITY_TYPES } from '@/constants';
 
-const operationAdminOnlyColumns = ['company'];
 const { CALLS } = ENTITY_TYPES;
 
 export default {
@@ -104,12 +103,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isOperationAdmin', 'isSuperAdmin']),
-    columns() {
-      return this.tableData.columns.filter(
-        column => this.isOperationAdmin || !operationAdminOnlyColumns.includes(column.name)
-      );
-    },
+    ...mapGetters(['getItemById', 'isSuperAdmin']),
     storageData() {
       return this.$store.state.storage[this.tableName] || {};
     },
@@ -135,7 +129,7 @@ export default {
       this.operatorFeedbackShown = false;
     },
     selectCallById(id) {
-      const call = this.rows.find(row => row.id === id);
+      const call = this.getItemById(id, CALLS);
       this.selectedCall = call;
     },
   },
