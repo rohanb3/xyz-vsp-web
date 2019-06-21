@@ -6,7 +6,6 @@
     <p
       class="comment-title isClickable"
       ref="comment"
-      :title="getValue"
       @click="showComment"
     >
       {{ getValue }}
@@ -21,7 +20,24 @@
 
       <v-card>
         <v-card-text>
-          {{ getValue }}
+          <div>
+            <p class="field-title">{{ $t('author') }}:</p>
+            <p>{{ getAuthor }}</p>
+          </div>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-text>
+          <div>
+            <p class="field-title">{{ $t('date.time') }}:</p>
+            <p>{{ getDate }}</p>
+          </div>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-text>
+          <p class="field-title">{{ $t('comment') }}:</p>
+          <p>{{ getValue }}</p>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -42,7 +58,11 @@
 </template>
 
 <script>
+import moment from 'moment';
 import nestedFieldCell from '@/mixins/nestedFieldCell';
+import { DATE_FORMATS } from '@/constants';
+
+const { DEFAULT_DATE_FORMAT } = DATE_FORMATS;
 
 export default {
   name: 'CommentCell',
@@ -54,6 +74,12 @@ export default {
     };
   },
   computed: {
+    getAuthor() {
+      return this.item.userName;
+    },
+    getDate() {
+      return moment(this.item.createOn).format(DEFAULT_DATE_FORMAT);
+    },
     getValue() {
       return this.value || this.column.placeholder;
     },
@@ -61,17 +87,9 @@ export default {
       return `item-id-${this.item.id}`;
     },
   },
-  // mounted() {
-  //   const el = document.querySelector(`.${this.dynamicClass} p`);
-  //   const { scrollWidth, clientWidth } = el;
-  //
-  //   this.isClickable = scrollWidth > clientWidth;
-  // },
   methods: {
     showComment() {
-      // if (this.isClickable) {
       this.show = true;
-      // }
     },
   },
 };
@@ -89,5 +107,10 @@ export default {
 
 .isClickable {
   color: $base-blue;
+}
+
+.field-title {
+  color: $base-text-color;
+  font-weight: bold;
 }
 </style>
