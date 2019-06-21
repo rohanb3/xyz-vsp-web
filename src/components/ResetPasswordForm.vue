@@ -20,7 +20,6 @@
               :rules="passwordRules"
               @input="checkPassword"
               @click:append="() => (showPasswordFlag = !showPasswordFlag)"
-              @keydown.space.prevent
             ></v-text-field>
             <v-text-field
               :label="$t('confirm.new.password')"
@@ -33,7 +32,6 @@
               :rules="passwordRules"
               @input="checkPassword"
               @click:append="() => (showPasswordFlag = !showPasswordFlag)"
-              @keydown.space.prevent
             ></v-text-field>
             <v-container fluid px-0>
               <v-layout row mt-5 px-0 align-center justify-space-around>

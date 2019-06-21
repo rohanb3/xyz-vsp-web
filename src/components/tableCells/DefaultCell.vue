@@ -1,6 +1,6 @@
 <template>
-  <div class="default-cell">
-    {{ value || column.placeholder }}
+  <div class="default-cell" :title="getValue">
+    {{ getValue }}
   </div>
 </template>
 
@@ -10,5 +10,10 @@ import nestedFieldCell from '@/mixins/nestedFieldCell';
 export default {
   name: 'DefaultCell',
   mixins: [nestedFieldCell],
+  computed: {
+    getValue() {
+      return this.value || this.column.placeholder;
+    },
+  },
 };
 </script>

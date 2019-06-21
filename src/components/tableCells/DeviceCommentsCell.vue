@@ -1,6 +1,7 @@
 <template>
   <div class='device-comments-cell'>
     <v-btn
+      v-if="!item.isPending"
       icon
       small
       class="comments-button"
@@ -16,11 +17,6 @@ export default {
   props: {
     item: {
       type: Object,
-    },
-  },
-  computed: {
-    status() {
-      return this.item.isOnline ? 'Online' : 'Offline';
     },
   },
 };

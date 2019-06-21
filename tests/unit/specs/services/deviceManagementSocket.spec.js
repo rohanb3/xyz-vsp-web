@@ -1,4 +1,3 @@
-// jest.mock('@aspnet/signalr');
 import * as deviceManagementSocket from '@/services/deviceManagementSocket';
 import { hubConnection, hubConnectionBuilder, HttpTransportType, LogLevel } from '@aspnet/signalr';
 
@@ -65,6 +64,8 @@ describe('deviceManagementSocket: ', () => {
       const data = {
         device: {
           id: '42',
+          udid: '777',
+          isPending: false,
           unusedField: '777',
         },
         isOnline: true,
@@ -74,6 +75,8 @@ describe('deviceManagementSocket: ', () => {
       const validJson = JSON.stringify(data);
       const expectedFields = {
         id: '42',
+        udid: '777',
+        isPending: false,
         isOnline: true,
         isInLocation: false,
       };

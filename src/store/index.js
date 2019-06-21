@@ -13,7 +13,7 @@ Vue.use(Vuex);
 const debug = process.env.NODE_ENV !== 'production';
 
 const persistedStatePlugin = createPersistedState({
-  paths: ['loggedInUser', 'tables'],
+  paths: ['loggedInUser'],
 });
 
 export default new Vuex.Store({

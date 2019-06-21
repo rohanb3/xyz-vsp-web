@@ -4,7 +4,7 @@
       <div class="side-icon"></div>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down header-toolbar">
-        <div class="switcher-container">
+        <div class="switcher-container" v-if="isSupportAdmin">
           <online-status-switcher :is-online="isOperatorOnline" @statusChanged="onStatusChanged"/>
         </div>
         <header-user-menu/>
@@ -14,10 +14,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import HeaderUserMenu from './HeaderUserMenu';
 import OnlineStatusSwitcher from '@/components/OnlineStatusSwitcher';
 
 import { setOnlineStatus, setOfflineStatus } from '@/services/call';
+import { ROLE_TYPES } from '@/constants';
 
 export default {
   name: 'AppHeader',
@@ -26,6 +28,12 @@ export default {
     OnlineStatusSwitcher,
   },
   computed: {
+    ...mapGetters({
+      role: 'role',
+    }),
+    isSupportAdmin() {
+      return this.role === ROLE_TYPES.SUPPORT_ADMIN;
+    },
     isSupervisorDashboardPage() {
       return this.$route.name === 'supervisor-dashboard';
     },
@@ -53,6 +61,7 @@ export default {
   z-index: 1;
   font-family: 'Roboto', sans-serif;
   color: $base-white;
+  z-index: 2;
 }
 .header-toolbar {
   align-items: center;

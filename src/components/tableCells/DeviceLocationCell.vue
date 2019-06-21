@@ -1,14 +1,13 @@
 <template>
-  <div class='device-location-cell'>
-    <span
-      class="location-badge"
-      :class="{ 'in-location': item.isInLocation, 'out-of-location': !item.isInLocation }"
-    />
-    {{ location }}
-  </div>
+  <location-cell
+    :latitude="item.currentDeviceLocationLatitude"
+    :longitude="item.currentDeviceLocationLongitude"
+  />
 </template>
 
 <script>
+import LocationCell from '@/components/tableCells/LocationCell';
+
 export default {
   name: 'DeviceLocationCell',
   props: {
@@ -16,28 +15,8 @@ export default {
       type: Object,
     },
   },
-  computed: {
-    location() {
-      return this.item.isInLocation ? 'In location' : 'Out of location';
-    },
+  components: {
+    LocationCell,
   },
 };
 </script>
-
-<style scoped lang="scss">
-@import '~@/assets/styles/variables.scss';
-
-.location-badge {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  margin-right: 5px;
-
-  &.in-location {
-    background-color: $base-green-text;
-  }
-  &.out-of-location {
-    background-color: $base-red;
-  }
-}
-</style>

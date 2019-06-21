@@ -8,7 +8,7 @@
       <vue-perfect-scrollbar>
         <v-form ref="form" class="card-body">
           <div class="udid__section add-device__section">
-            <UdidField v-model="deviceInfo"/>
+            <udid-field v-model="selectedDevice" :disabled="true"/>
           </div>
           <div class="company__section add-device__section">
             <company-quick-search v-model="deviceInfo"/>
@@ -48,6 +48,7 @@
 
 <script>
 import VuePerfectScrollbar from 'vue-perfect-scrollbar';
+import { mapGetters } from 'vuex';
 
 import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
 import CompanyQuickSearch from '@/containers/CompanyQuickSearch';
@@ -59,7 +60,11 @@ import LongitudeField from '@/components/AddDevice/LongitudeField';
 import RadiusField from '@/components/AddDevice/RadiusField';
 import ConfirmPopup from '@/components/ConfirmPopup';
 
+import { ENTITY_TYPES } from '@/constants';
+
 import { addBackgroundShadow, removeBackgroundShadow } from '@/services/background';
+
+const { DEVICES } = ENTITY_TYPES;
 
 export default {
   name: 'AddDevicePopup',
@@ -79,6 +84,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    deviceId: {
+      type: String,
+      required: true,
+    },
   },
   mounted() {
     addBackgroundShadow();
@@ -92,6 +101,12 @@ export default {
       visiblePopup: false,
       isNewData: false,
     };
+  },
+  computed: {
+    ...mapGetters(['getItemById']),
+    selectedDevice() {
+      return this.getItemById(this.deviceId, DEVICES);
+    },
   },
   methods: {
     close() {
@@ -108,7 +123,11 @@ export default {
     },
     onSave() {
       if (this.validate()) {
-        this.$emit('saveDevice', this.deviceInfo);
+        const deviceInfo = {
+          ...this.deviceInfo,
+          id: this.selectedDevice.id,
+        };
+        this.$emit('saveDevice', deviceInfo);
         this.discardChanges();
       }
     },
