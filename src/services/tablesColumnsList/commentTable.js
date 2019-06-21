@@ -5,7 +5,7 @@ export default () => [
     title: 'date.time',
     fieldType: 'date',
     class: 'text',
-    width: '3',
+    width: '150px',
     minWidth: '100px',
   },
   {
@@ -13,12 +13,13 @@ export default () => [
     field: 'userName',
     title: 'author',
     class: 'text',
-    width: '3',
+    width: '200px',
     minWidth: '100px',
   },
   {
     name: 'Comment',
     field: 'comment',
+    fieldType: 'comment',
     title: 'comment',
     class: 'text',
     width: '3',

@@ -26,6 +26,7 @@ import { ENTITY_TYPES } from '@/constants';
 import CommentArea from './CommentArea';
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 import LazyLoadTable from '../containers/LazyLoadTable';
+import CommentCell from '@/components/tableCells/CommentCell';
 
 const { DEVICE_COMMENTS } = ENTITY_TYPES;
 
@@ -36,6 +37,7 @@ export default {
     CommentArea,
     DefaultHeaderCell,
     DateCell,
+    CommentCell,
   },
   props: {
     deviceId: {
@@ -53,6 +55,7 @@ export default {
       rowComponentsHash: {
         default: 'DefaultCell',
         date: 'DateCell',
+        comment: 'CommentCell',
       },
       comment: '',
     };

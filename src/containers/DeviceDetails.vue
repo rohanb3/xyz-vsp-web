@@ -68,6 +68,7 @@ import DeviceHistoryTable from '@/containers/DeviceHistoryTable';
 import { DEVICE_DETAILS_TABS, ENTITY_TYPES } from '@/constants';
 import DeviceCommentTab from '../components/DeviceCommentTab';
 import { UPDATE_ITEM } from '@/store/storage/actionTypes';
+import { addBackgroundShadow, removeBackgroundShadow } from '@/services/background';
 
 export default {
   name: 'DeviceDetails',
@@ -133,6 +134,10 @@ export default {
   },
   mounted() {
     this.selected = { ...this.selectedDevice };
+    addBackgroundShadow();
+  },
+  destroyed() {
+    removeBackgroundShadow();
   },
   methods: {
     close() {
