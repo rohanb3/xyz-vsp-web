@@ -1,12 +1,12 @@
 <template>
   <div
     class="comment-cell"
-    :class="{'dynamicClass': dynamicClass}"
+    :class="dynamicClass"
   >
     <p
-      class="comment-title"
+      class="comment-title isClickable"
       ref="comment"
-      :title="value"
+      :title="getValue"
       @click="showComment"
     >
       {{ getValue }}
@@ -15,7 +15,7 @@
     <v-dialog
       v-model="show"
       persistent
-      max-width="600px"
+      width="600px"
       scrollable
     >
 
@@ -50,6 +50,7 @@ export default {
   data() {
     return {
       show: false,
+      isClickable: false,
     };
   },
   computed: {
@@ -59,15 +60,18 @@ export default {
     dynamicClass() {
       return `item-id-${this.item.id}`;
     },
-    isClickable() {
-      return this.$refs.comment.scrollWidth > this.$refs.comment.clientWidth;
-    },
   },
+  // mounted() {
+  //   const el = document.querySelector(`.${this.dynamicClass} p`);
+  //   const { scrollWidth, clientWidth } = el;
+  //
+  //   this.isClickable = scrollWidth > clientWidth;
+  // },
   methods: {
     showComment() {
-      if (this.isClickable) {
-        this.show = true;
-      }
+      // if (this.isClickable) {
+      this.show = true;
+      // }
     },
   },
 };
