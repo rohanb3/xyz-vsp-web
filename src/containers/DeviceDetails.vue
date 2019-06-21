@@ -165,6 +165,7 @@ export default {
           itemType: ENTITY_TYPES.DEVICES,
           id: this.selected.id,
           ...data,
+          ...this.selected,
         });
 
         this.changes = false;
