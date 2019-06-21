@@ -90,6 +90,8 @@ import FormInput from './FormInput';
 import BranchSelect from './BranchSelect';
 import CompanySelect from './CompanySelect';
 
+const GOOGLE_MAPS_URL = 'http://www.google.com/maps/place/';
+
 export default {
   name: 'DeviceDetailsTab',
   components: { CompanySelect, BranchSelect, FormInput },
@@ -110,8 +112,9 @@ export default {
   },
   computed: {
     mapLink() {
-      return `http://www.google.com/maps/place/${this.selected.currentDeviceLocationLatitude ||
-        0},${this.selected.currentDeviceLocationLatitude || 0},10.00z`;
+      return `${GOOGLE_MAPS_URL}${this.selected.currentDeviceLocationLatitude},${
+        this.selected.currentDeviceLocationLongitude
+      }`;
     },
     statusSince() {
       return moment(this.selected.statusSince || moment()).format(DATE_FORMATS.DEFAULT_DATE_FORMAT);

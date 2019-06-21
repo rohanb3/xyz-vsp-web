@@ -151,20 +151,17 @@ describe('DeviceManagementUpdates', () => {
           deviceCurrentLongitude: 42,
         };
 
-        const expectedItem = {
-          isInLocation: true,
-          isOnline: false,
-          deviceCurrentLatitude: 42,
-          deviceCurrentLongitude: 42,
-        };
-
         const expectedPayload = {
           itemType: ENTITY_TYPES.DEVICE_HISTORY,
-          items: [expectedItem],
+          items: [updates],
         };
 
         DeviceManagementUpdates.methods.updateDevice.call(fakeThis, updates);
 
+        expect(fakeThis.$store.commit).toHaveBeenCalledWith(CHANGE_ITEM, {
+          itemType: ENTITY_TYPES.DEVICES,
+          ...updates,
+        });
         expect(fakeThis.$store.commit).toHaveBeenCalledWith(UPSERT_ITEMS, expectedPayload);
       });
     });
