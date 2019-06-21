@@ -22,7 +22,11 @@ export default {
   },
   computed: {
     date() {
-      return moment(this.item.createdOn).format(DEFAULT_DATE_FORMAT);
+      const stillUtc = moment.utc(this.item.createdOn).toDate();
+
+      return moment(stillUtc)
+        .local()
+        .format(DEFAULT_DATE_FORMAT);
     },
   },
 };
