@@ -169,8 +169,8 @@ export default {
         await this.$store.dispatch(UPDATE_ITEM, {
           itemType: ENTITY_TYPES.DEVICES,
           id: this.selected.id,
+          selectedDevice: this.selected,
           ...data,
-          ...this.selected,
         });
 
         this.changes = false;

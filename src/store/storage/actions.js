@@ -54,10 +54,10 @@ export default {
     const createdItem = await create(data);
     commit(INSERT_ITEMS, { itemType, items: [{ ...createdItem, _new: true }] });
   },
-  async [UPDATE_ITEM]({ commit }, { itemType, id, ...updates }) {
+  async [UPDATE_ITEM]({ commit }, { itemType, id, selectedDevice, ...updates }) {
     const { update } = getEntityActions(itemType);
     await update(id, updates);
-    commit(CHANGE_ITEM, { itemType, id, ...updates });
+    commit(CHANGE_ITEM, { itemType, id, ...selectedDevice, ...updates });
   },
   async [DELETE_ITEM]({ commit }, { itemType, id }) {
     const { delete: deleteItem } = getEntityActions(itemType);
