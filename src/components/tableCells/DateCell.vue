@@ -1,5 +1,5 @@
 <template>
-  <div class='date-cell'>
+  <div class='date-cell' :title="filteredDate">
     <span>{{ filteredDate }}</span>
   </div>
 </template>
