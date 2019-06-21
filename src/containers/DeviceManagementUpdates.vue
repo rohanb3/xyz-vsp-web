@@ -46,18 +46,13 @@ export default {
   },
   methods: {
     updateDevice(updates) {
-      const { id, isInLocation, isOnline, ...newHistoryItem } = updates;
-      const deviceUpdates = {
-        id,
-        isInLocation,
-        isOnline,
-      };
+      const { id } = updates;
 
-      this.$store.commit(CHANGE_ITEM, { itemType: DEVICES, ...deviceUpdates });
+      this.$store.commit(CHANGE_ITEM, { itemType: DEVICES, ...updates });
       if (id === this.selectedDeviceId) {
         this.$store.commit(UPSERT_ITEMS, {
           itemType: DEVICE_HISTORY,
-          items: [{ ...newHistoryItem, isOnline, isInLocation }],
+          items: [{ ...updates }],
         });
       }
     },
