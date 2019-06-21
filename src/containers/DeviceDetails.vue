@@ -169,7 +169,7 @@ export default {
         await this.$store.dispatch(UPDATE_ITEM, {
           itemType: ENTITY_TYPES.DEVICES,
           id: this.selected.id,
-          selectedDevice: this.selected,
+          mixin: this.selected,
           ...data,
         });
 
