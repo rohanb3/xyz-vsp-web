@@ -58,7 +58,7 @@
           <span v-else class="offline">{{ $t('offline') }}</span>
         </div>
       </div>
-      <div class="locations">
+      <div class="locations" v-if="isOnline">
         <p class="current-location">
           {{ $t('current.device.location') }}
           <a
@@ -110,9 +110,8 @@ export default {
   },
   computed: {
     mapLink() {
-      return `https://www.google.com.ua/maps/@${this.selected.latitude},${
-        this.selected.longitude
-      },10.00z`;
+      return `http://www.google.com/maps/place/${this.selected.currentDeviceLocationLatitude ||
+        0},${this.selected.currentDeviceLocationLatitude || 0},10.00z`;
     },
     statusSince() {
       return moment(this.selected.statusSince || moment()).format(DATE_FORMATS.DEFAULT_DATE_FORMAT);
