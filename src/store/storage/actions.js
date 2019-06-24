@@ -21,7 +21,6 @@ import { getCallsTypes } from '@/services/callRepository';
 
 async function loadItems({ commit, state }, { itemType, filters = {} }, resetPrevious) {
   const { items } = state[itemType];
-  console.log('filters', filters);
   const filtersToApply = {
     ...filters,
     offset: resetPrevious ? 0 : items.length,
