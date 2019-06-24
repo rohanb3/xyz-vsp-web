@@ -145,15 +145,15 @@ export default {
       }
     },
     exactMatchSearch() {
-      const result = this.items.filter(option => {
-        return this.compareStr(option[this.name], this.searchField);
-      });
+      const result = this.items.filter(option =>
+        this.compareStr(option[this.name], this.searchField)
+      );
       return result.length > 0 ? result : 0;
     },
     occurrenceSearch() {
-      const result = this.items.filter(option => {
-        return option[this.name].toLowerCase().indexOf(this.searchField.toLowerCase()) >= 0;
-      });
+      const result = this.items.filter(
+        option => option[this.name].toLowerCase().indexOf(this.searchField.toLowerCase()) >= 0
+      );
       return result.length > 0 ? result : 0;
     },
     compareStr(word, searchWord) {
