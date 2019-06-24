@@ -6,6 +6,7 @@ const filters = {
   [CALLS]: {},
   [DEVICES]: {
     [FILTER_NAMES.SEARCH]: '',
+    [FILTER_NAMES.STATUS]: null,
   },
 };
 

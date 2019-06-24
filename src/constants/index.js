@@ -170,4 +170,10 @@ export const COMPANY_LIST_COLUMNS_SORTED = {
 
 export const FILTER_NAMES = {
   SEARCH: 'SearchPhrase',
+  STATUS: 'isOnline',
+};
+
+export const DEVICE_STATUS = {
+  ONLINE: true,
+  OFFLINE: false,
 };
