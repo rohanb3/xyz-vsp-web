@@ -10,6 +10,7 @@ import { ENTITY_TYPES } from '@/constants';
 import mutations from './mutations';
 import actions from './actions';
 import getters from './getters';
+import getDefaultFilters from './filtersHelper';
 
 const { CALLS, DEVICES, DEVICE_COMMENTS, DEVICE_HISTORY } = ENTITY_TYPES;
 
@@ -21,7 +22,7 @@ const state = {
   },
   [DEVICES]: {
     columns: getDevicesTablecolumns(),
-    filters: {},
+    filters: getDefaultFilters(DEVICES),
     applyingFilters: false,
   },
   [DEVICE_HISTORY]: {

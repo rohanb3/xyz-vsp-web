@@ -280,5 +280,7 @@
   "type.here": "Type here",
   "add.your.comment": "Add your comment",
   "date.time": "Date/Time",
-  "author": "Author"
+  "author": "Author",
+  "quick.search": "Search query…",
+  "search.by.id.udid": "Search by ID UDID"
 }
