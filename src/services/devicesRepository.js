@@ -3,7 +3,7 @@ import { paramsSerializer } from '@/services/repositoryUtils';
 
 export const getDevices = filters => {
   const params = { ...filters };
-  api
+  return api
     .get('/devices', { params, paramsSerializer })
     .then(({ data }) => ({ data: data.result, count: data.total }));
 };
