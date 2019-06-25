@@ -1,4 +1,4 @@
-import { ENTITY_TYPES, FILTER_NAMES, FILTER_COMPANY_IDS } from '@/constants';
+import { ENTITY_TYPES, FILTER_NAMES, SORTING_DIRECTION } from '@/constants';
 
 const { CALLS, DEVICES } = ENTITY_TYPES;
 
@@ -7,7 +7,9 @@ const filters = {
   [DEVICES]: {
     [FILTER_NAMES.SEARCH]: '',
     [FILTER_NAMES.STATUS]: null,
-    [FILTER_COMPANY_IDS]: null,
+    [FILTER_NAMES.FILTER_COMPANY_IDS]: null,
+    [FILTER_NAMES.SORT_BY]: '',
+    [FILTER_NAMES.ORDER]: SORTING_DIRECTION.ASC,
   },
 };
 

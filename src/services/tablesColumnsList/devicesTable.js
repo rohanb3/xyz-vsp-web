@@ -1,3 +1,5 @@
+import { DEVICE_LIST_COLUMNS_SORTED } from '@/constants';
+
 export default () => [
   {
     name: 'id',
@@ -31,9 +33,11 @@ export default () => [
     field: 'isOnline',
     fieldType: 'status',
     class: 'text',
-    title: 'status',
+    title: 'Status',
     width: '2',
     minWidth: '60px',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.IS_ONLINE,
+    fieldHeaderType: 'sortingHeader',
   },
   {
     name: 'locationStatus',

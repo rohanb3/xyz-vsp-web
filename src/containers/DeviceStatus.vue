@@ -54,5 +54,13 @@ export default {
       return this[this.filterName];
     },
   },
+  methods: {
+    selectOneItem(itemIndex, status) {
+      for (let i = 0; i < this[this.filterName].length; i += 1) {
+        this.$set(this[this.filterName][i], 'selected', false);
+      }
+      this.$set(this[this.filterName][itemIndex], 'selected', status);
+    },
+  },
 };
 </script>

@@ -20,7 +20,7 @@ import TableFilter from '@/components/TableFilter';
 import tableFilterAutocomplete from '@/mixins/tableFilterAutocomplete';
 import TableLoader from '@/components/TableLoader';
 import { getCompanyList, getCompany } from '@/services/getRepository';
-import { FILTER_COMPANY_IDS } from '@/constants';
+import { FILTER_NAMES } from '@/constants';
 
 export default {
   name: 'CompanyFilter',
@@ -41,8 +41,8 @@ export default {
   mixins: [tableFilterAutocomplete],
   data() {
     return {
-      filterName: FILTER_COMPANY_IDS,
-      [FILTER_COMPANY_IDS]: [],
+      filterName: FILTER_NAMES.FILTER_COMPANY_IDS,
+      [FILTER_NAMES.FILTER_COMPANY_IDS]: [],
     };
   },
   mounted() {

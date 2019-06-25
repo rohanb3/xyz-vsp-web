@@ -168,15 +168,19 @@ export const COMPANY_LIST_COLUMNS_SORTED = {
   COMPANY_NAME: 'companyName',
 };
 
+export const DEVICE_LIST_COLUMNS_SORTED = {
+  IS_ONLINE: 'isOnline',
+};
+
 export const FILTER_NAMES = {
   SEARCH: 'SearchPhrase',
   STATUS: 'isOnline',
-  FILTER_COMPANY_IDS: 'CompanyIds',
+  FILTER_COMPANY_IDS: 'companyIds',
+  SORT_BY: 'SortBy',
+  ORDER: 'order',
 };
 
 export const DEVICE_STATUS = {
   ONLINE: true,
   OFFLINE: false,
 };
-
-export const FILTER_COMPANY_IDS = 'companyIds';
