@@ -167,3 +167,7 @@ export const FILTER_NAMES_COMPANY_LIST = {
 export const COMPANY_LIST_COLUMNS_SORTED = {
   COMPANY_NAME: 'companyName',
 };
+
+export const FILTER_NAMES = {
+  SEARCH: 'SearchPhrase',
+};

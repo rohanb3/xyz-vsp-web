@@ -17,7 +17,7 @@ describe('devicesRepository', () => {
       api.get = jest.fn(() => Promise.resolve(response));
       return getDevices().then(res => {
         expect(res).toEqual(expectedResult);
-        expect(api.get).toHaveBeenCalledWith('/devices');
+        expect(api.get).toHaveBeenCalledWith('/devices', expect.any(Object));
       });
     });
   });

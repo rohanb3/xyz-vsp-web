@@ -1,7 +1,12 @@
 import api from '@/services/devicesApi';
+import { paramsSerializer } from '@/services/repositoryUtils';
 
-export const getDevices = () =>
-  api.get('/devices').then(({ data }) => ({ data: data.result, count: data.total }));
+export const getDevices = filters => {
+  const params = { ...filters };
+  return api
+    .get('/devices', { params, paramsSerializer })
+    .then(({ data }) => ({ data: data.result, count: data.total }));
+};
 
 export const getDeviceHistory = ({ deviceId, ...filters } = {}) => {
   const params = { ...filters };

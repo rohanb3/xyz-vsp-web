@@ -1,7 +1,12 @@
 <template>
   <div class="device-management-table">
     <div class="device-management-table-toolbar">
-      <div class="devices-amount">{{ $t('device.management') }}</div>
+      <!--<div class="devices-amount">{{ $t('device.management') }}</div>-->
+      <table-toolbar :title="'device.management'" :table-name="tableName">
+        <div slot="filters">
+          <quick-search-filter :table-name="tableName" :placeholder="'search.by.id.udid'" />
+        </div>
+      </table-toolbar>
       <!-- <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
         <v-icon class="add-icon">add_circle</v-icon>
         {{ $t('add.device') }}
@@ -65,12 +70,16 @@ import { addBackgroundShadow, removeBackgroundShadow } from '@/services/backgrou
 
 import { updateDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
+import TableToolbar from '../components/TableToolbar';
+import QuickSearchFilter from './QuickSearchFilter';
 
 const { DEVICES, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceManagementTable',
   components: {
+    QuickSearchFilter,
+    TableToolbar,
     LazyLoadTable,
     DefaultHeaderCell,
     DefaultCell,

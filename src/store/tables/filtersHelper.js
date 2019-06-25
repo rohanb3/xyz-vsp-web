@@ -1,9 +1,12 @@
-import { ENTITY_TYPES } from '@/constants';
+import { ENTITY_TYPES, FILTER_NAMES } from '@/constants';
 
-const { CALLS } = ENTITY_TYPES;
+const { CALLS, DEVICES } = ENTITY_TYPES;
 
 const filters = {
   [CALLS]: {},
+  [DEVICES]: {
+    [FILTER_NAMES.SEARCH]: '',
+  },
 };
 
 export default itemType => ({ ...filters[itemType] } || {});
