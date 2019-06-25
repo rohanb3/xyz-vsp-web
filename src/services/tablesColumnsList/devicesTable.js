@@ -63,6 +63,8 @@ export default () => [
     width: '2',
     class: 'text',
     minWidth: '65px',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.BRANCH_NAME,
+    fieldHeaderType: 'sortingHeader',
   },
   {
     name: 'company',

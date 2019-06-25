@@ -170,6 +170,7 @@ export const COMPANY_LIST_COLUMNS_SORTED = {
 
 export const DEVICE_LIST_COLUMNS_SORTED = {
   IS_ONLINE: 'isOnline',
+  BRANCH_NAME: 'branchname',
 };
 
 export const FILTER_NAMES = {
