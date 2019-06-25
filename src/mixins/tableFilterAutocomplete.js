@@ -39,7 +39,6 @@ export default {
       const itemIndex = this[this.filterName].findIndex(item => item[itemKeyName] === itemKeyVal);
       if (itemIndex >= 0) {
         this.selectOneItem(itemIndex, !this[this.filterName][itemIndex].selected);
-        console.log('this.selectedItems', this.selectedItems);
         this.applyFilter(this.selectedItems);
       }
     },
