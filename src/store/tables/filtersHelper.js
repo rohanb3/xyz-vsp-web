@@ -10,6 +10,7 @@ const filters = {
     [FILTER_NAMES.FILTER_COMPANY_IDS]: null,
     [FILTER_NAMES.SORT_BY]: '',
     [FILTER_NAMES.ORDER]: SORTING_DIRECTION.ASC,
+    [FILTER_NAMES.FILTER_BRANCH_IDS]: null,
   },
 };
 

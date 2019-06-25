@@ -1,14 +1,14 @@
 <template>
   <div class="filter-wrapper">
     <table-filter
-      name="companyName"
+      name="branchName"
       boundaries-selector=".device-management-table"
-      :title="$t('company')"
-      :items="companyList"
+      :title="$t('branch')"
+      :items="branchList"
       @select="toggleItem"
       @selectAll="onSelectAllItemDisplayed"
       @clearAll="onClearAllItemDisplayed"
-      @notFound="onNotFoundCompany"
+      @notFound="onNotFoundBranch"
     >
       <table-loader v-if="loading" slot="loader" />
     </table-filter>
@@ -19,11 +19,11 @@
 import TableFilter from '@/components/TableFilter';
 import tableFilterAutocomplete from '@/mixins/tableFilterAutocomplete';
 import TableLoader from '@/components/TableLoader';
-import { getCompanyList, getCompany } from '@/services/getRepository';
+import { getBranchList, getBranch } from '@/services/getRepository';
 import { FILTER_NAMES } from '@/constants';
 
 export default {
-  name: 'CompanyFilter',
+  name: 'BranchFilter',
   props: {
     tableName: {
       type: String,
@@ -41,38 +41,38 @@ export default {
   mixins: [tableFilterAutocomplete],
   data() {
     return {
-      filterName: FILTER_NAMES.FILTER_COMPANY_IDS,
-      [FILTER_NAMES.FILTER_COMPANY_IDS]: [],
+      filterName: FILTER_NAMES.FILTER_BRANCH_IDS,
+      [FILTER_NAMES.FILTER_BRANCH_IDS]: [],
     };
   },
   mounted() {
-    this.loadCompanyList();
+    this.loadBranchList();
   },
   computed: {
-    companyList() {
+    branchList() {
       return this[this.filterName];
     },
   },
   methods: {
-    loadCompanyList() {
+    loadBranchList() {
       this.loading = true;
-      getCompanyList()
+      getBranchList()
         .then(({ data }) => {
           this[this.filterName] = data;
           return this.loadingPreselectedItems({
-            displayedFieldName: 'companyName',
-            getItemById: getCompany,
+            displayedFieldName: 'branchName',
+            getItemById: getBranch,
           });
         })
         .finally(() => {
           this.loading = false;
         });
     },
-    onNotFoundCompany({ itemKey, searchField }) {
+    onNotFoundBranch({ itemKey, searchField }) {
       this.onNotFoundItem({
         itemKey,
         searchField,
-        getItemList: getCompanyList,
+        getItemList: getBranchList,
       });
     },
   },

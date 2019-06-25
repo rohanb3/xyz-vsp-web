@@ -178,6 +178,7 @@ export const FILTER_NAMES = {
   FILTER_COMPANY_IDS: 'companyIds',
   SORT_BY: 'SortBy',
   ORDER: 'order',
+  FILTER_BRANCH_IDS: 'BranchIds',
 };
 
 export const DEVICE_STATUS = {
