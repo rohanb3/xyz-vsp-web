@@ -171,9 +171,12 @@ export const COMPANY_LIST_COLUMNS_SORTED = {
 export const FILTER_NAMES = {
   SEARCH: 'SearchPhrase',
   STATUS: 'isOnline',
+  FILTER_COMPANY_IDS: 'CompanyIds',
 };
 
 export const DEVICE_STATUS = {
   ONLINE: true,
   OFFLINE: false,
 };
+
+export const FILTER_COMPANY_IDS = 'companyIds';

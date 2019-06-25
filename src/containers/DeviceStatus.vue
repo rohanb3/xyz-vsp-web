@@ -38,12 +38,12 @@ export default {
       [FILTER_NAMES.STATUS]: [
         {
           id: DEVICE_STATUS.OFFLINE,
-          [this.sendFieldName]: [DEVICE_STATUS.OFFLINE],
+          [this.sendFieldName]: DEVICE_STATUS.OFFLINE,
           name: this.$t('offline'),
         },
         {
           id: DEVICE_STATUS.ONLINE,
-          [this.sendFieldName]: [DEVICE_STATUS.ONLINE],
+          [this.sendFieldName]: DEVICE_STATUS.ONLINE,
           name: this.$t('online'),
         },
       ],

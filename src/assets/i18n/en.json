@@ -282,5 +282,8 @@
   "date.time": "Date/Time",
   "author": "Author",
   "quick.search": "Search query…",
-  "search.by.id.udid": "Search by ID UDID"
+  "search.by.id.udid": "Search by ID UDID",
+  "table.filter.placeholder.search": "Search...",
+  "table.filter.clear.all": "Clear",
+  "table.filter.select.all": "Select All"
 }
