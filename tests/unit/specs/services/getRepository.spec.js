@@ -10,7 +10,7 @@ describe('geoRepository', () => {
       api.get = jest.fn(() => Promise.resolve({ data }));
 
       const response = await getCompanyList();
-      const params = { offset: 0, limit: 20, CompaniesSearchPhrase: null };
+      const params = { skip: 0, take: 20, SearchFilter: null };
 
       expect(response).toEqual(data);
       expect(api.get).toHaveBeenCalledWith('/', { params });
@@ -21,7 +21,7 @@ describe('geoRepository', () => {
       api.get = jest.fn(() => Promise.resolve({ data }));
 
       const response = await getCompanyList('lol');
-      const params = { offset: 0, limit: 20, CompaniesSearchPhrase: 'lol' };
+      const params = { skip: 0, take: 20, SearchFilter: 'lol' };
 
       expect(response).toEqual(data);
       expect(api.get).toHaveBeenCalledWith('/', { params });
@@ -32,7 +32,7 @@ describe('geoRepository', () => {
       api.get = jest.fn(() => Promise.resolve({ data }));
 
       const response = await getCompanyList('lol', 7, 8);
-      const params = { offset: 7, limit: 8, CompaniesSearchPhrase: 'lol' };
+      const params = { skip: 7, take: 8, SearchFilter: 'lol' };
 
       expect(response).toEqual(data);
       expect(api.get).toHaveBeenCalledWith('/', { params });

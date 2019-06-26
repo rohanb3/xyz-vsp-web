@@ -3,7 +3,7 @@
     class='device-status-since-cell'
     :class="{ 'device-online': item.isOnline, 'device-oflline': !item.isOnline }"
   >
-    {{ date || watchedDate }}
+    {{ date }}
   </div>
 </template>
 
