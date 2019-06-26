@@ -7,6 +7,7 @@
           <quick-search-filter :table-name="tableName" :placeholder="'search.by.id.udid'" />
           <device-status :table-name="tableName" />
           <company-filter :table-name="tableName" />
+          <branch-filter :table-name="tableName" />
         </div>
       </table-toolbar>
       <!-- <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
@@ -76,12 +77,14 @@ import TableToolbar from '../components/TableToolbar';
 import QuickSearchFilter from './QuickSearchFilter';
 import DeviceStatus from './DeviceStatus';
 import CompanyFilter from './CompanyFilter';
+import BranchFilter from './BranchFilter';
 
 const { DEVICES, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceManagementTable',
   components: {
+    BranchFilter,
     CompanyFilter,
     DeviceStatus,
     QuickSearchFilter,

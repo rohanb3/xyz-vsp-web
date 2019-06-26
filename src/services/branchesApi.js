@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: '/api/reviews/api/branches/',
+  baseURL: '/api/public-api/branch/',
 });
 
 export default instance;

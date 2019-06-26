@@ -78,7 +78,7 @@ export default {
       this.loading = true;
       getItemList(searchField)
         .then(data => {
-          const newListOfItems = data.result.filter(
+          const newListOfItems = data.data.filter(
             newItem =>
               !this[this.filterName].some(
                 existingItem => existingItem[itemKey] === newItem[itemKey]

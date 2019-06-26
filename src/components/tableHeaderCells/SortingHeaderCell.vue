@@ -1,6 +1,6 @@
 <template>
   <div class="sorting-header-cell" @click="onClickSortingHeaderCell">
-    <span class="sorting-header-title">{{ column.title }}</span>
+    <span class="sorting-header-title">{{ $t(column.title) }}</span>
     <v-icon v-show="arrowDirection === true" class="sorting-header-icon" small
       >fas arrow_downward</v-icon
     >
