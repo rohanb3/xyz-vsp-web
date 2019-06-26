@@ -21,6 +21,9 @@
           headerComponentsHash[headerCell.column.fieldHeaderType] || headerComponentsHash.default
         "
         :column="headerCell.column"
+        :sortDirection="sortDirection"
+        :sortingField="sortingField"
+        @sortDirectionChanged="onSortDirectionChanged"
       />
       <div
         v-if="rows && rows.length"
@@ -68,6 +71,8 @@ import lazyLoadTable from '@/mixins/lazyLoadTable';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
 import SortingHeaderCell from '@/components/tableHeaderCells/SortingHeaderCell';
 
+import { SORTING_DIRECTION, FILTER_NAMES } from '@/constants';
+
 export default {
   name: 'LazyLoadTable',
   components: {
@@ -111,6 +116,42 @@ export default {
   computed: {
     tableNameLowerCase() {
       return this.tableName.toLowerCase();
+    },
+    sortDirection() {
+      return this.filters[FILTER_NAMES.ORDER];
+    },
+    sortingField() {
+      return this.filters[FILTER_NAMES.SORT_BY];
+    },
+  },
+  methods: {
+    onSortDirectionChanged(sortingFieldName) {
+      const state = {
+        asc: { order: SORTING_DIRECTION.DESC, sort: sortingFieldName },
+        desc: { order: null, sort: null },
+        null: { order: SORTING_DIRECTION.ASC, sort: sortingFieldName },
+      };
+
+      const order = {
+        name: FILTER_NAMES.ORDER,
+        value: state[this.sortDirection].order,
+      };
+
+      const sort = {
+        name: FILTER_NAMES.SORT_BY,
+        value: state[this.sortDirection].sort,
+      };
+
+      if (sortingFieldName !== this.sortingField) {
+        sort.value = sortingFieldName;
+        order.value = SORTING_DIRECTION.ASC;
+      }
+
+      if (sortingFieldName !== this.sortingField || state[this.sortDirection].order === null) {
+        this.applyFilters(sort, order);
+      } else {
+        this.applyFilters(order);
+      }
     },
   },
 };

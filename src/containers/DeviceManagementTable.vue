@@ -3,8 +3,10 @@
     <div class="device-management-table-toolbar">
       <!--<div class="devices-amount">{{ $t('device.management') }}</div>-->
       <table-toolbar :title="'device.management'" :table-name="tableName">
-        <div slot="filters">
+        <div slot="filters" class="table-filter-container">
           <quick-search-filter :table-name="tableName" :placeholder="'search.by.id.udid'" />
+          <device-status :table-name="tableName" />
+          <company-filter :table-name="tableName" />
         </div>
       </table-toolbar>
       <!-- <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
@@ -72,12 +74,16 @@ import { updateDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
 import TableToolbar from '../components/TableToolbar';
 import QuickSearchFilter from './QuickSearchFilter';
+import DeviceStatus from './DeviceStatus';
+import CompanyFilter from './CompanyFilter';
 
 const { DEVICES, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceManagementTable',
   components: {
+    CompanyFilter,
+    DeviceStatus,
     QuickSearchFilter,
     TableToolbar,
     LazyLoadTable,
@@ -272,5 +278,11 @@ export default {
     width: 16px;
     height: 16px;
   }
+}
+
+.table-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 </style>
