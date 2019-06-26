@@ -12,7 +12,7 @@
               :label="$t('new.password')"
               class="password-input"
               name="password"
-              v-model.trim="password"
+              v-model="password"
               required
               autofocus
               :append-icon="showPasswordFlag ? 'visibility' : 'visibility_off'"
@@ -25,7 +25,7 @@
               :label="$t('confirm.new.password')"
               class="password-input"
               name="confirmPassword"
-              v-model.trim="confirmPassword"
+              v-model="confirmPassword"
               required
               :append-icon="showPasswordFlag ? 'visibility' : 'visibility_off'"
               :type="showPasswordFlag ? 'password' : 'text'"
