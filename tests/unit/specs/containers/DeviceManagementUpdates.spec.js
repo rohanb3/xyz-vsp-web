@@ -10,13 +10,17 @@ describe('DeviceManagementUpdates', () => {
     it('should connect to device management socket on mounting', () => {
       const fakeThis = {
         updateDevice: () => {},
+        addDevice: () => {},
       };
 
       deviceManagementSocket.connect = jest.fn();
 
       DeviceManagementUpdates.mounted.call(fakeThis);
 
-      expect(deviceManagementSocket.connect).toHaveBeenCalledWith(fakeThis.updateDevice);
+      expect(deviceManagementSocket.connect).toHaveBeenCalledWith(
+        fakeThis.updateDevice,
+        fakeThis.addDevice
+      );
     });
   });
 

@@ -34,7 +34,10 @@ export default {
     },
   },
   mounted() {
-    connect(this.updateDevice);
+    connect(
+      this.updateDevice,
+      this.addDevice
+    );
   },
   watch: {
     devicesUdids(udids) {
@@ -55,6 +58,13 @@ export default {
           items: [{ ...updates }],
         });
       }
+    },
+    addDevice(device) {
+      this.$store.commit(UPSERT_ITEMS, {
+        itemType: DEVICES,
+        items: [{ ...device, ...device.device }],
+      });
+      console.log(device);
     },
   },
 };

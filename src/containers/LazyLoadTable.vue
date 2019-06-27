@@ -9,6 +9,7 @@
       :name="tableNameLowerCase"
       :resize="resize"
       :columns-reorder="columnsReorder"
+      :scroll-on-items-adding="scrollOnItemsAdding"
       @bottomReached="checkAndLoadItems"
       @columnsResized="onColumnsResized"
       @columnsReordered="onColumnsReordered"
@@ -103,6 +104,10 @@ export default {
     disabledItemFieldSelector: {
       type: Function,
       default: item => item.disabled,
+    },
+    scrollOnItemsAdding: {
+      type: Boolean,
+      default: true,
     },
   },
   data() {
