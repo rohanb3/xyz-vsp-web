@@ -23,6 +23,14 @@ const sidebarLinks = [
     titleKey: 'plans',
     link: 'plans',
   },
+  {
+    titleKey: 'template.list',
+    link: 'template-list',
+  },
+  {
+    titleKey: 'synchronization',
+    link: 'synchronization',
+  },
 ];
 
 export default {

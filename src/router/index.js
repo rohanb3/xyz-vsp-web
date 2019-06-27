@@ -13,6 +13,7 @@ import Payments from '@/views/Payments';
 import SettingsPage from '@/views/SettingsPage';
 import SupervisorSettings from '@/views/SupervisorSettings';
 import SupervisorSettingsProfile from '@/views/SupervisorSettingsProfile';
+import SynchronizationSettingsProfile from '@/views/SynchronizationSettingsProfile';
 import Operators from '@/views/Operators';
 import CallPage from '@/views/CallPage';
 import SupervisorDashboard from '@/views/SupervisorDashboard';
@@ -157,6 +158,16 @@ const router = new Router({
                   path: 'plans',
                   name: 'supervisorSettingsPlans',
                   component: SupervisorSettingsProfile,
+                },
+                {
+                  path: 'template-list',
+                  name: 'supervisorSettingsTemplateList',
+                  component: SupervisorSettingsProfile,
+                },
+                {
+                  path: 'synchronization',
+                  name: 'supervisorSettingsSynchronization',
+                  component: SynchronizationSettingsProfile,
                 },
               ],
             },

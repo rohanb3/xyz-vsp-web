@@ -58,6 +58,11 @@
       </div>
     </router-link>
     <v-spacer class="spacer"/>
+    <router-link :to="{ name: 'supervisorSettingsProfile' }" class="lhs-item-link">
+      <div class="lhs-item" :class="{ active: activeIndex === 7 }" @click="setActive(7)">
+        <v-icon class="item-icon">settings</v-icon>
+      </div>
+    </router-link>
   </nav>
 </template>
 
