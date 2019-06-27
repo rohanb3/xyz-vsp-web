@@ -171,6 +171,12 @@ export const COMPANY_LIST_COLUMNS_SORTED = {
 export const DEVICE_LIST_COLUMNS_SORTED = {
   IS_ONLINE: 'isOnline',
   BRANCH_NAME: 'branchname',
+  ID: 'id',
+  UDID: 'udid',
+  STATUS_SINCE: 'statussince',
+  IS_IN_LOCATION: 'isinlocation',
+  COMPANY_NAME: 'companyname',
+  LOGGED_IN_AS: 'displayname',
 };
 
 export const FILTER_NAMES = {
@@ -178,7 +184,7 @@ export const FILTER_NAMES = {
   STATUS: 'isOnline',
   FILTER_COMPANY_IDS: 'companyIds',
   SORT_BY: 'SortBy',
-  ORDER: 'order',
+  ORDER: 'Order',
   FILTER_BRANCH_IDS: 'BranchIds',
 };
 
