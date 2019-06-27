@@ -64,7 +64,6 @@ export default {
         itemType: DEVICES,
         items: [{ ...device, ...device.device }],
       });
-      console.log(device);
     },
   },
 };
