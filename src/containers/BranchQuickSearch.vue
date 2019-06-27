@@ -15,7 +15,7 @@
 
 
 <script>
-import QuickSearch from '@/components/QuickSearch';
+import QuickSearch from '@/components/QuickSearch/index';
 
 import { ENTITY_TYPES } from '@/constants';
 
