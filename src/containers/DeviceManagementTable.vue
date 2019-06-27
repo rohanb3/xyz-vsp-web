@@ -20,6 +20,7 @@
       ref="devicesTable"
       :table-name="tableName"
       :disabled-item-field-selector="isDevicePending"
+      :scroll-on-items-adding="false"
     >
       <component
         slot="row-cell"
@@ -39,7 +40,10 @@
       @close="closeAddDevicePopup"
       @saveDevice="onSaveDevice"
     />
-    <device-management-updates :devices="rows" />
+    <device-management-updates
+      :devices="rows"
+      @update="updateDevices"
+    />
     <device-details
       :selected-device-id="selectedDeviceId"
       :tableName="tableName"
@@ -188,6 +192,9 @@ export default {
     },
     isDevicePending(item) {
       return item.isPending;
+    },
+    async updateDevices() {
+      await this.$refs.devicesTable.loadItems();
     },
   },
 };

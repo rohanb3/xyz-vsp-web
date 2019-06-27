@@ -3,6 +3,7 @@ import { HubConnectionBuilder, HttpTransportType, LogLevel } from '@aspnet/signa
 const hubUrl = '/api/device-management-api/operatorSocket';
 const SUBSCRIBE_DEVICES_UPDATES = 'SubscribeDevicesUpdates';
 const DEVICE_UPDATED = 'DeviceUpdated';
+const DEVICE_ADDED = 'DeviceAdded';
 
 const hubConnection = new HubConnectionBuilder()
   .withUrl(hubUrl, {
@@ -12,12 +13,13 @@ const hubConnection = new HubConnectionBuilder()
   .configureLogging(LogLevel.Information)
   .build();
 
-export function connect(onDeviceUpdated = () => {}) {
+export function connect(onDeviceUpdated = () => {}, onDeviceAdded = () => {}) {
   return (
     hubConnection
       .start()
       .then(() => {
         hubConnection.on(DEVICE_UPDATED, updates => onDeviceUpdated(pickNeededFields(updates)));
+        hubConnection.on(DEVICE_ADDED, addedDevice => onDeviceAdded(addedDeviceFunc(addedDevice)));
       })
       /* eslint-disable-next-line no-console */
       .catch(e => console.error('Device management socket failed', e))
@@ -72,4 +74,8 @@ export function pickNeededFields(updatesRaw) {
   }
 
   return updates;
+}
+
+export function addedDeviceFunc(updates) {
+  return JSON.parse(updates);
 }
