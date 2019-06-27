@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import QuickSearch from '@/components/QuickSearch/index';
+import QuickSearch from '@/components/QuickSearch';
 import { LOAD_ITEMS, LOAD_MORE_ITEMS } from '@/store/storage/actionTypes';
 
 import { ENTITY_TYPES, FILTER_NAMES_COMPANY_LIST } from '@/constants';

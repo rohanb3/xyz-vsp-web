@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import QuickSearch from '../components/QuickSearch';
+import QuickSearch from '../components/QuickSearchFilter';
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 import { FILTER_NAMES } from '@/constants';
 
