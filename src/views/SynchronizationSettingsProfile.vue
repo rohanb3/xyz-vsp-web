@@ -8,24 +8,30 @@
     <div class="main">
       <div class="row">
         <div class="row-item">
-          <p>Synchronization with Cable Portal</p>
-        </div>
-        <div class="row-item">
+          <p class="main__title">{{ $t('synchronization.with.cable.portal') }}</p>
         </div>
       </div>
       <div class="row">
         <div class="row-item">
-          <v-btn color="info">Synchronize</v-btn>
-        </div>
-        <div class="row-item">
+          <v-btn
+            color="info"
+            @click="syncUsersWithCP"
+            :disabled="sync"
+          >
+            {{ $t('synchronize') }}
+            <v-progress-circular
+              v-if="sync"
+              size="14"
+              class="preloader-button"
+              indeterminate
+            ></v-progress-circular>
+          </v-btn>
         </div>
       </div>
       <div class="row">
-        <div class="row-item" style="flex-direction: column; align-items: baseline;">
-          <p>Last synchronization date</p>
-          <p>10 Oct 2018, 15:39</p>
-        </div>
-        <div class="row-item">
+        <div class="row-item last-sync-info">
+          <p class="last-sync-info__title">{{ $t('last.synchronization.date') }}</p>
+          <p>{{ syncTime }}</p>
         </div>
       </div>
     </div>
@@ -33,30 +39,58 @@
 </template>
 
 <script>
-const testUserData = {
-  firstName: 'Robert',
-  lastName: 'Smith',
-  email: 'robert.smith@gmail.com',
-  phone: '+19324392888',
-  backgroundColor: '#f8c37a',
-  initialsColor: '#b4681f',
-};
+import moment from 'moment';
+import { migrateUsers, lastSyncTime } from '@/services/synchronizationRepository';
+import { DATE_FORMATS } from '@/constants';
+import { successMessage, errorMessage } from '@/services/notifications';
+
+const { DEFAULT_DATE_FORMAT } = DATE_FORMATS;
+
+const ITEMS_TO_LOAD = 50;
+const OFFSET = 0;
 
 export default {
-  name: 'SupervisorSettingsProfile',
+  name: 'SynchronizationSettingsProfile',
   data() {
     return {
-      isEditMode: false,
-      isChangePasswordMode: false,
-      userInitial: {},
-      userEdited: {},
+      lastSyncTime: moment(),
+      sync: false,
     };
   },
   mounted() {
-    this.userInitial = { ...testUserData };
-    this.userEdited = { ...testUserData };
+    this.getLastSyncTime();
   },
-  methods: {},
+  computed: {
+    syncTime() {
+      const stillUtc = moment.utc(this.lastSyncTime).toDate();
+
+      return moment(stillUtc)
+        .local()
+        .format(DEFAULT_DATE_FORMAT);
+    },
+  },
+  methods: {
+    async syncUsersWithCP() {
+      try {
+        this.sync = true;
+        successMessage('sync.started', 'sync.info');
+        await migrateUsers({ offset: OFFSET, limit: ITEMS_TO_LOAD });
+        successMessage('sync.completed');
+        await this.getLastSyncTime();
+      } catch (e) {
+        console.error(e);
+      }
+      this.sync = false;
+    },
+    async getLastSyncTime() {
+      try {
+        this.lastSyncTime = await lastSyncTime();
+      } catch (e) {
+        console.error(e);
+        errorMessage('something.went.wrong', 'no.sync.occurred');
+      }
+    },
+  },
 };
 </script>
 
@@ -80,7 +114,28 @@ export default {
   background-color: $settings-main-background-color;
   box-shadow: $settings-box-shadow;
   height: max-content;
-  width: 400px;
+  width: 425px;
+
+  &__title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  button {
+    border-radius: 8px;
+    margin-left: 0;
+  }
+
+  .last-sync-info {
+    align-items: baseline;
+    flex-direction: column;
+    font-size: 14px;
+
+    &__title {
+      color: #999;
+      font-size: 12px;
+    }
+  }
 }
 .row {
   display: flex;
@@ -89,10 +144,6 @@ export default {
   &:first-child {
     margin-bottom: 28px;
   }
-  &:last-child {
-    margin-top: 10px;
-    justify-content: flex-end;
-  }
 }
 .row-item {
   flex: 1;
@@ -100,10 +151,6 @@ export default {
   flex-direction: row;
   display: flex;
   align-items: center;
-  &:last-child {
-    margin-right: 0;
-    justify-content: flex-end;
-  }
   &.avatar-switcher {
     @include scrollbar;
     justify-content: flex-start;
@@ -114,7 +161,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding-right: 50px;
-  max-width: 200px;
+  max-width: 265px;
 }
 .description-title {
   margin-bottom: 7px;
@@ -140,5 +187,9 @@ export default {
 }
 .change-password {
   font-size: 16px;
+}
+
+.preloader-button {
+  margin-left: 10px;
 }
 </style>

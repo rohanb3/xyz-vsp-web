@@ -36,6 +36,7 @@ import publicApi from '@/services/publicApi';
 import companiesApi from '@/services/companiesApi';
 import locationApi from '@/services/locationApi';
 import store from '@/store';
+import synchronizationApi from '@/services/synchronizationApi';
 
 Vue.use(Router);
 
@@ -221,5 +222,6 @@ applyAuthInterceptors(devicesApi, router);
 applyAuthInterceptors(publicApi, router);
 applyAuthInterceptors(companiesApi, router);
 applyAuthInterceptors(locationApi, router);
+applyAuthInterceptors(synchronizationApi, router);
 
 export default router;

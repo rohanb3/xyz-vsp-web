@@ -41,7 +41,7 @@ export default {
   margin-top: 18px;
 }
 .sidebar-container {
-  width: 140px;
+  width: 210px;
   box-shadow: 3px 0 4px 0 $lhs-shadow-color;
   background-color: $base-white;
   a {
