@@ -5,6 +5,7 @@
       icon
       small
       class="comments-button"
+      @click.prevent.stop="$emit('deviceIdSelected', item.id, 'comments')"
     >
       <v-icon class="comments-icon">comment</v-icon>
     </v-btn>

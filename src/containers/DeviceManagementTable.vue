@@ -47,6 +47,7 @@
     <device-details
       :selected-device-id="selectedDeviceId"
       :tableName="tableName"
+      :tab-name="tabName"
       v-if="deviceDetailsShow"
       @close="closeDeviceDetails"
     />
@@ -128,6 +129,7 @@ export default {
       deviceDetailsShow: false,
       isAddDevicePopupShown: false,
       selectedDeviceId: null,
+      tabName: '',
     };
   },
   computed: {
@@ -150,8 +152,9 @@ export default {
       this.$store.commit(SET_FILTER, data);
       this.$store.commit(APPLYING_FILTERS_DONE, DEVICE_HISTORY);
     },
-    onSelectId(deviceId) {
+    onSelectId(deviceId, tabName = 'details') {
       try {
+        this.tabName = tabName;
         this.selectedDeviceId = deviceId;
         this.setDeviceHsitorySelectedDevice(deviceId);
         const data = {

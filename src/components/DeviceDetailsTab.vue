@@ -117,7 +117,11 @@ export default {
       }`;
     },
     statusSince() {
-      return moment(this.selected.statusSince || moment()).format(DATE_FORMATS.DEFAULT_DATE_FORMAT);
+      const stillUtc = moment.utc(this.selected.statusSince || moment()).toDate();
+
+      return moment(stillUtc)
+        .local()
+        .format(DATE_FORMATS.DEFAULT_DATE_FORMAT);
     },
     isOnline() {
       return this.selected.isOnline;

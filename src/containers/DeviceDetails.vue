@@ -83,6 +83,10 @@ export default {
       type: String,
       default: '',
     },
+    tabName: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -135,6 +139,8 @@ export default {
   mounted() {
     this.selected = { ...this.selectedDevice };
     addBackgroundShadow();
+
+    this.tab = DEVICE_DETAILS_TABS.findIndex(item => item === this.tabName);
   },
   destroyed() {
     removeBackgroundShadow();
