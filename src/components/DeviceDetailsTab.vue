@@ -1,81 +1,83 @@
 <template>
   <div class="device-info">
-    <div class="details">
-      <div class="udid-info">
-        <div>{{ $t('udid') }}</div>
-        <p>{{ selected.udid }}</p>
-      </div>
-      <div>
-        <p>{{ $t('branch.location') }}</p>
+    <vue-perfect-scrollbar>
+      <div class="details">
+        <div class="udid-info">
+          <div>{{ $t('udid') }}</div>
+          <p>{{ selected.udid }}</p>
+        </div>
+        <div>
+          <p>{{ $t('branch.location') }}</p>
+          <form-input
+            :label="$t('latitude')"
+            :id="'Latitude'"
+            v-model="selected.latitude"
+            field="latitude"
+            inputType="number"
+            @change="onInputChange"
+          />
+        </div>
+        <company-select
+          v-if="selected && selected.company"
+          v-model="selected.company"
+        />
         <form-input
-          :label="$t('latitude')"
-          :id="'Latitude'"
-          v-model="selected.latitude"
-          field="latitude"
+          :label="$t('longitude')"
+          :id="'Longitude'"
+          v-model="selected.longitude"
+          field="longitude"
+          inputType="number"
+          @change="onInputChange"
+        />
+        <branch-select
+          v-if="selected && selected.branch"
+          :company-id="selected.company.id"
+          v-model="selected.branch"
+        />
+        <form-input
+          :label="$t('allowed.location.radius')"
+          :id="'radius'"
+          v-model="selected.radius"
+          field="radius"
           inputType="number"
           @change="onInputChange"
         />
       </div>
-      <company-select
-        v-if="selected && selected.company"
-        v-model="selected.company"
-      />
-      <form-input
-        :label="$t('longitude')"
-        :id="'Longitude'"
-        v-model="selected.longitude"
-        field="longitude"
-        inputType="number"
-        @change="onInputChange"
-      />
-      <branch-select
-        v-if="selected && selected.branch"
-        :company-id="selected.company.id"
-        v-model="selected.branch"
-      />
-      <form-input
-        :label="$t('allowed.location.radius')"
-        :id="'radius'"
-        v-model="selected.radius"
-        field="radius"
-        inputType="number"
-        @change="onInputChange"
-      />
-    </div>
-    <div class="current-device-info">
-      <div class="statuses">
-        <div>
-          {{ $t('status.since') }}
+      <div class="current-device-info">
+        <div class="statuses">
+          <div>
+            {{ $t('status.since') }}
+          </div>
+          <div class="status" :class="!isOnline ? 'offline' : null">
+            {{ statusSince }}
+          </div>
+          <div>
+            {{ $t('status') }}
+          </div>
+          <div class="status">
+            <span v-if="isOnline">{{ $t('online') }}</span>
+            <span v-else class="offline">{{ $t('offline') }}</span>
+          </div>
         </div>
-        <div class="status" :class="!isOnline ? 'offline' : null">
-          {{ statusSince }}
-        </div>
-        <div>
-          {{ $t('status') }}
-        </div>
-        <div class="status">
-          <span v-if="isOnline">{{ $t('online') }}</span>
-          <span v-else class="offline">{{ $t('offline') }}</span>
+        <div class="locations" v-if="isOnline">
+          <p class="current-location">
+            {{ $t('current.device.location') }}
+            <a
+              :href="mapLink"
+              class="show-on-maps"
+              target="_blank"
+              :title="$t('show.on.maps')"
+            >
+              <v-icon>maps</v-icon>
+            </a>
+          </p>
+          <p><span>{{ $t('latitude') }}</span></p>
+          <p>{{ selected.currentDeviceLocationLatitude }}</p>
+          <p><span>{{ $t('longitude') }}</span></p>
+          <p>{{ selected.currentDeviceLocationLongitude }}</p>
         </div>
       </div>
-      <div class="locations" v-if="isOnline">
-        <p class="current-location">
-          {{ $t('current.device.location') }}
-          <a
-            :href="mapLink"
-            class="show-on-maps"
-            target="_blank"
-            :title="$t('show.on.maps')"
-          >
-            <v-icon>maps</v-icon>
-          </a>
-        </p>
-        <p><span>{{ $t('latitude') }}</span></p>
-        <p>{{ selected.currentDeviceLocationLatitude }}</p>
-        <p><span>{{ $t('longitude') }}</span></p>
-        <p>{{ selected.currentDeviceLocationLongitude }}</p>
-      </div>
-    </div>
+    </vue-perfect-scrollbar>
     <div class="control" v-if="changes">
       <button @click="$emit('cancel')">{{ $t('cancel') }}</button>
       <button @click="$emit('save')" class="save">{{ $t('save ') }}</button>
@@ -84,6 +86,7 @@
 </template>
 
 <script>
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 import moment from 'moment';
 import { DATE_FORMATS } from '@/constants';
 import FormInput from './FormInput';
@@ -94,7 +97,7 @@ const GOOGLE_MAPS_URL = 'http://www.google.com/maps/place/';
 
 export default {
   name: 'DeviceDetailsTab',
-  components: { CompanySelect, BranchSelect, FormInput },
+  components: { VuePerfectScrollbar, CompanySelect, BranchSelect, FormInput },
   props: {
     tableName: {
       type: String,
@@ -117,7 +120,11 @@ export default {
       }`;
     },
     statusSince() {
-      return moment(this.selected.statusSince || moment()).format(DATE_FORMATS.DEFAULT_DATE_FORMAT);
+      const stillUtc = moment.utc(this.selected.statusSince || moment()).toDate();
+
+      return moment(stillUtc)
+        .local()
+        .format(DATE_FORMATS.DEFAULT_DATE_FORMAT);
     },
     isOnline() {
       return this.selected.isOnline;
