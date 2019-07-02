@@ -285,5 +285,18 @@
   "search.by.id.udid": "Search by ID UDID",
   "table.filter.placeholder.search": "Search...",
   "table.filter.clear.all": "Clear",
-  "table.filter.select.all": "Select All"
+  "table.filter.select.all": "Select All",
+
+  "template.list": "Template List",
+  "synchronization": "Synchronization",
+  "synchronize.users": "Synchronize your users",
+  "synchronize.users.description": "You can synchronize the users from the Cable Portal to XYZ system.",
+  "synchronize.users.description.hint": "Please, tap on the \"Synchronization\" button to start the synchronization process.",
+  "synchronization.with.cable.portal": "Synchronization with Cable Portal",
+  "synchronize": "Synchronize",
+  "last.synchronization.date": "Last synchronization date",
+  "sync.started": "Sync successfully initiated",
+  "sync.completed": "Sync completed",
+  "sync.info": "Synchronization may take a few minutes...",
+  "no.sync.occurred": "No sync occurred"
 }
