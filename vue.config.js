@@ -31,19 +31,19 @@ module.exports = {
         target: process.env.VUE_APP_PROXY_URL || 'https://ardas-xyz-vsp.firebaseapp.com',
       },
       '/api/identity/api': {
-        target: 'https://vsp.xyzies.ardas.biz/',
+        target: 'https://dev-portal.xyzvsp.com/',
         changeOrigin: true,
       },
       '/api/reviews/api': {
-        target: 'https://vsp.xyzies.ardas.biz/',
+        target: 'https://dev-portal.xyzvsp.com/',
         changeOrigin: true,
       },
       '/api/device-management-api/devices': {
-        target: 'https://vsp.xyzies.ardas.biz/',
+        target: 'https://dev-portal.xyzvsp.com/',
         changeOrigin: true,
       },
       '/api/public-api': {
-        target: 'https://reviews.xyzies.ardas.biz/',
+        target: 'https://dev-portal.xyzreviews.com/',
         changeOrigin: true,
       },
       '/api/video/calls': {
@@ -63,7 +63,7 @@ module.exports = {
         },
       },
       '/api/device-management-api/operatorSocket': {
-        target: 'https://vsp.xyzies.ardas.biz/',
+        target: 'https://dev-portal.xyzvsp.com/',
         ws: true,
         changeOrigin: true,
       },

@@ -72,7 +72,7 @@ export default {
     color: $base-white;
     font-size: 14px;
     font-weight: bold;
-    margin: 30px 20px 30px 0;
+    margin: 30px 20px 0 0;
     padding: 5px 15px;
 
     &.disabled {

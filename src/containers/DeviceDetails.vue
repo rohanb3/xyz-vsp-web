@@ -207,6 +207,8 @@ export default {
   }
 
   .device-info-tabs {
+    height: calc(100% - 50px);
+
     .v-window {
       height: 100%;
       &__container,
