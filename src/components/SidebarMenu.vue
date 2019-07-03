@@ -51,11 +51,11 @@ export default {
 .sidebar-link {
   display: flex;
   font-size: 12px;
-  color: $base-blue;
+  color: $base-text-color;
   margin-left: 21px;
   margin-bottom: 15px;
   &.sidebar-link-active {
-    color: $base-text-color;
+    color: $base-blue;
     cursor: default;
   }
 }
