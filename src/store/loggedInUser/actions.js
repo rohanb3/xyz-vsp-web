@@ -5,6 +5,8 @@ import {
   GET_PHOTO,
   GET_RESET_TOKEN,
   USER_LOGOUT,
+  UPDATE_PHOTO,
+  REMOVE_PHOTO,
 } from './actionTypes';
 
 import {
@@ -22,7 +24,11 @@ import {
   getAvatar,
   refreshToken as refreshTokenApi,
   verifyCode,
+  updateAvatar,
+  deleteAvatar,
 } from '@/services/identityRepository';
+
+import { RESPONSE_STATUSES } from '@/constants';
 
 export default {
   async [GET_PROFILE_DATA]({ commit }) {
@@ -58,5 +64,17 @@ export default {
   [USER_LOGOUT]({ commit }) {
     commit(REMOVE_TOKEN);
     commit(CLEAR_PROFILE_DATA);
+  },
+  async [UPDATE_PHOTO]({ state, dispatch }, formData) {
+    const { status } = await updateAvatar(state.profileData.objectId, formData);
+    if (status === RESPONSE_STATUSES.NO_CONTENT) {
+      dispatch(GET_PHOTO);
+    } else {
+      throw new Error();
+    }
+  },
+  async [REMOVE_PHOTO]({ commit, state }) {
+    await deleteAvatar(state.profileData.objectId);
+    commit(SET_PROFILE_DATA, { ...state.profileData, avatarLink: null });
   },
 };

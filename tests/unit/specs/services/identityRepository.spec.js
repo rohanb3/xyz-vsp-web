@@ -4,6 +4,8 @@ import {
   requestVerificationCode,
   verifyCode,
   resetPassword,
+  updateAvatar,
+  deleteAvatar,
 } from '@/services/identityRepository';
 import * as utils from '@/services/utils';
 import { RESPONSE_STATUSES } from '@/constants';
@@ -76,6 +78,34 @@ describe('identityRepository', () => {
         resetToken,
         password,
       });
+    });
+  });
+  describe('updateAvatar', () => {
+    it('should call api.put', async () => {
+      const id = 1;
+      const updates = {};
+
+      api.put = jest.fn(() => Promise.resolve());
+
+      await updateAvatar(id, updates);
+
+      expect(api.put).toHaveBeenCalledWith(`/users/${id}/avatar`, updates, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    });
+  });
+
+  describe('deleteAvatar', () => {
+    it('should cal api.delete', async () => {
+      const id = 1;
+
+      api.delete = jest.fn(() => Promise.resolve());
+
+      await deleteAvatar(id);
+
+      expect(api.delete).toHaveBeenCalledWith(`/users/${id}/avatar`);
     });
   });
 });
