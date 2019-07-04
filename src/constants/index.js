@@ -167,3 +167,28 @@ export const FILTER_NAMES_COMPANY_LIST = {
 export const COMPANY_LIST_COLUMNS_SORTED = {
   COMPANY_NAME: 'companyName',
 };
+
+export const DEVICE_LIST_COLUMNS_SORTED = {
+  IS_ONLINE: 'isOnline',
+  BRANCH_NAME: 'branchname',
+  ID: 'id',
+  UDID: 'udid',
+  STATUS_SINCE: 'statussince',
+  IS_IN_LOCATION: 'isinlocation',
+  COMPANY_NAME: 'companyname',
+  LOGGED_IN_AS: 'displayname',
+};
+
+export const FILTER_NAMES = {
+  SEARCH: 'SearchPhrase',
+  STATUS: 'isOnline',
+  FILTER_COMPANY_IDS: 'companyIds',
+  SORT_BY: 'SortBy',
+  ORDER: 'Order',
+  FILTER_BRANCH_IDS: 'BranchIds',
+};
+
+export const DEVICE_STATUS = {
+  ONLINE: true,
+  OFFLINE: false,
+};

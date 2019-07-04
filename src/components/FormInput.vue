@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     onInput(val) {
-      this.$emit('change', { value: +val.target.value, field: this.field });
+      this.$emit('change', { value: val.target.value, field: this.field });
     },
   },
 };

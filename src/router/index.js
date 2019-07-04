@@ -13,6 +13,7 @@ import Payments from '@/views/Payments';
 import SettingsPage from '@/views/SettingsPage';
 import SupervisorSettings from '@/views/SupervisorSettings';
 import SupervisorSettingsProfile from '@/views/SupervisorSettingsProfile';
+import SynchronizationSettingsProfile from '@/views/SynchronizationSettingsProfile';
 import Operators from '@/views/Operators';
 import CallPage from '@/views/CallPage';
 import SupervisorDashboard from '@/views/SupervisorDashboard';
@@ -32,7 +33,10 @@ import callsApi from '@/services/callsApi';
 import devicesApi from '@/services/devicesApi';
 import applyAuthInterceptors from '@/services/authInterceptors';
 import publicApi from '@/services/publicApi';
+import companiesApi from '@/services/companiesApi';
+import locationApi from '@/services/locationApi';
 import store from '@/store';
+import synchronizationApi from '@/services/synchronizationApi';
 
 Vue.use(Router);
 
@@ -156,6 +160,16 @@ const router = new Router({
                   name: 'supervisorSettingsPlans',
                   component: SupervisorSettingsProfile,
                 },
+                {
+                  path: 'template-list',
+                  name: 'supervisorSettingsTemplateList',
+                  component: SupervisorSettingsProfile,
+                },
+                {
+                  path: 'synchronization',
+                  name: 'supervisorSettingsSynchronization',
+                  component: SynchronizationSettingsProfile,
+                },
               ],
             },
             {
@@ -206,5 +220,8 @@ applyAuthInterceptors(branchesApi, router);
 applyAuthInterceptors(callsApi, router);
 applyAuthInterceptors(devicesApi, router);
 applyAuthInterceptors(publicApi, router);
+applyAuthInterceptors(companiesApi, router);
+applyAuthInterceptors(locationApi, router);
+applyAuthInterceptors(synchronizationApi, router);
 
 export default router;

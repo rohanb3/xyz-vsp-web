@@ -1,87 +1,82 @@
 <template>
   <div class="settings-container">
-    <div class="description">
-      <p class="description-title">{{$t("your.profile")}}</p>
-      <p class="description-content">{{$t("settings.your.profile.description")}}.</p>
-    </div>
-    <div class="main">
-      <div class="row">
-        <div class="row-item">
-          <avatar-uploader
-            :src="userEdited.src"
-            :backgroundColor="userEdited.backgroundColor"
-            :initialsColor="userEdited.initialsColor"
-            :onChange="onAvatarChange"
-            :editable="isEditMode"
-            :firstName="userInitial.firstName"
-            :lastName="userInitial.lastName"
-          ></avatar-uploader>
-        </div>
-        <div class="row-item avatar-switcher">
-          <avatar-switcher v-if="isEditMode" :onChange="onAvatarChangeFromSwitcher"/>
-        </div>
+    <div class="your-profile">
+      <div class="description">
+        <p class="description-title">{{ $t('your.profile') }}</p>
+        <p class="description-content">{{ $t('settings.your.profile.description') }}.</p>
       </div>
-      <div class="row">
-        <div class="row-item">
-          <v-text-field
-            :disabled="!isEditMode"
-            v-model="userEdited.firstName"
-            :label="$t('first.name')"
-          ></v-text-field>
-        </div>
-        <div class="row-item">
-          <v-text-field
-            :disabled="!isEditMode"
-            v-model="userEdited.lastName"
-            :label="$t('last.name')"
-          ></v-text-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="row-item">
-          <v-text-field
-            :disabled="!isEditMode"
-            v-model="userEdited.email"
-            :label="$t('personal.email')"
-          ></v-text-field>
-        </div>
-        <div class="row-item">
-          <v-text-field
-            :disabled="!isEditMode"
-            v-model="userEdited.phone"
-            :label="$t('personal.phone')"
-          ></v-text-field>
-        </div>
-      </div>
-      <div v-if="isChangePasswordMode" class="row">
-        <div class="row-item">
-          <v-text-field
-            :disabled="!isEditMode"
-            type="password"
-            v-model="userEdited.oldPassword"
-            :label="$t('enter.old.password')"
-          ></v-text-field>
-        </div>
-        <div class="row-item">
-          <v-text-field
-            :disabled="!isEditMode"
-            type="password"
-            v-model="userEdited.newPassword"
-            :label="$t('enter.new.password')"
-          ></v-text-field>
-        </div>
-      </div>
-      <div class="row">
-        <div class="row-item">
-          <a
-            v-if="isEditMode && !isChangePasswordMode"
-            @click="onChangePassword"
-            class="change-password"
-          >{{$t('change.password')}}</a>
-        </div>
-        <div class="row-item">
-          <Button v-if="!isEditMode" class="action-button" @click="onEdit">{{$t('edit')}}</Button>
-          <Button v-else class="action-button" @click="onSave">{{$t('save')}}</Button>
+      <div class="main">
+        <div class="content">
+          <v-container fluid>
+            <v-layout row mb-4>
+              <v-flex order-lg2>
+                <div class="user">
+                  <user-avatar
+                    class="user-avatar"
+                    size="54px"
+                    initialsSize="20px"
+                    :backgroundColor="avatar.backgroundColor"
+                    :initialsColor="avatar.initialsColor"
+                    :firstName="user.givenName"
+                    :lastName="user.surname"
+                    :src="user.avatarLink"
+                  />
+                  <v-layout row mb-2>
+                    <v-flex>
+                      <p class="profile-username">{{ `${user.givenName} ${user.surname}` }}</p>
+                      <p class="avatar-panel">
+                        <a href="#" @click.prevent="onChangePhoto">
+                          {{ $t('settings.your.change.photo') }}
+                        </a>
+                        <a href="#" @click.prevent="onRemovePhoto">
+                          {{ $t('settings.your.remove.photo') }}
+                        </a>
+                        <input
+                          class="field-file-hidden"
+                          ref="fieldFilePhoto"
+                          type="file"
+                          accept="image/png, image/jpeg"
+                          @change="onSelectedFile"
+                        />
+                      </p>
+                    </v-flex>
+                  </v-layout>
+                </div>
+              </v-flex>
+            </v-layout>
+            <v-layout row mb-2>
+              <v-flex md6>
+                <v-text-field
+                  :value="user.givenName || ' '"
+                  disabled
+                  :label="$t('first.name')"
+                ></v-text-field>
+              </v-flex>
+              <v-flex md6 ml-5>
+                <v-text-field
+                  :value="user.surname || ' '"
+                  disabled
+                  :label="$t('last.name')"
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
+            <v-layout row mb-2>
+              <v-flex md6>
+                <v-text-field
+                  :value="user.email || ' '"
+                  disabled
+                  :label="$t('personal.email')"
+                ></v-text-field>
+              </v-flex>
+              <v-flex md6 ml-5>
+                <v-text-field
+                  :value="user.phone || ' '"
+                  disabled
+                  :label="$t('personal.phone')"
+                ></v-text-field>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </div>
       </div>
     </div>
@@ -89,150 +84,148 @@
 </template>
 
 <script>
-import AvatarUploader from '@/components/AvatarUploader';
-import AvatarSwitcher from '@/components/AvatarSwitcher';
-
-const testUserData = {
-  firstName: 'Robert',
-  lastName: 'Smith',
-  email: 'robert.smith@gmail.com',
-  phone: '+19324392888',
-  backgroundColor: '#f8c37a',
-  initialsColor: '#b4681f',
-};
+import UserAvatar from '@/components/UserAvatar';
+import { UPDATE_PHOTO, REMOVE_PHOTO } from '@/store/loggedInUser/actionTypes';
+import { errorMessage } from '@/services/notifications';
 
 export default {
-  name: 'SupervisorSettingsProfile',
-  components: { AvatarUploader, AvatarSwitcher },
+  name: 'SettingsProfile',
+  components: { UserAvatar },
   data() {
     return {
-      isEditMode: false,
-      isChangePasswordMode: false,
-      userInitial: {},
-      userEdited: {},
+      avatar: {
+        backgroundColor: '#f8c37a',
+        initialsColor: '#b4681f',
+      },
     };
   },
-  mounted() {
-    this.userInitial = { ...testUserData };
-    this.userEdited = { ...testUserData };
+  computed: {
+    user() {
+      return this.$store.state.loggedInUser.profileData;
+    },
   },
   methods: {
-    onSave() {
-      this.isEditMode = false;
-      this.isChangePasswordMode = false;
-      this.userInitial = { ...this.userEdited };
-      URL.revokeObjectURL(this.userEdited.src);
+    onChangePhoto() {
+      this.$refs.fieldFilePhoto.click();
     },
-    onChangePassword() {
-      this.isChangePasswordMode = true;
+    async onSelectedFile(event) {
+      const photo = event.target.files[0];
+      const formData = new FormData();
+      formData.append('avatar', photo, photo.name);
+      try {
+        await this.$store.dispatch(UPDATE_PHOTO, formData);
+      } catch (e) {
+        const {
+          response: {
+            data: { errors: message },
+          },
+        } = e;
+
+        const error = message.Avatar[0];
+
+        errorMessage('settings.your.failed.to.upload.photo', error);
+      }
     },
-    onEdit() {
-      this.isEditMode = true;
-    },
-    onAvatarChange(e) {
-      const { files } = e.target;
-      this.userEdited = {
-        ...this.userEdited,
-        src: URL.createObjectURL(files[0]),
-        backgroundColor: '',
-        initialsColor: '',
-      };
-    },
-    onAvatarChangeFromSwitcher(avatar) {
-      if (avatar.src) {
-        this.userEdited = {
-          ...this.userEdited,
-          src: avatar.src,
-          backgroundColor: '',
-          initialsColor: '',
-        };
-      } else if (avatar.backgroundColor && avatar.initialsColor) {
-        this.userEdited = {
-          ...this.userEdited,
-          src: '',
-          backgroundColor: avatar.backgroundColor,
-          initialsColor: avatar.initialsColor,
-        };
+    async onRemovePhoto() {
+      try {
+        await this.$store.dispatch(REMOVE_PHOTO);
+      } catch {
+        this.$notify({
+          group: 'notifications',
+          title: this.$t('settings.your.failed.to.remove.photo'),
+          type: 'error',
+        });
       }
     },
   },
 };
 </script>
 
+<style lang="scss">
+@import '~@/assets/styles/variables.scss';
+.settings-container {
+  .your-profile {
+    .theme--light.v-input:not(.v-input--is-disabled) input {
+      font-size: 20px;
+      color: $settings-text-color;
+    }
+    .theme--light.v-label {
+      color: $settings-text-color;
+    }
+    .theme--light.v-input--is-disabled input {
+      color: $settings-text-color;
+    }
+  }
+}
+</style>
+
 <style scoped lang="scss">
 @import '~@/assets/styles/variables.scss';
-@import '@/assets/styles/mixins.scss';
-
 .settings-container {
   padding: 25px 41px 40px 32px;
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  font-size: 12px;
-}
-.main {
-  padding: 28px 38px;
+  min-width: 880px;
+  max-width: 1360px;
   display: flex;
   flex-direction: column;
-  flex: 4;
-  border-radius: 8px;
-  background-color: $settings-main-background-color;
-  box-shadow: $settings-box-shadow;
-  height: max-content;
-}
-.row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  &:first-child {
-    margin-bottom: 28px;
-  }
-  &:last-child {
-    margin-top: 10px;
-    justify-content: flex-end;
+  font-size: 12px;
+  .main {
+    padding: 20px 18px;
+    display: flex;
+    border-radius: 8px;
+    background-color: $settings-main-background-color;
+    box-shadow: $settings-box-shadow;
   }
 }
-.row-item {
-  flex: 1;
-  margin-right: 40px;
-  flex-direction: row;
+.your-profile {
+  margin-bottom: 29px;
   display: flex;
-  align-items: center;
-  &:last-child {
-    margin-right: 0;
-    justify-content: flex-end;
-  }
-  &.avatar-switcher {
-    @include scrollbar;
-    justify-content: flex-start;
-    overflow: auto;
+  .main {
+    width: 100%;
+    .content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      .profile-username {
+        padding: 0 0 3px 4px;
+        font-size: 18px;
+        color: $settings-title-color;
+      }
+      .user {
+        align-items: flex-start;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .user-avatar {
+          margin: 7px;
+        }
+
+        .avatar-panel a {
+          padding: 4px;
+        }
+
+        .field-file-hidden {
+          display: none;
+        }
+      }
+    }
   }
 }
 .description {
+  width: 35%;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  padding-right: 50px;
-}
-.description-title {
-  margin-bottom: 7px;
-  font-size: 16px;
-  color: $settings-description-title-color;
-  font-weight: bold;
-}
-.description-content {
-  font-size: 12px;
-  color: $settings-description-content-color;
-}
-.action-button {
-  background-color: $base-green;
-  border-radius: 4px;
-  color: $base-white;
-  font-size: 14px;
-  font-weight: bold;
-  padding: 4px 18px;
-}
-.change-password {
-  font-size: 16px;
+  .description-title {
+    margin-bottom: 7px;
+    font-size: 16px;
+    color: $settings-description-title-color;
+    font-weight: bold;
+  }
+  .description-content {
+    max-width: 70%;
+    font-size: 12px;
+    color: $settings-description-content-color;
+  }
 }
 </style>

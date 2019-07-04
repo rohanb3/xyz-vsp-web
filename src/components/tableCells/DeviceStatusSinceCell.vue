@@ -3,7 +3,7 @@
     class='device-status-since-cell'
     :class="{ 'device-online': item.isOnline, 'device-oflline': !item.isOnline }"
   >
-    {{ date || watchedDate }}
+    {{ date }}
   </div>
 </template>
 
@@ -32,7 +32,13 @@ export default {
   },
   computed: {
     date() {
-      return this.item.statusSince ? moment(this.item.statusSince).format(DEFAULT_DATE_FORMAT) : '';
+      const stillUtc = moment.utc(this.item.statusSince).toDate();
+
+      return this.item.statusSince
+        ? moment(stillUtc)
+            .local()
+            .format(DEFAULT_DATE_FORMAT)
+        : '';
     },
     isOnline() {
       return this.item.isOnline;

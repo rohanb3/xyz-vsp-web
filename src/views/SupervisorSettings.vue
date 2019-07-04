@@ -15,13 +15,21 @@ const sidebarLinks = [
     titleKey: 'profile',
     link: 'profile',
   },
+  // {
+  //   titleKey: 'company',
+  //   link: 'company',
+  // },
+  // {
+  //   titleKey: 'plans',
+  //   link: 'plans',
+  // },
+  // {
+  //   titleKey: 'template.list',
+  //   link: 'template-list',
+  // },
   {
-    titleKey: 'company',
-    link: 'company',
-  },
-  {
-    titleKey: 'plans',
-    link: 'plans',
+    titleKey: 'synchronization',
+    link: 'synchronization',
   },
 ];
 

@@ -1,3 +1,5 @@
+import { DEVICE_LIST_COLUMNS_SORTED } from '@/constants';
+
 export default () => [
   {
     name: 'id',
@@ -7,6 +9,8 @@ export default () => [
     class: 'text',
     width: '2',
     minWidth: '50px',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.ID,
+    fieldHeaderType: 'sortingHeader',
   },
   {
     name: 'udid',
@@ -16,6 +20,8 @@ export default () => [
     title: 'udid.idfv',
     width: '2',
     minWidth: '50px',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.UDID,
+    fieldHeaderType: 'sortingHeader',
   },
   {
     name: 'statusSince',
@@ -25,15 +31,19 @@ export default () => [
     width: '2',
     class: 'text',
     minWidth: '80px',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.STATUS_SINCE,
+    fieldHeaderType: 'sortingHeader',
   },
   {
     name: 'status',
     field: 'isOnline',
     fieldType: 'status',
     class: 'text',
-    title: 'status',
+    title: 'Status',
     width: '2',
     minWidth: '60px',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.IS_ONLINE,
+    fieldHeaderType: 'sortingHeader',
   },
   {
     name: 'locationStatus',
@@ -59,6 +69,8 @@ export default () => [
     width: '2',
     class: 'text',
     minWidth: '65px',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.BRANCH_NAME,
+    fieldHeaderType: 'sortingHeader',
   },
   {
     name: 'company',
@@ -68,6 +80,8 @@ export default () => [
     width: '2',
     class: 'text',
     minWidth: '50px',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.COMPANY_NAME,
+    fieldHeaderType: 'sortingHeader',
   },
   {
     name: 'loggedInAs',
@@ -78,5 +92,7 @@ export default () => [
     class: 'text',
     minWidth: '40px',
     placeholder: '-',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.LOGGED_IN_AS,
+    fieldHeaderType: 'sortingHeader',
   },
 ];

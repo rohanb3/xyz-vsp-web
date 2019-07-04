@@ -1,7 +1,15 @@
 <template>
   <div class="device-management-table">
     <div class="device-management-table-toolbar">
-      <div class="devices-amount">{{ $t('device.management') }}</div>
+      <!--<div class="devices-amount">{{ $t('device.management') }}</div>-->
+      <table-toolbar :title="'device.management'" :table-name="tableName">
+        <div slot="filters" class="table-filter-container">
+          <quick-search-filter :table-name="tableName" :placeholder="'search.by.id.udid'" />
+          <device-status :table-name="tableName" />
+          <company-filter :table-name="tableName" />
+          <branch-filter :table-name="tableName" />
+        </div>
+      </table-toolbar>
       <!-- <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
         <v-icon class="add-icon">add_circle</v-icon>
         {{ $t('add.device') }}
@@ -12,6 +20,7 @@
       ref="devicesTable"
       :table-name="tableName"
       :disabled-item-field-selector="isDevicePending"
+      :scroll-on-items-adding="false"
     >
       <component
         slot="row-cell"
@@ -31,10 +40,14 @@
       @close="closeAddDevicePopup"
       @saveDevice="onSaveDevice"
     />
-    <device-management-updates :devices="rows" />
+    <device-management-updates
+      :devices="rows"
+      @update="updateDevices"
+    />
     <device-details
       :selected-device-id="selectedDeviceId"
       :tableName="tableName"
+      :tab-name="tabName"
       v-if="deviceDetailsShow"
       @close="closeDeviceDetails"
     />
@@ -65,12 +78,22 @@ import { addBackgroundShadow, removeBackgroundShadow } from '@/services/backgrou
 
 import { updateDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
+import TableToolbar from '../components/TableToolbar';
+import QuickSearchFilter from './QuickSearchFilter';
+import DeviceStatus from './DeviceStatus';
+import CompanyFilter from './CompanyFilter';
+import BranchFilter from './BranchFilter';
 
 const { DEVICES, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceManagementTable',
   components: {
+    BranchFilter,
+    CompanyFilter,
+    DeviceStatus,
+    QuickSearchFilter,
+    TableToolbar,
     LazyLoadTable,
     DefaultHeaderCell,
     DefaultCell,
@@ -106,6 +129,7 @@ export default {
       deviceDetailsShow: false,
       isAddDevicePopupShown: false,
       selectedDeviceId: null,
+      tabName: '',
     };
   },
   computed: {
@@ -128,8 +152,9 @@ export default {
       this.$store.commit(SET_FILTER, data);
       this.$store.commit(APPLYING_FILTERS_DONE, DEVICE_HISTORY);
     },
-    onSelectId(deviceId) {
+    onSelectId(deviceId, tabName = 'details') {
       try {
+        this.tabName = tabName;
         this.selectedDeviceId = deviceId;
         this.setDeviceHsitorySelectedDevice(deviceId);
         const data = {
@@ -170,6 +195,9 @@ export default {
     },
     isDevicePending(item) {
       return item.isPending;
+    },
+    async updateDevices() {
+      await this.$refs.devicesTable.loadItems();
     },
   },
 };
@@ -263,5 +291,11 @@ export default {
     width: 16px;
     height: 16px;
   }
+}
+
+.table-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 </style>
