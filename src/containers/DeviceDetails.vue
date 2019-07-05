@@ -171,6 +171,7 @@ export default {
         data.latitude = this.selected.latitude;
         data.longitude = this.selected.longitude;
         data.radius = this.selected.radius;
+        data.udid = this.selected.udid;
 
         await this.$store.dispatch(UPDATE_ITEM, {
           itemType: ENTITY_TYPES.DEVICES,
