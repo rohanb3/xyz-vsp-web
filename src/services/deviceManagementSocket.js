@@ -27,6 +27,8 @@ export function connect(onDeviceUpdated = () => {}, onDeviceAdded = () => {}) {
 }
 
 export function disconnect() {
+  hubConnection.off(DEVICE_UPDATED);
+  hubConnection.off(DEVICE_ADDED);
   return hubConnection.stop();
 }
 
