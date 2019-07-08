@@ -173,10 +173,12 @@ export default {
         data.radius = this.selected.radius;
         data.udid = this.selected.udid;
 
+        const { isInLocation, isOnline, ...mixin } = this.selected;
+
         await this.$store.dispatch(UPDATE_ITEM, {
           itemType: ENTITY_TYPES.DEVICES,
           id: this.selected.id,
-          mixin: this.selected,
+          mixin,
           ...data,
         });
 
