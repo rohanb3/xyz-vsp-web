@@ -9,11 +9,13 @@
 
 <script>
 import SidebarMenu from '../components/SidebarMenu';
+import { ROLE_TYPES } from '@/constants';
 
 const sidebarLinks = [
   {
     titleKey: 'profile',
     link: 'profile',
+    hide: [],
   },
   // {
   //   titleKey: 'company',
@@ -30,6 +32,7 @@ const sidebarLinks = [
   {
     titleKey: 'synchronization',
     link: 'synchronization',
+    hide: [ROLE_TYPES.SUPPORT_ADMIN],
   },
 ];
 

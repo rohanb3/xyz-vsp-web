@@ -28,12 +28,12 @@
           </v-btn>
         </div>
       </div>
-      <div class="row">
-        <div class="row-item last-sync-info">
-          <p class="last-sync-info__title">{{ $t('last.synchronization.date') }}</p>
-          <p>{{ syncTime }}</p>
-        </div>
-      </div>
+      <!--<div class="row">-->
+        <!--<div class="row-item last-sync-info">-->
+          <!--<p class="last-sync-info__title">{{ $t('last.synchronization.date') }}</p>-->
+          <!--<p>{{ syncTime }}</p>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 </template>
