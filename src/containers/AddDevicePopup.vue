@@ -126,6 +126,7 @@ export default {
         const deviceInfo = {
           ...this.deviceInfo,
           id: this.selectedDevice.id,
+          udid: this.selectedDevice.udid,
         };
         this.$emit('saveDevice', deviceInfo);
         this.discardChanges();
