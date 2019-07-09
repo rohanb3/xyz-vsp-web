@@ -43,8 +43,10 @@
               <div class="agreement">
                 <v-checkbox class="checkbox-input" v-model="agreement" :hide-details="true"></v-checkbox>
                 <div>
-                  <span>{{ $t('i.agree.to.the') }}</span>
-                  <a class="link">{{ $t('terms.and.conditions') }}</a>
+                  <span>{{ $t('i.agree.to.the') }} </span>
+                  <a class="link" target="_blank" :href="linkPrivacyPolicy">
+                    {{ $t('terms.and.conditions') }}
+                  </a>
                 </div>
               </div>
               <v-btn
@@ -79,6 +81,11 @@ export default {
         v => emailValidatorRegExp.test(v) || this.$t('email.should.be.valid'),
       ],
     };
+  },
+  computed: {
+    linkPrivacyPolicy() {
+      return 'https://xyzreviews.com/privacy-policy/';
+    },
   },
   methods: {
     async submit() {
