@@ -3,7 +3,7 @@
     <div class="sidebar-title">{{title}}</div>
     <nav class="menu-container">
       <router-link
-        v-for="item in links"
+        v-for="item in filteredLinks"
         :key="item.link"
         :to="item.link"
         active-class="sidebar-link-active"
@@ -24,6 +24,14 @@ export default {
     links: {
       type: Array,
       default: () => [],
+    },
+  },
+  computed: {
+    role() {
+      return this.$store.getters.role;
+    },
+    filteredLinks() {
+      return this.links.filter(link => !link.hide.includes(this.role));
     },
   },
 };
