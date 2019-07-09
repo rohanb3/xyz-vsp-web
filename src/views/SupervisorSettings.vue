@@ -14,6 +14,7 @@ const sidebarLinks = [
   {
     titleKey: 'profile',
     link: 'profile',
+    hide: [],
   },
   // {
   //   titleKey: 'company',
@@ -30,6 +31,7 @@ const sidebarLinks = [
   {
     titleKey: 'synchronization',
     link: 'synchronization',
+    hide: ['supportadmin'],
   },
 ];
 
