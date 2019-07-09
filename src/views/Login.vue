@@ -52,8 +52,11 @@
               <v-btn
                 @click="submit"
                 class="button"
-                :disabled="!valid || !agreement"
-              >{{ $t('login') }}</v-btn>
+                :disabled="isLoginButtonDisabled"
+              >
+                <v-progress-circular v-if="loading" indeterminate color="primary" size="20"/>
+                <span v-else>{{ $t('login') }}</span>
+              </v-btn>
             </v-form>
           </div>
         </div>
@@ -72,6 +75,7 @@ export default {
     return {
       valid: false,
       agreement: false,
+      loading: false,
       password: '',
       email: '',
       e1: true,
@@ -86,11 +90,15 @@ export default {
     linkPrivacyPolicy() {
       return 'https://xyzreviews.com/privacy-policy/';
     },
+    isLoginButtonDisabled() {
+      return !this.valid || !this.agreement || this.loading;
+    },
   },
   methods: {
     async submit() {
       const { email, password } = this;
-      if (this.$refs.form.validate() && this.agreement) {
+      if (this.$refs.form.validate() && this.agreement && !this.loading) {
+        this.loading = true;
         try {
           await this.$store.dispatch(LOGIN, { email, password });
           await this.$store.dispatch(GET_PROFILE_DATA);
@@ -101,6 +109,8 @@ export default {
             title: 'Login failed',
             type: 'error',
           });
+        } finally {
+          this.loading = false;
         }
       }
     },
