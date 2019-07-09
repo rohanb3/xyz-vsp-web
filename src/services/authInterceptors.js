@@ -31,8 +31,11 @@ function setToken(accessToken, refreshToken) {
 
 const debounceSetToken = debounce(setToken, SET_TOKEN_TIMEOUT);
 
-async function errorResponseInterceptor(data, router) {
-  if (isUnauthorized(data.response.status, data.response.headers['www-authenticate'])) {
+async function errorResponseInterceptor(error, router) {
+  const isTokenExpired =
+    error.response &&
+    isUnauthorized(error.response.status, error.response.headers['www-authenticate']);
+  if (isTokenExpired) {
     try {
       const { data: result } = await store.dispatch(REFRESH_TOKEN);
 
@@ -40,12 +43,12 @@ async function errorResponseInterceptor(data, router) {
 
       debounceSetToken(accessToken, refreshToken);
 
-      const { headers } = data.config;
+      const { headers } = error.config;
       headers.Authorization = `Bearer ${accessToken}`;
 
       return axios.request({
-        ...data.config,
-        url: data.config.url.replace(data.config.baseURL, ''),
+        ...error.config,
+        url: error.config.url.replace(error.config.baseURL, ''),
         ...headers,
       });
     } catch {
@@ -53,7 +56,7 @@ async function errorResponseInterceptor(data, router) {
       router.push({ name: ROUTE_NAMES.LOGIN });
     }
   }
-  throw data;
+  throw error;
 }
 
 export default function interceptors(instance, router) {
