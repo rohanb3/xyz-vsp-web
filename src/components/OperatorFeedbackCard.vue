@@ -41,7 +41,9 @@
         class="labelled-description note"
       >
         <div class="label">{{ $t('note') }}</div>
-        <div class="description">{{ message }}</div>
+        <vue-perfect-scrollbar>
+          <div class="description">{{ message }}</div>
+        </vue-perfect-scrollbar>
       </div>
 
     </div>
@@ -49,11 +51,13 @@
 </template>
 
 <script>
+import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
 
 export default {
   name: 'OperatorFeedbackCard',
   components: {
+    VuePerfectScrollbar,
     TableFullHeightBalloon,
   },
   props: {
@@ -86,3 +90,17 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+@import '~@/assets/styles/variables.scss';
+
+.labelled-description.note {
+  .ps-container {
+    max-height: calc(100vh - #{$header-height} - 250px);
+  }
+
+  .description {
+    padding-right: 5px;
+  }
+}
+</style>
