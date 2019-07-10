@@ -301,5 +301,6 @@
   "no.sync.occurred": "No sync occurred",
   "settings.your.change.photo": "Change Photo",
   "settings.your.remove.photo": "Remove Photo",
-  "settings.your.failed.to.upload.photo": "Failed to upload photo"
+  "settings.your.failed.to.upload.photo": "Failed to upload photo",
+  "hexnodeUdid": "Hexnode UDID"
 }

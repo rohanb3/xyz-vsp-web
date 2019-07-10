@@ -3,9 +3,26 @@
     <vue-perfect-scrollbar>
       <div class="details">
         <div class="udid-info">
-          <div>{{ $t('udid') }}</div>
+          <div>{{ $t('idfv') }}</div>
           <p>{{ selected.udid }}</p>
         </div>
+        <form-input
+          v-model="selected.name"
+          field="name"
+          inputType="text"
+          :label="$t('name')"
+          :id="'name'"
+          @change="onInputChange"
+        />
+        <form-input
+          v-model="selected.hexnodeUdid"
+          field="hexnodeUdid"
+          inputType="text"
+          :label="$t('hexnodeUdid')"
+          :id="'hexnodeUdid'"
+          @change="onInputChange"
+          style="align-self: flex-end"
+        />
         <div>
           <p>{{ $t('branch.location') }}</p>
           <form-input
