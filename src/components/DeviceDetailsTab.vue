@@ -3,7 +3,7 @@
     <vue-perfect-scrollbar>
       <div class="details">
         <div class="udid-info">
-          <div>{{ $t('udid') }}</div>
+          <div>{{ $t('idfv') }}</div>
           <p>{{ selected.udid }}</p>
         </div>
         <div>
