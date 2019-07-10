@@ -107,6 +107,9 @@ const router = new Router({
               path: 'calls',
               name: 'calls',
               component: Calls,
+              beforeEnter(to, from, next) {
+                next({ name: 'dashboard' });
+              },
             },
             {
               path: 'devices',
@@ -185,7 +188,7 @@ const router = new Router({
                 if (store.getters.isOperatorOnCall) {
                   next();
                 } else {
-                  next({ name: 'calls' });
+                  next({ name: 'dashboard' });
                 }
               },
             },
@@ -203,7 +206,7 @@ const router = new Router({
         },
       ],
     },
-    { path: '*', redirect: { name: 'calls' } },
+    { path: '*', redirect: { name: 'dashboard' } },
   ],
 });
 

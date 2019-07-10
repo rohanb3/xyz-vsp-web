@@ -41,7 +41,7 @@
       </div>
     </router-link>-->
 
-    <router-link :to="{ name: 'dashboard' }" class="lhs-item-link">
+    <router-link :to="{ name: 'dashboard' }" :title="getDashboardTitle" class="lhs-item-link">
       <div class="lhs-item">
         <v-icon class="item-icon">view_compact</v-icon>
       </div>
@@ -52,13 +52,13 @@
         <!--<v-icon class="item-icon secondary-icon">list</v-icon>-->
       <!--</div>-->
     <!--</router-link>-->
-    <router-link v-if="!isSupportAdmin" :to="{ name: 'devices' }" class="lhs-item-link">
+    <router-link v-if="!isSupportAdmin" :to="{ name: 'devices' }" :title="getDeviceManagmentTitle" class="lhs-item-link">
       <div class="lhs-item">
         <v-icon class="item-icon">tablet_mac</v-icon>
       </div>
     </router-link>
     <v-spacer class="spacer"/>
-    <router-link :to="{ name: 'supervisorSettingsProfile' }" class="lhs-item-link">
+    <router-link :to="{ name: 'supervisorSettingsProfile' }" :title="getSettingsTitle" class="lhs-item-link">
       <div class="lhs-item">
         <v-icon class="item-icon">settings</v-icon>
       </div>
@@ -73,6 +73,15 @@ export default {
   name: 'lhs',
   computed: {
     ...mapGetters(['isSupportAdmin']),
+    getDashboardTitle() {
+      return this.$t('dashboard');
+    },
+    getDeviceManagmentTitle() {
+      return this.$t('device.management');
+    },
+    getSettingsTitle() {
+      return this.$t('settings');
+    },
   },
 };
 </script>
