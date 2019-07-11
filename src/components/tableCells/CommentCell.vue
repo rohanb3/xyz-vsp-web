@@ -19,14 +19,14 @@
     >
 
       <v-card>
-        <v-card-text>
+        <v-card-text class="comment-info">
           <div>
             <p class="field-title">{{ $t('author') }}:</p>
             <p>{{ getAuthor }}</p>
           </div>
         </v-card-text>
         <v-divider></v-divider>
-        <v-card-text>
+        <v-card-text class="comment-info">
           <div>
             <p class="field-title">{{ $t('date.time') }}:</p>
             <p>{{ getDate }}</p>
@@ -112,5 +112,10 @@ export default {
 .field-title {
   color: $base-text-color;
   font-weight: bold;
+}
+
+.comment-info {
+  min-height: 70px;
+  overflow-y: hidden !important;
 }
 </style>
