@@ -325,7 +325,7 @@ export default {
     leaveScreen() {
       this.counter = 0;
       this.$store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
-      this.$router.replace({ name: 'calls' });
+      this.$router.replace({ name: 'dashboard' });
     },
     checkAndLoadCallTypesAndDispositions() {
       if (!this.callTypes.length || !this.callDispositions.length) {
