@@ -264,5 +264,6 @@
     "no.sync.occurred": "TBD No sync occurred",
     "settings.your.change.photo": "TBD Change Photo",
     "settings.your.remove.photo": "TBD Remove Photo",
-    "settings.your.failed.to.upload.photo": "TBD Failed to upload photo"
+    "settings.your.failed.to.upload.photo": "TBD Failed to upload photo",
+    "map": "Map"
 }

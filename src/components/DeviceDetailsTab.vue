@@ -68,7 +68,8 @@
               target="_blank"
               :title="$t('show.on.maps')"
             >
-              <v-icon>maps</v-icon>
+              <img :src="mapIcon" alt="">
+              <span>{{ $t('map') }}</span>
             </a>
           </p>
           <p><span>{{ $t('latitude') }}</span></p>
@@ -92,6 +93,7 @@ import { DATE_FORMATS } from '@/constants';
 import FormInput from './FormInput';
 import BranchSelect from './BranchSelect';
 import CompanySelect from './CompanySelect';
+import mapIcon from '@/assets/icons/google.svg';
 
 const GOOGLE_MAPS_URL = 'http://www.google.com/maps/place/';
 
@@ -128,6 +130,9 @@ export default {
     },
     isOnline() {
       return this.selected.isOnline;
+    },
+    mapIcon() {
+      return mapIcon;
     },
   },
   methods: {
@@ -293,15 +298,19 @@ export default {
 
         &.current-location {
           display: flex;
-          justify-content: space-between;
+          /*justify-content: space-between;*/
           font-size: 14px;
         }
 
         .show-on-maps {
+          align-items: center;
+          display: flex;
+          margin-left: 30px;
           text-decoration: none;
 
-          i {
-            font-size: 20px;
+          img {
+            margin-right: 5px;
+            width: 20px;
           }
         }
 
