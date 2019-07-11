@@ -45,7 +45,7 @@ export default {
       },
     },
     disabled() {
-      return !this.branches.length;
+      return !this.branches.length || !this.companyId;
     },
   },
   watch: {
