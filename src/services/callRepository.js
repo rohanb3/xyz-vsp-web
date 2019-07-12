@@ -1,5 +1,5 @@
 import callsApi from '@/services/callsApi';
-import { DISPOSITIONS } from '@/constants';
+import { CALL_DISPOSITIONS, CALL_TYPES } from '@/constants';
 
 export const getCalls = filters => {
   const params = { ...filters };
@@ -8,8 +8,8 @@ export const getCalls = filters => {
 
 export const getCallsTypes = () =>
   Promise.resovle({
-    callTypes: ['info', 'help', 'sale'],
-    dispositions: [...DISPOSITIONS],
+    callTypes: [...CALL_TYPES],
+    dispositions: [...CALL_DISPOSITIONS],
   });
 
 export const saveFeedback = data =>

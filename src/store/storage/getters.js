@@ -1,13 +1,13 @@
-import { DISPOSITIONS } from '@/constants';
+import { CALL_DISPOSITIONS, CALL_TYPES } from '@/constants';
 
 const defaultItemGetter = item => item.id;
 
 export default {
   callTypes() {
-    return ['info', 'help', 'sale'];
+    return [...CALL_TYPES];
   },
   callDispositions() {
-    return [...DISPOSITIONS];
+    return [...CALL_DISPOSITIONS];
   },
   getItemById: state => (itemId, tableName, getItemId = defaultItemGetter) =>
     state[tableName].items.find(item => getItemId(item) === itemId),
