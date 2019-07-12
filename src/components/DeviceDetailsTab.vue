@@ -286,15 +286,12 @@ export default {
     }
 
     .locations {
-      /*font-size: ;*/
-
       p {
         font-size: 12px;
         margin-bottom: 17px;
 
         &.current-location {
           display: flex;
-          /*justify-content: space-between;*/
           font-size: 14px;
         }
 
