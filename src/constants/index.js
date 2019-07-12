@@ -192,3 +192,13 @@ export const DEVICE_STATUS = {
   ONLINE: true,
   OFFLINE: false,
 };
+
+export const DISPOSITIONS = [
+  'Sale Made',
+  'Not Interested',
+  'Call Back',
+  'No Coverage',
+  'Too Expensive',
+  'Pre-payment',
+  'Bad Debt',
+];
