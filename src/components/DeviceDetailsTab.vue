@@ -68,8 +68,7 @@
               target="_blank"
               :title="$t('show.on.maps')"
             >
-              <img :src="mapIcon" alt="">
-              <span>{{ $t('map') }}</span>
+              <map-icon />
             </a>
           </p>
           <p><span>{{ $t('latitude') }}</span></p>
@@ -93,13 +92,13 @@ import { DATE_FORMATS } from '@/constants';
 import FormInput from './FormInput';
 import BranchSelect from './BranchSelect';
 import CompanySelect from './CompanySelect';
-import mapIcon from '@/assets/icons/google.svg';
+import MapIcon from '@/components/MapIcon';
 
 const GOOGLE_MAPS_URL = 'http://www.google.com/maps/place/';
 
 export default {
   name: 'DeviceDetailsTab',
-  components: { VuePerfectScrollbar, CompanySelect, BranchSelect, FormInput },
+  components: { MapIcon, VuePerfectScrollbar, CompanySelect, BranchSelect, FormInput },
   props: {
     tableName: {
       type: String,
@@ -130,9 +129,6 @@ export default {
     },
     isOnline() {
       return this.selected.isOnline;
-    },
-    mapIcon() {
-      return mapIcon;
     },
   },
   methods: {
@@ -307,11 +303,6 @@ export default {
           display: flex;
           margin-left: 30px;
           text-decoration: none;
-
-          img {
-            margin-right: 5px;
-            width: 20px;
-          }
         }
 
         span {
