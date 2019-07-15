@@ -28,12 +28,9 @@
           </v-btn>
         </div>
       </div>
-      <!--<div class="row">-->
-        <!--<div class="row-item last-sync-info">-->
-          <!--<p class="last-sync-info__title">{{ $t('last.synchronization.date') }}</p>-->
-          <!--<p>{{ syncTime }}</p>-->
-        <!--</div>-->
-      <!--</div>-->
+      <div class="row">
+        <last-sync-time-info :sync-time="lastSyncTime" />
+      </div>
     </div>
   </div>
 </template>
@@ -41,16 +38,12 @@
 <script>
 import moment from 'moment';
 import { migrateUsers, lastSyncTime } from '@/services/synchronizationRepository';
-import { DATE_FORMATS } from '@/constants';
 import { successMessage, errorMessage } from '@/services/notifications';
-
-const { DEFAULT_DATE_FORMAT } = DATE_FORMATS;
-
-const ITEMS_TO_LOAD = 50;
-const OFFSET = 0;
+import LastSyncTimeInfo from '../components/LastSyncTimeInfo';
 
 export default {
   name: 'SynchronizationSettingsProfile',
+  components: { LastSyncTimeInfo },
   data() {
     return {
       lastSyncTime: moment(),
@@ -60,23 +53,12 @@ export default {
   mounted() {
     this.getLastSyncTime();
   },
-  computed: {
-    syncTime() {
-      const stillUtc = moment.utc(this.lastSyncTime).toDate();
-
-      return moment(stillUtc)
-        .local()
-        .format(DEFAULT_DATE_FORMAT);
-    },
-  },
   methods: {
     async syncUsersWithCP() {
       try {
         this.sync = true;
         successMessage('sync.started', 'sync.info');
-        await migrateUsers({ offset: OFFSET, limit: ITEMS_TO_LOAD });
-        successMessage('sync.completed');
-        await this.getLastSyncTime();
+        await migrateUsers();
       } catch (e) {
         console.error(e);
       }
