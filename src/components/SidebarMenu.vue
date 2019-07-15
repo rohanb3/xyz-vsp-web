@@ -3,7 +3,7 @@
     <div class="sidebar-title">{{title}}</div>
     <nav class="menu-container">
       <router-link
-        v-for="item in links"
+        v-for="item in filteredLinks"
         :key="item.link"
         :to="item.link"
         active-class="sidebar-link-active"
@@ -26,6 +26,14 @@ export default {
       default: () => [],
     },
   },
+  computed: {
+    role() {
+      return this.$store.getters.role;
+    },
+    filteredLinks() {
+      return this.links.filter(link => !link.hide.includes(this.role));
+    },
+  },
 };
 </script>
 
@@ -41,7 +49,7 @@ export default {
   margin-top: 18px;
 }
 .sidebar-container {
-  width: 140px;
+  width: 210px;
   box-shadow: 3px 0 4px 0 $lhs-shadow-color;
   background-color: $base-white;
   a {
@@ -51,11 +59,11 @@ export default {
 .sidebar-link {
   display: flex;
   font-size: 12px;
-  color: $base-blue;
+  color: $base-text-color;
   margin-left: 21px;
   margin-bottom: 15px;
   &.sidebar-link-active {
-    color: $base-text-color;
+    color: $base-blue;
     cursor: default;
   }
 }

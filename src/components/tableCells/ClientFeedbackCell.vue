@@ -1,7 +1,7 @@
 <template>
   <div
     class='client-feedback-cell'
-    @click="onClick"
+    @click.stop="onClick"
   >
     <call-feedback-icon
       :feedback="feedback"
@@ -24,10 +24,10 @@ export default {
   },
   computed: {
     feedback() {
-      return this.item.clientFeedback;
+      return this.item.customerFeedback;
     },
     color() {
-      return this.feedback.message ? '#ff941b' : null;
+      return this.feedback.note ? '#ff941b' : null;
     },
   },
   methods: {

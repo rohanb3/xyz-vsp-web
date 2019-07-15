@@ -1,6 +1,9 @@
 <template>
   <div class="call-conecting-loader">
-    <p>{{ $t('connecting') }}</p>
+    <p class="loader-title">{{ title }}</p>
+    <p v-if="subtitle" class="loader-subtitle">
+      {{ subtitle }}
+    </p>
     <v-progress-circular
       indeterminate
       color="primary"
@@ -11,6 +14,16 @@
 <script>
 export default {
   name: 'CallConnectingLoader',
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    subtitle: {
+      type: String,
+      default: null,
+    },
+  },
 };
 </script>
 
@@ -22,9 +35,13 @@ export default {
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  height: 150px;
+  min-height: 150px;
   font-size: 24px;
   color: $base-white;
   text-align: center;
+}
+
+.loader-subtitle {
+  margin-bottom: 30px;
 }
 </style>

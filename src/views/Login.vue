@@ -17,6 +17,7 @@
                 required
                 :rules="emailRules"
                 :validate-on-blur="true"
+                @keydown.space.prevent
               ></v-text-field>
               <v-text-field
                 label="Password"
@@ -42,15 +43,20 @@
               <div class="agreement">
                 <v-checkbox class="checkbox-input" v-model="agreement" :hide-details="true"></v-checkbox>
                 <div>
-                  <span>{{ $t('i.agree.to.the') }}</span>
-                  <a class="link">{{ $t('terms.and.conditions') }}</a>
+                  <span>{{ $t('i.agree.to.the') }} </span>
+                  <a class="link" target="_blank" :href="linkPrivacyPolicy">
+                    {{ $t('terms.and.conditions') }}
+                  </a>
                 </div>
               </div>
               <v-btn
                 @click="submit"
                 class="button"
-                :disabled="!valid || !agreement"
-              >{{ $t('login') }}</v-btn>
+                :disabled="isLoginButtonDisabled"
+              >
+                <v-progress-circular v-if="loading" indeterminate color="primary" size="20"/>
+                <span v-else>{{ $t('login') }}</span>
+              </v-btn>
             </v-form>
           </div>
         </div>
@@ -69,6 +75,7 @@ export default {
     return {
       valid: false,
       agreement: false,
+      loading: false,
       password: '',
       email: '',
       e1: true,
@@ -79,10 +86,19 @@ export default {
       ],
     };
   },
+  computed: {
+    linkPrivacyPolicy() {
+      return 'https://xyzreviews.com/privacy-policy/';
+    },
+    isLoginButtonDisabled() {
+      return !this.valid || !this.agreement || this.loading;
+    },
+  },
   methods: {
     async submit() {
       const { email, password } = this;
-      if (this.$refs.form.validate() && this.agreement) {
+      if (this.$refs.form.validate() && this.agreement && !this.loading) {
+        this.loading = true;
         try {
           await this.$store.dispatch(LOGIN, { email, password });
           await this.$store.dispatch(GET_PROFILE_DATA);
@@ -93,6 +109,8 @@ export default {
             title: 'Login failed',
             type: 'error',
           });
+        } finally {
+          this.loading = false;
         }
       }
     },

@@ -1,145 +1,199 @@
+import Vue from 'vue';
+
 import mutations from '@/store/storage/mutations';
 import {
-  INSERT_CUSTOMERS,
-  SET_ALL_CUSTOMERS_LENGTH,
-  INSERT_SUPERADMIN_COMPANIES,
-  SET_ALL_SUPERADMIN_COMPANIES_LENGTH,
-  INSERT_SUPERADMIN_OPERATORS,
-  SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
-  INSERT_CALLS,
-  SET_ALL_CALLS_LENGTH,
-  INSERT_PAYMENTS,
-  SET_ALL_PAYMENTS_LENGTH,
+  INSERT_ITEMS,
+  UPSERT_ITEMS,
+  RESET_ITEMS,
+  SET_ALL_ITEMS_LOADED,
+  CHANGE_ITEM,
+  REMOVE_ITEM,
 } from '@/store/storage/mutationTypes';
+import { ENTITY_TYPES } from '@/constants';
 
 describe('storage mutations: ', () => {
-  describe('INSERT_CUSTOMERS: ', () => {
-    it('should insert customers', () => {
+  describe('INSERT_ITEMS: ', () => {
+    it('should insert items', () => {
       const state = {
-        customers: [{ id: 123 }],
+        [ENTITY_TYPES.CALLS]: {
+          items: [{ id: 123 }],
+        },
       };
 
-      const expectedCustomers = [{ id: 123 }, { id: 321 }];
+      const expectedItems = [{ id: 123 }, { id: 321 }];
 
-      mutations[INSERT_CUSTOMERS](state, [{ id: 321 }]);
+      mutations[INSERT_ITEMS](state, {
+        itemType: ENTITY_TYPES.CALLS,
+        items: [{ id: 321 }],
+      });
 
-      expect(state.customers).toEqual(expectedCustomers);
+      expect(state[ENTITY_TYPES.CALLS].items).toEqual(expectedItems);
     });
   });
 
-  describe('SET_ALL_CUSTOMERS_LENGTH: ', () => {
-    it('should set llength', () => {
+  describe('UPSERT_ITEMS: ', () => {
+    it('should upsert items', () => {
       const state = {
-        allCustomersLength: 0,
+        [ENTITY_TYPES.CALLS]: {
+          items: [{ id: 321 }],
+        },
       };
 
-      mutations[SET_ALL_CUSTOMERS_LENGTH](state, 4);
+      const expectedItems = [{ id: 123 }, { id: 321 }];
 
-      expect(state.allCustomersLength).toBe(4);
+      mutations[UPSERT_ITEMS](state, {
+        itemType: ENTITY_TYPES.CALLS,
+        items: [{ id: 123 }],
+      });
+
+      expect(state[ENTITY_TYPES.CALLS].items).toEqual(expectedItems);
     });
   });
 
-  describe('INSERT_SUPERADMIN_COMPANIES: ', () => {
-    it('should insert companies', () => {
+  describe('RESET_ITEMS: ', () => {
+    it('should reset items', () => {
       const state = {
-        superadminCompanies: [{ id: 123 }],
+        [ENTITY_TYPES.CALLS]: {
+          items: [{ id: 123 }],
+          allItemsLoaded: true,
+        },
       };
 
-      const expectedCompanies = [{ id: 123 }, { id: 321 }];
+      mutations[RESET_ITEMS](state, ENTITY_TYPES.CALLS);
 
-      mutations[INSERT_SUPERADMIN_COMPANIES](state, [{ id: 321 }]);
-
-      expect(state.superadminCompanies).toEqual(expectedCompanies);
+      expect(state[ENTITY_TYPES.CALLS].items).toEqual([]);
+      expect(state[ENTITY_TYPES.CALLS].allItemsLoaded).toBeFalsy();
     });
   });
 
-  describe('SET_ALL_SUPERADMIN_COMPANIES_LENGTH: ', () => {
-    it('should set length', () => {
+  describe('SET_ALL_ITEMS_LOADED: ', () => {
+    it('should set items loaded', () => {
       const state = {
-        allSuperadminCompaniesLength: 0,
+        [ENTITY_TYPES.CALLS]: {
+          allItemsLoaded: false,
+        },
       };
 
-      mutations[SET_ALL_SUPERADMIN_COMPANIES_LENGTH](state, 4);
+      mutations[SET_ALL_ITEMS_LOADED](state, ENTITY_TYPES.CALLS);
 
-      expect(state.allSuperadminCompaniesLength).toBe(4);
+      expect(state[ENTITY_TYPES.CALLS].allItemsLoaded).toBeTruthy();
     });
   });
 
-  describe('INSERT_SUPERADMIN_OPERATORS: ', () => {
-    it('should insert operators', () => {
+  describe('CHANGE_ITEM: ', () => {
+    it('should change item', () => {
       const state = {
-        superadminOperators: [{ id: 123 }],
+        [ENTITY_TYPES.CALLS]: {
+          items: [
+            { id: 1, description: 'Dear customer', title: 'Foxtrot' },
+            { id: 2, description: 'Could you please rate', title: 'Nike' },
+            {
+              id: 3,
+              description: 'We very happy',
+              title: 'T-Mobile',
+            },
+          ],
+        },
       };
 
-      const expectedOperators = [{ id: 123 }, { id: 321 }];
+      const expectedItems = [
+        { id: 1, description: 'Dear customer', title: 'Foxtrot' },
+        { id: 2, description: 'Dear customer', title: 'Comfy' },
+        {
+          id: 3,
+          description: 'We very happy',
+          title: 'T-Mobile',
+        },
+      ];
 
-      mutations[INSERT_SUPERADMIN_OPERATORS](state, [{ id: 321 }]);
+      mutations[CHANGE_ITEM](state, {
+        itemType: ENTITY_TYPES.CALLS,
+        id: 2,
+        description: 'Dear customer',
+        title: 'Comfy',
+      });
 
-      expect(state.superadminOperators).toEqual(expectedOperators);
+      expect(state[ENTITY_TYPES.CALLS].items).toEqual(expectedItems);
+    });
+
+    it('should not change data if item was not found', () => {
+      const state = {
+        [ENTITY_TYPES.CALLS]: {
+          items: [
+            { id: 1, description: 'Dear customer', title: 'Foxtrot' },
+            { id: 2, description: 'Could you please rate', title: 'Nike' },
+            {
+              id: 3,
+              description: 'We very happy',
+              title: 'T-Mobile',
+            },
+          ],
+        },
+      };
+
+      const vueSpy = jest.spyOn(Vue, 'set');
+
+      mutations[CHANGE_ITEM](state, {
+        itemType: ENTITY_TYPES.CALLS,
+        id: 10,
+        description: 'Dear customer',
+        title: 'Comfy',
+      });
+
+      expect(vueSpy).not.toHaveBeenCalled();
     });
   });
 
-  describe('SET_ALL_SUPERADMIN_OPERATORS_LENGTH: ', () => {
-    it('should set length', () => {
+  describe('REMOVE_ITEM: ', () => {
+    it('item should be deleted', () => {
       const state = {
-        allSuperadminOperatorsLength: 0,
+        [ENTITY_TYPES.CALLS]: {
+          items: [
+            { id: 1, description: 'Dear customer', title: 'Foxtrot' },
+            { id: 2, description: 'Could you please rate', title: 'Nike' },
+            {
+              id: 3,
+              description: 'We very happy',
+              title: 'T-Mobile',
+            },
+          ],
+        },
       };
 
-      mutations[SET_ALL_SUPERADMIN_OPERATORS_LENGTH](state, 4);
+      const expectedItems = [
+        { id: 1, description: 'Dear customer', title: 'Foxtrot' },
+        {
+          id: 3,
+          description: 'We very happy',
+          title: 'T-Mobile',
+        },
+      ];
 
-      expect(state.allSuperadminOperatorsLength).toBe(4);
+      mutations[REMOVE_ITEM](state, { itemType: ENTITY_TYPES.CALLS, id: 2 });
+
+      expect(state[ENTITY_TYPES.CALLS].items).toEqual(expectedItems);
     });
-  });
 
-  describe('INSERT_CALLS: ', () => {
-    it('should insert calls', () => {
+    it('should not change data if item was not found', () => {
       const state = {
-        calls: [{ id: 123 }],
+        [ENTITY_TYPES.CALLS]: {
+          items: [
+            { id: 1, description: 'Dear customer', title: 'Foxtrot' },
+            { id: 2, description: 'Could you please rate', title: 'Nike' },
+            {
+              id: 3,
+              description: 'We very happy',
+              title: 'T-Mobile',
+            },
+          ],
+        },
       };
 
-      const expectedCalls = [{ id: 123 }, { id: 321 }];
+      const vueSpy = jest.spyOn(Vue, 'delete');
 
-      mutations[INSERT_CALLS](state, [{ id: 321 }]);
+      mutations[REMOVE_ITEM](state, { itemType: ENTITY_TYPES.CALLS, id: 20 });
 
-      expect(state.calls).toEqual(expectedCalls);
-    });
-  });
-
-  describe('SET_ALL_CALLS_LENGTH: ', () => {
-    it('should set length', () => {
-      const state = {
-        allCallsLength: 0,
-      };
-
-      mutations[SET_ALL_CALLS_LENGTH](state, 4);
-
-      expect(state.allCallsLength).toBe(4);
-    });
-  });
-
-  describe('INSERT_PAYMENTS: ', () => {
-    it('should insert payments', () => {
-      const state = {
-        payments: [{ date: '2019-01-15T12:00:00' }],
-      };
-
-      const expectedPayments = [{ date: '2019-01-15T12:00:00' }, { date: '2019-01-17T12:00:00' }];
-
-      mutations[INSERT_PAYMENTS](state, [{ date: '2019-01-17T12:00:00' }]);
-
-      expect(state.payments).toEqual(expectedPayments);
-    });
-  });
-
-  describe('SET_ALL_PAYMENTS_LENGTH: ', () => {
-    it('should set length', () => {
-      const state = {
-        allPaymentsLength: 0,
-      };
-
-      mutations[SET_ALL_PAYMENTS_LENGTH](state, 5);
-
-      expect(state.allPaymentsLength).toBe(5);
+      expect(vueSpy).not.toHaveBeenCalled();
     });
   });
 });

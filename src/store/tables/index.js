@@ -1,68 +1,47 @@
-import moment from 'moment';
 import {
-  getCustomersTableColumns,
-  getSuperadminCompaniesTableColumns,
   getCallsTableColumns,
-  getOperatorsTableColumns,
-  getCallsDurationTableColumns,
-  getCallsFeedbackTableColumns,
-  getSuperadminOperatorsTableColumns,
-  getPaymentsTableColumns,
+  getDevicesTablecolumns,
+  getCommentTableColumns,
+  getDeviceHistoryTableColumns,
 } from '@/services/tablesColumnsList';
-import {
-  CUSTOMERS_TABLE,
-  CALLS_TABLE,
-  OPERATORS_TABLE,
-  CALLS_DURATION_TABLE,
-  CALLS_FEEDBACK_TABLE,
-  SUPERADMIN_COMPANIES_TABLE,
-  SUPERADMIN_OPERATORS_TABLE,
-  PAYMENTS_TABLE,
-} from '@/constants/tablesNames';
+
+import { ENTITY_TYPES } from '@/constants';
 
 import mutations from './mutations';
+import actions from './actions';
 import getters from './getters';
+import getDefaultFilters from './filtersHelper';
+
+const { CALLS, DEVICES, DEVICE_COMMENTS, DEVICE_HISTORY } = ENTITY_TYPES;
 
 const state = {
-  [CUSTOMERS_TABLE]: {
-    columns: getCustomersTableColumns(),
-  },
-  [SUPERADMIN_COMPANIES_TABLE]: {
-    columns: getSuperadminCompaniesTableColumns(),
-  },
-  [CALLS_DURATION_TABLE]: {
-    columns: getCallsDurationTableColumns(),
-  },
-  [CALLS_FEEDBACK_TABLE]: {
-    columns: getCallsFeedbackTableColumns(),
-  },
-  [OPERATORS_TABLE]: {
-    columns: getOperatorsTableColumns(),
-  },
-  [SUPERADMIN_OPERATORS_TABLE]: {
-    columns: getSuperadminOperatorsTableColumns(),
-  },
-  [CALLS_TABLE]: {
+  [CALLS]: {
     columns: getCallsTableColumns(),
-    dateRange: {
-      startDate: moment
-        .utc()
-        .subtract(1, 'month')
-        .startOf('day')
-        .format(),
-      endDate: moment
-        .utc()
-        .endOf('day')
-        .format(),
-    },
+    filters: {},
+    applyingFilters: false,
   },
-  [PAYMENTS_TABLE]: {
-    columns: getPaymentsTableColumns(),
+  [DEVICES]: {
+    columns: getDevicesTablecolumns(),
+    filters: getDefaultFilters(DEVICES),
+    applyingFilters: false,
+  },
+  [DEVICE_HISTORY]: {
+    columns: getDeviceHistoryTableColumns(),
+    filters: {
+      deviceId: null,
+    },
+    applyingFilters: false,
+  },
+  [DEVICE_COMMENTS]: {
+    columns: getCommentTableColumns(),
+    filters: {},
+    applyingFilters: false,
   },
 };
 
 export default {
   state,
   mutations,
+  actions,
   getters,
 };

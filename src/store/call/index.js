@@ -8,6 +8,7 @@ const state = {
   operatorStatus: operatorStatuses.IDLE,
   token: null,
   activeCallData: null,
+  connectedToSocket: false,
   pendingCallsInfo: {
     oldest: null,
     size: 0,

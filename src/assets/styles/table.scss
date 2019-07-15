@@ -29,20 +29,21 @@
   line-height: normal;
   letter-spacing: normal;
 
+  .cell:first-child {
+    padding-left: 20px;
+  }
+
   .wombat-header {
     height: $table-header-height;
-    border-bottom: 2px solid $table-row-border-color;
+    border-bottom: 1px solid $table-row-border-color;
     font-size: 12px;
     color: $table-header-text-color;
   }
 
-  .row-wrapper {
+  .wombat-row {
     color: $table-row-text-color;
     font-size: 14px;
-
-    &:not(:last-child) {
-      border-bottom: 2px solid $table-row-border-color;
-    }
+    border-bottom: 1px solid $table-row-border-color;
   }
 
   .column-date {
@@ -51,7 +52,7 @@
 
   .wombat-footer {
     height: $table-footer-height;
-    border-top: 2px solid $table-row-border-color;
+    border-top: 1px solid $table-row-border-color;
   }
 
   .row-cell {

@@ -6,7 +6,9 @@
 
 <script>
 import moment from 'moment';
-import { SHORT_DAY_SHORT_MONTH_FULL_YEAR } from '../../constants/dateFormats';
+import { DATE_FORMATS } from '@/constants';
+
+const { SHORT_DAY_SHORT_MONTH_FULL_YEAR } = DATE_FORMATS;
 
 export default {
   name: 'EmailCell',

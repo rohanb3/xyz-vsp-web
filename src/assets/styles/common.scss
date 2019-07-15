@@ -2,6 +2,7 @@
 @import './fonts.scss';
 @import './table.scss';
 @import './datepicker.scss';
+@import './deviceSelect.scss';
 @import './mixins.scss';
 
 html {
@@ -14,15 +15,6 @@ html {
     max-height: calc(
       100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$customers-table-toolbar-height} -
         #{$table-header-height} - #{$table-footer-height}
-    );
-  }
-}
-
-.calls-table {
-  .virtual-list {
-    max-height: calc(
-      100vh - #{$header-height} - 2 * #{$table-list-padding} - #{$calls-table-toolbar-height} -
-        #{$table-header-height} - #{$table-footer-height} - #{$calls-dashboard-height}
     );
   }
 }
@@ -90,7 +82,8 @@ html {
   }
 }
 
-#app .call-feedback-card {
+#app .call-feedback-card,
+.add-device-popup {
   width: $calls-feedback-card-width;
   height: 100%;
   display: flex;
@@ -274,6 +267,16 @@ button {
   filter: blur(3px);
 }
 
+.application--wrap.shadow-overlay::after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $table-shadow-color;
+}
+
 .blur-svg {
   display: none;
 }
@@ -287,4 +290,42 @@ button {
 }
 .vue-notification.info {
   background-color: $base-blue;
+}
+
+#app .device-history-table {
+  .column-devicelocation, .column-branchlocation {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .location-cell {
+    line-height: normal;
+    white-space: normal;
+  }
+}
+
+.filter-wrapper {
+  .quick-search {
+    &.v-text-field.v-text-field--solo .v-input__control {
+      min-height: 20px;
+    }
+  }
+
+  &:first-child .table-filter {
+    border-radius: 3px 0 0 3px;
+    border-right-color: $table-filter-border-right-color;
+  }
+  &:last-child .table-filter {
+    border-radius: 0 3px 3px 0;
+  }
+  &:only-of-type .table-filter {
+    border-radius: 3px;
+  }
+}
+
+.big-spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
 }

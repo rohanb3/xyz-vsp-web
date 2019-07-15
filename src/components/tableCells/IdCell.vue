@@ -1,6 +1,6 @@
 <template>
   <div class='id-cell'>
-    <span>{{ item.id }}</span>
+    <a href="#" @click.prevent.stop="$emit('selectId', item.id)">{{ item.id }}</a>
   </div>
 </template>
 

@@ -5,7 +5,8 @@
       color="#1657a8"
       :label="label"
       :input-value="isOnline"
-      @change="onStatusChanged" />
+      @change="onStatusChanged"
+    />
   </div>
 </template>
 
@@ -26,14 +27,6 @@ export default {
   methods: {
     onStatusChanged() {
       this.$emit('statusChanged');
-    },
-  },
-  watch: {
-    isOnline: {
-      handler(val) {
-        console.log('isOnline', val);
-      },
-      immediate: true,
     },
   },
 };

@@ -1,123 +1,70 @@
 import {
-  getCustomers,
-  getAllCustomersLength,
-  getSuperadminCompanies,
-  getAllSuperadminCompaniesLength,
-  getCalls,
-  getAllCallsLength,
-  getOperators,
-  getAllOperatorsLength,
-  getCallsDuration,
-  getCallsFeedback,
-  getSuperadminOperators,
-  getAllSuperadminOperatorsLength,
-  getPayments,
-  getAllPaymentsLength,
-} from '@/services/repository';
-
-import { getCallsTypes } from '@/services/operatorFeedback';
-
-import {
-  LOAD_CUSTOMERS,
-  LOAD_ALL_CUSTOMERS_LENGTH,
-  LOAD_SUPERADMIN_COMPANIES,
-  LOAD_SUPERADMIN_COMPANIES_LENGTH,
-  LOAD_CALLS,
-  LOAD_ALL_CALLS_LENGTH,
-  LOAD_OPERATORS,
-  LOAD_ALL_OPERATORS_LENGTH,
+  LOAD_ITEMS,
+  LOAD_MORE_ITEMS,
+  CREATE_ITEM,
+  UPDATE_ITEM,
+  DELETE_ITEM,
   LOAD_CALL_TYPES_AND_DISPOSITIONS,
-  LOAD_CALLS_DURATION,
-  LOAD_CALLS_FEEDBACK,
-  LOAD_SUPERADMIN_OPERATORS,
-  LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH,
-  LOAD_PAYMENTS,
-  LOAD_ALL_PAYMENTS_LENGTH,
 } from './actionTypes';
-
 import {
-  INSERT_CUSTOMERS,
-  SET_ALL_CUSTOMERS_LENGTH,
-  INSERT_SUPERADMIN_COMPANIES,
-  SET_ALL_SUPERADMIN_COMPANIES_LENGTH,
-  INSERT_CALLS,
-  SET_ALL_CALLS_LENGTH,
-  INSERT_OPERATORS,
-  SET_ALL_OPERATORS_LENGTH,
+  INSERT_ITEMS,
+  CHANGE_ITEM,
+  REMOVE_ITEM,
+  SET_ALL_ITEMS_LOADED,
+  SET_ITEMS_TOTAL,
+  RESET_ITEMS,
   SET_CALL_TYPES_AND_DISPOSITIONS,
-  INSERT_CALLS_DURATION,
-  INSERT_CALLS_FEEDBACK,
-  INSERT_SUPERADMIN_OPERATORS,
-  SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
-  INSERT_PAYMENTS,
-  SET_ALL_PAYMENTS_LENGTH,
 } from './mutationTypes';
+import { getEntityActions } from './repositoryHelper';
+import { ITEMS_TO_LOAD } from './constants';
+import { getCallsTypes } from '@/services/callRepository';
 
-import {
-  CUSTOMERS_TO_LOAD,
-  SUPERADMIN_COMPANIES_TO_LOAD,
-  CALLS_TO_LOAD,
-  OPERATORS_TO_LOAD,
-  SUPERADMIN_OPERATORS_TO_LOAD,
-  PAYMENTS_TO_LOAD,
-} from './constants';
+async function loadItems({ commit, state }, { itemType, filters = {} }, resetPrevious) {
+  const { items } = state[itemType];
+  const filtersToApply = {
+    ...filters,
+    offset: resetPrevious ? 0 : items.length,
+    limit: ITEMS_TO_LOAD,
+  };
+
+  const { getAll } = getEntityActions(itemType);
+  const { data, count: total } = await getAll(filtersToApply);
+
+  if (resetPrevious) {
+    commit(RESET_ITEMS, itemType);
+  }
+
+  commit(INSERT_ITEMS, { itemType, items: data });
+  commit(SET_ITEMS_TOTAL, { itemType, total });
+
+  if (data.length < ITEMS_TO_LOAD) {
+    commit(SET_ALL_ITEMS_LOADED, itemType);
+  }
+}
 
 export default {
-  async [LOAD_CUSTOMERS]({ commit, getters }) {
-    const { loadedCustomersAmount } = getters;
-    commit(INSERT_CUSTOMERS, await getCustomers(loadedCustomersAmount, CUSTOMERS_TO_LOAD));
+  [LOAD_ITEMS](store, data) {
+    return loadItems(store, data, true);
   },
-  async [LOAD_ALL_CUSTOMERS_LENGTH]({ commit }) {
-    commit(SET_ALL_CUSTOMERS_LENGTH, await getAllCustomersLength());
+  [LOAD_MORE_ITEMS](store, data) {
+    return loadItems(store, data, false);
   },
-  async [LOAD_SUPERADMIN_COMPANIES]({ commit, getters }) {
-    const { loadedSuperadminCompaniesAmount } = getters;
-    commit(
-      INSERT_SUPERADMIN_COMPANIES,
-      await getSuperadminCompanies(loadedSuperadminCompaniesAmount, SUPERADMIN_COMPANIES_TO_LOAD)
-    );
+  async [CREATE_ITEM]({ commit }, { itemType, ...data }) {
+    const { create } = getEntityActions(itemType);
+    const createdItem = await create(data);
+    commit(INSERT_ITEMS, { itemType, items: [{ ...createdItem, _new: true }] });
   },
-  async [LOAD_SUPERADMIN_COMPANIES_LENGTH]({ commit }) {
-    commit(SET_ALL_SUPERADMIN_COMPANIES_LENGTH, await getAllSuperadminCompaniesLength());
+  async [UPDATE_ITEM]({ commit }, { itemType, id, mixin = {}, ...updates }) {
+    const { update } = getEntityActions(itemType);
+    await update(id, updates);
+    commit(CHANGE_ITEM, { itemType, id, ...updates, ...mixin });
   },
-  async [LOAD_CALLS]({ commit, getters }) {
-    const { loadedCallsAmount } = getters;
-    commit(INSERT_CALLS, await getCalls(loadedCallsAmount, CALLS_TO_LOAD));
-  },
-  async [LOAD_ALL_CALLS_LENGTH]({ commit }) {
-    commit(SET_ALL_CALLS_LENGTH, await getAllCallsLength());
-  },
-  async [LOAD_OPERATORS]({ commit, getters }) {
-    const { loadedOperatorsAmount } = getters;
-    commit(INSERT_OPERATORS, await getOperators(loadedOperatorsAmount, OPERATORS_TO_LOAD));
-  },
-  async [LOAD_ALL_OPERATORS_LENGTH]({ commit }) {
-    commit(SET_ALL_OPERATORS_LENGTH, await getAllOperatorsLength());
+  async [DELETE_ITEM]({ commit }, { itemType, id }) {
+    const { delete: deleteItem } = getEntityActions(itemType);
+    await deleteItem(id);
+    commit(REMOVE_ITEM, { itemType, id });
   },
   async [LOAD_CALL_TYPES_AND_DISPOSITIONS]({ commit }) {
     commit(SET_CALL_TYPES_AND_DISPOSITIONS, await getCallsTypes());
-  },
-  async [LOAD_CALLS_DURATION]({ commit }) {
-    commit(INSERT_CALLS_DURATION, await getCallsDuration());
-  },
-  async [LOAD_CALLS_FEEDBACK]({ commit }) {
-    commit(INSERT_CALLS_FEEDBACK, await getCallsFeedback());
-  },
-  async [LOAD_SUPERADMIN_OPERATORS]({ commit, getters }) {
-    const { loadedSuperadminOperatorsAmount } = getters;
-    commit(
-      INSERT_SUPERADMIN_OPERATORS,
-      await getSuperadminOperators(loadedSuperadminOperatorsAmount, SUPERADMIN_OPERATORS_TO_LOAD)
-    );
-  },
-  async [LOAD_ALL_SUPERADMIN_OPERATORS_LENGTH]({ commit }) {
-    commit(SET_ALL_SUPERADMIN_OPERATORS_LENGTH, await getAllSuperadminOperatorsLength());
-  },
-  async [LOAD_PAYMENTS]({ commit, getters }) {
-    const { loadedPaymentsAmount } = getters;
-    commit(INSERT_PAYMENTS, await getPayments(loadedPaymentsAmount, PAYMENTS_TO_LOAD));
-  },
-  async [LOAD_ALL_PAYMENTS_LENGTH]({ commit }) {
-    commit(SET_ALL_PAYMENTS_LENGTH, await getAllPaymentsLength());
   },
 };

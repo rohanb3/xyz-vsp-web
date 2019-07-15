@@ -1,5 +1,5 @@
 <template>
-  <v-menu v-model="menu" nudge-bottom="40">
+  <v-menu v-model="menu" nudge-bottom="40" left :close-on-content-click="false">
     <v-btn flat icon color="#b4681f" slot="activator">
       <user-avatar
         :firstName="user.displayName"
@@ -37,6 +37,7 @@
         <a class="footer-link-blue" @click="logout">
           {{ $t('log.out') }}
         </a>
+        <p class ="app-version">v.{{ version }}</p>
       </div>
     </div>
   </v-menu>
@@ -45,6 +46,7 @@
 <script>
 import { REMOVE_TOKEN, CLEAR_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
 import { GET_PHOTO } from '@/store/loggedInUser/actionTypes';
+import getVesrion from '@/services/appVersion';
 
 import UserAvatar from '@/components/UserAvatar';
 
@@ -54,6 +56,7 @@ export default {
   data() {
     return {
       menu: false,
+      version: getVesrion(),
     };
   },
   mounted() {
@@ -127,6 +130,9 @@ export default {
   margin-right: 13px;
 }
 .footer {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
   padding: 15px 15px 18px 18px;
 }
 .footer-link {
@@ -141,5 +147,9 @@ export default {
   font-weight: 500;
   color: $base-blue;
   display: flex;
+}
+
+.app-version {
+  font-size: 12px;
 }
 </style>

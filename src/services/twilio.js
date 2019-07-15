@@ -3,13 +3,15 @@ import Video from 'twilio-video';
 
 import twilioEvents, { TWILIO_EVENTS } from '@/services/twilioEvents';
 import { isChrome, isFirefox } from '@/services/browser';
-import { EXTENSION_ID, VIDEO, AUDIO } from '@/constants/twilio';
+import { TWILIO } from '@/constants';
+
+const { EXTENSION_ID, VIDEO, AUDIO } = TWILIO;
 
 const previewTracks = {};
 const remoteTracks = new Set();
 let activeRoom = null;
 let extensionInstalled = false;
-let onLastParticipantDisconnected = null;
+let onLastParticipantDisconnected = () => {};
 let disconnectAfterConnection = false;
 
 const TRACK_SUBSCRIBED = 'trackSubscribed';
@@ -18,9 +20,14 @@ const TRACK_STARTED = 'trackStarted';
 const PARTICIPANT_CONNECTED = 'participantConnected';
 const PARTICIPANT_DISCONNECTED = 'participantDisconnected';
 const DISCONNECTED = 'disconnected';
+const RECONNECTING = 'reconnecting';
+const RECONNECTED = 'reconnected';
+const NETWORK_QUALITY_LEVEL_CHANGED = 'networkQualityLevelChanged';
+const INACTIVE = 'inactive';
+const ERROR = 'error';
 
 export function connect({ name, token }, { media = {}, handlers = {} }) {
-  onLastParticipantDisconnected = handlers.onRoomEmptied || (() => {});
+  onLastParticipantDisconnected = handlers.onRoomEmptied || onLastParticipantDisconnected;
   disconnectAfterConnection = false;
 
   if (!activeRoom) {
@@ -36,6 +43,10 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
       .then(() => {
         const connectOptions = {
           name,
+          networkQuality: {
+            local: 3,
+            remote: 3,
+          },
           // logLevel: 'debug',
         };
 
@@ -150,9 +161,27 @@ export function enableScreenShare() {
         const [track] = stream.getVideoTracks();
         previewTracks.screenShare = track;
         publishTrack(track);
-        emitScreenShareAdding([track]);
+        emitScreenShareAdding(stream);
+        const onStreamInactive = () => {
+          /* eslint-disable-next-line */
+          console.log('onStreamInactive');
+          disableScreenShare();
+          stream.removeEventListener(INACTIVE, onStreamInactive);
+        };
+        const onStreamError = err => {
+          /* eslint-disable-next-line */
+          console.log('onStreamError', err);
+          disableScreenShare();
+          emitScreenSharingError(err);
+          stream.removeEventListener(ERROR, onStreamError);
+        };
+        stream.addEventListener(INACTIVE, onStreamInactive);
+        stream.addEventListener(ERROR, onStreamError);
       })
-      .catch(() => new Error('Could not get stream'));
+      .catch(err => {
+        /* eslint-disable-next-line */
+        console.log('Can not get stream', err);
+      });
   });
 }
 
@@ -161,7 +190,7 @@ export function disableScreenShare() {
   if (track) {
     stopTracks([track]);
     unpublishTrack(track);
-    emitScreenShareRemoving([track]);
+    emitScreenShareRemoving(track);
     delete previewTracks.screenShare;
   }
   return Promise.resolve();
@@ -196,6 +225,8 @@ function onRoomJoined(room) {
     }
     const roomResolver = () => resolve(room);
 
+    room.localParticipant.on(NETWORK_QUALITY_LEVEL_CHANGED, onLocalParticipantNetworkLevelChanged);
+
     room.participants.forEach(participant =>
       handleRemoteParticipantAdding(participant, roomResolver)
     );
@@ -206,6 +237,8 @@ function onRoomJoined(room) {
     room.on(PARTICIPANT_DISCONNECTED, onParticipantDisconnected);
     room.on(DISCONNECTED, onRoomDisconnected);
     room.on(TRACK_STARTED, track => onTrackStarted(track, roomResolver));
+    room.on(RECONNECTING, onRoomReconnecting);
+    room.on(RECONNECTED, onRoomReconnected);
 
     if (localStorage.getItem('GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO')) {
       roomResolver();
@@ -220,13 +253,17 @@ function onRoomConnectionFailed(err) {
   });
 }
 
-function onRoomDisconnected() {
+function onRoomDisconnected(room, err) {
   disableLocalPreview();
   disableScreenShare();
   activeRoom = null;
+  if (err) {
+    emitRoomDisconnectWithError(err);
+  }
 }
 
 function handleRemoteParticipantAdding(participant, resolve) {
+  participant.on(NETWORK_QUALITY_LEVEL_CHANGED, onRemoteParticipantNetworkLevelChanged);
   const tracks = Array.from(participant.tracks.values()).filter(track => !!track);
   tracks.forEach(track => {
     if (track.kind === VIDEO && track.isStarted) {
@@ -249,7 +286,8 @@ function onTrackUnsubscribed(track) {
   emitRemoteTracksRemoving([track]);
 }
 
-function onParticipantConnected() {
+function onParticipantConnected(participant) {
+  participant.on(NETWORK_QUALITY_LEVEL_CHANGED, onRemoteParticipantNetworkLevelChanged);
   emitParticpantConnecting();
 }
 
@@ -259,6 +297,22 @@ function onParticipantDisconnected() {
     onLastParticipantDisconnected();
     disconnect();
   }
+}
+
+function onRoomReconnecting() {
+  emitRoomReconnecting();
+}
+
+function onRoomReconnected() {
+  emitRoomReconnected();
+}
+
+function onLocalParticipantNetworkLevelChanged(level) {
+  emitLocalParticipantNetworkLevelChanging(level);
+}
+
+function onRemoteParticipantNetworkLevelChanged(level) {
+  emitRemoteParticipantNetworkLevelChanging(level);
 }
 
 function onTrackStarted(track, resolve) {
@@ -366,12 +420,12 @@ function emitRemoteTracksRemoving(tracks) {
   twilioEvents.emit(TWILIO_EVENTS.REMOTE_TRACKS_REMOVED, tracks);
 }
 
-function emitScreenShareAdding(tracks) {
-  twilioEvents.emit(TWILIO_EVENTS.SCREEN_SHARED, tracks);
+function emitScreenShareAdding(stream) {
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_SHARED, stream);
 }
 
-function emitScreenShareRemoving(tracks) {
-  twilioEvents.emit(TWILIO_EVENTS.SCREEN_UNSHARED, tracks);
+function emitScreenShareRemoving(stream) {
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_UNSHARED, stream);
 }
 
 function emitParticpantConnecting() {
@@ -380,6 +434,30 @@ function emitParticpantConnecting() {
 
 function emitParticpantDisconnecting() {
   twilioEvents.emit(TWILIO_EVENTS.PARTICIPANT_DISCONNECTED);
+}
+
+function emitRoomReconnecting() {
+  twilioEvents.emit(TWILIO_EVENTS.RECONNECTING);
+}
+
+function emitRoomReconnected() {
+  twilioEvents.emit(TWILIO_EVENTS.RECONNECTED);
+}
+
+function emitRoomDisconnectWithError(err) {
+  twilioEvents.emit(TWILIO_EVENTS.DISCONNECTED_WITH_ERROR, err);
+}
+
+function emitLocalParticipantNetworkLevelChanging(level) {
+  twilioEvents.emit(TWILIO_EVENTS.LOCAL_PARTICIPANT_NETWORK_LEVEL_CHANGED, level);
+}
+
+function emitRemoteParticipantNetworkLevelChanging(level) {
+  twilioEvents.emit(TWILIO_EVENTS.REMOTE_PARTICIPANT_NETWORK_LEVEL_CHANGED, level);
+}
+
+function emitScreenSharingError(err) {
+  twilioEvents.emit(TWILIO_EVENTS.SCREEN_SHARING_ERROR, err);
 }
 
 /**

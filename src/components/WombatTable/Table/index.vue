@@ -1,11 +1,10 @@
 <template>
-  <div class="wombat-table">
-
+  <div class="wombat-table" :class="[name]">
     <wombat-header
       :name="name"
       :columns="columns"
       :width="rowWidth"
-      :resize ="resize"
+      :resize="resize"
       :columnsReorder="columnsReorder"
       @columnsResized="data => $emit('columnsResized', data)"
       @columnsReordered="data => $emit('columnsReordered', data)"
@@ -15,77 +14,60 @@
         slot-scope="headerCell"
         class="header-cell"
       >
-        <slot
-          name="header-cell"
-          :column="headerCell.column"
-        />
+        <slot name="header-cell" :column="headerCell.column" />
       </div>
     </wombat-header>
-
-    <virtual-list
-      class="virtual-list"
+    <RecycleScroller
+      v-show="scrollbarShown"
+      class="scroller virtual-list ps"
       ref="scroller"
-      :size="itemHeight"
-      :remain="50"
-      :bench="5"
+      :items="items"
+      :item-size="50"
+      :key-field="itemKeyName"
     >
-      <div
-        v-for="item of items"
-        :key="item.id"
-        class="row-wrapper"
+      <slot
+        slot-scope="row"
+        class="row"
+        name="row"
+        :columns="columns"
+        :item="row.item"
+        :height="itemHeight"
       >
-        <slot
-          name="row"
-          :columns="columns"
-          :item="item"
-          :height="itemHeight"
-        >
-          <wombat-row
-            :columns="columns"
-            :height="itemHeight"
-            :item="item"
+        <wombat-row :item="row.item" :columns="columns" :height="itemHeight">
+          <div
+            :slot="rowCellStotPresent ? 'row-cell' : 'row-cell-disabled'"
+            slot-scope="rowCell"
+            class="row-cell"
           >
-            <div
-              :slot="rowCellStotPresent ? 'row-cell' : 'row-cell-disabled'"
-              slot-scope="rowCell"
-              class="row-cell"
-            >
-              <slot
-                name="row-cell"
-                :column="rowCell.column"
-                :item="rowCell.item"
-              />
-            </div>
-          </wombat-row>
-        </slot>
+            <slot name="row-cell" :column="rowCell.column" :item="rowCell.item" />
+          </div>
+        </wombat-row>
+      </slot>
+      <div slot="after">
+        <infinite-loading
+          v-if="infiniteLoading && items.length"
+          class="infinite-loader"
+          force-use-infinite-wrapper=".virtual-list"
+          :distance="0"
+          @infinite="infiniteHandler"
+        />
+
+        <div key="tableLoader">
+          <slot name="loader"></slot>
+        </div>
       </div>
-
-      <infinite-loading
-        v-if="infiniteLoading && items.length"
-        class="infinite-loader"
-        force-use-infinite-wrapper=".virtual-list"
-        :distance="0"
-        @infinite="infiniteHandler" />
-
-    </virtual-list>
-
+    </RecycleScroller>
+    <div v-show="!scrollbarShown" class="no-result-found">{{ $t('table.no.results.found') }}</div>
     <slot name="footer">
-      <wombat-footer
-        v-if="footerCellStotPresent"
-        class="wombat-footer"
-        :width="rowWidth"
-      >
+      <wombat-footer v-if="footerCellStotPresent" class="wombat-footer" :width="rowWidth">
         <div
           :slot="footerCellStotPresent ? 'footer-cell' : 'footer-cell-disabled'"
           slot-scope="footerCell"
           class="footer-cell"
         >
-          <slot
-            name="footer-cell"
-            :column="footerCell.column"
-          />
+          <slot name="footer-cell" :column="footerCell.column" />
         </div>
-    </wombat-footer>
+      </wombat-footer>
     </slot>
   </div>
 </template>

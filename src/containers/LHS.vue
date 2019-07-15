@@ -10,12 +10,6 @@
         <v-icon class="item-icon">group</v-icon>
       </div>
     </router-link>
-    <router-link :to="{ name: 'calls' }" class="lhs-item-link">
-      <div class="lhs-item call" :class="{ active: activeIndex === 2 }" @click="setActive(2)">
-        <v-icon class="item-icon">call</v-icon>
-        <v-icon class="item-icon secondary-icon">list</v-icon>
-      </div>
-    </router-link>
     <router-link class="lhs-item-link" :to="{ name: 'operatorReview' }">
       <div class="lhs-item" :class="{ active: activeIndex === 3 }" @click="setActive(3)">
         <v-icon class="item-icon">insert_chart</v-icon>
@@ -45,21 +39,48 @@
       <div class="lhs-item" :class="{ active: activeIndex === 8 }" @click="setActive(8)">
         <v-icon class="item-icon">settings</v-icon>
       </div>
-    </router-link> -->
+    </router-link>-->
+
+    <router-link :to="{ name: 'dashboard' }" :title="dashboardTitle" class="lhs-item-link">
+      <div class="lhs-item">
+        <v-icon class="item-icon">view_compact</v-icon>
+      </div>
+    </router-link>
+    <!--<router-link :to="{ name: 'calls' }" class="lhs-item-link">-->
+      <!--<div class="lhs-item call">-->
+        <!--<v-icon class="item-icon">call</v-icon>-->
+        <!--<v-icon class="item-icon secondary-icon">list</v-icon>-->
+      <!--</div>-->
+    <!--</router-link>-->
+    <router-link v-if="!isSupportAdmin" :to="{ name: 'devices' }" :title="deviceManagmentTitle" class="lhs-item-link">
+      <div class="lhs-item">
+        <v-icon class="item-icon">tablet_mac</v-icon>
+      </div>
+    </router-link>
+    <v-spacer class="spacer"/>
+    <router-link :to="{ name: 'supervisorSettingsProfile' }" :title="settingsTitle" class="lhs-item-link">
+      <div class="lhs-item">
+        <v-icon class="item-icon">settings</v-icon>
+      </div>
+    </router-link>
   </nav>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'lhs',
-  data() {
-    return {
-      activeIndex: 0,
-    };
-  },
-  methods: {
-    setActive(index) {
-      this.activeIndex = index;
+  computed: {
+    ...mapGetters(['isSupportAdmin']),
+    dashboardTitle() {
+      return this.$t('dashboard');
+    },
+    deviceManagmentTitle() {
+      return this.$t('device.management');
+    },
+    settingsTitle() {
+      return this.$t('settings');
     },
   },
 };
@@ -73,6 +94,7 @@ export default {
   flex-flow: column;
   align-items: center;
   box-shadow: 3px 0 4px 0 $lhs-shadow-color;
+  z-index: 2;
 
   a {
     text-decoration: none;
@@ -99,7 +121,7 @@ export default {
   height: $lhs-width;
 }
 
-.active {
+.router-link-active {
   .item-icon {
     color: $lhs-active-icon-color;
   }

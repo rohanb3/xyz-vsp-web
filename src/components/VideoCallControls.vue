@@ -51,32 +51,40 @@
     </div>
 
     <div class="controls-section right-section">
-      <!-- <v-icon
-        color="#fff"
-        class="icon"
-        :class="{ 'icon-off': !isScreenSharingOn }"
-        @click="$emit('toggleScreen')"
-      >
-        {{ isScreenSharingOn ? 'screen_share' : 'stop_screen_share' }}
-      </v-icon> -->
-      <v-icon
-        color="#fff"
-        class="icon icon-screen-sharing"
-        :disabled="isScreenSharingDisabled"
-        :class="{ 'icon-off': !isScreenSharingOn, 'disabled': isScreenSharingDisabled }"
-        @click="$emit('toggleScreen')"
-      >
-        add_to_queue
-      </v-icon>
+      <popper trigger="click" ref="popper" :options="options" :boundaries-selector="'.video-call-wrapper'">
+        <div slot="reference">
+          <v-icon
+          color="#fff"
+          class="icon icon-screen-sharing"
+          :disabled="isScreenSharingDisabled"
+          :class="{ 'icon-off': !isScreenSharingOn, 'disabled': isScreenSharingDisabled }"
+          @click.stop.prevent="$emit('toggleScreen')"
+          >
+          add_to_queue
+        </v-icon>
+        </div>
+        <div class="popper">
+          <div class="screen-sharing-frozen-notification">
+            Problems with screen sharing. It will be disabled in {{ screenSharingCounter }} seconds.
+          </div>
+        </div>
+      </popper>
     </div>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
+import Popper from 'vue-popperjs';
+
+const COUNTER_DECREMENT_TIME = 1000;
+const INITIAL_COUNTER = 10;
 
 export default {
   name: 'VideoCallControls',
+  components: {
+    Popper,
+  },
   props: {
     isCameraOn: {
       type: Boolean,
@@ -102,6 +110,24 @@ export default {
       type: Number,
       default: 50,
     },
+    screenSharingFrozen: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      screenSharingCounter: INITIAL_COUNTER,
+      screenSharingTimer: null,
+      options: {
+        placement: 'top-end',
+        modifiers: {
+          offset: {
+            offset: '0,20px',
+          },
+        },
+      },
+    };
   },
   computed: {
     volume: {
@@ -121,6 +147,36 @@ export default {
         .minute(0)
         .second(this.callDuration)
         .format('mm : ss');
+    },
+  },
+  watch: {
+    screenSharingFrozen(isFrozen) {
+      if (isFrozen) {
+        this.startDecrementing();
+        this.$refs.popper.doShow();
+      } else {
+        this.$refs.popper.doClose();
+        this.stopDecrementing();
+      }
+    },
+    screenSharingCounter(count) {
+      if (!count) {
+        this.$emit('toggleScreen');
+        this.stopDecrementing();
+      }
+    },
+  },
+  methods: {
+    startDecrementing() {
+      this.screenSharingCounter = INITIAL_COUNTER;
+      this.screenSharingTimer = setInterval(this.descrementCounter, COUNTER_DECREMENT_TIME);
+    },
+    stopDecrementing() {
+      clearInterval(this.screenSharingTimer);
+      this.screenSharingTimer = null;
+    },
+    descrementCounter() {
+      this.screenSharingCounter = this.screenSharingCounter - 1;
     },
   },
 };
@@ -224,6 +280,19 @@ export default {
   }
   .v-input--slider {
     margin-top: 0;
+  }
+
+  .right-section {
+    justify-content: flex-end;
+  }
+
+  .screen-sharing-frozen-notification {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .popper {
+    left: -5px;
   }
 }
 </style>

@@ -31,7 +31,7 @@ export default {
       document.removeEventListener('click', this.onClick);
     },
     onClick(ev) {
-      if (!ev.target.closest('.table-full-height-balloon')) {
+      if (!ev.target.closest('.table-full-height-balloon') && !ev.target.closest('.v-overlay')) {
         this.close();
       }
     },
@@ -50,5 +50,6 @@ export default {
   top: $header-height;
   right: 0;
   bottom: 0;
+  z-index: 100;
 }
 </style>

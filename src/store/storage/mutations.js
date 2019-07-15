@@ -1,68 +1,51 @@
+import Vue from 'vue';
 import {
-  INSERT_CUSTOMERS,
-  SET_ALL_CUSTOMERS_LENGTH,
-  INSERT_SUPERADMIN_COMPANIES,
-  SET_ALL_SUPERADMIN_COMPANIES_LENGTH,
-  INSERT_CALLS,
-  SET_ALL_CALLS_LENGTH,
-  INSERT_OPERATORS,
-  SET_ALL_OPERATORS_LENGTH,
+  INSERT_ITEMS,
+  UPSERT_ITEMS,
+  CHANGE_ITEM,
+  REMOVE_ITEM,
+  RESET_ITEMS,
+  SET_ALL_ITEMS_LOADED,
+  SET_ITEMS_TOTAL,
   SET_CALL_TYPES_AND_DISPOSITIONS,
-  INSERT_CALLS_DURATION,
-  INSERT_CALLS_FEEDBACK,
-  INSERT_SUPERADMIN_OPERATORS,
-  SET_ALL_SUPERADMIN_OPERATORS_LENGTH,
-  INSERT_PAYMENTS,
-  SET_ALL_PAYMENTS_LENGTH,
 } from './mutationTypes';
 
 export default {
   /* eslint-disable no-param-reassign */
-  [INSERT_CUSTOMERS](state, customers) {
-    state.customers.push(...customers);
+  [INSERT_ITEMS](state, { itemType, items }) {
+    state[itemType].items.push(...items);
   },
-  [SET_ALL_CUSTOMERS_LENGTH](state, length) {
-    state.allCustomersLength = length;
+  [UPSERT_ITEMS](state, { itemType, items = [] }) {
+    const existedItems = state[itemType].items || [];
+    const updatedItems = items.concat(existedItems);
+    state[itemType].items = updatedItems;
   },
-  [INSERT_SUPERADMIN_COMPANIES](state, companies) {
-    state.superadminCompanies.push(...companies);
+  [CHANGE_ITEM](state, { itemType, id, ...updates }) {
+    const itemIndex = state[itemType].items.findIndex(item => item.id === id);
+    if (itemIndex >= 0) {
+      const updated = Object.assign({}, state[itemType].items[itemIndex], updates);
+      Vue.set(state[itemType].items, itemIndex, updated);
+    }
   },
-  [SET_ALL_SUPERADMIN_COMPANIES_LENGTH](state, length) {
-    state.allSuperadminCompaniesLength = length;
+  [REMOVE_ITEM](state, { itemType, id }) {
+    const itemIndex = state[itemType].items.findIndex(template => template.id === id);
+    if (itemIndex >= 0) {
+      Vue.delete(state[itemType].items, itemIndex);
+    }
   },
-  [INSERT_CALLS](state, calls) {
-    state.calls.push(...calls);
+  [RESET_ITEMS](state, itemType) {
+    Vue.set(state[itemType], 'items', []);
+    Vue.set(state[itemType], 'allItemsLoaded', false);
   },
-  [SET_ALL_CALLS_LENGTH](state, length) {
-    state.allCallsLength = length;
+  [SET_ALL_ITEMS_LOADED](state, itemType) {
+    Vue.set(state[itemType], 'allItemsLoaded', true);
   },
-  [INSERT_OPERATORS](state, operators) {
-    state.operators.push(...operators);
-  },
-  [SET_ALL_OPERATORS_LENGTH](state, length) {
-    state.allOperatorsLength = length;
+  [SET_ITEMS_TOTAL](state, { itemType, total = 0 }) {
+    Vue.set(state[itemType], 'total', total);
   },
   [SET_CALL_TYPES_AND_DISPOSITIONS](state, data) {
     state.callTypes = data.types;
     state.dispositions = data.dispositions;
-  },
-  [INSERT_CALLS_DURATION](state, callDurations) {
-    state.callsDuration.push(...callDurations);
-  },
-  [INSERT_CALLS_FEEDBACK](state, callsFeedback) {
-    state.callsFeedback.push(...callsFeedback);
-  },
-  [INSERT_SUPERADMIN_OPERATORS](state, operators) {
-    state.superadminOperators.push(...operators);
-  },
-  [SET_ALL_SUPERADMIN_OPERATORS_LENGTH](state, length) {
-    state.allSuperadminOperatorsLength = length;
-  },
-  [INSERT_PAYMENTS](state, payments) {
-    state.payments.push(...payments);
-  },
-  [SET_ALL_PAYMENTS_LENGTH](state, length) {
-    state.allPaymentsLength = length;
   },
   /* eslint-enable no-param-reassign */
 };

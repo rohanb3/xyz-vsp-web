@@ -1,7 +1,8 @@
 import PerfectScrollbar from 'perfect-scrollbar';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 import InfiniteLoading from 'vue-infinite-loading';
-import VirtualList from 'vue-virtual-scroll-list';
+import { RecycleScroller } from 'vue-virtual-scroller';
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 
 import WombatHeader from '../Header';
 import WombatRow from '../Row';
@@ -15,7 +16,7 @@ export default {
     WombatFooter,
     InfiniteLoading,
     PerfectScrollbar,
-    VirtualList,
+    RecycleScroller,
   },
   props: {
     columns: {
@@ -26,8 +27,12 @@ export default {
       type: Array,
       required: true,
     },
+    itemKeyName: {
+      type: String,
+      default: 'id',
+    },
     itemHeight: {
-      default: 35,
+      default: 50,
     },
     resize: {
       type: Boolean,
@@ -37,17 +42,24 @@ export default {
       type: Boolean,
       default: true,
     },
+    itemsChunkSize: {
+      type: Number,
+    },
     infiniteLoading: {
       type: Boolean,
       default: false,
     },
-    scrollOnItemsInsert: {
+    scrollOnItemsAdding: {
       type: Boolean,
       default: true,
     },
     name: {
       type: String,
       default: null,
+    },
+    loadingItems: {
+      type: Boolean,
+      required: true,
     },
   },
   data() {
@@ -70,52 +82,62 @@ export default {
     itemsLength() {
       return this.items.length;
     },
+    scrollbarShown() {
+      return this.items.length || this.infiniteLoading;
+    },
   },
   methods: {
-    onGlobalResize() {
-      this.checkHeaderWidth();
-    },
-    checkHeaderWidth() {
-      this.rowWidth = this.$refs.scroller.$el.clientWidth;
-    },
     updateScrollBar() {
       this.$nextTick(() => {
         if (this.scrollbar) {
           this.scrollbar.update();
         } else {
-          const el = document.querySelector('.virtual-list');
+          const selector = this.name ? `.${this.name} .virtual-list` : '.virtual-list';
+          const el = document.querySelector(selector);
           this.scrollbar = new PerfectScrollbar(el);
+          el.addEventListener('ps-y-reach-end', () => {
+            if (!this.loadingItems) {
+              this.$emit('bottomReached');
+            }
+          });
         }
       });
     },
-    scrollToFirstUpdatedItem() {
+    scrollToFirstInsertedtem() {
       const scrollTop = this.lastScrollTop + this.lastScrollHeight - this.itemHeight;
-      this.$refs.scroller.setScrollTop(scrollTop);
+      this.scrollToPosition(scrollTop);
+    },
+    scrollToPrependedItem() {
+      this.scrollToPosition(0);
     },
     infiniteHandler() {
-      this.$emit('bottomReached');
       const { scrollTop, clientHeight } = this.$refs.scroller.$el;
       this.lastScrollTop = scrollTop;
       this.lastScrollHeight = clientHeight;
     },
+    scrollToPosition(position) {
+      this.$refs.scroller.$el.scrollTop = position;
+    },
   },
   watch: {
-    itemsLength(next, old) {
-      const itemsInserted = next > old;
-      if (itemsInserted && this.scrollOnItemsInsert) {
-        this.$nextTick(this.scrollToFirstUpdatedItem);
+    items(next, old) {
+      const oldLength = old && old.length;
+      const nextLength = next && next.length;
+      const itemsPrepended =
+        !!oldLength && !!nextLength && old[0][this.itemKeyName] !== next[0][this.itemKeyName];
+      const itemsAppended = !!oldLength && !!nextLength && nextLength > oldLength;
+
+      if (this.scrollOnItemsAdding && itemsPrepended) {
+        this.$nextTick(this.scrollToPrependedItem);
+      } else if (this.scrollOnItemsAdding && itemsAppended) {
+        // $nextTick calls scrolling too early, scroll-list is not updated correctly
+        setTimeout(() => this.scrollToFirstInsertedtem());
       }
+
       this.updateScrollBar();
     },
   },
   mounted() {
-    this.checkHeaderWidth();
     this.updateScrollBar();
-    setTimeout(this.checkHeaderWidth, 500); // Fix for IE11 because it's pretty slow.
-
-    window.addEventListener('resize', this.onGlobalResize);
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.onGlobalResize);
   },
 };

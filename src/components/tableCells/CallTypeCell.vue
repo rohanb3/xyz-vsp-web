@@ -15,7 +15,8 @@ export default {
   },
   computed: {
     type() {
-      return this.$t(this.item.type);
+      const { operatorFeedback = {} } = this.item;
+      return operatorFeedback.callType ? this.$t(operatorFeedback.callType) : '-';
     },
   },
 };

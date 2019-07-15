@@ -35,6 +35,27 @@ $table-list-padding: 22px;
 $table-datepicker-divider-color: rgba(151, 151, 151, 0.3);
 $table-datepicker-color: #4a4a4a;
 $table-datepicker-hover-color: rgba(151, 151, 151, 0.1);
+$table-additional-cell-color: #398ffb;
+$table-toolbar-height: 84px;
+$table-toolbar-section-border-color: rgba(57, 143, 251, 0.2);
+$table-toolbar-section-color: #398ffb;
+$table-header-text-color: #999999;
+$table-header-icon-color: #398ffb;
+$table-row-text-color: #4a4a4a;
+$table-row-border-color: #dfdfdf;
+$table-icon-color: #3c91f7;
+$table-shadow-color: rgba(0, 0, 0, 0.22);
+$table-inactive-color: #4a4a4a;
+$table-footer-height: 40px;
+$table-loader-main-color: rgba(57, 143, 251, 0.2);
+$table-loader-accent-color: #398ffb;
+$table-loader-height: 30px;
+$table-datepicker-divider-color: rgba(151, 151, 151, 0.3);
+$table-datepicker-color: #4a4a4a;
+$table-datepicker-hover-color: rgba(151, 151, 151, 0.1);
+$table-disabled-row-color: #d8d8d8;
+$table-dashboard-badge-color: #1657a8;
+$table-dashboard-badge-background-color: rgba(22, 87, 168, 0.1);
 $customers-table-toolbar-height: 60px;
 $superadmin-companies-table-toolbar-height: 60px;
 $customers-table-email-cell-color: #398ffb;
@@ -54,7 +75,7 @@ $calls-call-feedback-popup-icon-color: #398ffb;
 $calls-record-icon-shadow-color: rgba(28, 83, 152, 0.53);
 $calls-record-icon-background-color: #fafafa;
 $calls-record-icon-arrow-color: #398ffb;
-$calls-feedback-card-width: 270px;
+$calls-feedback-card-width: 300px;
 $calls-feedback-card-background-color: #fff;
 $calls-feedback-card-shadow-color: rgba(184, 184, 184, 0.5);
 $calls-feedback-card-primary-color: #4a4a4a;
@@ -161,6 +182,9 @@ $operators-table-wrap-up-time-cell-color: #999999;
 $operators-table-wrap-up-time-cell-fast-color: #62a816;
 $operators-table-wrap-up-time-cell-slow-color: #d0021b;
 
+$device-management-table-toolbar-height: 60px;
+$devices-list-padding: 22px;
+
 $rating-efficiency-chart-bottom-bar-color: rgba(74, 74, 74, 0.4);
 $circle-chart-data-title-color: rgba(74, 74, 74, 0.6);
 $circle-chart-data-value-color: #4a4a4a;
@@ -195,3 +219,17 @@ $calls-dashboard-height: 76px;
 $payments-header-height: 65px;
 
 $login-header-color: rgba(0, 0, 0, 0.87);
+$no-result-found-height: 210px;
+
+$base-grey-color-opacity: rgba(153, 153, 153, 0.2);
+$base-text-color-opacity: rgba(74, 74, 74, 0.2);
+
+$form-input-border-color: rgba(151, 151, 151, 0.6);
+
+$device-info-popup-header-height: 51px;
+$device-info-popup-padding: 5px;
+
+$quick-search-border-color: rgba(74, 74, 74, 0.2);
+$table-filter-search-field-border-bottom: rgba(151, 151, 151, 0.3);
+$table-filter-search-field-placeholder: rgba(74, 74, 74, 0.4);
+$table-filter-border-right-color: rgba(57, 143, 251, 0.2);

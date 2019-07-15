@@ -25,10 +25,10 @@
 
 .content {
   flex: 1;
+  height: 100%;
 }
 
 .wombat-header .resizer {
-  /*background: #aaa;*/
   height: 100% !important;
   cursor: col-resize;
 }
@@ -42,4 +42,10 @@
   word-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.default-header-cell {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }

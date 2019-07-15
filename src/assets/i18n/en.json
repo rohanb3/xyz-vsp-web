@@ -18,8 +18,7 @@
   "calls": "Calls",
   "loading": "Loading",
   "date": "Date",
-  "operator": "Operator",
-  "retailers": "Retailers",
+  "operator": "Support Admin",
   "type": "Type",
   "disposition": "Disposition",
   "wait.time": "Wait time",
@@ -48,7 +47,7 @@
   "change.password": "Change password",
   "save": "Save",
   "client.feedback": "Client Feedback",
-  "operator.feedback": "Operator Feedback",
+  "operator.feedback": "Support Admin Feedback",
   "type.of.call": "Type Of Call",
   "system.quality.rating": "System Quality Rating",
   "rate.and.experience.with.operator": "Rate and experience with operator",
@@ -173,10 +172,11 @@
   "incoming.call.popup.call.accepting.failed":
     "Sorry, call can not be accepted",
   "incoming.call.popup.call.finished.by.customer": "User finished call",
+  "incoming.call.popup.user.media.failed":
+    "Probably you are streaming yourself somewhere. Please make sure your web camera is not used by side application and try again",
   "link.to.download": "Link to download",
   "extension.for.sharing.screen.not.installed":
     "The extension app for screen sharing isn't installed. Please, install to use and reload page after that.",
-  "connecting": "Connecting...",
   "ok": "Ok",
   "callback.declined": "Callback was declined",
   "peer.offline": "User is offline",
@@ -189,6 +189,17 @@
   "call.permissions.popup.video": "Camera",
   "call.permissions.popup.audio": "Microphone",
   "call.permissions.popup.notifications": "Notifications",
+  "call.local.connection.lost":
+    "Sorry, some problems with your call connection. The call is forced to end",
+  "call.remote.connection.lost":
+    "Sorry, the client side has some trouble with call connection. The call is forced to end",
+  "call.connecting": "Connecting...",
+  "call.reconnecting": "Reconnecting...",
+  "call.local.connection.error":
+    "Sorry, some problems with your call connection.",
+  "call.remote.connection.error":
+    "Sorry, some problems with client call connection.",
+  "call.screen.share.error": "Screen sharing failed. Please try again later",
 
   "login.forgot": "Forgot?",
   "back.to.login": "Back to Login",
@@ -209,7 +220,87 @@
     "Please, enter your new password and confirm it to reset",
   "invalid.code.entered": "Invalid code entered",
   "we.sended.verification.code.again":
-    "We sended verification code to your email",
+    "We have sent a new verification code to your email",
   "password.must.contain.capital.letter":
-    "Password must contain at least 1 capital letter"
+    "Password must contain at least 1 capital letter",
+  "table.no.results.found": "No Results found",
+  "device.management": "Device Management",
+  "branch.location": "Branch location",
+  "udid": "UDID",
+  "latitude": "Latitude",
+  "longitude": "Longitude",
+  "radius": "Radius",
+  "branch": "Branch",
+  "status.since": "Online/offline since",
+  "location.status": "Location status",
+  "comments": "Comments",
+  "branch.name": "Branch name",
+  "logged.in.as": "Logged in as",
+  "add.device": "Add Device",
+  "udid.idfv": "UDID/IDFV",
+  "status.pending": "Waiting for onboarding",
+  "idfv": "IDFV",
+  "in.location": "In location",
+  "out.location": "Out of location",
+
+  "retailer.not.found":
+    "Sorry, any retailer according to your query doesn't found.",
+  "branch.not.found":
+    "Sorry, any branch according to your query doesn't found.",
+  "field.cant.be.empty": "This field should be filled.",
+
+  "changes.will.not.be.saved": "Are you sure your changes will not be saved?",
+  "sure": "Sure",
+  "email.is.not.registered":
+    "This email is not registered in this system. Please, check and try again.",
+  "something.went.wrong": "Opps, something went wrong :(",
+  "email.is.not.registered":
+    "This email is not registered in this system. Please, check and try again.",
+  "something.went.wrong": "Opps, something went wrong :(",
+
+  "device.id": "Device Id",
+  "history": "History",
+  "branch.location": "Branch location",
+  "device.location.with.hint": "Device location (Lat/Long)",
+  "branch.location.with.hint": "Branch location (Lat/Long)",
+  "latitude": "Latitude",
+  "longitude": "Longitude",
+  "branch": "Branch",
+  "allowed.location.radius": "Allowed location radius",
+  "current.device.location": "Current device location",
+  "cancel": "Cancel",
+  "are.you.sure.you.want.to.go.away":
+    "Are you sure you want to go away? Changes will not be saved.",
+  "online": "Online",
+  "offline": "Offline",
+  "show.on.maps": "Show on maps",
+  "are.you.sure.you.want.to.go.away":
+    "Are you sure you want to go away? Changes will not be saved.",
+  "comment": "Comment",
+  "type.here": "Type here",
+  "add.your.comment": "Add your comment",
+  "date.time": "Date/Time",
+  "author": "Author",
+  "quick.search": "Search query…",
+  "search.by.id.idfv": "Search by ID IDFV",
+  "table.filter.placeholder.search": "Search...",
+  "table.filter.clear.all": "Clear",
+  "table.filter.select.all": "Select All",
+
+  "template.list": "Template List",
+  "synchronization": "Synchronization",
+  "synchronize.users": "Synchronize your users",
+  "synchronize.users.description": "You can synchronize the users from the Cable Portal to XYZ system.",
+  "synchronize.users.description.hint": "Please, tap on the \"Synchronization\" button to start the synchronization process.",
+  "synchronization.with.cable.portal": "Synchronization with Cable Portal",
+  "synchronize": "Synchronize",
+  "last.synchronization.date": "Last synchronization date",
+  "sync.started": "Sync successfully initiated",
+  "sync.completed": "Sync completed",
+  "sync.info": "Synchronization may take a few minutes...",
+  "no.sync.occurred": "No sync occurred",
+  "settings.your.change.photo": "Change Photo",
+  "settings.your.remove.photo": "Remove Photo",
+  "settings.your.failed.to.upload.photo": "Failed to upload photo",
+  "map": "Map"
 }

@@ -50,8 +50,9 @@ import ServiceEficiencyCell from '@/components/tableCells/ServiceEficiencyCell';
 
 import smartTable from '@/mixins/smartTable';
 
-import { LOAD_CALLS_FEEDBACK } from '@/store/storage/actionTypes';
-import { CALLS_FEEDBACK_TABLE } from '@/constants/tablesNames';
+import { ENTITY_TYPES } from '@/constants';
+
+const LOAD_CALLS_FEEDBACK = 'test';
 
 export default {
   name: 'CallsFeedbackTable',
@@ -65,7 +66,7 @@ export default {
   mixins: [smartTable],
   data() {
     return {
-      tableName: CALLS_FEEDBACK_TABLE,
+      tableName: ENTITY_TYPES.CALLS_FEEDBACK,
       rowComponentsHash: {
         default: 'DefaultCell',
         feedbackQuality: 'FeedbackQualityCell',

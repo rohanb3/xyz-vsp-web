@@ -1,58 +1,14 @@
-import { filterByDateRange } from '@/services/dateHelper';
+import { CALL_DISPOSITIONS, CALL_TYPES } from '@/constants';
+
+const defaultItemGetter = item => item.id;
 
 export default {
-  loadedCustomersAmount(state) {
-    return state.customers.length;
+  callTypes() {
+    return [...CALL_TYPES];
   },
-  allCustomersLoaded({ allCustomersLength }, { loadedCustomersAmount }) {
-    return allCustomersLength <= loadedCustomersAmount;
+  callDispositions() {
+    return [...CALL_DISPOSITIONS];
   },
-  loadedSuperadminCompaniesAmount(state) {
-    return state.superadminCompanies.length;
-  },
-  allSuperadminCompaniesLoaded(
-    { allSuperadminCompaniesLength },
-    { loadedSuperadminCompaniesAmount }
-  ) {
-    return allSuperadminCompaniesLength <= loadedSuperadminCompaniesAmount;
-  },
-  loadedCallsAmount(state) {
-    return state.calls.length;
-  },
-  loadedOperatorsAmount(state) {
-    return state.operators.length;
-  },
-  loadedSuperadminOperatorsAmount(state) {
-    return state.superadminOperators.length;
-  },
-  allSuperadminOperatorsLoaded(
-    { allSuperadminOperatorsLength },
-    { loadedSuperadminOperatorsAmount }
-  ) {
-    return allSuperadminOperatorsLength <= loadedSuperadminOperatorsAmount;
-  },
-  allOperatorsLoaded({ allOperatorsLength }, { loadedOperatorsAmount }) {
-    return allOperatorsLength <= loadedOperatorsAmount;
-  },
-  allCallsLoaded({ allCustomersLength }, { loadedCustomersAmount }) {
-    return allCustomersLength <= loadedCustomersAmount;
-  },
-  loadedPaymentsAmount(state) {
-    return state.payments.length;
-  },
-  allPaymentsLoaded({ allPaymentsLength }, { loadedPaymentsAmount }) {
-    return allPaymentsLength <= loadedPaymentsAmount;
-  },
-  callTypes(state) {
-    return state.callTypes;
-  },
-  dispositions(state) {
-    return state.dispositions;
-  },
-  callsInDateRange({ calls }, { callsTableDateRange }) {
-    return filterByDateRange(calls, callsTableDateRange);
-  },
-  filteredCallsLength(state, { callsInDateRange }) {
-    return callsInDateRange.length;
-  },
+  getItemById: state => (itemId, tableName, getItemId = defaultItemGetter) =>
+    state[tableName].items.find(item => getItemId(item) === itemId),
 };

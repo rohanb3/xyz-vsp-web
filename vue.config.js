@@ -1,3 +1,7 @@
+const packageFile = require('./package.json');
+
+process.env.VUE_APP_BUILD_VERSION = packageFile.version;
+
 module.exports = {
   configureWebpack: {
     optimization: {
@@ -27,7 +31,23 @@ module.exports = {
         target: process.env.VUE_APP_PROXY_URL || 'https://ardas-xyz-vsp.firebaseapp.com',
       },
       '/api/identity/api': {
-        target: 'https://dev-demo.xyzies.ardas.biz/',
+        target: 'https://dev-portal.xyzvsp.com/',
+        changeOrigin: true,
+      },
+      '/api/reviews/api': {
+        target: 'https://dev-portal.xyzvsp.com/',
+        changeOrigin: true,
+      },
+      '/api/device-management-api/devices': {
+        target: 'https://dev-portal.xyzvsp.com/',
+        changeOrigin: true,
+      },
+      '/api/public-api': {
+        target: 'https://dev-portal.xyzreviews.com/',
+        changeOrigin: true,
+      },
+      '/api/video/calls': {
+        target: process.env.VUE_APP_PROXY_CALLS_REST_URL || 'http://localhost:3000',
         changeOrigin: true,
       },
       '/api/video/call-feedback-operator': {
@@ -41,6 +61,11 @@ module.exports = {
         pathRewrite: {
           '^/api/video/socket.io': '/socket.io',
         },
+      },
+      '/api/device-management-api/operatorSocket': {
+        target: 'https://dev-portal.xyzvsp.com/',
+        ws: true,
+        changeOrigin: true,
       },
     },
   },

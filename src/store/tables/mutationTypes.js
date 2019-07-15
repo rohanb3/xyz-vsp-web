@@ -3,3 +3,7 @@ export const RESET_COLUMNS = 'RESET_COLUMNS';
 export const SHOW_COLUMN = 'SHOW_COLUMN';
 export const HIDE_COLUMN = 'HIDE_COLUMN';
 export const SET_DATE_RANGE = 'SET_DATE_RANGE';
+export const SET_FILTER = 'SET_FILTER';
+export const SET_FILTERS = 'SET_FILTERS';
+export const RESET_FILTERS = 'RESET_FILTERS';
+export const APPLYING_FILTERS_DONE = 'APPLYING_FILTERS_DONE';

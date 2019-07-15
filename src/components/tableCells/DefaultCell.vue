@@ -1,18 +1,18 @@
 <template>
-  <div class='default-cell'>
-    {{ item[column.field] }}
+  <div class="default-cell" :title="getValue">
+    {{ getValue }}
   </div>
 </template>
 
 <script>
+import nestedFieldCell from '@/mixins/nestedFieldCell';
+
 export default {
   name: 'DefaultCell',
-  props: {
-    item: {
-      type: Object,
-    },
-    column: {
-      type: Object,
+  mixins: [nestedFieldCell],
+  computed: {
+    getValue() {
+      return this.value || this.column.placeholder;
     },
   },
 };

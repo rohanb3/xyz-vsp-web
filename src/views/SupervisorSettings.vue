@@ -9,19 +9,30 @@
 
 <script>
 import SidebarMenu from '../components/SidebarMenu';
+import { ROLE_TYPES } from '@/constants';
 
 const sidebarLinks = [
   {
     titleKey: 'profile',
     link: 'profile',
+    hide: [],
   },
+  // {
+  //   titleKey: 'company',
+  //   link: 'company',
+  // },
+  // {
+  //   titleKey: 'plans',
+  //   link: 'plans',
+  // },
+  // {
+  //   titleKey: 'template.list',
+  //   link: 'template-list',
+  // },
   {
-    titleKey: 'company',
-    link: 'company',
-  },
-  {
-    titleKey: 'plans',
-    link: 'plans',
+    titleKey: 'synchronization',
+    link: 'synchronization',
+    hide: [ROLE_TYPES.SUPPORT_ADMIN],
   },
 ];
 

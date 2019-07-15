@@ -26,3 +26,12 @@ export const verifyCode = (email, code) =>
 
 export const resetPassword = (resetToken, password) =>
   api.post('/authorize/reset-password', { resetToken, password }).then(response => response);
+
+export const updateAvatar = (id, updates = {}) =>
+  api.put(`/users/${id}/avatar`, updates, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+export const deleteAvatar = id => api.delete(`/users/${id}/avatar`);
