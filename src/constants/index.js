@@ -192,3 +192,15 @@ export const DEVICE_STATUS = {
   ONLINE: true,
   OFFLINE: false,
 };
+
+export const CALL_DISPOSITIONS = [
+  'Sale Made',
+  'Not Interested',
+  'Call Back',
+  'No Coverage',
+  'Too Expensive',
+  'Pre-payment',
+  'Bad Debt',
+];
+
+export const CALL_TYPES = ['info', 'help', 'sale'];
