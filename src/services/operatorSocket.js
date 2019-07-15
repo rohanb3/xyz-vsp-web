@@ -54,7 +54,8 @@ export function notifyAboutFinishingCall(callId) {
 }
 
 export function notifyAboutLeavingRoomEmpty() {
-  socket.emit(EVENTS.ROOM_LEFT_EMPTY);
+  socket.emit(
+    .ROOM_LEFT_EMPTY);
 }
 
 export function requestCallback(callId) {
