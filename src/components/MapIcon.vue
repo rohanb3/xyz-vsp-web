@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import mapIcon from '@/assets/icons/google.svg';
+import mapIcon from '@/assets/icons/google.png';
 
 export default {
   name: 'MapIcon',
