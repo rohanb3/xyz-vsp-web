@@ -46,7 +46,7 @@ export default {
   components: { LastSyncTimeInfo },
   data() {
     return {
-      lastSyncTime: moment(),
+      lastSyncTime: moment().format(),
       sync: false,
     };
   },
