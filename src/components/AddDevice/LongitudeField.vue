@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { validateFieldCantBeEmpty, validateOnlyDigitsAndDots } from '@/services/validators';
+import { validateFieldCantBeEmpty, validateOnlyDigitsAndDotsAndDash } from '@/services/validators';
 
 export default {
   name: 'LongitudeField',
@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      longitudeRules: [validateFieldCantBeEmpty(), validateOnlyDigitsAndDots()],
+      longitudeRules: [validateFieldCantBeEmpty(), validateOnlyDigitsAndDotsAndDash()],
     };
   },
   computed: {
