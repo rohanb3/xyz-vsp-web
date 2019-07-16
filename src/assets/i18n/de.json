@@ -265,5 +265,8 @@
     "settings.your.change.photo": "TBD Change Photo",
     "settings.your.remove.photo": "TBD Remove Photo",
     "settings.your.failed.to.upload.photo": "TBD Failed to upload photo",
-    "map": "Map"
+    "map": "TBD Map",
+    "field.must.consist.only.digits.and.dots": "TBD Field must consist only digits and dots",
+    "field.must.consist.only.digits": "TBD Field must consist only digits",
+    "field.must.consist.only.digits.and.dots.and.dash": "TBD Field must consist only digits and dots and dash"
 }
