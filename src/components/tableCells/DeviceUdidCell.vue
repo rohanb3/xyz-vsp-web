@@ -5,7 +5,10 @@
       href="#"
       @click.prevent.stop="$emit('pendingDeviceSelected', item.id)"
     >{{ item.udid }}</a>
-    <span v-else>{{ item.udid }}</span>
+    <a
+      v-else
+      href="#"
+      @click.prevent.stop="$emit('deviceIdSelected', item.id)">{{ item.udid }}</a>
   </div>
 </template>
 

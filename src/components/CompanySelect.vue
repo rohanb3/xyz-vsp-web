@@ -43,10 +43,12 @@ export default {
       return this.$store.state.storage[this.entityName] || {};
     },
     companies() {
-      this.$store.commit('INSERT_ITEMS', {
-        itemType: this.entityName,
-        items: [this.value],
-      });
+      if (this.value.id) {
+        this.$store.commit('INSERT_ITEMS', {
+          itemType: this.entityName,
+          items: [this.value],
+        });
+      }
       return this.storageData.items || [];
     },
     total() {

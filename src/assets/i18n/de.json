@@ -246,7 +246,7 @@
     "date.time": "TBD Date/Time",
     "author": "TBD Author",
     "quick.search": "TBD Search query…",
-    "search.by.id.udid": "TBD Search by ID UDID",
+    "search.by.id.idfv": "TBD Search by ID IDFV",
     "table.filter.placeholder.search": "TBD Search...",
     "table.filter.clear.all": "TBD Clear",
     "table.filter.select.all": "TBD Select All",
@@ -264,5 +264,9 @@
     "no.sync.occurred": "TBD No sync occurred",
     "settings.your.change.photo": "TBD Change Photo",
     "settings.your.remove.photo": "TBD Remove Photo",
-    "settings.your.failed.to.upload.photo": "TBD Failed to upload photo"
+    "settings.your.failed.to.upload.photo": "TBD Failed to upload photo",
+    "map": "TBD Map",
+    "field.must.consist.only.digits.and.dots": "TBD Field must consist only digits and dots",
+    "field.must.consist.only.digits": "TBD Field must consist only digits",
+    "field.must.consist.only.digits.and.dots.and.dash": "TBD Field must consist only digits and dots and dash"
 }

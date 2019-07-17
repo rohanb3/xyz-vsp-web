@@ -2,7 +2,9 @@
   <table-full-height-balloon class="device-history" @close="close">
     <div class="additional-info">
       <div class="additional-info-wrapper">
-        <div class="device-id">{{ $t('device.id') }}: {{ selected.id }}</div>
+        <div class="device-id">
+          <p :title="selected.id">{{ $t('device.id') }}: {{ selected.id }}</p>
+        </div>
         <v-toolbar tabs>
           <template>
             <v-tabs
@@ -256,6 +258,13 @@ export default {
       line-height: 51px;
       padding: 0 12px;
       min-width: 185px;
+
+      p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+      }
     }
     .order-number {
       margin-left: 12px;

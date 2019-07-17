@@ -282,7 +282,7 @@
   "date.time": "Date/Time",
   "author": "Author",
   "quick.search": "Search query…",
-  "search.by.id.udid": "Search by ID UDID",
+  "search.by.id.idfv": "Search by ID IDFV",
   "table.filter.placeholder.search": "Search...",
   "table.filter.clear.all": "Clear",
   "table.filter.select.all": "Select All",
@@ -302,5 +302,10 @@
   "settings.your.change.photo": "Change Photo",
   "settings.your.remove.photo": "Remove Photo",
   "settings.your.failed.to.upload.photo": "Failed to upload photo",
-  "hexnodeUdid": "Hexnode UDID"
+  "hexnodeUdid": "Hexnode UDID",
+  "settings.your.failed.to.upload.photo": "Failed to upload photo",
+  "map": "Map",
+  "field.must.consist.only.digits.and.dots": "Field must consist only digits and dots",
+  "field.must.consist.only.digits": "Field must consist only digits",
+  "field.must.consist.only.digits.and.dots.and.dash": "Field must consist only digits and dots and dash"
 }
