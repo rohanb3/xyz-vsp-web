@@ -268,5 +268,6 @@
     "map": "TBD Map",
     "field.must.consist.only.digits.and.dots": "TBD Field must consist only digits and dots",
     "field.must.consist.only.digits": "TBD Field must consist only digits",
-    "field.must.consist.only.digits.and.dots.and.dash": "TBD Field must consist only digits and dots and dash"
+    "field.must.consist.only.digits.and.dots.and.dash": "TBD Field must consist only digits and dots and dash",
+    "device.name": "TBD Device Name"
 }

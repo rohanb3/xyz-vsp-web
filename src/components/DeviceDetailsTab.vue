@@ -10,7 +10,7 @@
           v-model="selected.deviceName"
           field="deviceName"
           inputType="text"
-          :label="$t('name')"
+          :label="$t('device.name')"
           :id="'name'"
           @change="onInputChange"
         />
