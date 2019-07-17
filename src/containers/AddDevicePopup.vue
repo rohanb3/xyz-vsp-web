@@ -11,6 +11,12 @@
             <udid-field v-model="selectedDevice" :disabled="true"/>
           </div>
           <div class="company__section add-device__section">
+            <name-field v-model="deviceInfo" />
+          </div>
+          <div class="company__section add-device__section">
+            <hexnode-udid-field v-model="deviceInfo" />
+          </div>
+          <div class="company__section add-device__section">
             <company-quick-search v-model="deviceInfo"/>
           </div>
           <div class="branch__section add-device__section">
@@ -63,12 +69,16 @@ import ConfirmPopup from '@/components/ConfirmPopup';
 import { ENTITY_TYPES } from '@/constants';
 
 import { addBackgroundShadow, removeBackgroundShadow } from '@/services/background';
+import NameField from '../components/AddDevice/NameField';
+import HexnodeUdidField from '../components/AddDevice/HexnodeUdidField';
 
 const { DEVICES } = ENTITY_TYPES;
 
 export default {
   name: 'AddDevicePopup',
   components: {
+    HexnodeUdidField,
+    NameField,
     TableFullHeightBalloon,
     CompanyQuickSearch,
     BranchQuickSearch,

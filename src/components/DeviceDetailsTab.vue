@@ -7,8 +7,8 @@
           <p>{{ selected.udid }}</p>
         </div>
         <form-input
-          v-model="selected.name"
-          field="name"
+          v-model="selected.deviceName"
+          field="deviceName"
           inputType="text"
           :label="$t('name')"
           :id="'name'"
@@ -18,7 +18,7 @@
           v-model="selected.hexnodeUdid"
           field="hexnodeUdid"
           inputType="text"
-          :label="$t('hexnodeUdid')"
+          :label="$t('udid')"
           :id="'hexnodeUdid'"
           @change="onInputChange"
           style="align-self: flex-end"

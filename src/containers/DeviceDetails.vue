@@ -172,6 +172,8 @@ export default {
         data.longitude = this.selected.longitude;
         data.radius = this.selected.radius;
         data.udid = this.selected.udid;
+        data.deviceName = this.selected.deviceName;
+        data.hexnodeUdid = this.selected.hexnodeUdid;
 
         const { isInLocation, isOnline, ...mixin } = this.selected;
 
