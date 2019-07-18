@@ -9,7 +9,8 @@ const INVALID_TOKEN = 'invalid_token';
 const SET_TOKEN_TIMEOUT = 500;
 
 function requestInterceptor(request) {
-  const { token } = store.state.loggedInUser;
+  // const { token } = store.state.loggedInUser;
+  const token = JSON.parse(localStorage.getItem('token'));
 
   if (!request.disableAuthHeader && token) {
     request.headers = {
