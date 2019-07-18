@@ -14,7 +14,7 @@
 import { validateFieldCantBeEmpty } from '@/services/validators';
 
 export default {
-  name: 'NameField',
+  name: 'DeviceNameField',
   props: {
     value: {
       type: Object,
