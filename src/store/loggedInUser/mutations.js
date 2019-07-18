@@ -17,11 +17,9 @@ export default {
     state.profileData = {};
   },
   [SET_TOKEN](state, token) {
-    localStorage.setItem('token', JSON.stringify(token));
     state.token = token;
   },
   [REMOVE_TOKEN](state) {
-    localStorage.setItem('token', null);
     state.token = null;
   },
   [SET_RESET_TOKEN](state, resetToken) {
