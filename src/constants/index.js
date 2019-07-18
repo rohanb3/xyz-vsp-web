@@ -177,6 +177,7 @@ export const DEVICE_LIST_COLUMNS_SORTED = {
   IS_IN_LOCATION: 'isinlocation',
   COMPANY_NAME: 'companyname',
   LOGGED_IN_AS: 'displayname',
+  DEVICE_NAME: 'deviceName',
 };
 
 export const FILTER_NAMES = {
