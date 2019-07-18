@@ -269,5 +269,6 @@
     "field.must.consist.only.digits.and.dots": "TBD Field must consist only digits and dots",
     "field.must.consist.only.digits": "TBD Field must consist only digits",
     "field.must.consist.only.digits.and.dots.and.dash": "TBD Field must consist only digits and dots and dash",
-    "search.by.name.idfv": "TBD Search by Name, IDFV"
+    "search.by.name.idfv": "TBD Search by Name, IDFV",
+    "device.name": "TBD Device Name"
 }
