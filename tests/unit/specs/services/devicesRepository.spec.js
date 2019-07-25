@@ -1,5 +1,12 @@
 import api from '@/services/devicesApi';
-import { getDevices, getDeviceHistory, createDevice } from '@/services/devicesRepository';
+import {
+  getDevices,
+  getDeviceHistory,
+  createDevice,
+  updateDevice,
+  getCommentByDevice,
+  submitComment,
+} from '@/services/devicesRepository';
 
 describe('devicesRepository', () => {
   describe('getDevices(): ', () => {
@@ -21,7 +28,6 @@ describe('devicesRepository', () => {
       });
     });
   });
-
   describe('getDeviceHistory(): ', () => {
     it('should do nothing if no device id was specified', () => {
       const expectedResponse = {
@@ -75,7 +81,6 @@ describe('devicesRepository', () => {
       });
     });
   });
-
   describe('createDevice', () => {
     it('should call api.post and return corect data', async () => {
       const data = {
@@ -88,6 +93,55 @@ describe('devicesRepository', () => {
 
       expect(response).toEqual(data);
       expect(api.post).toHaveBeenCalledWith('/devices', data);
+    });
+  });
+  describe('updateDevice', () => {
+    it('should call api.put and return data', async () => {
+      const id = 1;
+      const params = { name: 'device 1' };
+
+      const data = { id, ...params };
+
+      api.put = jest.fn(() => Promise.resolve({ data }));
+
+      const result = await updateDevice(id, params);
+
+      expect(api.put).toHaveBeenCalledWith(`/devices/${id}`, params);
+      expect(result).toEqual(data);
+    });
+  });
+  describe('getCommentByDevice', () => {
+    it('should call api.get and return data', async () => {
+      const data = { result: [], total: 0 };
+      const params = { sortDirection: 'desc' };
+
+      const expectedResult = { data: [], count: 0 };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+
+      const result = await getCommentByDevice({ id: 1, ...params });
+
+      expect(api.get).toHaveBeenCalledWith(`/devices/${1}/comments`, { params });
+      expect(result).toEqual(expectedResult);
+    });
+  });
+  describe('submitComment', () => {
+    it('should call api.post and return data', async () => {
+      const id = 1;
+      const comment = 'comment';
+
+      const data = { id, comment };
+
+      api.post = jest.fn(() => Promise.resolve(data));
+
+      const result = await submitComment(id, comment);
+
+      expect(api.post).toHaveBeenCalledWith(`/devices/${id}/comments`, comment, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      expect(result).toEqual(data);
     });
   });
 });
