@@ -12,4 +12,5 @@ module.exports = {
   testMatch: ['**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'],
   testURL: 'http://localhost/',
   cache: false,
+  setupFiles: ['./__mocks__/setup.js'],
 };

@@ -1,4 +1,4 @@
-import { extractPropertiesFromArrObj } from '@/services/utils';
+import { extractPropertiesFromArrObj, getStringFromValuesByKey } from '@/services/utils';
 
 describe('utils', () => {
   describe('extractPropertiesFromArrObj', () => {
@@ -27,6 +27,40 @@ describe('utils', () => {
       const result = extractPropertiesFromArrObj();
 
       expect([]).toEqual(result);
+    });
+  });
+  describe('getStringFromValuesByKey: ', () => {
+    it('should return empty string if passed empty itemKey', () => {
+      const items = [
+        { id: 1, name: 'Alabama', value: 'AL', selected: true },
+        { id: 2, name: 'Alaska', value: 'AK' },
+      ];
+
+      const result = getStringFromValuesByKey('', items, 3);
+
+      const expectedString = '';
+
+      expect(result).toEqual(expectedString);
+    });
+
+    it('should return empty string if selectedItems is empty', () => {
+      const items = [];
+
+      const result = getStringFromValuesByKey('name', items, 3);
+
+      const expectedString = '';
+
+      expect(result).toEqual(expectedString);
+    });
+
+    it('should return empty string if item not found in the list', () => {
+      const items = [{ id: 1, value: 'AL', selected: true }, { id: 4, value: 'AR' }];
+
+      const result = getStringFromValuesByKey('name', items, 3);
+
+      const expectedString = '';
+
+      expect(result).toEqual(expectedString);
     });
   });
 });

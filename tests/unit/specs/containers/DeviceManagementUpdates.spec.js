@@ -169,5 +169,29 @@ describe('DeviceManagementUpdates', () => {
         expect(fakeThis.$store.commit).toHaveBeenCalledWith(UPSERT_ITEMS, expectedPayload);
       });
     });
+    describe('addDevice()', () => {
+      it('should commit to store new device', () => {
+        const fakeThis = {
+          $store: {
+            commit: jest.fn(),
+          },
+        };
+
+        const device = {
+          id: 'device42',
+          isInLocation: true,
+          isOnline: false,
+        };
+
+        const expectedPayload = {
+          itemType: ENTITY_TYPES.DEVICES,
+          items: [{ ...device }],
+        };
+
+        DeviceManagementUpdates.methods.addDevice.call(fakeThis, device);
+
+        expect(fakeThis.$store.commit).toHaveBeenCalledWith(UPSERT_ITEMS, expectedPayload);
+      });
+    });
   });
 });
