@@ -34,9 +34,7 @@ export function cleanUp() {
 
 export function handleUpdateCallsInfo(calls) {
   if (calls.size) {
-    if (document.hidden) {
-      notifyAboutCall();
-    }
+    notifyAboutCall();
   } else {
     cleanUp();
   }
