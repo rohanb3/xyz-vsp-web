@@ -13,7 +13,13 @@ export function setSWRegistration(registration) {
 
 export function notifyAboutCall() {
   return initPromise.then(() => {
-    if (isEnabled() && swRegistration) {
+    const enabled = isEnabled();
+
+    if (!enabled) {
+      console.log('Notification permission not granted');
+    }
+
+    if (enabled && swRegistration) {
       return swRegistration.showNotification('Incoming call', {
         tag: 'incoming-call',
         requireInteraction: true,
@@ -33,6 +39,11 @@ export function cleanUp() {
 }
 
 export function handleUpdateCallsInfo(calls) {
+  console.log(
+    `Notification handler called. Calls size: ${calls.size}, document ${
+      document.hidden ? 'hidden' : 'shown'
+    }`
+  );
   if (calls.size) {
     notifyAboutCall();
   } else {

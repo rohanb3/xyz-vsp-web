@@ -6,6 +6,10 @@ import {
   resetPassword,
   updateAvatar,
   deleteAvatar,
+  getProfileData,
+  login,
+  refreshToken,
+  getUser,
 } from '@/services/identityRepository';
 import * as utils from '@/services/utils';
 import { RESPONSE_STATUSES } from '@/constants';
@@ -106,6 +110,68 @@ describe('identityRepository', () => {
       await deleteAvatar(id);
 
       expect(api.delete).toHaveBeenCalledWith(`/users/${id}/avatar`);
+    });
+  });
+  describe('getUser', () => {
+    it('should call api.get and return data', async () => {
+      const id = 1;
+      const name = 'user';
+      const data = { id, name };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+
+      const result = await getUser(id);
+
+      expect(api.get).toHaveBeenCalledWith(`/users/${id}`);
+      expect(result).toEqual(data);
+    });
+  });
+  describe('refreshToken', () => {
+    it('should call api.post and return data', async () => {
+      /* eslint-disable */
+      const refresh_token = 'refresh_token';
+      const access_token = 'access_token';
+      const data = { access_token, refresh_token };
+      /* eslint-enable */
+
+      api.post = jest.fn(() => Promise.resolve(data));
+      const response = await refreshToken(refresh_token);
+
+      expect(api.post).toHaveBeenCalledWith('/authorize/refresh', { refresh_token });
+      expect(response).toEqual(data);
+    });
+  });
+  describe('login', () => {
+    it('should call api.post and return data', async () => {
+      const email = 'email';
+      const password = 'password';
+      const scope = 'xyzies.authorization.vsp.web';
+
+      const data = { email, id: 1 };
+
+      api.post = jest.fn(() => Promise.resolve(data));
+      const result = await login(email, password);
+
+      expect(api.post).toHaveBeenCalledWith('/authorize/token', {
+        username: email,
+        password,
+        scope,
+      });
+      expect(result).toEqual(data);
+    });
+  });
+  describe('getProfileData', () => {
+    it('should call api.get and return data', async () => {
+      const data = {
+        id: 1,
+        name: 'user',
+      };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+      const result = await getProfileData();
+
+      expect(api.get).toHaveBeenCalledWith('/users/profile');
+      expect(result).toEqual(data);
     });
   });
 });

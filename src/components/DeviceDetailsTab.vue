@@ -6,6 +6,23 @@
           <div>{{ $t('idfv') }}</div>
           <p>{{ selected.udid }}</p>
         </div>
+        <form-input
+          v-model="selected.deviceName"
+          field="deviceName"
+          inputType="text"
+          :label="$t('device.name')"
+          :id="'name'"
+          @change="onInputChange"
+        />
+        <form-input
+          v-model="selected.hexnodeUdid"
+          field="hexnodeUdid"
+          inputType="text"
+          :label="$t('udid')"
+          :id="'hexnodeUdid'"
+          @change="onInputChange"
+          style="align-self: flex-end"
+        />
         <div>
           <p>{{ $t('branch.location') }}</p>
           <form-input

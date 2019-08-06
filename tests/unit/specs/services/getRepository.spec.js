@@ -1,6 +1,14 @@
 import api from '@/services/companiesApi';
 import locationApi from '@/services/locationApi';
-import { getCompanyList, getStateList, getCityList, getCompany } from '@/services/getRepository';
+import branchesApi from '@/services/branchesApi';
+import {
+  getCompanyList,
+  getStateList,
+  getCityList,
+  getCompany,
+  getBranchList,
+  getBranch,
+} from '@/services/getRepository';
 import { RESPONSE_STATUSES } from '@/constants';
 
 describe('geoRepository', () => {
@@ -73,6 +81,35 @@ describe('geoRepository', () => {
 
       expect(response).toEqual(data);
       expect(api.get).toHaveBeenCalledWith(`/${id}`);
+    });
+  });
+  describe('getBranchList', () => {
+    it('should call branchesApi.get and return data', async () => {
+      const skip = 0;
+      const take = 20;
+      const search = 'search';
+
+      const params = { skip, take, BranchNameFilter: search };
+      const data = { skip, take, BranchNameFilter: search };
+
+      branchesApi.get = jest.fn(() => Promise.resolve({ data }));
+      await getBranchList(search, skip, take);
+
+      expect(branchesApi.get).toHaveBeenCalledWith('/', { params });
+    });
+  });
+  describe('getBranch', () => {
+    it('should call branchesApi.get and return data', async () => {
+      const id = 1;
+      const name = 'branch #1';
+
+      const data = { id, name };
+
+      branchesApi.get = jest.fn(() => Promise.resolve({ data }));
+      const result = await getBranch(id);
+
+      expect(branchesApi.get).toHaveBeenCalledWith(`/${id}`);
+      expect(result).toEqual({ data });
     });
   });
 });

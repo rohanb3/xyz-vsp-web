@@ -87,4 +87,11 @@ describe('deviceManagementSocket: ', () => {
       expect(deviceManagementSocket.pickNeededFields(invalidJson)).toEqual({});
     });
   });
+  describe('addedDeviceFunc', () => {
+    it('should return parsed data', () => {
+      const result = deviceManagementSocket.addedDeviceFunc(JSON.stringify({ id: 1 }));
+
+      expect(result).toEqual({ id: 1 });
+    });
+  });
 });
