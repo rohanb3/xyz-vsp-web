@@ -9,6 +9,7 @@ const state = {
   token: null,
   activeCallData: null,
   connectedToSocket: false,
+  connectionDropped: false,
   pendingCallsInfo: {
     oldest: null,
     size: 0,

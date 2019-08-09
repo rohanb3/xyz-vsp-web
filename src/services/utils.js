@@ -33,3 +33,10 @@ export function extractPropertiesFromArrObj(dataArray, selectField = 'id') {
     return [];
   }
 }
+
+export function defer() {
+  const d = {};
+  const promise = new Promise((resolve, reject) => Object.assign(d, { resolve, reject }));
+  d.promise = promise;
+  return d;
+}

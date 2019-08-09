@@ -1,20 +1,12 @@
 <template>
   <div class="main-layout">
-    <router-view
-      class="app-header"
-      name="header"/>
+    <router-view class="app-header" name="header" />
     <div class="content-and-lhs-wrapper">
-      <router-view
-        class="lhs"
-        name="lhs"/>
-      <router-view
-        class="app-content"
-        name="main"/>
+      <router-view class="lhs" name="lhs" />
+      <router-view class="app-content" name="main" />
     </div>
-    <router-view
-      v-if="isSupportAdmin"
-      class="incoming-call"
-      name="incomingCall"/>
+    <router-view v-if="isSupportAdmin" class="incoming-call" name="incomingCall" />
+    <router-view v-if="isSupportAdmin" class="already-logged-in" name="alreadyLoggedIn" />
   </div>
 </template>
 
