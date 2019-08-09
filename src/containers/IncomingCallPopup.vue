@@ -67,20 +67,14 @@ import { operatorStatuses } from '@/store/call/constants';
 import { USER_LOGOUT } from '@/store/loggedInUser/actionTypes';
 import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO } from '@/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-import {
-  initializeOperator,
-  acceptCall,
-  disconnectOperator,
-  errors,
-} from '@/services/call';
+import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
 
 const { NOTIFICATION_DURATION } = NOTIFICATIONS;
 
 const errorsHash = {
   [errors.CALLS_EMPTY]: 'incoming.call.popup.call.was.answered',
-  [errors.CALL_FINISED_BY_CUSTOMER]:
-    'incoming.call.popup.call.finished.by.customer',
+  [errors.CALL_FINISED_BY_CUSTOMER]: 'incoming.call.popup.call.finished.by.customer',
   [errors.USER_MEDIA_FAILED]: 'incoming.call.popup.user.media.failed',
 };
 
@@ -130,9 +124,7 @@ export default {
         this.initializingError ||
         this.connectInProgress ||
         this.connectingError ||
-        (this.isOperatorIdle &&
-          this.isAnyPendingCall &&
-          !this.connectionDropped)
+        (this.isOperatorIdle && this.isAnyPendingCall && !this.connectionDropped)
       );
     },
     isPendingCallDataShown() {
@@ -151,9 +143,7 @@ export default {
     },
     brandName() {
       if (this.companyName) {
-        return `${this.$t('incoming.call.popup.brand.from')} «${
-          this.companyName
-        }»`;
+        return `${this.$t('incoming.call.popup.brand.from')} «${this.companyName}»`;
       }
       return '';
     },
@@ -210,9 +200,7 @@ export default {
       this.$router.push({ name: 'call' });
     },
     onCallAcceptingFailed(error) {
-      this.connectingError = this.$t(
-        errorsHash[error.message] || DEFAULT_ACCEPTING_ERROR
-      );
+      this.connectingError = this.$t(errorsHash[error.message] || DEFAULT_ACCEPTING_ERROR);
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;
