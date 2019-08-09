@@ -9,7 +9,7 @@ const state = {
   token: null,
   activeCallData: null,
   connectedToSocket: false,
-  connectionDropped: false,
+  connectionDropped: window.location.search.indexOf('disconnected') >= 0,
   pendingCallsInfo: {
     oldest: null,
     size: 0,

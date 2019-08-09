@@ -56,7 +56,7 @@ export function initializeOperator() {
 
 function checkConnectAvailability() {
   return new Promise((resolve, reject) => {
-    if (window.location.search.indexOf('disconnected') >= 0) {
+    if (store.getters.connectionDropped) {
       reject();
     } else {
       resolve();
