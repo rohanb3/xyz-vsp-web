@@ -38,7 +38,7 @@
             <p class="text">{{$t('incoming')}}</p>
             <p class="time">{{callDuration}}</p>
           </div>
-          <div v-if="showWarning" class="extension-not-installed">
+          <div v-if="!screenSharingExtension" class="extension-not-installed">
             <p class="text">{{$t('extension.for.sharing.screen.not.installed')}}</p>
             <a class="link" :href="extensionLink" target="_blank">{{$t('link.to.download')}}</a>
           </div>
@@ -60,20 +60,27 @@
 
 <script>
 import moment from 'moment';
+import { mapGetters } from 'vuex';
 import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
 import { USER_LOGOUT } from '@/store/loggedInUser/actionTypes';
 import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO } from '@/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
-import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
+import {
+  initializeOperator,
+  acceptCall,
+  disconnectOperator,
+  errors,
+} from '@/services/call';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
 
 const { NOTIFICATION_DURATION } = NOTIFICATIONS;
 
 const errorsHash = {
   [errors.CALLS_EMPTY]: 'incoming.call.popup.call.was.answered',
-  [errors.CALL_FINISED_BY_CUSTOMER]: 'incoming.call.popup.call.finished.by.customer',
+  [errors.CALL_FINISED_BY_CUSTOMER]:
+    'incoming.call.popup.call.finished.by.customer',
   [errors.USER_MEDIA_FAILED]: 'incoming.call.popup.user.media.failed',
 };
 
@@ -111,22 +118,21 @@ export default {
         .second(this.counter)
         .format('mm:ss');
     },
-    isAnyPendingCall() {
-      return this.$store.getters.isAnyPendingCall;
-    },
-    showWarning() {
-      return !this.$store.getters.screenSharingExtension;
-    },
-    isOperatorIdle() {
-      return this.$store.getters.isOperatorIdle;
-    },
+    ...mapGetters([
+      'isAnyPendingCall',
+      'screenSharingExtension',
+      'isOperatorIdle',
+      'connectionDropped',
+    ]),
     isDialogShown() {
       return (
         this.permissionsError ||
         this.initializingError ||
         this.connectInProgress ||
         this.connectingError ||
-        (this.isOperatorIdle && this.isAnyPendingCall)
+        (this.isOperatorIdle &&
+          this.isAnyPendingCall &&
+          !this.connectionDropped)
       );
     },
     isPendingCallDataShown() {
@@ -145,7 +151,9 @@ export default {
     },
     brandName() {
       if (this.companyName) {
-        return `${this.$t('incoming.call.popup.brand.from')} «${this.companyName}»`;
+        return `${this.$t('incoming.call.popup.brand.from')} «${
+          this.companyName
+        }»`;
       }
       return '';
     },
@@ -202,7 +210,9 @@ export default {
       this.$router.push({ name: 'call' });
     },
     onCallAcceptingFailed(error) {
-      this.connectingError = this.$t(errorsHash[error.message] || DEFAULT_ACCEPTING_ERROR);
+      this.connectingError = this.$t(
+        errorsHash[error.message] || DEFAULT_ACCEPTING_ERROR
+      );
     },
     ignoreCall() {
       this.dialogMinimizedByUser = false;
