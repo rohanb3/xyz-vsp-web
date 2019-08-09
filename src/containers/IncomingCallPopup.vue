@@ -19,9 +19,7 @@
             v-for="permission in blockedPermissions"
             :key="permission"
             class="blocked-permission"
-          >
-            {{ $t(`call.permissions.popup.${permission}`) }}
-          </li>
+          >{{ $t(`call.permissions.popup.${permission}`) }}</li>
         </ul>
       </div>
 
@@ -29,7 +27,7 @@
         <div v-if="isPendingCallDataShown" class="incoming-call-info">
           <div class="call-from-company-name">
             <span>{{$t('incoming.call.popup')}}</span>
-            <br>
+            <br />
             <span>{{brandName}}</span>
           </div>
           <v-btn class="accept-call" @click="acceptCall">
@@ -46,7 +44,7 @@
           </div>
         </div>
 
-        <call-connecting-loader v-if="connectInProgress" :title="$t('call.connecting')"/>
+        <call-connecting-loader v-if="connectInProgress" :title="$t('call.connecting')" />
 
         <div v-if="connectingError" class="connecting-error">
           <div>
