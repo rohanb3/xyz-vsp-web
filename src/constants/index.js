@@ -144,6 +144,7 @@ export const OPERATOR_SOCKET = {
   CONNECTION_OPTIONS: {
     transports: ['websocket'],
     path: '/api/video/socket.io',
+    reconnectionDelay: 500,
   },
 };
 
