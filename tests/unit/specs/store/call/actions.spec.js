@@ -1,15 +1,16 @@
 /* eslint-disable import/first */
 
+import * as identityRepository from '@/services/identityRepository';
+import * as branchesRepository from '@/services/branchesRepository';
+import actions from '@/store/call/actions';
+import { GET_CALL_CUSTOMER_DATA, CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
+import { SET_CALL_DATA, SET_EXTENSION_AVAILABILITY } from '@/store/call/mutationTypes';
+import * as twilioApi from '@/services/twilio';
+
 jest.mock('@/services/identityRepository');
 jest.mock('@/services/branchesRepository');
 jest.mock('@/services/sentry');
 jest.mock('@/services/twilio');
-
-import * as identityRepository from '@/services/identityRepository';
-import * as branchesRepository from '@/services/branchesRepository';
-import actions from '@/store/call/actions';
-import { GET_CALL_CUSTOMER_DATA } from '@/store/call/actionTypes';
-import { SET_CALL_DATA } from '@/store/call/mutationTypes';
 
 describe('call actions: ', () => {
   describe('GET_CALL_CUSTOMER_DATA', () => {
@@ -81,6 +82,19 @@ describe('call actions: ', () => {
       expect(branchesRepository.getBranchInfo).not.toHaveBeenCalled();
 
       expect(fakeStore.commit).not.toHaveBeenCalled();
+    });
+  });
+  describe('CHECK_EXTENSION_IS_INSTALLED', () => {
+    it('should call commit with params', async () => {
+      const fakeStore = {
+        commit: jest.fn(),
+      };
+      const installed = { installed: true };
+      twilioApi.checkExtension = jest.fn(() => Promise.resolve(installed));
+
+      await actions[CHECK_EXTENSION_IS_INSTALLED](fakeStore);
+
+      expect(fakeStore.commit).toHaveBeenCalledWith(SET_EXTENSION_AVAILABILITY, installed);
     });
   });
 });

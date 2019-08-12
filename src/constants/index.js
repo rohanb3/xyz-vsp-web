@@ -107,6 +107,7 @@ const PEER_OFFLINE = 'peer.offline';
 const PEER_BUSY = 'peer.busy';
 
 const ALREADY_LOGGED_IN = 'already.logged.in';
+const CONNECTION_DROPPED = 'connection.dropped';
 
 export const OPERATOR_SOCKET = {
   EVENTS: {
@@ -129,6 +130,7 @@ export const OPERATOR_SOCKET = {
     ROOM_CREATED,
     STATUS_CHANGED_ONLINE,
     STATUS_CHANGED_OFFLINE,
+    CONNECTION_DROPPED,
   },
   ERROR_MESSAGES: {
     CALLS_EMPTY,
@@ -142,6 +144,7 @@ export const OPERATOR_SOCKET = {
   CONNECTION_OPTIONS: {
     transports: ['websocket'],
     path: '/api/video/socket.io',
+    reconnectionDelay: 500,
   },
 };
 
@@ -177,6 +180,7 @@ export const DEVICE_LIST_COLUMNS_SORTED = {
   IS_IN_LOCATION: 'isinlocation',
   COMPANY_NAME: 'companyname',
   LOGGED_IN_AS: 'displayname',
+  DEVICE_NAME: 'deviceName',
 };
 
 export const FILTER_NAMES = {

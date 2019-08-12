@@ -1,4 +1,4 @@
-import { getInitials } from '@/services/stylesHelper';
+import { getInitials, getRandomColor } from '@/services/stylesHelper';
 
 describe('stylesHelper', () => {
   describe('getInitials', () => {
@@ -20,6 +20,14 @@ describe('stylesHelper', () => {
 
     it('should return correct initials if all params is present', () => {
       expect(getInitials('George', 'Smith')).toBe('GS');
+    });
+  });
+  describe('getRandomColor', () => {
+    it('should return hex color', () => {
+      const result = getRandomColor();
+      const hexPattern = /#[A-Fa-f0-9]{6}/;
+
+      expect(result).toMatch(hexPattern);
     });
   });
 });

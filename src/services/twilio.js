@@ -242,6 +242,8 @@ function onRoomJoined(room) {
 
     if (localStorage.getItem('GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO')) {
       roomResolver();
+    } else {
+      localStorage.setItem('GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO', false);
     }
   });
 }

@@ -4,7 +4,7 @@
       <!--<div class="devices-amount">{{ $t('device.management') }}</div>-->
       <table-toolbar :title="'device.management'" :table-name="tableName">
         <div slot="filters" class="table-filter-container">
-          <quick-search-filter :table-name="tableName" :placeholder="'search.by.id.idfv'" />
+          <quick-search-filter :table-name="tableName" :placeholder="'search.by.name.idfv'" />
           <device-status :table-name="tableName" />
           <company-filter :table-name="tableName" />
           <branch-filter :table-name="tableName" />

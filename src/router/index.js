@@ -26,6 +26,7 @@ import CallFeedbackPopup from '@/containers/CallFeedbackPopup';
 import AppHeader from '@/containers/AppHeader';
 import LHS from '@/containers/LHS';
 import IncomingCallPopup from '@/containers/IncomingCallPopup';
+import AlreadyLoggedInPopup from '@/containers/AlreadyLoggedInPopup';
 
 import identityApi from '@/services/identityApi';
 import branchesApi from '@/services/branchesApi';
@@ -91,6 +92,7 @@ const router = new Router({
             lhs: LHS,
             main: AppContent,
             incomingCall: IncomingCallPopup,
+            alreadyLoggedIn: AlreadyLoggedInPopup,
           },
           children: [
             {

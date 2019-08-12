@@ -7,7 +7,7 @@ export const getCalls = filters => {
 };
 
 export const getCallsTypes = () =>
-  Promise.resovle({
+  Promise.resolve({
     callTypes: [...CALL_TYPES],
     dispositions: [...CALL_DISPOSITIONS],
   });

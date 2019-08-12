@@ -19,9 +19,7 @@
             v-for="permission in blockedPermissions"
             :key="permission"
             class="blocked-permission"
-          >
-            {{ $t(`call.permissions.popup.${permission}`) }}
-          </li>
+          >{{ $t(`call.permissions.popup.${permission}`) }}</li>
         </ul>
       </div>
 
@@ -29,7 +27,7 @@
         <div v-if="isPendingCallDataShown" class="incoming-call-info">
           <div class="call-from-company-name">
             <span>{{$t('incoming.call.popup')}}</span>
-            <br>
+            <br />
             <span>{{brandName}}</span>
           </div>
           <v-btn class="accept-call" @click="acceptCall">
@@ -40,13 +38,13 @@
             <p class="text">{{$t('incoming')}}</p>
             <p class="time">{{callDuration}}</p>
           </div>
-          <div v-if="showWarning" class="extension-not-installed">
+          <div v-if="!screenSharingExtension" class="extension-not-installed">
             <p class="text">{{$t('extension.for.sharing.screen.not.installed')}}</p>
             <a class="link" :href="extensionLink" target="_blank">{{$t('link.to.download')}}</a>
           </div>
         </div>
 
-        <call-connecting-loader v-if="connectInProgress" :title="$t('call.connecting')"/>
+        <call-connecting-loader v-if="connectInProgress" :title="$t('call.connecting')" />
 
         <div v-if="connectingError" class="connecting-error">
           <div>
@@ -62,6 +60,7 @@
 
 <script>
 import moment from 'moment';
+import { mapGetters } from 'vuex';
 import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
@@ -113,22 +112,19 @@ export default {
         .second(this.counter)
         .format('mm:ss');
     },
-    isAnyPendingCall() {
-      return this.$store.getters.isAnyPendingCall;
-    },
-    showWarning() {
-      return !this.$store.getters.screenSharingExtension;
-    },
-    isOperatorIdle() {
-      return this.$store.getters.isOperatorIdle;
-    },
+    ...mapGetters([
+      'isAnyPendingCall',
+      'screenSharingExtension',
+      'isOperatorIdle',
+      'connectionDropped',
+    ]),
     isDialogShown() {
       return (
         this.permissionsError ||
         this.initializingError ||
         this.connectInProgress ||
         this.connectingError ||
-        (this.isOperatorIdle && this.isAnyPendingCall)
+        (this.isOperatorIdle && this.isAnyPendingCall && !this.connectionDropped)
       );
     },
     isPendingCallDataShown() {

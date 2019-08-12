@@ -1,7 +1,7 @@
 <template>
   <div class="form-input">
     <label :for="id">{{ label }}</label>
-    <input :id="id" :type="inputType" :value="value" @input="onInput" />
+    <input :autocomplete="autocomplete" :id="id" :type="inputType" :value="value" @input="onInput" />
   </div>
 </template>
 
@@ -27,6 +27,10 @@ export default {
     field: {
       type: String,
       required: true,
+    },
+    autocomplete: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {

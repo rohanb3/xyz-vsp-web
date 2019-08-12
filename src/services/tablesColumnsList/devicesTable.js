@@ -2,14 +2,14 @@ import { DEVICE_LIST_COLUMNS_SORTED } from '@/constants';
 
 export default () => [
   {
-    name: 'id',
-    field: 'id',
-    fieldType: 'id',
-    title: 'id',
+    name: 'name',
+    field: 'deviceName',
+    fieldType: 'name',
+    title: 'name',
     class: 'text',
     width: '2',
     minWidth: '50px',
-    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.ID,
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.DEVICE_NAME,
     fieldHeaderType: 'sortingHeader',
   },
   {

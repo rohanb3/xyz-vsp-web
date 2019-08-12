@@ -302,8 +302,11 @@
   "settings.your.change.photo": "Change Photo",
   "settings.your.remove.photo": "Remove Photo",
   "settings.your.failed.to.upload.photo": "Failed to upload photo",
+  "hexnodeUdid": "Hexnode UDID",
   "map": "Map",
   "field.must.consist.only.digits.and.dots": "Field must consist only digits and dots",
   "field.must.consist.only.digits": "Field must consist only digits",
-  "field.must.consist.only.digits.and.dots.and.dash": "Field must consist only digits and dots and dash"
+  "field.must.consist.only.digits.and.dots.and.dash": "Field must consist only digits and dots and dash",
+  "search.by.name.idfv": "Search by Name, IDFV",
+  "device.name": "Device Name"
 }
