@@ -35,4 +35,7 @@ export default {
       ? state.activeCallData.branch.companyName
       : '';
   },
+  connectionDropped(state) {
+    return state.connectionDropped;
+  },
 };

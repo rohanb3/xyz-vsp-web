@@ -84,3 +84,9 @@ export function listenToCallFinishing() {
     socket.once(EVENTS.CALL_FINISHED, onCallFinished);
   });
 }
+
+export function listenToConnectionDropped() {
+  return new Promise(resolve => {
+    socket.once(EVENTS.CONNECTION_DROPPED, resolve);
+  });
+}

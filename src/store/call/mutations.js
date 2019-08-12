@@ -5,6 +5,7 @@ import {
   SET_CONNECTION_TO_CALL_SOCKET,
   SET_PENDING_CALLS_INFO,
   SET_EXTENSION_AVAILABILITY,
+  SET_CONNECTION_DROPPED,
 } from './mutationTypes';
 
 export default {
@@ -24,6 +25,9 @@ export default {
   },
   [SET_CONNECTION_TO_CALL_SOCKET](state, connected) {
     state.connectedToSocket = connected;
+  },
+  [SET_CONNECTION_DROPPED](state, value = true) {
+    state.connectionDropped = value;
   },
   [SET_PENDING_CALLS_INFO](state, { size, peak }) {
     state.pendingCallsInfo.size = size;

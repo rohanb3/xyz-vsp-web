@@ -8,6 +8,7 @@ import {
   SET_CALL_DATA,
   SET_CONNECTION_TO_CALL_SOCKET,
   SET_PENDING_CALLS_INFO,
+  SET_CONNECTION_DROPPED,
 } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
 import {
@@ -20,6 +21,7 @@ import {
   notifyAboutChangingStatusToOnline,
   notifyAboutChangingStatusToOffline,
   listenToCallFinishing,
+  listenToConnectionDropped,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import { TWILIO, OPERATOR_SOCKET, USER_MEDIA_ERROR_MESSAGES } from '@/constants';
@@ -40,6 +42,7 @@ export const errors = {
 
 export function initializeOperator() {
   return checkAndRequestCallPermissions()
+    .then(checkConnectAvailability)
     .then(() => {
       const identity = store.getters.userId;
       const { userName, displayName } = store.state.loggedInUser.profileData;
@@ -47,7 +50,24 @@ export function initializeOperator() {
       log('call.js -> initializeOperator()', identity, displayName, userName);
       return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
     })
+    .then(trackConnectionAvailability)
     .then(checkAndSaveWaitingFeedbacks);
+}
+
+function checkConnectAvailability() {
+  return new Promise((resolve, reject) => {
+    if (store.getters.connectionDropped) {
+      reject();
+    } else {
+      resolve();
+    }
+  });
+}
+
+function trackConnectionAvailability() {
+  listenToConnectionDropped()
+    .then(disconnectOperator)
+    .then(() => store.commit(SET_CONNECTION_DROPPED, true));
 }
 
 export function disconnectOperator() {
