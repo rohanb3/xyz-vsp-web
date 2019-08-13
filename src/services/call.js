@@ -207,7 +207,7 @@ function getAcceptingCallError(err) {
     acceptingCallError = new Error(errors.CALL_ACCEPTING_FAILED);
   }
 
-  console.log('Call accepting failed', { originalError: err, error: acceptingCallError });
+  log('Call accepting failed', { originalError: err, error: acceptingCallError });
 
   return acceptingCallError;
 }
