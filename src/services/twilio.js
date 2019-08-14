@@ -87,7 +87,41 @@ export function enableLocalVideo() {
 
   const promise = previewTracks.video
     ? Promise.resolve(previewTracks.video)
-    : Video.createLocalVideoTrack();
+    : Video.createLocalVideoTrack().catch(error => {
+        /**
+         * FIX ISSUE https://xyzies.monday.com/boards/202726633/pulses/288053406
+         */
+
+        function cantCreateVideoTrack(e) {
+          return e && e.name === 'NotReadableError';
+        }
+
+        console.log('Video track creating failed... Trying to create 2nd one');
+
+        if (cantCreateVideoTrack(error)) {
+          return new Promise(resolve => {
+            // make 2nd attempt to create video track
+            setTimeout(
+              () =>
+                resolve(
+                  Video.createLocalVideoTrack().catch(e => {
+                    if (cantCreateVideoTrack(e)) {
+                      console.log('Unfortunately even 2nd attempt is failed');
+                    }
+                    return Promise.reject(e);
+                  })
+                ),
+              500
+            );
+          });
+        }
+
+        /**
+         * FIX END
+         */
+
+        return Promise.reject(error);
+      });
 
   return promise.then(track => {
     console.log('createdVideoTrack-->');
