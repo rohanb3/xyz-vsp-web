@@ -43,6 +43,7 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
 
     return Promise.all(previewPromises)
       .then(() => {
+        console.log('media enabled-->');
         const connectOptions = {
           name,
           networkQuality: {
@@ -57,6 +58,9 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
         } else {
           connectOptions.tracks = [];
         }
+
+        console.log('Before video connect');
+
         return Video.connect(
           token,
           connectOptions
@@ -79,15 +83,17 @@ export function disableLocalPreview() {
 }
 
 export function enableLocalVideo() {
-  console.log('enableLocalVideo-->');
+  console.log('enableLocalVideo-->', !!previewTracks.video, previewTracks.video);
 
   const promise = previewTracks.video
     ? Promise.resolve(previewTracks.video)
     : Video.createLocalVideoTrack();
 
   return promise.then(track => {
+    console.log('createdVideoTrack-->');
     previewTracks.video = track;
     publishTrack(track);
+    console.log('Track published');
     emitLocalTracksAdding([track]);
   });
 }
@@ -339,7 +345,9 @@ function stopTracks(tracks = []) {
 }
 
 function publishTrack(track) {
+  console.log('publish track', track);
   if (activeRoom) {
+    console.log('Room is active', activeRoom);
     activeRoom.localParticipant.publishTrack(track);
   }
 }
