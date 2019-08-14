@@ -342,6 +342,7 @@ function onTrackStarted(track, resolve) {
 
 function stopTracks(tracks = []) {
   tracks.forEach(track => track.stop());
+  console.log('twilio tracks stopped');
 }
 
 function publishTrack(track) {

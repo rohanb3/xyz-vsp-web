@@ -49,6 +49,7 @@ function testUserMedia(options = {}) {
     .then(stream => {
       const tracks = stream.getTracks();
       tracks.forEach(track => track.stop());
+      console.log('userMedia tracks stopped');
     })
     .then(queryPermissions)
     .catch(queryPermissions);
