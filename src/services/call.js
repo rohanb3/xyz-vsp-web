@@ -81,9 +81,13 @@ export function acceptCall() {
   const identity = store.getters.userId;
   log('call.js -> acceptCall()', identity);
 
+  console.log('call.js -> acceptCall()');
+
   const roomConnectionPromise = getUserMediaStreams()
+    .then(() => console.log('call.js -> got streams'))
     .then(() => notifyAboutAcceptingCall())
     .then(({ token, ...call }) => {
+      console.log('call.js -> onCallAccepted()');
       log('call.js -> onCallAccepted()', call);
       const credentials = { name: call.id, token };
       const handlers = {
@@ -185,10 +189,12 @@ function setToken(token) {
 }
 
 function setConnectedToSocket(connected) {
+  console.log('log4', connected);
   store.commit(SET_CONNECTION_TO_CALL_SOCKET, connected);
 }
 
 function onCallAcceptingFailed(err) {
+  console.log('failed', err);
   disconnectFromRoom();
   return Promise.reject(getAcceptingCallError(err));
 }

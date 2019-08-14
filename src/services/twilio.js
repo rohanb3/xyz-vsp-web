@@ -27,6 +27,8 @@ const INACTIVE = 'inactive';
 const ERROR = 'error';
 
 export function connect({ name, token }, { media = {}, handlers = {} }) {
+  console.log('connect-->');
+
   onLastParticipantDisconnected = handlers.onRoomEmptied || onLastParticipantDisconnected;
   disconnectAfterConnection = false;
 
@@ -68,6 +70,7 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
 }
 
 export function enableLocalPreview() {
+  console.log('enableLocalPreview-->');
   return Promise.all([enableLocalVideo(), enableLocalAudio()]);
 }
 
@@ -76,6 +79,8 @@ export function disableLocalPreview() {
 }
 
 export function enableLocalVideo() {
+  console.log('enableLocalVideo-->');
+
   const promise = previewTracks.video
     ? Promise.resolve(previewTracks.video)
     : Video.createLocalVideoTrack();
@@ -122,10 +127,12 @@ export function disableLocalAudio() {
 }
 
 export function convertTracksToAttachable(tracks = []) {
+  console.log('convert-->');
   return tracks.map(track => track && track.attach && track.attach()).filter(Boolean);
 }
 
 export function detachTracks(tracks) {
+  console.log('detach-->');
   tracks.forEach(track => {
     track.detach().forEach(detachedElement => detachedElement.remove());
   });
@@ -211,6 +218,8 @@ export function getCachedRemoteTracks() {
  */
 
 function onRoomJoined(room) {
+  console.log('onRoomJoined', room);
+
   if (disconnectAfterConnection) {
     disconnectAfterConnection = false;
     room.disconnect();
@@ -240,15 +249,17 @@ function onRoomJoined(room) {
     room.on(RECONNECTING, onRoomReconnecting);
     room.on(RECONNECTED, onRoomReconnected);
 
-    if (localStorage.getItem('GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO')) {
+    const skipVideoKey = 'GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO';
+    if (localStorage.getItem(skipVideoKey) === 'true') {
       roomResolver();
     } else {
-      localStorage.setItem('GO_TO_CALL_DO_NOT_WAIT_FOR_VIDEO', false);
+      localStorage.setItem(skipVideoKey, false);
     }
   });
 }
 
 function onRoomConnectionFailed(err) {
+  console.log('onRoomConnectionFailed', { err });
   return Promise.all([disableLocalPreview(), disableScreenShare()]).then(() => {
     activeRoom = null;
     return Promise.reject(err);
