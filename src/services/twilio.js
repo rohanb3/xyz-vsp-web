@@ -50,7 +50,7 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
             local: 3,
             remote: 3,
           },
-          // logLevel: 'debug',
+          logLevel: 'debug',
         };
 
         if (Object.keys(previewTracks).length) {
