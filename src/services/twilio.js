@@ -50,7 +50,7 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
             local: 3,
             remote: 3,
           },
-          logLevel: 'debug',
+          // logLevel: 'debug',
         };
 
         if (Object.keys(previewTracks).length) {
@@ -96,9 +96,11 @@ export function enableLocalVideo() {
           return e && e.name === 'NotReadableError';
         }
 
-        console.log('Video track creating failed... Trying to create 2nd one');
+        console.log('Video track creating failed...');
 
         if (cantCreateVideoTrack(error)) {
+          console.log('Trying to create 2nd one');
+
           return new Promise(resolve => {
             // make 2nd attempt to create video track
             setTimeout(
