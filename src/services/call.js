@@ -84,6 +84,23 @@ export function acceptCall() {
   console.log('call.js -> acceptCall()');
 
   const roomConnectionPromise = requestPermission()
+    .catch(() => {
+      /**
+       *  Sometimes we need more time to check video stream, cause it can be locked by another process
+       * */
+      console.log('Check permission failed');
+      return new Promise((resolve, reject) =>
+        setTimeout(() => {
+          console.log('2nd attempt to check permissions');
+          requestPermission()
+            .then(resolve)
+            .catch(e => {
+              console.log('2nd attempt also failed');
+              reject(e);
+            });
+        }, 500)
+      );
+    })
     .then(() => console.log('call.js -> got streams'))
     .then(() => notifyAboutAcceptingCall())
     .then(({ token, ...call }) => {
