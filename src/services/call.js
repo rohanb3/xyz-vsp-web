@@ -30,7 +30,7 @@ import api from '@/services/api';
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { checkAndRequestCallPermissions } from '@/services/callPermissions';
 import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
-import { requestPermission } from '@/services/userMedia';
+import { getUserMediaStreams } from '@/services/userMedia';
 import { log } from '@/services/sentry';
 
 const { VIDEO } = TWILIO;
@@ -82,6 +82,14 @@ export function acceptCall() {
   log('call.js -> acceptCall()', identity);
 
   console.log('call.js -> acceptCall()');
+
+  function requestPermission() {
+    return getUserMediaStreams().then(stream => {
+      const tracks = stream.getTracks();
+      tracks.forEach(track => track.stop());
+      console.log('Tracks stopped');
+    });
+  }
 
   const roomConnectionPromise = requestPermission()
     .catch(() => {
