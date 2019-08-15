@@ -50,7 +50,7 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
             local: 3,
             remote: 3,
           },
-          logLevel: 'debug',
+          // logLevel: 'debug',
         };
 
         if (Object.keys(previewTracks).length) {
@@ -87,7 +87,43 @@ export function enableLocalVideo() {
 
   const promise = previewTracks.video
     ? Promise.resolve(previewTracks.video)
-    : Video.createLocalVideoTrack();
+    : Video.createLocalVideoTrack().catch(error => {
+        /**
+         * FIX ISSUE https://xyzies.monday.com/boards/202726633/pulses/288053406
+         */
+
+        function cantCreateVideoTrack(e) {
+          return e && e.name === 'NotReadableError';
+        }
+
+        console.log('Video track creating failed...');
+
+        if (cantCreateVideoTrack(error)) {
+          console.log('Trying to create 2nd one');
+
+          return new Promise(resolve => {
+            // make 2nd attempt to create video track
+            setTimeout(
+              () =>
+                resolve(
+                  Video.createLocalVideoTrack().catch(e => {
+                    if (cantCreateVideoTrack(e)) {
+                      console.log('Unfortunately even 2nd attempt is failed');
+                    }
+                    return Promise.reject(e);
+                  })
+                ),
+              500
+            );
+          });
+        }
+
+        /**
+         * FIX END
+         */
+
+        return Promise.reject(error);
+      });
 
   return promise.then(track => {
     console.log('createdVideoTrack-->');

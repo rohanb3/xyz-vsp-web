@@ -83,7 +83,32 @@ export function acceptCall() {
 
   console.log('call.js -> acceptCall()');
 
-  const roomConnectionPromise = getUserMediaStreams()
+  function requestPermission() {
+    return getUserMediaStreams().then(stream => {
+      const tracks = stream.getTracks();
+      tracks.forEach(track => track.stop());
+      console.log('Tracks stopped');
+    });
+  }
+
+  const roomConnectionPromise = requestPermission()
+    .catch(() => {
+      /**
+       *  Sometimes we need more time to check video stream, cause it can be locked by another process
+       * */
+      console.log('Check permission failed');
+      return new Promise((resolve, reject) =>
+        setTimeout(() => {
+          console.log('2nd attempt to check permissions');
+          requestPermission()
+            .then(resolve)
+            .catch(e => {
+              console.log('2nd attempt also failed');
+              reject(e);
+            });
+        }, 500)
+      );
+    })
     .then(() => console.log('call.js -> got streams'))
     .then(() => notifyAboutAcceptingCall())
     .then(({ token, ...call }) => {
@@ -97,6 +122,7 @@ export function acceptCall() {
       store.commit(SET_CALL_DATA, call);
       store.dispatch(GET_CALL_CUSTOMER_DATA, call.salesRepId);
       setToken(token);
+      console.log('Start connecting to room');
       return connectToRoom(credentials, { media, handlers });
     });
   const callFinishingPromise = listenToCallFinishing();
