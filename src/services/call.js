@@ -97,6 +97,7 @@ export function acceptCall() {
       store.commit(SET_CALL_DATA, call);
       store.dispatch(GET_CALL_CUSTOMER_DATA, call.salesRepId);
       setToken(token);
+      console.log('Start connecting to room');
       return connectToRoom(credentials, { media, handlers });
     });
   const callFinishingPromise = listenToCallFinishing();
