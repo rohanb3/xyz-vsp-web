@@ -69,6 +69,7 @@ import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO } from '@/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
+import notifications from '@/assets/sounds/notifications.mp3';
 
 const { NOTIFICATION_DURATION } = NOTIFICATIONS;
 
@@ -99,6 +100,7 @@ export default {
       initializingError: null,
       permissionsError: null,
       blockedPermissions: [],
+      audio: new Audio(notifications),
     };
   },
   computed: {
@@ -168,6 +170,11 @@ export default {
     isAnyPendingCall(val) {
       if (this.isOperatorIdle && !val) {
         this.notifyAboutCallEmptying();
+      }
+    },
+    isDialogShown(val) {
+      if (val) {
+        this.audio.play();
       }
     },
   },
