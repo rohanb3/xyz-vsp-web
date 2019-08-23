@@ -55,6 +55,7 @@
         </div>
       </div>
     </v-dialog>
+    <audio :src="notifications" v-if="isDialogShown && isPendingCallDataShown" autoplay></audio>
   </v-layout>
 </template>
 
@@ -100,7 +101,7 @@ export default {
       initializingError: null,
       permissionsError: null,
       blockedPermissions: [],
-      audio: new Audio(notifications),
+      notifications,
     };
   },
   computed: {
@@ -170,11 +171,6 @@ export default {
     isAnyPendingCall(val) {
       if (this.isOperatorIdle && !val) {
         this.notifyAboutCallEmptying();
-      }
-    },
-    isDialogShown(val) {
-      if (val) {
-        this.audio.play();
       }
     },
   },
