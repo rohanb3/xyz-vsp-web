@@ -55,13 +55,6 @@
         </div>
       </div>
     </v-dialog>
-    <iframe
-      :src="notifications"
-      v-if="isDialogShown && isPendingCallDataShown"
-      allowtransparency
-      allow="autoplay"
-      :style="{ display: 'none' }"
-    ></iframe>
   </v-layout>
 </template>
 
@@ -76,7 +69,6 @@ import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO } from '@/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
-import notifications from '@/assets/sounds/notifications.mp3';
 
 const { NOTIFICATION_DURATION } = NOTIFICATIONS;
 
@@ -107,7 +99,6 @@ export default {
       initializingError: null,
       permissionsError: null,
       blockedPermissions: [],
-      notifications,
     };
   },
   computed: {
