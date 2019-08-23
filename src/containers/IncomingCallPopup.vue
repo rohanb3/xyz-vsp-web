@@ -55,7 +55,13 @@
         </div>
       </div>
     </v-dialog>
-    <audio :src="notifications" v-if="isDialogShown && isPendingCallDataShown" autoplay></audio>
+    <iframe
+      :src="notifications"
+      v-if="isDialogShown && isPendingCallDataShown"
+      allowtransparency
+      allow="autoplay"
+      :style="{ display: 'none' }"
+    ></iframe>
   </v-layout>
 </template>
 
