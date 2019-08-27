@@ -26,3 +26,5 @@ const notificationClickHandler = event => {
 };
 self.addEventListener('notificationclick', notificationClickHandler);
 /* eslint-enable */
+
+console.log('service-worker');
