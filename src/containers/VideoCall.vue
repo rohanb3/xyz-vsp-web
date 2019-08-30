@@ -199,6 +199,11 @@ export default {
         this.connectingToRoom = true;
       }
     },
+    volume(val) {
+      if ((val && !this.isSoundOn) || (!val && this.isSoundOn)) {
+        this.toggleSound();
+      }
+    },
   },
   methods: {
     activateCallTimer() {
@@ -208,6 +213,8 @@ export default {
       clearInterval(this.interval);
     },
     finishCall() {
+      this.isSoundOn = true;
+      this.volume = 1;
       finishCall();
     },
     showFeedbackPopup() {
@@ -247,7 +254,7 @@ export default {
     },
     toggleSound() {
       this.isSoundOn = !this.isSoundOn;
-      this.volume = this.isSoundOn ? 1 : 0;
+      this.volume = this.isSoundOn ? (this.volume ? this.volume : 0.5) : 0;
       this.volumeGainer.value = this.volume * VOLUME_GAIN;
       this.updateAudioVolume();
     },
