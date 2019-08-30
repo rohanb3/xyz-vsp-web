@@ -213,7 +213,6 @@ export default {
       clearInterval(this.interval);
     },
     finishCall() {
-      this.isSoundOn = true;
       this.volume = 1;
       finishCall();
     },
