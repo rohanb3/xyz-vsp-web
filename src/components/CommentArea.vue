@@ -26,10 +26,14 @@ export default {
       type: String,
       required: true,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     disabled() {
-      return !this.value.length;
+      return !this.value.length || this.loading;
     },
   },
   methods: {
