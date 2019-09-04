@@ -1,6 +1,6 @@
 <template>
   <div class="comment-tab">
-    <comment-area v-model="comment" @onInput="onInput" @submit="submit" :loading="loading" />
+    <comment-area v-model="comment" @onInput="onInput" @submit="submit" :disabled="loading" />
     <lazy-load-table item-key-name="createOn" :tableName="tableName" :resize="false" :columns-reorder="false">
       <component
         slot="row-cell"
@@ -67,22 +67,27 @@ export default {
     },
     async submit() {
       try {
-        const comment = { comment: this.comment };
-        this.loading = true;
-        await submitComment(this.deviceId, comment);
-        this.loading = false;
-        this.comment = '';
+        try {
+          this.loading = true;
 
-        const data = {
-          tableName: DEVICE_COMMENTS,
-          filters: [
-            {
-              name: 'id',
-              value: this.deviceId,
-            },
-          ],
-        };
-        this.$store.dispatch(APPLY_FILTERS, data);
+          const comment = { comment: this.comment };
+
+          await submitComment(this.deviceId, comment);
+
+          const data = {
+            tableName: DEVICE_COMMENTS,
+            filters: [
+              {
+                name: 'id',
+                value: this.deviceId,
+              },
+            ],
+          };
+          this.$store.dispatch(APPLY_FILTERS, data);
+        } finally {
+          this.comment = '';
+          this.loading = false;
+        }
       } catch (e) {
         console.error(e);
       }

@@ -8,9 +8,9 @@
       @input="onInput"
     ></textarea>
     <button
-      :disabled="disabled"
+      :disabled="isDisabled"
       class="new-comment-btn"
-      :class="disabled ? 'disabled' : null"
+      :class="isDisabled ? 'disabled' : null"
       @click="submit"
     >
       {{ $t('comment') }}
@@ -26,14 +26,14 @@ export default {
       type: String,
       required: true,
     },
-    loading: {
+    disabled: {
       type: Boolean,
       default: false,
     },
   },
   computed: {
-    disabled() {
-      return !this.value.length || this.loading;
+    isDisabled() {
+      return !this.value.length || this.disabled;
     },
   },
   methods: {
