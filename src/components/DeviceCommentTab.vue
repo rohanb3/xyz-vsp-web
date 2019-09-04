@@ -67,27 +67,26 @@ export default {
     },
     async submit() {
       try {
+        const comment = { comment: this.comment };
+
         try {
           this.loading = true;
-
-          const comment = { comment: this.comment };
-
           await submitComment(this.deviceId, comment);
-
-          const data = {
-            tableName: DEVICE_COMMENTS,
-            filters: [
-              {
-                name: 'id',
-                value: this.deviceId,
-              },
-            ],
-          };
-          this.$store.dispatch(APPLY_FILTERS, data);
         } finally {
-          this.comment = '';
           this.loading = false;
         }
+        this.comment = '';
+
+        const data = {
+          tableName: DEVICE_COMMENTS,
+          filters: [
+            {
+              name: 'id',
+              value: this.deviceId,
+            },
+          ],
+        };
+        this.$store.dispatch(APPLY_FILTERS, data);
       } catch (e) {
         console.error(e);
       }
