@@ -69,7 +69,7 @@ import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO } from '@/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
-import sendMessageToExtension from '@/services/extensionHelper';
+import notifyAboutIncomingCall from '@/services/extensionHelper';
 
 const { NOTIFICATION_DURATION } = NOTIFICATIONS;
 
@@ -173,7 +173,7 @@ export default {
     },
     isDialogShown(val) {
       if (val && this.isPendingCallDataShown) {
-        sendMessageToExtension();
+        notifyAboutIncomingCall();
       }
     },
   },

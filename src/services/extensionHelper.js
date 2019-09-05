@@ -1,7 +1,7 @@
 const INCOMING_CALL = 'incoming_call';
 
-const sendMessageToExtesnion = () => {
+const notifyAboutIncomingCall = () => {
   window.postMessage(INCOMING_CALL, window.location.origin);
 };
 
-export default sendMessageToExtesnion;
+export default notifyAboutIncomingCall;
