@@ -65,10 +65,11 @@ import { CHECK_EXTENSION_IS_INSTALLED } from '@/store/call/actionTypes';
 import { SET_OPERATOR_STATUS } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
 import { USER_LOGOUT } from '@/store/loggedInUser/actionTypes';
-import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO, INCOMING_CALL } from '@/constants';
+import { NOTIFICATIONS, PERMISSION_ERROR_MESSAGES, TWILIO } from '@/constants';
 import cssBlurOverlay from '@/directives/cssBlurOverlay';
 import { initializeOperator, acceptCall, disconnectOperator, errors } from '@/services/call';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
+import sendMessageToExtension from '@/services/extensionHelper';
 
 const { NOTIFICATION_DURATION } = NOTIFICATIONS;
 
@@ -172,7 +173,7 @@ export default {
     },
     isDialogShown(val) {
       if (val && this.isPendingCallDataShown) {
-        window.postMessage(INCOMING_CALL, window.location.origin);
+        sendMessageToExtension();
       }
     },
   },

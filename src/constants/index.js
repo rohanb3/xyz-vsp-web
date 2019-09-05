@@ -208,5 +208,3 @@ export const CALL_DISPOSITIONS = [
 ];
 
 export const CALL_TYPES = ['info', 'help', 'sale'];
-
-export const INCOMING_CALL = 'incoming_call';
