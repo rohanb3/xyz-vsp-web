@@ -1,5 +1,4 @@
 /* eslint-disable no-use-before-define, import/prefer-default-export */
-
 import store from '@/store';
 import { GET_CALL_CUSTOMER_DATA } from '@/store/call/actionTypes';
 import {
@@ -30,10 +29,12 @@ import api from '@/services/api';
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { checkAndRequestCallPermissions } from '@/services/callPermissions';
 import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
+import callInterruption from '@/services/callInterruption';
 import { getUserMediaStreams } from '@/services/userMedia';
 import { log } from '@/services/sentry';
 
 const { VIDEO } = TWILIO;
+let callInterruptionWatcher = null;
 
 export const errors = {
   ...OPERATOR_SOCKET.ERROR_MESSAGES,
@@ -51,7 +52,15 @@ export function initializeOperator() {
       return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
     })
     .then(trackConnectionAvailability)
+    .then(trackCallInterruption)
     .then(checkAndSaveWaitingFeedbacks);
+}
+
+function trackCallInterruption() {
+  if (callInterruptionWatcher) {
+    callInterruptionWatcher();
+  }
+  callInterruptionWatcher = callInterruption(interruptCall);
 }
 
 function checkConnectAvailability() {
@@ -139,13 +148,23 @@ export function reconnect() {
   return connectToRoom(credentials, { media, handlers });
 }
 
+function leaveCall() {
+  const { activeCallData } = store.getters;
+  notifyAboutFinishingCall(activeCallData.id);
+  disconnectFromRoom();
+  return Promise.resolve();
+}
+
 export function finishCall() {
   const { activeCallData, userId } = store.getters;
   log('call.js -> finishCall()', userId, activeCallData);
-  notifyAboutFinishingCall(activeCallData.id);
-  disconnectFromRoom();
-  setFinishedCallOperatorStatus();
-  return Promise.resolve();
+  return leaveCall().then(setFinishedCallOperatorStatus);
+}
+
+export function interruptCall() {
+  const { activeCallData, userId } = store.getters;
+  log('call.js -> interruptCall()', userId, activeCallData);
+  return leaveCall().then(setInterruptedCallOperatorStatus);
 }
 
 export function callBack() {
@@ -202,6 +221,10 @@ function setOnCallOperatorStatus(room) {
 
 function setFinishedCallOperatorStatus() {
   store.commit(SET_OPERATOR_STATUS, operatorStatuses.FINISHED_CALL);
+}
+
+function setInterruptedCallOperatorStatus() {
+  store.commit(SET_OPERATOR_STATUS, operatorStatuses.INTERRUPTED_CALL);
 }
 
 function setToken(token) {
