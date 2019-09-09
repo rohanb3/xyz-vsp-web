@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import i18n from '@/i18n';
+import router from '@/router';
 import { listenToCallInterruption } from '@/services/operatorSocket';
 import { NOTIFICATIONS } from '@/constants';
 
 export default function trackCallInterruption(interruptCall) {
   return listenToCallInterruption(() => {
     interruptCall();
+    router.go(-1);
     notifyAboutCallInterrupted();
   });
 }
