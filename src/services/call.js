@@ -81,13 +81,10 @@ export function acceptCall() {
   const identity = store.getters.userId;
   log('call.js -> acceptCall()', identity);
 
-  console.log('call.js -> acceptCall()');
-
   function requestPermission() {
     return getUserMediaStreams().then(stream => {
       const tracks = stream.getTracks();
       tracks.forEach(track => track.stop());
-      console.log('Tracks stopped');
     });
   }
 
@@ -109,10 +106,8 @@ export function acceptCall() {
         }, 500)
       );
     })
-    .then(() => console.log('call.js -> got streams'))
     .then(() => notifyAboutAcceptingCall())
     .then(({ token, ...call }) => {
-      console.log('call.js -> onCallAccepted()');
       log('call.js -> onCallAccepted()', call);
       const credentials = { name: call.id, token };
       const handlers = {
@@ -122,7 +117,6 @@ export function acceptCall() {
       store.commit(SET_CALL_DATA, call);
       store.dispatch(GET_CALL_CUSTOMER_DATA, call.salesRepId);
       setToken(token);
-      console.log('Start connecting to room');
       return connectToRoom(credentials, { media, handlers });
     });
   const callFinishingPromise = listenToCallFinishing();
@@ -215,7 +209,6 @@ function setToken(token) {
 }
 
 function setConnectedToSocket(connected) {
-  console.log('log4', connected);
   store.commit(SET_CONNECTION_TO_CALL_SOCKET, connected);
 }
 
