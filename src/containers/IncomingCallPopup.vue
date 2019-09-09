@@ -118,6 +118,7 @@ export default {
       'screenSharingExtension',
       'isOperatorIdle',
       'connectionDropped',
+      'isCallInterrupted',
     ]),
     isDialogShown() {
       return (
@@ -125,7 +126,10 @@ export default {
         this.initializingError ||
         this.connectInProgress ||
         this.connectingError ||
-        (this.isOperatorIdle && this.isAnyPendingCall && !this.connectionDropped)
+        (this.isOperatorIdle &&
+          this.isAnyPendingCall &&
+          !this.connectionDropped &&
+          !this.isCallInterrupted)
       );
     },
     isPendingCallDataShown() {
