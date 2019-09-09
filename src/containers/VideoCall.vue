@@ -1,56 +1,59 @@
 <template>
   <div class="video-call-wrapper" v-cssBlurOverlay>
     <v-dialog v-model="show" :content-class="dialogClassList" persistent>
-    <div v-show="isOperatorOnCall" class="local-media" ref="localMedia">
-      <div v-if="!isCameraOn" class="video-off">
-        <p>{{ $t('video.off') }}</p>
+      <div v-show="isOperatorOnCall" class="local-media" ref="localMedia">
+        <div v-if="!isCameraOn" class="video-off">
+          <p>{{ $t('video.off') }}</p>
+        </div>
       </div>
-    </div>
 
-    <div v-show="isOperatorOnCall" class="remote-media" ref="remoteMedia"/>
-    <video v-show="isScreenSharingOn" autoplay class="screen-sharing-video" ref="screenSharingVideo"/>
-    <div v-show="isOperatorOnCall && customerInfo" class="customer-info">
-      {{ customerInfo }}
-    </div>
-    <notifications group="call-notifications" />
-    <video-call-controls
-      v-show="isOperatorOnCall"
-      class="video-call-controls"
-      :is-camera-on="isCameraOn"
-      :is-microphone-on="isMicrophoneOn"
-      :is-sound-on="isSoundOn"
-      :is-screen-sharing-on="isScreenSharingOn"
-      :volume-level="volume"
-      :call-duration="counter"
-      :screen-sharing-frozen="screenSharingFrozen"
-      @toggleCamera="toggleCamera"
-      @toggleMicrophone="toggleMicrophone"
-      @toggleSound="toggleSound"
-      @toggleScreen="toggleScreen"
-      @volumeLevelChanged="changeVolumeLevel"
-      @finishCall="finishCall"
-    />
+      <div v-show="isOperatorOnCall" class="remote-media" ref="remoteMedia" />
+      <video
+        v-show="isScreenSharingOn"
+        autoplay
+        class="screen-sharing-video"
+        ref="screenSharingVideo"
+      />
+      <div v-show="isOperatorOnCall && customerInfo" class="customer-info">{{ customerInfo }}</div>
+      <notifications group="call-notifications" />
+      <video-call-controls
+        v-show="isOperatorOnCall"
+        class="video-call-controls"
+        :is-camera-on="isCameraOn"
+        :is-microphone-on="isMicrophoneOn"
+        :is-sound-on="isSoundOn"
+        :is-screen-sharing-on="isScreenSharingOn"
+        :volume-level="volume"
+        :call-duration="counter"
+        :screen-sharing-frozen="screenSharingFrozen"
+        @toggleCamera="toggleCamera"
+        @toggleMicrophone="toggleMicrophone"
+        @toggleSound="toggleSound"
+        @toggleScreen="toggleScreen"
+        @volumeLevelChanged="changeVolumeLevel"
+        @finishCall="finishCall"
+      />
 
-    <call-feedback-popup
-      v-if="isFeedbackPopupShown"
-      :call-duration="counter"
-      :call-types="callTypes"
-      :call-dispositions="callDispositions"
-      :loading="loading"
-      :connecting-to-callback="connectingToCallback"
-      :callback-declined="callbackDeclined || !callbackEnabled"
-      :callback-available="callbackAvailable"
-      @saveFeedback="saveFeedback"
-      @callback="requestCallback"
-    />
+      <call-feedback-popup
+        v-if="isFeedbackPopupShown"
+        :call-duration="counter"
+        :call-types="callTypes"
+        :call-dispositions="callDispositions"
+        :loading="loading"
+        :connecting-to-callback="connectingToCallback"
+        :callback-declined="callbackDeclined || !callbackEnabled"
+        :callback-available="callbackAvailable"
+        @saveFeedback="saveFeedback"
+        @callback="requestCallback"
+      />
 
-    <call-connection-error-popup
-      v-if="isOperatorOnCall"
-      :connecting="connectingToRoom"
-      :local-participant-network-level="localParticipantNetworkLevel"
-      :remote-participant-network-level="remoteParticipantNetworkLevel"
-      :remote-video-frozen="remoteVideoFrozen"
-    />
+      <call-connection-error-popup
+        v-if="isOperatorOnCall"
+        :connecting="connectingToRoom"
+        :local-participant-network-level="localParticipantNetworkLevel"
+        :remote-participant-network-level="remoteParticipantNetworkLevel"
+        :remote-video-frozen="remoteVideoFrozen"
+      />
     </v-dialog>
   </div>
 </template>
@@ -148,6 +151,8 @@ export default {
       'userId',
       'customerDisplayName',
       'companyName',
+      'connectionDropped',
+      'isCallInterrupted',
     ]),
     callDuration() {
       return moment()
@@ -192,7 +197,10 @@ export default {
   },
   watch: {
     isOperatorOnCall(val, old) {
-      if (!val && old) {
+      const isCallFinished = !val && old;
+      const canShowFeedbackPopup =
+        isCallFinished && !this.connectionDropped && !this.isCallInterrupted;
+      if (canShowFeedbackPopup) {
         this.deactivateCallTimer();
         this.showFeedbackPopup();
       }

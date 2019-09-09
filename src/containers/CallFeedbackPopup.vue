@@ -1,5 +1,5 @@
 <template>
-  <v-dialog content-class="call-feedback-popup-wrapper" v-model="showModal" persistent>
+  <v-dialog content-class="call-feedback-popup-wrapper" v-model="dialog" persistent>
     <div class="call-feedback-popup">
       <call-connecting-loader v-if="connectingToCallback" :title="connectingLoaderTitle" />
       <template v-else>
@@ -37,7 +37,7 @@
         </div>
         <div class="rating section">
           <p class="title">{{$t("system.quality.rating")}}</p>
-          <v-rating color="#fff" background-color="grey lighten-1" v-model="feedback.quality"/>
+          <v-rating color="#fff" background-color="grey lighten-1" v-model="feedback.quality" />
         </div>
         <div class="note-feedback section">
           <p class="title">{{$t("note.feedback")}}</p>
@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import moment from 'moment';
 import CallConnectingLoader from '@/components/CallConnectingLoader';
 
@@ -122,7 +121,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['connectionDropped']),
     isCallBackButtonShown() {
       return !this.callbackDeclined && !Object.values(this.feedback).some(value => !!value);
     },
@@ -149,9 +147,6 @@ export default {
     },
     connectingLoaderTitle() {
       return this.$t('call.connecting');
-    },
-    showModal() {
-      return this.dialog && !this.connectionDropped;
     },
   },
   methods: {

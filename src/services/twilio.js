@@ -27,8 +27,6 @@ const INACTIVE = 'inactive';
 const ERROR = 'error';
 
 export function connect({ name, token }, { media = {}, handlers = {} }) {
-  console.log('connect-->');
-
   onLastParticipantDisconnected = handlers.onRoomEmptied || onLastParticipantDisconnected;
   disconnectAfterConnection = false;
 
@@ -43,7 +41,6 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
 
     return Promise.all(previewPromises)
       .then(() => {
-        console.log('media enabled-->');
         const connectOptions = {
           name,
           networkQuality: {
@@ -59,8 +56,6 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
           connectOptions.tracks = [];
         }
 
-        console.log('Before video connect');
-
         return Video.connect(
           token,
           connectOptions
@@ -74,7 +69,6 @@ export function connect({ name, token }, { media = {}, handlers = {} }) {
 }
 
 export function enableLocalPreview() {
-  console.log('enableLocalPreview-->');
   return Promise.all([enableLocalVideo(), enableLocalAudio()]);
 }
 
@@ -83,8 +77,6 @@ export function disableLocalPreview() {
 }
 
 export function enableLocalVideo() {
-  console.log('enableLocalVideo-->', !!previewTracks.video, previewTracks.video);
-
   const promise = previewTracks.video
     ? Promise.resolve(previewTracks.video)
     : Video.createLocalVideoTrack().catch(error => {
@@ -126,10 +118,8 @@ export function enableLocalVideo() {
       });
 
   return promise.then(track => {
-    console.log('createdVideoTrack-->');
     previewTracks.video = track;
     publishTrack(track);
-    console.log('Track published');
     emitLocalTracksAdding([track]);
   });
 }
@@ -169,12 +159,10 @@ export function disableLocalAudio() {
 }
 
 export function convertTracksToAttachable(tracks = []) {
-  console.log('convert-->');
   return tracks.map(track => track && track.attach && track.attach()).filter(Boolean);
 }
 
 export function detachTracks(tracks) {
-  console.log('detach-->');
   tracks.forEach(track => {
     track.detach().forEach(detachedElement => detachedElement.remove());
   });
@@ -260,8 +248,6 @@ export function getCachedRemoteTracks() {
  */
 
 function onRoomJoined(room) {
-  console.log('onRoomJoined', room);
-
   if (disconnectAfterConnection) {
     disconnectAfterConnection = false;
     room.disconnect();
@@ -378,13 +364,10 @@ function onTrackStarted(track, resolve) {
 
 function stopTracks(tracks = []) {
   tracks.forEach(track => track.stop());
-  console.log('twilio tracks stopped');
 }
 
 function publishTrack(track) {
-  console.log('publish track', track);
   if (activeRoom) {
-    console.log('Room is active', activeRoom);
     activeRoom.localParticipant.publishTrack(track);
   }
 }

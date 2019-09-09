@@ -95,6 +95,7 @@ const CALLBACK_REQUESTING_FAILED = 'callback.requesting.failed';
 const CALLBACK_ACCEPTED = 'callback.accepted';
 const CALLBACK_DECLINED = 'callback.declined';
 const CALLS_CHANGED = 'calls.changed';
+const CUSTOMER_DISCONNECTED = 'customer.disconnected';
 const ROOM_LEFT_EMPTY = 'room.left.empty';
 const ROOM_CREATED = 'room.created';
 const STATUS_CHANGED_ONLINE = 'status.changed.online';
@@ -126,6 +127,7 @@ export const OPERATOR_SOCKET = {
     CALLS_CHANGED,
     CALLS_EMPTY,
     CALL_ACCEPTING_FAILED,
+    CUSTOMER_DISCONNECTED,
     ROOM_LEFT_EMPTY,
     ROOM_CREATED,
     STATUS_CHANGED_ONLINE,
