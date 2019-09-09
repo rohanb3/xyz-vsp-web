@@ -11,7 +11,7 @@ export default function trackCallInterruption(interruptCall) {
 }
 
 function notifyAboutCallInterrupted() {
-  const title = i18n.t('incoming.call.popup.call.was.answered');
+  const title = i18n.t('incoming.call.popup.call.was.interrupted');
   Vue.notify({
     group: 'notifications',
     title,
