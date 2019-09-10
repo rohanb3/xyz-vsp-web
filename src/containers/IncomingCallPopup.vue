@@ -126,10 +126,7 @@ export default {
         this.initializingError ||
         this.connectInProgress ||
         this.connectingError ||
-        (this.isOperatorIdle &&
-          this.isAnyPendingCall &&
-          !this.connectionDropped &&
-          !this.isCallInterrupted)
+        (this.isOperatorIdle && this.isAnyPendingCall && !this.connectionDropped)
       );
     },
     isPendingCallDataShown() {
