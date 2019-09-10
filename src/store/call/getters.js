@@ -11,7 +11,7 @@ export default {
     return state.operatorStatus !== operatorStatuses.OFFLINE;
   },
   isCallInterrupted(state) {
-    return state.operatorStatus === operatorStatuses.INTERRUPTED_CALL;
+    return Boolean(state.activeCallData && state.activeCallData.interrupted);
   },
   activeCallData(state) {
     return state.activeCallData;

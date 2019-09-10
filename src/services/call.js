@@ -224,7 +224,8 @@ function setFinishedCallOperatorStatus() {
 }
 
 function setInterruptedCallOperatorStatus() {
-  store.commit(SET_OPERATOR_STATUS, operatorStatuses.INTERRUPTED_CALL);
+  store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
+  store.commit(SET_CALL_DATA, { interrupted: true });
 }
 
 function setToken(token) {

@@ -118,7 +118,6 @@ export default {
       'screenSharingExtension',
       'isOperatorIdle',
       'connectionDropped',
-      'isCallInterrupted',
     ]),
     isDialogShown() {
       return (
