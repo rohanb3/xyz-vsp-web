@@ -90,8 +90,3 @@ export function listenToConnectionDropped() {
     socket.once(EVENTS.CONNECTION_DROPPED, resolve);
   });
 }
-
-export function listenToCallInterruption(cb) {
-  socket.on(EVENTS.CUSTOMER_DISCONNECTED, cb);
-  return () => socket.off(EVENTS.CUSTOMER_DISCONNECTED, cb);
-}
