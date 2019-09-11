@@ -77,6 +77,7 @@ const errorsHash = {
   [errors.CALLS_EMPTY]: 'incoming.call.popup.call.was.answered',
   [errors.CALL_FINISED_BY_CUSTOMER]: 'incoming.call.popup.call.finished.by.customer',
   [errors.USER_MEDIA_FAILED]: 'incoming.call.popup.user.media.failed',
+  [errors.PEER_OFFLINE]: 'incoming.call.popup.call.peer.offline',
 };
 
 const DEFAULT_ACCEPTING_ERROR = 'incoming.call.popup.call.accepting.failed';

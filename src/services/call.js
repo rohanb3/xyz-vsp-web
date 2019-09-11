@@ -29,12 +29,10 @@ import api from '@/services/api';
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { checkAndRequestCallPermissions } from '@/services/callPermissions';
 import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
-import callInterruption from '@/services/callInterruption';
 import { getUserMediaStreams } from '@/services/userMedia';
 import { log } from '@/services/sentry';
 
 const { VIDEO } = TWILIO;
-let callInterruptionWatcher = null;
 
 export const errors = {
   ...OPERATOR_SOCKET.ERROR_MESSAGES,
@@ -52,15 +50,7 @@ export function initializeOperator() {
       return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
     })
     .then(trackConnectionAvailability)
-    .then(trackCallInterruption)
     .then(checkAndSaveWaitingFeedbacks);
-}
-
-function trackCallInterruption() {
-  if (callInterruptionWatcher) {
-    callInterruptionWatcher();
-  }
-  callInterruptionWatcher = callInterruption(interruptCall);
 }
 
 function checkConnectAvailability() {
@@ -115,7 +105,7 @@ export function acceptCall() {
         }, 500)
       );
     })
-    .then(() => notifyAboutAcceptingCall())
+    .then(notifyAboutAcceptingCall)
     .then(({ token, ...call }) => {
       log('call.js -> onCallAccepted()', call);
       const credentials = { name: call.id, token };
@@ -239,26 +229,24 @@ function setConnectedToSocket(connected) {
 function onCallAcceptingFailed(err) {
   console.log('failed', err);
   disconnectFromRoom();
-  return Promise.reject(getAcceptingCallError(err));
+  const acceptingCallError = getAcceptingCallError(err);
+  return Promise.reject(acceptingCallError);
 }
 
 function getAcceptingCallError(err) {
-  let acceptingCallError = err;
-
-  if (err instanceof DOMException) {
-    acceptingCallError = new Error(errors.USER_MEDIA_FAILED);
+  switch (err.message) {
+    case err instanceof DOMException:
+      return new Error(errors.USER_MEDIA_FAILED);
+    case OPERATOR_SOCKET.ERROR_MESSAGES.CALLS_EMPTY:
+      return new Error(errors.CALLS_EMPTY);
+    case OPERATOR_SOCKET.ERROR_MESSAGES.CALL_ACCEPTING_FAILED:
+      return new Error(errors.CALL_ACCEPTING_FAILED);
+    case OPERATOR_SOCKET.ERROR_MESSAGES.PEER_OFFLINE:
+      console.log('offline');
+      return new Error(errors.PEER_OFFLINE);
+    default:
+      return err;
   }
-
-  if (err.message === OPERATOR_SOCKET.ERROR_MESSAGES.CALLS_EMPTY) {
-    acceptingCallError = new Error(errors.CALLS_EMPTY);
-  }
-  if (err.message === OPERATOR_SOCKET.ERROR_MESSAGES.CALL_ACCEPTING_FAILED) {
-    acceptingCallError = new Error(errors.CALL_ACCEPTING_FAILED);
-  }
-
-  log('Call accepting failed', { originalError: err, error: acceptingCallError });
-
-  return acceptingCallError;
 }
 
 export const getCallInfo = () => api.get('/call/info').then(response => response.data);
