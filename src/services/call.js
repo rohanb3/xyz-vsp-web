@@ -242,7 +242,6 @@ function getAcceptingCallError(err) {
     case OPERATOR_SOCKET.ERROR_MESSAGES.CALL_ACCEPTING_FAILED:
       return new Error(errors.CALL_ACCEPTING_FAILED);
     case OPERATOR_SOCKET.ERROR_MESSAGES.PEER_OFFLINE:
-      console.log('offline');
       return new Error(errors.PEER_OFFLINE);
     default:
       return err;
