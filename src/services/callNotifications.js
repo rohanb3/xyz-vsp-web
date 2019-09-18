@@ -1,5 +1,4 @@
 import { isEnabled } from './callNotificationsUtils';
-import notifyAboutIncomingCall from '@/services/extensionHelper';
 
 let swRegistration;
 let initPromiseResolver;
@@ -21,8 +20,6 @@ export function notifyAboutCall() {
     }
 
     if (enabled && swRegistration) {
-      notifyAboutIncomingCall();
-
       return swRegistration.showNotification('Incoming call', {
         tag: 'incoming-call',
         requireInteraction: true,
