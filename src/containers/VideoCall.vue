@@ -115,7 +115,6 @@ export default {
       show: true,
       isCameraOn: false,
       isMicrophoneOn: false,
-      isSoundOn: true,
       isScreenSharingOn: false,
       volume: 1,
       volumeGainer: null,
@@ -177,12 +176,16 @@ export default {
     callbackEnabled() {
       return this.activeCallData && this.activeCallData.callbackEnabled;
     },
+    isSoundOn() {
+      return !!this.volume;
+    },
   },
   mounted() {
     this.subscribeForTwilioEvents();
     this.handleMediaTracks();
     this.checkAndLoadCallTypesAndDispositions();
     this.activateCallTimer();
+    this.changeVolumeLevel(1);
   },
   destroyed() {
     this.unsubscribeFromTwilioEvents();
@@ -198,6 +201,9 @@ export default {
       if (!val) {
         this.connectingToRoom = true;
       }
+    },
+    volume() {
+      this.updateAudioVolume();
     },
   },
   methods: {
@@ -246,17 +252,13 @@ export default {
       return this.isScreenSharingOn ? disableScreenShare() : enableScreenShare();
     },
     toggleSound() {
-      this.isSoundOn = !this.isSoundOn;
-      this.volume = this.isSoundOn ? 1 : 0;
-      this.volumeGainer.value = this.volume * VOLUME_GAIN;
-      this.updateAudioVolume();
+      this.volume = this.isSoundOn ? 0 : 0.5;
     },
     changeVolumeLevel(value) {
       this.volume = value;
-      this.volumeGainer.value = this.volume * VOLUME_GAIN;
-      this.updateAudioVolume();
     },
     updateAudioVolume() {
+      this.volumeGainer.value = this.volume * VOLUME_GAIN;
       const remoteAudio = this.$refs.remoteMedia.querySelector('audio');
       if (remoteAudio) {
         remoteAudio.volume = this.volume;
@@ -316,6 +318,7 @@ export default {
       this.hideFeedbackPopup();
       this.counter = 0;
       this.activateCallTimer();
+      this.changeVolumeLevel(1);
     },
     onRequestingCallbackFailed(error) {
       const title = this.$t(error.message || 'callback.declined');

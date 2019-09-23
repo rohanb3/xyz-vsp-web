@@ -4,8 +4,14 @@ import * as Integrations from '@sentry/integrations';
 import moment from 'moment';
 
 export function init() {
+  const url = process.env.SENTRY_URL;
+
+  if (!url) {
+    return;
+  }
+
   Sentry.init({
-    dsn: 'https://37e26f89eb3d4443ab5a7f8f78017656@sentry.io/1470572',
+    dsn: url,
     integrations: [
       new Integrations.Vue({
         Vue,
