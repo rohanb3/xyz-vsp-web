@@ -13,6 +13,8 @@
   "contact.person": "Contact Person",
   "email": "Email",
   "phone": "Phone",
+  "phone.number": "Phone number",
+  "incorrect.phone.number": "Incorrect phone number",
   "last.payment": "Last Payment",
   "amount": "Amount",
   "calls": "Calls",

@@ -13,6 +13,8 @@
     "contact.person": "TBD Contact Person",
     "email": "TBD Email",
     "phone": "TBD Phone",
+    "phone.number": "TBD Phone number",
+    "incorrect.phone.number": "TBD Incorrect phone number",
     "last.payment": "TBD Last Payment",
     "amount": "TBD Amount",
     "calls": "TBD Calls",
