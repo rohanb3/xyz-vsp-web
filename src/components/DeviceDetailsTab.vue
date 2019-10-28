@@ -59,6 +59,13 @@
           inputType="number"
           @change="onInputChange"
         />
+        <div>
+          <phone-input
+            v-model="selected"
+            v-if="selected"
+            @change="onInputChange"
+          />
+        </div>
       </div>
       <div class="current-device-info">
         <div class="statuses">
@@ -110,12 +117,13 @@ import FormInput from './FormInput';
 import BranchSelect from './BranchSelect';
 import CompanySelect from './CompanySelect';
 import MapIcon from '@/components/MapIcon';
+import PhoneInput from './PhoneInput';
 
 const GOOGLE_MAPS_URL = 'http://www.google.com/maps/place/';
 
 export default {
   name: 'DeviceDetailsTab',
-  components: { MapIcon, VuePerfectScrollbar, CompanySelect, BranchSelect, FormInput },
+  components: { PhoneInput, MapIcon, VuePerfectScrollbar, CompanySelect, BranchSelect, FormInput },
   props: {
     tableName: {
       type: String,

@@ -12,28 +12,11 @@
 </template>
 
 <script>
-import { mask } from 'vue-the-mask';
-import { validatePhoneField } from '@/services/validators';
+import phoneInput from '../../mixins/phoneInput';
 
 export default {
   name: 'PhoneNumberField',
-  props: {
-    value: {
-      type: Object,
-      required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  directives: {
-    mask,
-  },
-  data: () => ({
-    mask: '+1 (###) ###-####',
-    phoneNumberRules: [validatePhoneField()],
-  }),
+  mixins: [phoneInput],
   computed: {
     phoneNumber: {
       get() {

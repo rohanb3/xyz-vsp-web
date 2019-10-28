@@ -176,6 +176,7 @@ export default {
         data.udid = this.selected.udid;
         data.deviceName = this.selected.deviceName;
         data.hexnodeUdid = this.selected.hexnodeUdid;
+        data.phone = this.selected.phone;
 
         const { isInLocation, isOnline, ...mixin } = this.selected;
 
