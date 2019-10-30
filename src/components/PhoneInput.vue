@@ -1,6 +1,6 @@
 <template>
   <div class="phone-input">
-    <label for="phoneNumber">{{ $t('phone.number') }}</label>
+    <slot name="label"></slot>
     <v-text-field
       id="phoneNumber"
       required
@@ -9,31 +9,47 @@
       :disabled="disabled"
       :clearable="!disabled"
       :rules="phoneNumberRules"
+      :label="label"
     />
   </div>
 </template>
 
 <script>
-import phoneInput from '../mixins/phoneInput';
+import { mask } from 'vue-the-mask';
+import { validatePhoneField, validateFieldCantBeEmpty } from '@/services/validators';
 
 export default {
   name: 'PhoneInput',
   props: {
-    field: {
+    value: {
+      type: Object,
+      required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    label: {
       type: String,
       default() {
-        return 'phone';
+        return '';
       },
     },
   },
-  mixins: [phoneInput],
+  directives: {
+    mask,
+  },
+  data: () => ({
+    mask: '+# (###) ###-####',
+    phoneNumberRules: [validateFieldCantBeEmpty(), validatePhoneField()],
+  }),
   computed: {
     phoneNumber: {
       get() {
         return this.value.phone || '';
       },
       set(phone) {
-        this.$emit('change', { value: phone, field: this.field });
+        this.$emit('input', { ...this.value, phone });
       },
     },
   },

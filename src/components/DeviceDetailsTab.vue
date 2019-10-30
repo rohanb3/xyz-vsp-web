@@ -7,7 +7,7 @@
           <p>{{ selected.udid }}</p>
         </div>
         <form-input
-          v-model="selected.deviceName"
+          v-model="selected"
           field="deviceName"
           inputType="text"
           :label="$t('device.name')"
@@ -15,7 +15,7 @@
           @change="onInputChange"
         />
         <form-input
-          v-model="selected.hexnodeUdid"
+          v-model="selected"
           field="hexnodeUdid"
           inputType="text"
           :label="$t('udid')"
@@ -28,7 +28,7 @@
           <form-input
             :label="$t('latitude')"
             :id="'Latitude'"
-            v-model="selected.latitude"
+            v-model="selected"
             field="latitude"
             inputType="number"
             @change="onInputChange"
@@ -41,7 +41,7 @@
         <form-input
           :label="$t('longitude')"
           :id="'Longitude'"
-          v-model="selected.longitude"
+          v-model="selected"
           field="longitude"
           inputType="number"
           @change="onInputChange"
@@ -54,7 +54,7 @@
         <form-input
           :label="$t('allowed.location.radius')"
           :id="'radius'"
-          v-model="selected.radius"
+          v-model="selected"
           field="radius"
           inputType="number"
           @change="onInputChange"
@@ -63,7 +63,6 @@
           <phone-input
             v-model="selected"
             v-if="selected"
-            @change="onInputChange"
           />
         </div>
       </div>
@@ -130,12 +129,12 @@ export default {
       default: '',
       changes: false,
     },
-    selected: {
-      type: Object,
-      required: true,
-    },
     changes: {
       type: Boolean,
+      required: true,
+    },
+    value: {
+      type: Object,
       required: true,
     },
   },
@@ -155,10 +154,22 @@ export default {
     isOnline() {
       return this.selected.isOnline;
     },
+    selected: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        // console.log('value', value);
+        this.$emit('input', value);
+      },
+    },
   },
   methods: {
     onInputChange(val) {
       this.$emit('onChange', val);
+    },
+    onPhoneChange(val) {
+      this.$emit('input', val);
     },
   },
 };

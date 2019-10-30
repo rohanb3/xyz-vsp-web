@@ -31,8 +31,8 @@
       <v-tabs-items v-model="tab">
         <v-tab-item :lazy="true">
           <device-details-tab
+            v-model="selected"
             :table-name="tableName"
-            :selected="selected"
             :changes="changes"
             @onChange="onChange"
             @save="saveChanges"
