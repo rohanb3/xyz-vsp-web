@@ -23,7 +23,7 @@
             <branch-quick-search v-model="deviceInfo"/>
           </div>
           <div class="branch__section add-device__section">
-            <phone-number-field v-model="deviceInfo"/>
+            <phone-input v-model="deviceInfo" :label="$t('phone.number')" />
           </div>
           <span class="location-title">{{$t("branch.location")}}</span>
           <div class="latitude__section add-device__section">
@@ -74,13 +74,14 @@ import { ENTITY_TYPES } from '@/constants';
 import { addBackgroundShadow, removeBackgroundShadow } from '@/services/background';
 import HexnodeUdidField from '../components/AddDevice/HexnodeUdidField';
 import DeviceNameField from '../components/AddDevice/DeviceNameField';
-import PhoneNumberField from '@/components/AddDevice/PhoneNumberField';
+import PhoneInput from '../components/PhoneInput';
 
 const { DEVICES } = ENTITY_TYPES;
 
 export default {
   name: 'AddDevicePopup',
   components: {
+    PhoneInput,
     DeviceNameField,
     HexnodeUdidField,
     TableFullHeightBalloon,
@@ -92,7 +93,6 @@ export default {
     LongitudeField,
     RadiusField,
     ConfirmPopup,
-    PhoneNumberField,
   },
   props: {
     visibleDevice: {

@@ -1,7 +1,7 @@
 <template>
   <div class="form-input">
     <label :for="id">{{ label }}</label>
-    <input :autocomplete="autocomplete" :id="id" :type="inputType" :value="value" @input="onInput" />
+    <input :autocomplete="autocomplete" :id="id" :type="inputType" :value="val" @input="onInput" />
   </div>
 </template>
 
@@ -33,9 +33,14 @@ export default {
       default: false,
     },
   },
+  computed: {
+    val() {
+      return this.value[this.field];
+    },
+  },
   methods: {
     onInput(val) {
-      this.$emit('change', { value: val.target.value, field: this.field });
+      this.$emit('input', { ...this.value, [this.field]: val.target.value });
     },
   },
 };
