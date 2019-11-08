@@ -138,10 +138,12 @@ export default {
     },
     onSave() {
       if (this.validate()) {
+        const phone = this.deviceInfo.phone.replace(/\D/g, '');
         const deviceInfo = {
           ...this.deviceInfo,
           id: this.selectedDevice.id,
           udid: this.selectedDevice.udid,
+          phone,
         };
         this.$emit('saveDevice', deviceInfo);
         this.discardChanges();
