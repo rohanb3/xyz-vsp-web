@@ -31,8 +31,8 @@
       <v-tabs-items v-model="tab">
         <v-tab-item :lazy="true">
           <device-details-tab
+            v-model="selected"
             :table-name="tableName"
-            :selected="selected"
             :changes="changes"
             @onChange="onChange"
             @save="saveChanges"
@@ -176,6 +176,7 @@ export default {
         data.udid = this.selected.udid;
         data.deviceName = this.selected.deviceName;
         data.hexnodeUdid = this.selected.hexnodeUdid;
+        data.phone = this.selected.phone.replace(/\D/g, '');
 
         const { isInLocation, isOnline, ...mixin } = this.selected;
 
