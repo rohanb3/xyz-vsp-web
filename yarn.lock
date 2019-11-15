@@ -1591,6 +1591,11 @@ autoprefixer@^9.4.8:
     postcss "^7.0.14"
     postcss-value-parser "^3.3.1"
 
+awesome-phonenumber@^2.15.0:
+  version "2.21.0"
+  resolved "https://registry.yarnpkg.com/awesome-phonenumber/-/awesome-phonenumber-2.21.0.tgz#9996f4576254f4fc4b8b7ce0803ad116dbb49c73"
+  integrity sha512-VPiRvRA5uggPdN9jxXGIUKV5l4QM/MXT4hOw4P70UjrMqQWI/nyYnqmUi5cajmQu9envPuwK3UTOgj8gYX4apg==
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -10840,6 +10845,13 @@ vue-style-loader@^4.1.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
+vue-tel-input@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/vue-tel-input/-/vue-tel-input-4.0.0.tgz#7f0266e23786f43ce30decd9df5c0ebbcfb41116"
+  integrity sha512-lZG0ZdyMz80K0o9tRgBYCpDNVHtO9yrfZ68UKCORhzxO+CXDfX1MRYM22pNXlhWbFuAV3pntgPey8+bvZuE+eg==
+  dependencies:
+    awesome-phonenumber "^2.15.0"
+
 vue-template-compiler@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.10.tgz#323b4f3495f04faa3503337a82f5d6507799c9cc"
@@ -10857,6 +10869,11 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
+
+vue-the-mask@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/vue-the-mask/-/vue-the-mask-0.11.1.tgz#91ee01008354ae57bccc79bb61b65f32d971d9d5"
+  integrity sha512-UquSfnSWejD0zAfcD+3jJ1chUAkOAyoxya9Lxh9acCRtrlmGcAIvd0cQYraWqKenbuZJUdum+S174atv2AuEHQ==
 
 vue-virtual-scroll-list@^1.2.8:
   version "1.2.8"

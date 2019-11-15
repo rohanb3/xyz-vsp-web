@@ -63,7 +63,9 @@
           <phone-input
             v-model="selected"
             v-if="selected"
-          />
+          >
+            <label for="phoneNumber" slot="label">{{ $t('phone') }}</label>
+          </phone-input>
         </div>
       </div>
       <div class="current-device-info">

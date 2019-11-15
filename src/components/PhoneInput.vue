@@ -1,21 +1,12 @@
 <template>
   <div class="phone-input">
     <slot name="label"></slot>
-    <v-text-field
-      id="phoneNumber"
-      required
-      v-model="phoneNumber"
-      v-mask="mask"
-      :disabled="disabled"
-      :clearable="!disabled"
-      :rules="phoneNumberRules"
-      :label="label"
-    />
+    <vue-tel-input v-model="phoneNumber" v-bind="bindProps" :validCharactersOnly="true" />
   </div>
 </template>
 
 <script>
-import { mask } from 'vue-the-mask';
+import { VueTelInput } from 'vue-tel-input';
 import { validatePhoneField, validateFieldCantBeEmpty } from '@/services/validators';
 
 export default {
@@ -36,12 +27,16 @@ export default {
       },
     },
   },
-  directives: {
-    mask,
-  },
+  components: { VueTelInput },
   data: () => ({
     mask: '+# (###) ###-####',
     phoneNumberRules: [validateFieldCantBeEmpty(), validatePhoneField()],
+    bindProps: {
+      mode: 'international',
+      defaultCountry: 'US',
+      enabledFlags: false,
+      maxLen: 11,
+    },
   }),
   computed: {
     phoneNumber: {
@@ -66,20 +61,22 @@ export default {
     margin-bottom: 5px;
     opacity: 0.7;
   }
-  .v-input {
-    padding: 0;
+  input {
+    border: 1px solid $form-input-border-color;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    display: block;
+    margin-bottom: 0;
+    padding: 11px;
+    width: 100%;
+  }
 
-    .v-input__slot {
-      border: 1px solid $form-input-border-color;
-      -webkit-border-radius: 5px;
-      -moz-border-radius: 5px;
-      border-radius: 5px;
-      margin-bottom: 0;
-      padding: 5px 0 5px 10px;
+  .vue-tel-input {
+    border: none;
 
-      &::before {
-        border: none !important;
-      }
+    .vti__dropdown {
+      display: none;
     }
   }
 }
