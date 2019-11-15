@@ -7,7 +7,6 @@
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
-import { validatePhoneField, validateFieldCantBeEmpty } from '@/services/validators';
 
 export default {
   name: 'PhoneInput',
@@ -30,12 +29,10 @@ export default {
   components: { VueTelInput },
   data: () => ({
     mask: '+# (###) ###-####',
-    phoneNumberRules: [validateFieldCantBeEmpty(), validatePhoneField()],
     bindProps: {
       mode: 'international',
       defaultCountry: 'US',
       enabledFlags: false,
-      maxLen: 11,
       onlyCountries: ['US'],
     },
   }),
