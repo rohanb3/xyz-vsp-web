@@ -36,6 +36,7 @@ export default {
       defaultCountry: 'US',
       enabledFlags: false,
       maxLen: 11,
+      onlyCountries: ['US'],
     },
   }),
   computed: {
