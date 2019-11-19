@@ -5,7 +5,7 @@
       entity-name="branchName"
       :items="branches"
       :name="getBranchName"
-      :initial-item="value.id"
+      :initial-item="branch.id"
       :disabled="disabled"
       required
       :not-found-message="$t('branch.not.found')"
@@ -31,31 +31,32 @@ export default {
       type: Object,
       required: true,
     },
-    companyId: {
+    company: {
       required: true,
     },
   },
   computed: {
-    branchId: {
+    branch: {
       get() {
-        return this.value.branchId;
+        return this.value;
       },
-      set(branchId) {
-        this.$emit('input', { ...this.value, branchId });
+      set(id) {
+        const branch = this.branches.find(item => item.id === id);
+        this.$emit('input', branch);
       },
     },
     disabled() {
       return !this.branches.length || !this.companyId;
     },
+    companyId() {
+      return this.company.id;
+    },
   },
   watch: {
-    'value.companyId': function name(companyId) {
-      if (!companyId) {
-        this.branchId = null;
+    companyId(val) {
+      if (val) {
+        this.getBranches();
       }
-    },
-    companyId() {
-      this.getBranches();
     },
   },
   mounted() {
@@ -74,9 +75,11 @@ export default {
       return branch.branchName;
     },
     selectBranch(id) {
-      this.$emit('input', { ...this.value, id });
+      const branch = this.branches.find(item => item.id === id);
+      this.$emit('input', branch);
     },
     getBranches() {
+      this.branches = [];
       getBranches(this.companyId).then(response => {
         this.branches = [...response.data];
       });

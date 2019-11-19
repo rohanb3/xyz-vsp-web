@@ -31,7 +31,7 @@
       <v-tabs-items v-model="tab">
         <v-tab-item :lazy="true">
           <device-details-tab
-            v-model="selected"
+            v-model="device"
             :table-name="tableName"
             :changes="changes"
             @onChange="onChange"
@@ -114,11 +114,6 @@ export default {
       },
       deep: true,
     },
-    selectedCompany(val, oldVal) {
-      if (Object.keys(val).length && oldVal && !isEqual(val, this.selectedDevice.company)) {
-        this.selected.branch = {};
-      }
-    },
   },
   computed: {
     tableData() {
@@ -134,8 +129,13 @@ export default {
         item => item.id
       );
     },
-    selectedCompany() {
-      return this.selected.company;
+    device: {
+      get() {
+        return this.selected;
+      },
+      set(value) {
+        this.selected = { ...value };
+      },
     },
   },
   mounted() {
