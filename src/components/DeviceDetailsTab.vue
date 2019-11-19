@@ -35,8 +35,8 @@
           />
         </div>
         <company-select
-          v-if="selected && selected.company"
-          v-model="selected.company"
+          v-if="selected && company"
+          v-model="company"
         />
         <form-input
           :label="$t('longitude')"
@@ -47,9 +47,9 @@
           @change="onInputChange"
         />
         <branch-select
-          v-if="selected && selected.branch"
-          :company-id="selected.company.id"
-          v-model="selected.branch"
+          v-if="selected && company"
+          v-model="branch"
+          :company="company"
         />
         <form-input
           :label="$t('allowed.location.radius')"
@@ -162,6 +162,22 @@ export default {
       },
       set(value) {
         this.$emit('input', value);
+      },
+    },
+    company: {
+      get() {
+        return this.selected.company;
+      },
+      set(company) {
+        this.selected = { ...this.selected, company, branch: {} };
+      },
+    },
+    branch: {
+      get() {
+        return this.selected.branch;
+      },
+      set(branch = {}) {
+        this.selected = { ...this.selected, branch };
       },
     },
   },
