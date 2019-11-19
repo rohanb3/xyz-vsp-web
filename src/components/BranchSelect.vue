@@ -75,8 +75,7 @@ export default {
       return branch.branchName;
     },
     selectBranch(id) {
-      const branch = this.branches.find(item => item.id === id);
-      this.$emit('input', branch);
+      this.branch = id;
     },
     getBranches() {
       this.branches = [];
