@@ -239,5 +239,19 @@ export default {
       font-weight: bold;
     }
   }
+
+  .phone-input {
+    width: 284px;
+
+    input {
+      padding: 8px 10px;
+
+      &::placeholder {
+        color: $base-text-color;
+        font-size: 12px;
+        opacity: 0.8;
+      }
+    }
+  }
 }
 </style>

@@ -88,7 +88,8 @@ export default {
       return company.companyName;
     },
     selectCompany(id) {
-      this.$emit('input', { ...this.value, id });
+      const company = this.companies.find(item => item.id === id) || {};
+      this.$emit('input', company);
     },
   },
   data() {
