@@ -248,7 +248,7 @@ export default {
 
       &::placeholder {
         color: $base-text-color;
-        font-size: 12px;
+        font-size: 14px;
         opacity: 0.8;
       }
     }
