@@ -181,6 +181,7 @@ export const DEVICE_LIST_COLUMNS_SORTED = {
   COMPANY_NAME: 'companyname',
   LOGGED_IN_AS: 'displayname',
   DEVICE_NAME: 'deviceName',
+  TENANT: 'tenantname',
 };
 
 export const FILTER_NAMES = {
