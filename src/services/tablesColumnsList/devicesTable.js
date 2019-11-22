@@ -2,6 +2,17 @@ import { DEVICE_LIST_COLUMNS_SORTED } from '@/constants';
 
 export default () => [
   {
+    name: 'tenant',
+    field: 'tenant.name',
+    fieldType: 'name',
+    title: 'tenant',
+    class: 'text',
+    width: '2',
+    minWidth: '50px',
+    sortingFieldName: DEVICE_LIST_COLUMNS_SORTED.TENANT,
+    fieldHeaderType: 'sortingHeader',
+  },
+  {
     name: 'name',
     field: 'deviceName',
     fieldType: 'name',
