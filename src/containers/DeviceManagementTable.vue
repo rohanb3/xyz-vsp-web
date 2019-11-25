@@ -5,9 +5,10 @@
       <table-toolbar :title="'device.management'" :table-name="tableName">
         <div slot="filters" class="table-filter-container">
           <quick-search-filter :table-name="tableName" :placeholder="'search.by.name.idfv'" />
-          <device-status :table-name="tableName" />
+          <tenant-filter :table-name="tableName" />
           <company-filter :table-name="tableName" />
           <branch-filter :table-name="tableName" />
+          <device-status :table-name="tableName" />
         </div>
       </table-toolbar>
       <!-- <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
@@ -84,12 +85,14 @@ import QuickSearchFilter from './QuickSearchFilter';
 import DeviceStatus from './DeviceStatus';
 import CompanyFilter from './CompanyFilter';
 import BranchFilter from './BranchFilter';
+import TenantFilter from './TenantFilter';
 
 const { DEVICES, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceManagementTable',
   components: {
+    TenantFilter,
     BranchFilter,
     CompanyFilter,
     DeviceStatus,

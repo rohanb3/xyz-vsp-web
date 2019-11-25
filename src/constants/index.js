@@ -192,6 +192,7 @@ export const FILTER_NAMES = {
   SORT_BY: 'SortBy',
   ORDER: 'Order',
   FILTER_BRANCH_IDS: 'BranchIds',
+  FILTER_TENANT_IDS: 'TenantIds',
 };
 
 export const DEVICE_STATUS = {
