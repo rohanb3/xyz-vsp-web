@@ -37,7 +37,7 @@ export default () => [
   {
     name: 'name',
     field: 'deviceName',
-    fieldType: 'name',
+    fieldType: 'deviceName',
     title: 'device.name',
     class: 'text',
     width: '2',

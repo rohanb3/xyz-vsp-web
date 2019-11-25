@@ -67,6 +67,7 @@ import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
 import IdCell from '../components/tableCells/IdCell';
 import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 import AddDevicePopup from '@/containers/AddDevicePopup';
+import DeviceNameCell from '@/components/tableCells/DeviceNameCell';
 
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 import { ENTITY_TYPES } from '@/constants';
@@ -107,6 +108,7 @@ export default {
     DeviceDetails,
     AddDevicePopup,
     DeviceManagementUpdates,
+    DeviceNameCell,
   },
   data() {
     return {
@@ -123,6 +125,7 @@ export default {
         locationStatus: 'DeviceLocationStatusCell',
         statusSince: 'DeviceStatusSinceCell',
         comments: 'DeviceCommentsCell',
+        deviceName: 'DeviceNameCell',
       },
       deviceCommentsShown: false,
       selectedDevice: null,
