@@ -179,7 +179,9 @@ export default {
         data.phone = this.selected.phone.replace(/\D/g, '');
         this.selected.tenant = { ...this.selected.company.tenant };
 
-        const { isInLocation, isOnline, ...mixin } = this.selected;
+        const { isInLocation, isOnline, ...props } = this.selected;
+
+        const mixin = { ...props, tenant: { ...this.selected.company.tenant } };
 
         await this.$store.dispatch(UPDATE_ITEM, {
           itemType: ENTITY_TYPES.DEVICES,

@@ -209,7 +209,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~@/assets/styles/variables.scss';
 @import '~@/assets/styles/mixins.scss';
 
@@ -255,10 +255,6 @@ export default {
   height: $device-management-table-toolbar-height;
   align-items: center;
   padding: 0;
-
-  .table-toolbar {
-    padding: 0 20px;
-  }
 }
 
 .devices-amount {
@@ -307,5 +303,13 @@ export default {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+</style>
+
+<style lang="scss">
+.device-management-table-toolbar {
+  .table-toolbar {
+    padding: 0 20px;
+  }
 }
 </style>
