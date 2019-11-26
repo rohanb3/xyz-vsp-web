@@ -177,6 +177,7 @@ export default {
         data.deviceName = this.selected.deviceName;
         data.hexnodeUdid = this.selected.hexnodeUdid;
         data.phone = this.selected.phone.replace(/\D/g, '');
+        this.selected.tenant = { ...this.selected.company.tenant };
 
         const { isInLocation, isOnline, ...mixin } = this.selected;
 
