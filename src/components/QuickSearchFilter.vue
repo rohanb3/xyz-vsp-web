@@ -56,7 +56,7 @@ export default {
     height: 20px;
 
     .v-input__slot {
-      width: 140px;
+      width: 180px;
       box-shadow: none !important;
       margin-bottom: 0;
       padding-left: 4px;

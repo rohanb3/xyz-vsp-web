@@ -178,7 +178,9 @@ export default {
         data.hexnodeUdid = this.selected.hexnodeUdid;
         data.phone = this.selected.phone.replace(/\D/g, '');
 
-        const { isInLocation, isOnline, ...mixin } = this.selected;
+        const { isInLocation, isOnline, ...rest } = this.selected;
+
+        const mixin = { ...rest, tenant: { ...this.selected.company.tenant } };
 
         await this.$store.dispatch(UPDATE_ITEM, {
           itemType: ENTITY_TYPES.DEVICES,

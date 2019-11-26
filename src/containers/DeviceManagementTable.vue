@@ -254,7 +254,7 @@ export default {
   flex-flow: row;
   height: $device-management-table-toolbar-height;
   align-items: center;
-  padding: 0px 29px;
+  padding: 0;
 }
 
 .devices-amount {
@@ -303,5 +303,13 @@ export default {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+</style>
+
+<style lang="scss">
+.device-management-table-toolbar {
+  .table-toolbar {
+    padding: 0 20px;
+  }
 }
 </style>
