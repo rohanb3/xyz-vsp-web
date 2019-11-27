@@ -1,12 +1,19 @@
 <template>
   <div class="phone-input">
     <slot name="label"></slot>
-    <vue-tel-input v-model="phoneNumber" v-bind="bindProps" :validCharactersOnly="true" />
+    <vue-tel-input
+      v-model="phoneNumber"
+      v-bind="bindProps"
+      :validCharactersOnly="true"
+      @blur="validate"
+    />
+    <span class="error--text" v-if="error">{{ error }}</span>
   </div>
 </template>
 
 <script>
 import { VueTelInput } from 'vue-tel-input';
+import { validateFieldCantBeEmpty } from '@/services/validators';
 
 export default {
   name: 'PhoneInput',
@@ -35,6 +42,7 @@ export default {
       enabledFlags: false,
       onlyCountries: ['US'],
     },
+    error: null,
   }),
   computed: {
     phoneNumber: {
@@ -42,8 +50,19 @@ export default {
         return this.value.phone || '';
       },
       set(phone) {
+        this.error = null;
         this.$emit('input', { ...this.value, phone });
       },
+    },
+  },
+  methods: {
+    validate() {
+      const validation = validateFieldCantBeEmpty()(this.phoneNumber);
+      const isValid = validation !== true;
+      if (isValid) {
+        this.error = validation;
+      }
+      return isValid;
     },
   },
 };
@@ -76,6 +95,9 @@ export default {
     .vti__dropdown {
       display: none;
     }
+  }
+  span {
+    font-size: 12px;
   }
 }
 </style>

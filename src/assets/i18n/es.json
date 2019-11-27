@@ -273,5 +273,8 @@
     "field.must.consist.only.digits.and.dots.and.dash": "TBD Field must consist only digits and dots and dash",
     "search.by.name.idfv": "TBD Search by Name, IDFV",
     "device.name": "TBD Device Name",
-    "hexnodeUdid": "TBD Hexnode UDID"
+    "hexnodeUdid": "TBD Hexnode UDID",
+    "tenant": "TBD Tenant",
+    "user.login": "TBD User login",
+    "status.timestamp": "TBD Status timestamp"
 }
