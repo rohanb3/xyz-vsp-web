@@ -58,9 +58,11 @@ export default {
   methods: {
     validate() {
       const validation = validateFieldCantBeEmpty()(this.phoneNumber);
-      if (validation !== true) {
+      const isValid = validation !== true
+      if (isValid) {
         this.error = validation;
       }
+      return isValid;
     },
   },
 };
