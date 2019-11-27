@@ -23,7 +23,7 @@
             <branch-quick-search v-model="deviceInfo"/>
           </div>
           <div class="branch__section add-device__section">
-            <phone-input v-model="deviceInfo" :label="$t('phone.number')" />
+            <phone-input ref="phoneInput" v-model="deviceInfo" :label="$t('phone.number')" />
           </div>
           <span class="location-title">{{$t("branch.location")}}</span>
           <div class="latitude__section add-device__section">
@@ -134,11 +134,11 @@ export default {
       }
     },
     validate() {
-      return this.$refs.form.validate();
+      return this.$refs.form.validate() && this.$refs.phoneInput.validate();
     },
     onSave() {
       if (this.validate()) {
-        const phone = this.deviceInfo.phone.replace(/\D/g, '');
+        const phone = this.deviceInfo.phone ? this.deviceInfo.phone.replace(/\D/g, '') : '';
         const deviceInfo = {
           ...this.deviceInfo,
           id: this.selectedDevice.id,
