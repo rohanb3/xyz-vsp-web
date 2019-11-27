@@ -134,11 +134,11 @@ export default {
       }
     },
     validate() {
-      return this.$refs.form.validate();
+      return this.$refs.form.validate() && !!this.deviceInfo.phone;
     },
     onSave() {
       if (this.validate()) {
-        const phone = this.deviceInfo.phone.replace(/\D/g, '');
+        const phone = this.deviceInfo.phone ? this.deviceInfo.phone.replace(/\D/g, '') : '';
         const deviceInfo = {
           ...this.deviceInfo,
           id: this.selectedDevice.id,
