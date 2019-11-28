@@ -262,5 +262,5 @@ function refreshToken(error) {
     });
   }
 
-  return error;
+  throw error;
 }

@@ -9,6 +9,7 @@ let socket = null;
 
 export function init(authData, onCallsChanged, onConnectionChanged) {
   socket = socket || io(NAMESPACE, CONNECTION_OPTIONS);
+  socket.off();
 
   const promise = new Promise((resolve, reject) => {
     const onAuthenticated = data => {
