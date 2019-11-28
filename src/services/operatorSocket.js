@@ -90,3 +90,9 @@ export function listenToConnectionDropped() {
     socket.once(EVENTS.CONNECTION_DROPPED, resolve);
   });
 }
+
+export function listenToUnauthorizedConnection() {
+  return new Promise((resolve, reject) => {
+    socket.once(EVENTS.UNAUTHORIZED, reject);
+  });
+}

@@ -22,6 +22,7 @@ import {
   notifyAboutChangingStatusToOffline,
   listenToCallFinishing,
   listenToConnectionDropped,
+  listenToUnauthorizedConnection,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import { TWILIO, OPERATOR_SOCKET, USER_MEDIA_ERROR_MESSAGES } from '@/constants';
@@ -32,6 +33,8 @@ import { checkAndRequestCallPermissions } from '@/services/callPermissions';
 import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
 import { getUserMediaStreams } from '@/services/userMedia';
 import { log } from '@/services/sentry';
+
+import { REFRESH_TOKEN } from '@/store/loggedInUser/actionTypes';
 
 const { VIDEO } = TWILIO;
 
@@ -45,11 +48,16 @@ export function initializeOperator() {
     .then(checkConnectAvailability)
     .then(() => {
       const identity = store.getters.userId;
-      const { userName, displayName } = store.state.loggedInUser.profileData;
-      const credentials = { identity };
+      const {
+        token: { accessToken },
+        profileData: { userName, displayName },
+      } = store.state.loggedInUser;
+      const credentials = { identity, token: accessToken };
       log('call.js -> initializeOperator()', identity, displayName, userName);
       return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
     })
+    .then(listenToUnauthorizedConnection)
+    .catch(refreshToken)
     .then(trackConnectionAvailability)
     .then(checkAndSaveWaitingFeedbacks);
 }
@@ -245,3 +253,14 @@ function getAcceptingCallError(err) {
 }
 
 export const getCallInfo = () => api.get('/call/info').then(response => response.data);
+
+function refreshToken(error) {
+  const { message } = error;
+  if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
+    store.dispatch(REFRESH_TOKEN).then(() => {
+      initializeOperator();
+    });
+  }
+
+  return error;
+}
