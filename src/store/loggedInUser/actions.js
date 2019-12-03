@@ -7,6 +7,7 @@ import {
   USER_LOGOUT,
   UPDATE_PHOTO,
   REMOVE_PHOTO,
+  UPDATE_TOKEN,
 } from './actionTypes';
 
 import {
@@ -40,6 +41,10 @@ export default {
     const { data } = await login(emailLowerCase, password);
     const { access_token: accessToken, refresh_token: refreshToken } = data;
     commit(SET_TOKEN, { accessToken, refreshToken });
+  },
+  [UPDATE_TOKEN]({ commit }, data) {
+    commit(SET_TOKEN, data);
+    commit(SET_PROMISE_REFRESH_TOKEN, null);
   },
   async [REFRESH_TOKEN]({ commit, state }) {
     const { refreshToken: currentRefreshToken } = state.token;

@@ -8,7 +8,12 @@ const { NAMESPACE, CONNECTION_OPTIONS, EVENTS, ERROR_MESSAGES } = OPERATOR_SOCKE
 let socket = null;
 
 export function init(authData, onCallsChanged, onConnectionChanged) {
-  socket = socket || io(NAMESPACE, CONNECTION_OPTIONS);
+  if (socket) {
+    socket.off();
+    socket.close();
+  }
+
+  socket = io(NAMESPACE, CONNECTION_OPTIONS);
 
   const promise = new Promise((resolve, reject) => {
     const onAuthenticated = data => {
@@ -67,8 +72,8 @@ export function requestCallback(callId) {
   return promise;
 }
 
-export function notifyAboutChangingStatusToOnline() {
-  socket.emit(EVENTS.STATUS_CHANGED_ONLINE);
+export function notifyAboutChangingStatusToOnline(data) {
+  socket.emit(EVENTS.STATUS_CHANGED_ONLINE, data);
 }
 
 export function notifyAboutChangingStatusToOffline() {
@@ -88,5 +93,11 @@ export function listenToCallFinishing() {
 export function listenToConnectionDropped() {
   return new Promise(resolve => {
     socket.once(EVENTS.CONNECTION_DROPPED, resolve);
+  });
+}
+
+export function listenToUnauthorizedConnection() {
+  return new Promise((resolve, reject) => {
+    socket.once(EVENTS.UNAUTHORIZED, reject);
   });
 }
