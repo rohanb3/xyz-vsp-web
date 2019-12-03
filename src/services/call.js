@@ -48,24 +48,15 @@ export function initializeOperator() {
   return checkAndRequestCallPermissions()
     .then(checkConnectAvailability)
     .then(() => {
-      const identity = store.getters.userId;
-      const {
-        token: { accessToken },
-        profileData: { userName, displayName },
-      } = store.state.loggedInUser;
-      const credentials = { identity, token: accessToken };
+      const { identity, credentials, displayName, userName } = getOperatorData();
+
       log('call.js -> initializeOperator()', identity, displayName, userName);
       return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
     })
     .then(trackConnectionAvailability)
     .then(checkAndSaveWaitingFeedbacks)
     .then(listenToUnauthorizedConnection)
-    .catch(error => {
-      const { message } = error;
-      if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
-        refreshToken();
-      }
-    });
+    .catch(connectionError);
 }
 
 function checkConnectAvailability() {
@@ -268,4 +259,27 @@ function refreshToken() {
     store.dispatch(UPDATE_TOKEN, data);
     initializeOperator();
   });
+}
+
+function connectionError(error) {
+  const { message } = error;
+  if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
+    refreshToken();
+  }
+}
+
+function getOperatorData() {
+  const identity = store.getters.userId;
+  const {
+    token: { accessToken },
+    profileData: { userName, displayName },
+  } = store.state.loggedInUser;
+  const credentials = { identity, token: accessToken };
+
+  return {
+    userName,
+    displayName,
+    credentials,
+    identity,
+  };
 }
