@@ -34,7 +34,7 @@ import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
 import { getUserMediaStreams } from '@/services/userMedia';
 import { log } from '@/services/sentry';
 
-import { REFRESH_TOKEN } from '@/store/loggedInUser/actionTypes';
+import { REFRESH_TOKEN, UPDATE_TOKEN } from '@/store/loggedInUser/actionTypes';
 
 const { VIDEO } = TWILIO;
 
@@ -44,6 +44,7 @@ export const errors = {
 };
 
 export function initializeOperator() {
+  console.log('initializeOperator');
   return checkAndRequestCallPermissions()
     .then(checkConnectAvailability)
     .then(() => {
@@ -56,10 +57,16 @@ export function initializeOperator() {
       log('call.js -> initializeOperator()', identity, displayName, userName);
       return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
     })
-    .then(listenToUnauthorizedConnection)
-    .catch(refreshToken)
     .then(trackConnectionAvailability)
-    .then(checkAndSaveWaitingFeedbacks);
+    .then(checkAndSaveWaitingFeedbacks)
+    .then(listenToUnauthorizedConnection)
+    .catch(error => {
+      console.log('error', error, store.state.loggedInUser.token.accessToken);
+      const { message } = error;
+      if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
+        refreshToken();
+      }
+    });
 }
 
 function checkConnectAvailability() {
@@ -179,7 +186,10 @@ export function callBack() {
 }
 
 export function setOnlineStatus() {
-  notifyAboutChangingStatusToOnline();
+  const {
+    token: { accessToken },
+  } = store.state.loggedInUser;
+  notifyAboutChangingStatusToOnline({ token: accessToken });
   store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
 }
 
@@ -254,13 +264,9 @@ function getAcceptingCallError(err) {
 
 export const getCallInfo = () => api.get('/call/info').then(response => response.data);
 
-function refreshToken(error) {
-  const { message } = error;
-  if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
-    store.dispatch(REFRESH_TOKEN).then(() => {
-      initializeOperator();
-    });
-  }
-
-  throw error;
+function refreshToken() {
+  store.dispatch(REFRESH_TOKEN).then(({ data }) => {
+    store.dispatch(UPDATE_TOKEN, data);
+    initializeOperator();
+  });
 }
