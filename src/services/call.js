@@ -44,7 +44,6 @@ export const errors = {
 };
 
 export function initializeOperator() {
-  console.log('initializeOperator');
   return checkAndRequestCallPermissions()
     .then(checkConnectAvailability)
     .then(() => {
