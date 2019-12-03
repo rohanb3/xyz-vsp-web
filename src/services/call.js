@@ -56,7 +56,7 @@ export function initializeOperator() {
     .then(trackConnectionAvailability)
     .then(checkAndSaveWaitingFeedbacks)
     .then(listenToUnauthorizedConnection)
-    .catch(connectionError);
+    .catch(onConnectionError);
 }
 
 function checkConnectAvailability() {
@@ -261,7 +261,7 @@ function refreshToken() {
   });
 }
 
-function connectionError(error) {
+function onConnectionError(error) {
   const { message } = error;
   if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
     refreshToken();
