@@ -61,7 +61,6 @@ export function initializeOperator() {
     .then(checkAndSaveWaitingFeedbacks)
     .then(listenToUnauthorizedConnection)
     .catch(error => {
-      console.log('error', error, store.state.loggedInUser.token.accessToken);
       const { message } = error;
       if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
         refreshToken();
