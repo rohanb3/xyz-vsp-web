@@ -50,13 +50,10 @@ export default {
     remoteParticipantNetworkLevel(val) {
       this.isRemoteConnectionError = !val;
     },
-    remoteVideoFrozen(val) {
-      this.isRemoteConnectionError = val;
-    },
   },
   computed: {
     isPopupShown() {
-      return this.isLocalConnectionError || this.isRemoteConnectionError;
+      return this.isLocalConnectionError || this.isRemoteConnectionError || this.remoteVideoFrozen;
     },
     title() {
       return this.isLocalConnectionError
