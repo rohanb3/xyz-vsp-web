@@ -314,5 +314,6 @@
   "tenant": "Tenant",
   "user.login": "User login",
   "status.timestamp": "Status timestamp",
-  "tenant.not.specified": "Tenant is not specified for your Company. Please, contact support"
+  "tenant.not.specified": "Tenant is not specified for your Company. Please, contact support",
+  "login.failed": "Login failed"
 }

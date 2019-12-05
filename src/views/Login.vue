@@ -67,7 +67,7 @@
 
 <script>
 import { LOGIN, GET_PROFILE_DATA } from '@/store/loggedInUser/actionTypes';
-import { emailValidatorRegExp, RESPONSE_STATUSES } from '@/constants';
+import { emailValidatorRegExp } from '@/constants';
 
 export default {
   name: 'Login',
@@ -112,34 +112,25 @@ export default {
     },
     onError(e) {
       const {
-        response: { status, data },
+        response: { data },
       } = e;
 
       const translations = {
         'Tenant is not specified for your Company. Please, contact support': 'tenant.not.specified',
       };
 
-      const title = translations[data] || data;
-
-      switch (status) {
-        case RESPONSE_STATUSES.FORBIDDEN:
-          this.$notify({
-            group: 'notifications',
-            title: this.$t(title),
-            type: 'error',
-          });
-          break;
-        default:
-          this.$notify({
-            group: 'notifications',
-            title: 'Login failed',
-            type: 'error',
-          });
-          break;
-      }
+      const title = translations[data] || 'login.failed';
+      return this.notify(this.$t(title));
     },
     validate() {
       return this.$refs.form.validate() && this.agreement && !this.loading;
+    },
+    notify(title) {
+      this.$notify({
+        group: 'notifications',
+        title,
+        type: 'error',
+      });
     },
   },
 };
