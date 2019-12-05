@@ -67,7 +67,7 @@
 
 <script>
 import { LOGIN, GET_PROFILE_DATA } from '@/store/loggedInUser/actionTypes';
-import { emailValidatorRegExp } from '@/constants';
+import { emailValidatorRegExp, RESPONSE_STATUSES } from '@/constants';
 
 export default {
   name: 'Login',
@@ -104,11 +104,33 @@ export default {
           await this.$store.dispatch(GET_PROFILE_DATA);
           this.$router.push({ path: '/dashboard' });
         } catch (e) {
-          this.$notify({
-            group: 'notifications',
-            title: 'Login failed',
-            type: 'error',
-          });
+          const {
+            response: { status, data },
+          } = e;
+
+          const translations = {
+            'Tenant is not specified for your Company. Please, contact support':
+              'tenant.not.specified',
+          };
+
+          const title = translations[data] || data;
+
+          switch (status) {
+            case RESPONSE_STATUSES.FORBIDDEN:
+              this.$notify({
+                group: 'notifications',
+                title: this.$t(title),
+                type: 'error',
+              });
+              break;
+            default:
+              this.$notify({
+                group: 'notifications',
+                title: 'Login failed',
+                type: 'error',
+              });
+              break;
+          }
         } finally {
           this.loading = false;
         }
