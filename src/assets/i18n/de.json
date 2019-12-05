@@ -276,5 +276,7 @@
     "hexnodeUdid": "TBD Hexnode UDID",
     "tenant": "TBD Tenant",
     "user.login": "TBD User login",
-    "status.timestamp": "TBD Status timestamp"
+    "status.timestamp": "TBD Status timestamp",
+    "tenant.not.specified": "TBD Tenant is not specified for your Company. Please, contact support",
+    "login.failed": "TBD Login failed"
 }
