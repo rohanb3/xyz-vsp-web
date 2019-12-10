@@ -7,3 +7,4 @@ export const GET_PHOTO = 'GET_PHOTO';
 export const REMOVE_PHOTO = 'REMOVE_PHOTO';
 export const GET_RESET_TOKEN = 'GET_RESET_TOKEN';
 export const USER_LOGOUT = 'USER_LOGOUT';
+export const UPDATE_TOKEN = 'UPDATE_TOKEN';

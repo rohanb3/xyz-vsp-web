@@ -110,6 +110,8 @@ const PEER_BUSY = 'peer.busy';
 const ALREADY_LOGGED_IN = 'already.logged.in';
 const CONNECTION_DROPPED = 'connection.dropped';
 
+const TOKEN_INVALID = 'token.invalid';
+
 export const OPERATOR_SOCKET = {
   EVENTS: {
     CONNECT,
@@ -147,6 +149,7 @@ export const OPERATOR_SOCKET = {
     path: '/api/video/socket.io',
     reconnectionDelay: 500,
   },
+  TOKEN_INVALID,
 };
 
 export const ROLE_TYPES = {
@@ -182,7 +185,7 @@ export const DEVICE_LIST_COLUMNS_SORTED = {
   COMPANY_NAME: 'companyname',
   LOGGED_IN_AS: 'displayname',
   DEVICE_NAME: 'deviceName',
-  TENANT: 'tenantname',
+  TENANT: 'name',
 };
 
 export const FILTER_NAMES = {
