@@ -97,22 +97,40 @@ export default {
   methods: {
     async submit() {
       const { email, password } = this;
-      if (this.$refs.form.validate() && this.agreement && !this.loading) {
+      if (this.validate()) {
         this.loading = true;
         try {
           await this.$store.dispatch(LOGIN, { email, password });
           await this.$store.dispatch(GET_PROFILE_DATA);
           this.$router.push({ path: '/dashboard' });
         } catch (e) {
-          this.$notify({
-            group: 'notifications',
-            title: 'Login failed',
-            type: 'error',
-          });
+          this.onError(e);
         } finally {
           this.loading = false;
         }
       }
+    },
+    onError(e) {
+      const {
+        response: { data },
+      } = e;
+
+      const translations = {
+        'Tenant is not specified for your Company. Please, contact support': 'tenant.not.specified',
+      };
+
+      const title = translations[data] || 'login.failed';
+      return this.notify(this.$t(title));
+    },
+    validate() {
+      return this.$refs.form.validate() && this.agreement && !this.loading;
+    },
+    notify(title) {
+      this.$notify({
+        group: 'notifications',
+        title,
+        type: 'error',
+      });
     },
   },
 };

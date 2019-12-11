@@ -22,6 +22,9 @@
           <div class="branch__section add-device__section">
             <branch-quick-search v-model="deviceInfo"/>
           </div>
+          <div class="branch__section add-device__section">
+            <phone-input ref="phoneInput" v-model="deviceInfo" :label="$t('phone.number')" />
+          </div>
           <span class="location-title">{{$t("branch.location")}}</span>
           <div class="latitude__section add-device__section">
             <latitude-field v-model="deviceInfo"/>
@@ -71,12 +74,14 @@ import { ENTITY_TYPES } from '@/constants';
 import { addBackgroundShadow, removeBackgroundShadow } from '@/services/background';
 import HexnodeUdidField from '../components/AddDevice/HexnodeUdidField';
 import DeviceNameField from '../components/AddDevice/DeviceNameField';
+import PhoneInput from '../components/PhoneInput';
 
 const { DEVICES } = ENTITY_TYPES;
 
 export default {
   name: 'AddDevicePopup',
   components: {
+    PhoneInput,
     DeviceNameField,
     HexnodeUdidField,
     TableFullHeightBalloon,
@@ -129,14 +134,16 @@ export default {
       }
     },
     validate() {
-      return this.$refs.form.validate();
+      return this.$refs.form.validate() && this.$refs.phoneInput.validate();
     },
     onSave() {
       if (this.validate()) {
+        const phone = this.deviceInfo.phone ? this.deviceInfo.phone.replace(/\D/g, '') : '';
         const deviceInfo = {
           ...this.deviceInfo,
           id: this.selectedDevice.id,
           udid: this.selectedDevice.udid,
+          phone,
         };
         this.$emit('saveDevice', deviceInfo);
         this.discardChanges();
@@ -230,6 +237,20 @@ export default {
       background-color: #7ed321;
       color: #ffffff;
       font-weight: bold;
+    }
+  }
+
+  .phone-input {
+    width: 284px;
+
+    input {
+      padding: 8px 10px;
+
+      &::placeholder {
+        color: $base-text-color;
+        font-size: 14px;
+        opacity: 0.8;
+      }
     }
   }
 }

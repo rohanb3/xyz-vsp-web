@@ -1,9 +1,8 @@
 import axios from 'axios';
 import store from '@/store';
 import debounce from 'lodash.debounce';
-import { REFRESH_TOKEN, USER_LOGOUT } from '@/store/loggedInUser/actionTypes';
+import { REFRESH_TOKEN, USER_LOGOUT, UPDATE_TOKEN } from '@/store/loggedInUser/actionTypes';
 import { RESPONSE_STATUSES, ROUTE_NAMES } from '@/constants';
-import { SET_TOKEN, SET_PROMISE_REFRESH_TOKEN } from '@/store/loggedInUser/mutationTypes';
 
 const INVALID_TOKEN = 'invalid_token';
 const SET_TOKEN_TIMEOUT = 500;
@@ -25,8 +24,7 @@ function isUnauthorized(status, header) {
 }
 
 function setToken(accessToken, refreshToken) {
-  store.commit(SET_TOKEN, { accessToken, refreshToken });
-  store.commit(SET_PROMISE_REFRESH_TOKEN, null);
+  store.dispatch(UPDATE_TOKEN, { accessToken, refreshToken });
 }
 
 const debounceSetToken = debounce(setToken, SET_TOKEN_TIMEOUT);

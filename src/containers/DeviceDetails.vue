@@ -31,8 +31,8 @@
       <v-tabs-items v-model="tab">
         <v-tab-item :lazy="true">
           <device-details-tab
+            v-model="device"
             :table-name="tableName"
-            :selected="selected"
             :changes="changes"
             @onChange="onChange"
             @save="saveChanges"
@@ -114,11 +114,6 @@ export default {
       },
       deep: true,
     },
-    selectedCompany(val, oldVal) {
-      if (Object.keys(val).length && oldVal && !isEqual(val, this.selectedDevice.company)) {
-        this.selected.branch = {};
-      }
-    },
   },
   computed: {
     tableData() {
@@ -134,8 +129,13 @@ export default {
         item => item.id
       );
     },
-    selectedCompany() {
-      return this.selected.company;
+    device: {
+      get() {
+        return this.selected;
+      },
+      set(value) {
+        this.selected = { ...value };
+      },
     },
   },
   mounted() {
@@ -176,8 +176,11 @@ export default {
         data.udid = this.selected.udid;
         data.deviceName = this.selected.deviceName;
         data.hexnodeUdid = this.selected.hexnodeUdid;
+        data.phone = this.selected.phone.replace(/\D/g, '');
 
-        const { isInLocation, isOnline, ...mixin } = this.selected;
+        const { isInLocation, isOnline, ...rest } = this.selected;
+
+        const mixin = { ...rest, tenant: { ...this.selected.company.tenant } };
 
         await this.$store.dispatch(UPDATE_ITEM, {
           itemType: ENTITY_TYPES.DEVICES,

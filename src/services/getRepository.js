@@ -1,6 +1,7 @@
 import companiesApi from './companiesApi';
 import locationApi from './locationApi';
 import branchesApi from './branchesApi';
+import tenantApi from './tenantApi';
 
 export const getStateList = () => locationApi.get('/state').then(({ data }) => data);
 
@@ -20,3 +21,11 @@ export const getBranchList = (search = null, skip = 0, take = 20) => {
 };
 
 export const getBranch = id => branchesApi.get(`/${id}`).then(({ data }) => ({ data }));
+
+export const getTenantList = (search = null, skip = 0, take = 20) => {
+  const params = { skip, take, SearchFilter: search };
+  return tenantApi.get('/', { params }).then(({ data }) => data);
+};
+
+export const getTenant = id =>
+  tenantApi.get(`/single/${id}`).then(({ status, data }) => ({ status, data }));

@@ -5,9 +5,10 @@
       <table-toolbar :title="'device.management'" :table-name="tableName">
         <div slot="filters" class="table-filter-container">
           <quick-search-filter :table-name="tableName" :placeholder="'search.by.name.idfv'" />
-          <device-status :table-name="tableName" />
+          <tenant-filter :table-name="tableName" />
           <company-filter :table-name="tableName" />
           <branch-filter :table-name="tableName" />
+          <device-status :table-name="tableName" />
         </div>
       </table-toolbar>
       <!-- <v-btn @click.stop="showAddDevicePopup" class="add-device-button">
@@ -67,6 +68,7 @@ import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
 import IdCell from '../components/tableCells/IdCell';
 import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 import AddDevicePopup from '@/containers/AddDevicePopup';
+import DeviceNameCell from '@/components/tableCells/DeviceNameCell';
 
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 import { ENTITY_TYPES } from '@/constants';
@@ -83,12 +85,14 @@ import QuickSearchFilter from './QuickSearchFilter';
 import DeviceStatus from './DeviceStatus';
 import CompanyFilter from './CompanyFilter';
 import BranchFilter from './BranchFilter';
+import TenantFilter from './TenantFilter';
 
 const { DEVICES, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   name: 'DeviceManagementTable',
   components: {
+    TenantFilter,
     BranchFilter,
     CompanyFilter,
     DeviceStatus,
@@ -107,6 +111,7 @@ export default {
     DeviceDetails,
     AddDevicePopup,
     DeviceManagementUpdates,
+    DeviceNameCell,
   },
   data() {
     return {
@@ -123,6 +128,7 @@ export default {
         locationStatus: 'DeviceLocationStatusCell',
         statusSince: 'DeviceStatusSinceCell',
         comments: 'DeviceCommentsCell',
+        deviceName: 'DeviceNameCell',
       },
       deviceCommentsShown: false,
       selectedDevice: null,
@@ -248,7 +254,7 @@ export default {
   flex-flow: row;
   height: $device-management-table-toolbar-height;
   align-items: center;
-  padding: 0px 29px;
+  padding: 0;
 }
 
 .devices-amount {
@@ -297,5 +303,13 @@ export default {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+}
+</style>
+
+<style lang="scss">
+.device-management-table-toolbar {
+  .table-toolbar {
+    padding: 0 20px;
+  }
 }
 </style>

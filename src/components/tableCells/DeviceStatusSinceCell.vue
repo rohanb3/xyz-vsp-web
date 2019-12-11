@@ -11,7 +11,7 @@
 import moment from 'moment';
 import { DATE_FORMATS } from '@/constants';
 
-const { DEFAULT_DATE_FORMAT } = DATE_FORMATS;
+const { DEFAULT_DATE_FORMAT, DATE_FORMAT_WITH_TIME } = DATE_FORMATS;
 
 export default {
   name: 'DeviceStatusSinceCell',
@@ -37,7 +37,7 @@ export default {
       return this.item.statusSince
         ? moment(stillUtc)
             .local()
-            .format(DEFAULT_DATE_FORMAT)
+            .format(DATE_FORMAT_WITH_TIME)
         : '';
     },
     isOnline() {
