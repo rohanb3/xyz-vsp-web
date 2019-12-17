@@ -214,10 +214,3 @@ export const CALL_DISPOSITIONS = [
 ];
 
 export const CALL_TYPES = ['info', 'help', 'sale'];
-
-export const BE_ERROR_MESSAGES_TRANSLATION_MAP = {
-  'Tenant is not specified for your Company. Please, contact support': 'tenant.not.specified',
-  'This email is not registered in the system. Please, check and try again':
-    'email.is.not.registered',
-  'Email or password incorrect': 'email.or.password.incorrect',
-};

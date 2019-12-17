@@ -112,7 +112,7 @@ export default {
     onError(e) {
       const { response } = e;
 
-      const title = getFirstErrorTitleFromResponse(response, 'login.failed');
+      const title = getFirstErrorTitleFromResponse(response) || 'login.failed';
 
       return this.notify(this.$t(title));
     },

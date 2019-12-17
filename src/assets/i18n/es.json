@@ -307,7 +307,11 @@
   "tenant": "TBD Tenant",
   "user.login": "TBD User login",
   "status.timestamp": "TBD Status timestamp",
-  "tenant.not.specified":
+  "login.failed": "TBD Login failed",
+  "identity.errors:Tenant is not specified for your Company. Please, contact support":
     "TBD Tenant is not specified for your Company. Please, contact support",
-  "login.failed": "TBD Login failed"
+  "identity.errors:This email is not registered in the system. Please, check and try again":
+    "TBD This email is not registered in this system. Please, check and try again.",
+  "identity.errors:Email or password incorrect":
+    "TBD Email or password incorrect"
 }

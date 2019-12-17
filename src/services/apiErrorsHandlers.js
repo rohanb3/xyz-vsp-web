@@ -1,13 +1,11 @@
-import { BE_ERROR_MESSAGES_TRANSLATION_MAP } from '../constants';
+export const getTranslateKeyByMessage = (message = '') => `identity.errors:${message}`;
 
-export const getFirstErrorTitleFromResponse = (response, defaultTitle = '') => {
+export const getFirstErrorTitleFromResponse = response => {
   const {
     data: { errors },
   } = response;
 
   const errorKey = Object.keys(errors)[0];
 
-  return BE_ERROR_MESSAGES_TRANSLATION_MAP[errors[errorKey]] || defaultTitle;
+  return getTranslateKeyByMessage(errors[errorKey]);
 };
-
-export default { getFirstErrorTitleFromResponse };

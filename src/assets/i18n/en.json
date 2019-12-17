@@ -253,14 +253,9 @@
 
   "changes.will.not.be.saved": "Are you sure your changes will not be saved?",
   "sure": "Sure",
-  "email.or.password.incorrect": "Email or password incorrect",
   "email.is.not.registered":
     "This email is not registered in this system. Please, check and try again.",
   "something.went.wrong": "Opps, something went wrong :(",
-  "email.is.not.registered":
-    "This email is not registered in this system. Please, check and try again.",
-  "something.went.wrong": "Opps, something went wrong :(",
-
   "device.id": "Device Id",
   "history": "History",
   "branch.location": "Branch location",
@@ -319,7 +314,10 @@
   "tenant": "Tenant",
   "user.login": "User login",
   "status.timestamp": "Status timestamp",
-  "tenant.not.specified":
+  "login.failed": "Login failed",
+  "identity.errors:Tenant is not specified for your Company. Please, contact support":
     "Tenant is not specified for your Company. Please, contact support",
-  "login.failed": "Login failed"
+  "identity.errors:This email is not registered in the system. Please, check and try again":
+    "This email is not registered in this system. Please, check and try again.",
+  "identity.errors:Email or password incorrect": "Email or password incorrect"
 }
