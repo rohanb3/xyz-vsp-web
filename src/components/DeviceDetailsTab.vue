@@ -7,7 +7,7 @@
           <p>{{ selected.udid }}</p>
         </div>
         <form-input
-          v-model="selected.deviceName"
+          v-model="selected"
           field="deviceName"
           inputType="text"
           :label="$t('device.name')"
@@ -15,7 +15,7 @@
           @change="onInputChange"
         />
         <form-input
-          v-model="selected.hexnodeUdid"
+          v-model="selected"
           field="hexnodeUdid"
           inputType="text"
           :label="$t('udid')"
@@ -28,37 +28,45 @@
           <form-input
             :label="$t('latitude')"
             :id="'Latitude'"
-            v-model="selected.latitude"
+            v-model="selected"
             field="latitude"
             inputType="number"
             @change="onInputChange"
           />
         </div>
         <company-select
-          v-if="selected && selected.company"
-          v-model="selected.company"
+          v-if="selected && company"
+          v-model="company"
         />
         <form-input
           :label="$t('longitude')"
           :id="'Longitude'"
-          v-model="selected.longitude"
+          v-model="selected"
           field="longitude"
           inputType="number"
           @change="onInputChange"
         />
         <branch-select
-          v-if="selected && selected.branch"
-          :company-id="selected.company.id"
-          v-model="selected.branch"
+          v-if="selected && company"
+          v-model="branch"
+          :company="company"
         />
         <form-input
           :label="$t('allowed.location.radius')"
           :id="'radius'"
-          v-model="selected.radius"
+          v-model="selected"
           field="radius"
           inputType="number"
           @change="onInputChange"
         />
+        <div>
+          <phone-input
+            v-model="selected"
+            v-if="selected"
+          >
+            <label for="phoneNumber" slot="label">{{ $t('phone') }}</label>
+          </phone-input>
+        </div>
       </div>
       <div class="current-device-info">
         <div class="statuses">
@@ -110,24 +118,25 @@ import FormInput from './FormInput';
 import BranchSelect from './BranchSelect';
 import CompanySelect from './CompanySelect';
 import MapIcon from '@/components/MapIcon';
+import PhoneInput from './PhoneInput';
 
 const GOOGLE_MAPS_URL = 'http://www.google.com/maps/place/';
 
 export default {
   name: 'DeviceDetailsTab',
-  components: { MapIcon, VuePerfectScrollbar, CompanySelect, BranchSelect, FormInput },
+  components: { PhoneInput, MapIcon, VuePerfectScrollbar, CompanySelect, BranchSelect, FormInput },
   props: {
     tableName: {
       type: String,
       default: '',
       changes: false,
     },
-    selected: {
-      type: Object,
-      required: true,
-    },
     changes: {
       type: Boolean,
+      required: true,
+    },
+    value: {
+      type: Object,
       required: true,
     },
   },
@@ -147,10 +156,37 @@ export default {
     isOnline() {
       return this.selected.isOnline;
     },
+    selected: {
+      get() {
+        return this.value;
+      },
+      set(value) {
+        this.$emit('input', value);
+      },
+    },
+    company: {
+      get() {
+        return this.selected.company;
+      },
+      set(company) {
+        this.selected = { ...this.selected, company, branch: {} };
+      },
+    },
+    branch: {
+      get() {
+        return this.selected.branch;
+      },
+      set(branch = {}) {
+        this.selected = { ...this.selected, branch };
+      },
+    },
   },
   methods: {
     onInputChange(val) {
       this.$emit('onChange', val);
+    },
+    onPhoneChange(val) {
+      this.$emit('input', val);
     },
   },
 };

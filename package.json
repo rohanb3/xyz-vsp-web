@@ -1,6 +1,6 @@
 {
   "name": "xyz",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --open",
@@ -43,6 +43,8 @@
     "vue-perfect-scrollbar": "^0.1.0",
     "vue-popperjs": "^1.6.1",
     "vue-router": "^3.0.1",
+    "vue-tel-input": "^4.0.0",
+    "vue-the-mask": "^0.11.1",
     "vue-virtual-scroll-list": "^1.2.8",
     "vue-virtual-scroller": "^1.0.0-rc.2",
     "vuedraggable": "^2.17.0",

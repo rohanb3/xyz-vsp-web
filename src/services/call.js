@@ -22,6 +22,7 @@ import {
   notifyAboutChangingStatusToOffline,
   listenToCallFinishing,
   listenToConnectionDropped,
+  listenToUnauthorizedConnection,
 } from '@/services/operatorSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import { TWILIO, OPERATOR_SOCKET, USER_MEDIA_ERROR_MESSAGES } from '@/constants';
@@ -32,6 +33,8 @@ import { checkAndRequestCallPermissions } from '@/services/callPermissions';
 import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
 import { getUserMediaStreams } from '@/services/userMedia';
 import { log } from '@/services/sentry';
+
+import { REFRESH_TOKEN, UPDATE_TOKEN } from '@/store/loggedInUser/actionTypes';
 
 const { VIDEO } = TWILIO;
 
@@ -44,14 +47,15 @@ export function initializeOperator() {
   return checkAndRequestCallPermissions()
     .then(checkConnectAvailability)
     .then(() => {
-      const identity = store.getters.userId;
-      const { userName, displayName } = store.state.loggedInUser.profileData;
-      const credentials = { identity };
+      const { identity, credentials, displayName, userName } = getOperatorData();
+
       log('call.js -> initializeOperator()', identity, displayName, userName);
       return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
     })
     .then(trackConnectionAvailability)
-    .then(checkAndSaveWaitingFeedbacks);
+    .then(checkAndSaveWaitingFeedbacks)
+    .then(listenToUnauthorizedConnection)
+    .catch(onConnectionError);
 }
 
 function checkConnectAvailability() {
@@ -171,7 +175,10 @@ export function callBack() {
 }
 
 export function setOnlineStatus() {
-  notifyAboutChangingStatusToOnline();
+  const {
+    token: { accessToken },
+  } = store.state.loggedInUser;
+  notifyAboutChangingStatusToOnline({ token: accessToken });
   store.commit(SET_OPERATOR_STATUS, operatorStatuses.IDLE);
 }
 
@@ -245,3 +252,35 @@ function getAcceptingCallError(err) {
 }
 
 export const getCallInfo = () => api.get('/call/info').then(response => response.data);
+
+function refreshToken() {
+  store.dispatch(REFRESH_TOKEN).then(({ data }) => {
+    store.dispatch(UPDATE_TOKEN, data);
+    initializeOperator();
+  });
+}
+
+function onConnectionError(error) {
+  const { message } = error;
+  if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
+    return refreshToken();
+  }
+
+  return Promise.reject(error);
+}
+
+function getOperatorData() {
+  const identity = store.getters.userId;
+  const {
+    token: { accessToken },
+    profileData: { userName, displayName },
+  } = store.state.loggedInUser;
+  const credentials = { identity, token: accessToken };
+
+  return {
+    userName,
+    displayName,
+    credentials,
+    identity,
+  };
+}

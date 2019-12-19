@@ -1,9 +1,8 @@
 import axios from 'axios';
-import store from '@/store';
 import debounce from 'lodash.debounce';
-import { REFRESH_TOKEN, USER_LOGOUT } from '@/store/loggedInUser/actionTypes';
+import store from '@/store';
+import { REFRESH_TOKEN, USER_LOGOUT, UPDATE_TOKEN } from '@/store/loggedInUser/actionTypes';
 import { RESPONSE_STATUSES, ROUTE_NAMES } from '@/constants';
-import { SET_TOKEN, SET_PROMISE_REFRESH_TOKEN } from '@/store/loggedInUser/mutationTypes';
 
 const INVALID_TOKEN = 'invalid_token';
 const SET_TOKEN_TIMEOUT = 500;
@@ -12,6 +11,7 @@ function requestInterceptor(request) {
   const { token } = store.state.loggedInUser;
 
   if (!request.disableAuthHeader && token) {
+    // eslint-disable-next-line no-param-reassign
     request.headers = {
       ...request.headers,
       Authorization: `Bearer ${token.accessToken}`,
@@ -25,8 +25,7 @@ function isUnauthorized(status, header) {
 }
 
 function setToken(accessToken, refreshToken) {
-  store.commit(SET_TOKEN, { accessToken, refreshToken });
-  store.commit(SET_PROMISE_REFRESH_TOKEN, null);
+  store.dispatch(UPDATE_TOKEN, { accessToken, refreshToken });
 }
 
 const debounceSetToken = debounce(setToken, SET_TOKEN_TIMEOUT);

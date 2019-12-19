@@ -13,6 +13,8 @@
   "contact.person": "Contact Person",
   "email": "Email",
   "phone": "Phone",
+  "phone.number": "Phone number",
+  "incorrect.phone.number": "Incorrect phone number",
   "last.payment": "Last Payment",
   "amount": "Amount",
   "calls": "Calls",
@@ -308,5 +310,10 @@
   "field.must.consist.only.digits": "Field must consist only digits",
   "field.must.consist.only.digits.and.dots.and.dash": "Field must consist only digits and dots and dash",
   "search.by.name.idfv": "Search by Name, IDFV",
-  "device.name": "Device Name"
+  "device.name": "Device Name",
+  "tenant": "Tenant",
+  "user.login": "User login",
+  "status.timestamp": "Status timestamp",
+  "tenant.not.specified": "Tenant is not specified for your Company. Please, contact support",
+  "login.failed": "Login failed"
 }
