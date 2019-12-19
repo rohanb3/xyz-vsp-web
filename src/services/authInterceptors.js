@@ -1,6 +1,6 @@
 import axios from 'axios';
-import store from '@/store';
 import debounce from 'lodash.debounce';
+import store from '@/store';
 import { REFRESH_TOKEN, USER_LOGOUT, UPDATE_TOKEN } from '@/store/loggedInUser/actionTypes';
 import { RESPONSE_STATUSES, ROUTE_NAMES } from '@/constants';
 
@@ -11,6 +11,7 @@ function requestInterceptor(request) {
   const { token } = store.state.loggedInUser;
 
   if (!request.disableAuthHeader && token) {
+    // eslint-disable-next-line no-param-reassign
     request.headers = {
       ...request.headers,
       Authorization: `Bearer ${token.accessToken}`,
