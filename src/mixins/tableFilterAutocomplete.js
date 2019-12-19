@@ -1,6 +1,6 @@
+import debounce from 'lodash.debounce';
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 import { extractPropertiesFromArrObj } from '@/services/utils';
-import debounce from 'lodash.debounce';
 
 const TIMEOUT_APPLY_FILTER = 1000;
 

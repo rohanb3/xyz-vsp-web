@@ -263,8 +263,10 @@ function refreshToken() {
 function onConnectionError(error) {
   const { message } = error;
   if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
-    refreshToken();
+    return refreshToken();
   }
+
+  return Promise.reject(error);
 }
 
 function getOperatorData() {
