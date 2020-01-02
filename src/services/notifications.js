@@ -1,5 +1,5 @@
-import i18n from '@/i18n';
 import Vue from 'vue';
+import i18n from '@/i18n';
 
 export const successMessage = (title, description = '') => {
   Vue.notify({
