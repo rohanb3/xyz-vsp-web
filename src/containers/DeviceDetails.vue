@@ -93,12 +93,6 @@ export default {
     };
   },
   watch: {
-    selectedDevice: {
-      handler(val) {
-        this.selected = { ...val };
-      },
-      deep: true,
-    },
     selected: {
       handler(val, oldVal) {
         if (Object.keys(oldVal).length && !isEqual(val, this.selectedDevice)) {
