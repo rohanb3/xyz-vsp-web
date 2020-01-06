@@ -43,18 +43,16 @@
               <div class="agreement">
                 <v-checkbox class="checkbox-input" v-model="agreement" :hide-details="true"></v-checkbox>
                 <div>
-                  <span>{{ $t('i.agree.to.the') }} </span>
-                  <a class="link" target="_blank" :href="linkPrivacyPolicy">
-                    {{ $t('terms.and.conditions') }}
-                  </a>
+                  <span>{{ $t('i.agree.to.the') }}</span>
+                  <a
+                    class="link"
+                    target="_blank"
+                    :href="linkPrivacyPolicy"
+                  >{{ $t('terms.and.conditions') }}</a>
                 </div>
               </div>
-              <v-btn
-                @click="submit"
-                class="button"
-                :disabled="isLoginButtonDisabled"
-              >
-                <v-progress-circular v-if="loading" indeterminate color="primary" size="20"/>
+              <v-btn @click="submit" class="button" :disabled="isLoginButtonDisabled">
+                <v-progress-circular v-if="loading" indeterminate color="primary" size="20" />
                 <span v-else>{{ $t('login') }}</span>
               </v-btn>
             </v-form>
@@ -68,6 +66,7 @@
 <script>
 import { LOGIN, GET_PROFILE_DATA } from '@/store/loggedInUser/actionTypes';
 import { emailValidatorRegExp } from '@/constants';
+import { getFirstErrorTitleFromResponse } from '@/services/apiErrorsHandlers';
 
 export default {
   name: 'Login',
@@ -111,15 +110,10 @@ export default {
       }
     },
     onError(e) {
-      const {
-        response: { data },
-      } = e;
+      const { response } = e;
 
-      const translations = {
-        'Tenant is not specified for your Company. Please, contact support': 'tenant.not.specified',
-      };
+      const title = getFirstErrorTitleFromResponse(response) || 'login.failed';
 
-      const title = translations[data] || 'login.failed';
       return this.notify(this.$t(title));
     },
     validate() {

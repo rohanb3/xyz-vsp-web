@@ -34,10 +34,7 @@
             @change="onInputChange"
           />
         </div>
-        <company-select
-          v-if="selected && company"
-          v-model="company"
-        />
+        <company-select v-if="selected && company" v-model="company" />
         <form-input
           :label="$t('longitude')"
           :id="'Longitude'"
@@ -46,11 +43,7 @@
           inputType="number"
           @change="onInputChange"
         />
-        <branch-select
-          v-if="selected && company"
-          v-model="branch"
-          :company="company"
-        />
+        <branch-select v-if="selected && company" v-model="branch" :company="company" />
         <form-input
           :label="$t('allowed.location.radius')"
           :id="'radius'"
@@ -60,25 +53,16 @@
           @change="onInputChange"
         />
         <div>
-          <phone-input
-            v-model="selected"
-            v-if="selected"
-          >
+          <phone-input v-model="selected" v-if="selected">
             <label for="phoneNumber" slot="label">{{ $t('phone') }}</label>
           </phone-input>
         </div>
       </div>
       <div class="current-device-info">
         <div class="statuses">
-          <div>
-            {{ $t('status.since') }}
-          </div>
-          <div class="status" :class="!isOnline ? 'offline' : null">
-            {{ statusSince }}
-          </div>
-          <div>
-            {{ $t('status') }}
-          </div>
+          <div>{{ $t('status.since') }}</div>
+          <div class="status" :class="!isOnline ? 'offline' : null">{{ statusSince }}</div>
+          <div>{{ $t('status') }}</div>
           <div class="status">
             <span v-if="isOnline">{{ $t('online') }}</span>
             <span v-else class="offline">{{ $t('offline') }}</span>
@@ -96,16 +80,24 @@
               <map-icon />
             </a>
           </p>
-          <p><span>{{ $t('latitude') }}</span></p>
+          <p>
+            <span>{{ $t('latitude') }}</span>
+          </p>
           <p>{{ selected.currentDeviceLocationLatitude }}</p>
-          <p><span>{{ $t('longitude') }}</span></p>
+          <p>
+            <span>{{ $t('longitude') }}</span>
+          </p>
           <p>{{ selected.currentDeviceLocationLongitude }}</p>
         </div>
       </div>
     </vue-perfect-scrollbar>
     <div class="control" v-if="changes">
       <button @click="$emit('cancel')">{{ $t('cancel') }}</button>
-      <button @click="$emit('save')" class="save">{{ $t('save ') }}</button>
+      <button
+        @click="$emit('save')"
+        :disabled="saveInProgress"
+        :class="saveInProgress? 'disabled-save' : 'save'"
+      >{{ $t('save ') }}</button>
     </div>
   </div>
 </template>
@@ -124,12 +116,23 @@ const GOOGLE_MAPS_URL = 'http://www.google.com/maps/place/';
 
 export default {
   name: 'DeviceDetailsTab',
-  components: { PhoneInput, MapIcon, VuePerfectScrollbar, CompanySelect, BranchSelect, FormInput },
+  components: {
+    PhoneInput,
+    MapIcon,
+    VuePerfectScrollbar,
+    CompanySelect,
+    BranchSelect,
+    FormInput,
+  },
   props: {
     tableName: {
       type: String,
       default: '',
       changes: false,
+    },
+    saveInProgress: {
+      type: Boolean,
+      required: true,
     },
     changes: {
       type: Boolean,
@@ -291,6 +294,11 @@ export default {
 
       &.save {
         background-color: $base-green;
+        color: $base-white;
+      }
+
+      &.disabled-save {
+        background-color: $base-grey;
         color: $base-white;
       }
     }

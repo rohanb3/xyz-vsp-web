@@ -1,6 +1,6 @@
 <template>
   <v-container fluid fill-height>
-    <password-recovery-form @verificationCode="sendVerificationCode"/>
+    <password-recovery-form @verificationCode="sendVerificationCode" />
   </v-container>
 </template>
 
@@ -28,7 +28,6 @@ export default {
             data: { errors: message },
           },
         } = e;
-
         this.$notify({
           group: 'notifications',
           title: message.Email
