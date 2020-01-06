@@ -7,25 +7,13 @@
         </div>
         <v-toolbar tabs>
           <template>
-            <v-tabs
-              v-model="tab"
-              slider-color="#398ffb"
-              fixed-tabs
-            >
-
-              <v-tab v-for="item in tabs" :key="item">
-                {{ $t(item) }}
-              </v-tab>
+            <v-tabs v-model="tab" slider-color="#398ffb" fixed-tabs>
+              <v-tab v-for="item in tabs" :key="item">{{ $t(item) }}</v-tab>
             </v-tabs>
           </template>
         </v-toolbar>
       </div>
-      <v-icon
-        class="close-icon"
-        @click="close"
-      >
-        clear
-      </v-icon>
+      <v-icon class="close-icon" @click="close">clear</v-icon>
     </div>
     <div class="device-info-tabs">
       <v-tabs-items v-model="tab">
@@ -33,6 +21,7 @@
           <device-details-tab
             v-model="device"
             :table-name="tableName"
+            :save-in-progress="saveInProgress"
             :changes="changes"
             @onChange="onChange"
             @save="saveChanges"
@@ -49,9 +38,7 @@
     </div>
     <v-dialog v-model="dialog" persistent max-width="290">
       <v-card>
-        <v-card-text>
-          {{ $t('are.you.sure.you.want.to.go.away') }}
-        </v-card-text>
+        <v-card-text>{{ $t('are.you.sure.you.want.to.go.away') }}</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" flat @click="cancelChanges">Yes</v-btn>
@@ -74,7 +61,12 @@ import { addBackgroundShadow, removeBackgroundShadow } from '@/services/backgrou
 
 export default {
   name: 'DeviceDetails',
-  components: { DeviceCommentTab, DeviceDetailsTab, TableFullHeightBalloon, DeviceHistoryTable },
+  components: {
+    DeviceCommentTab,
+    DeviceDetailsTab,
+    TableFullHeightBalloon,
+    DeviceHistoryTable,
+  },
   props: {
     tableName: {
       type: String,
@@ -97,6 +89,7 @@ export default {
       selected: {},
       changes: false,
       dialog: false,
+      saveInProgress: false,
     };
   },
   watch: {
@@ -168,6 +161,7 @@ export default {
     async saveChanges() {
       try {
         const data = {};
+        this.saveInProgress = true;
         data.companyId = this.selected.company.id;
         data.branchId = this.selected.branch.id;
         data.latitude = this.selected.latitude;
@@ -192,6 +186,8 @@ export default {
         this.changes = false;
       } catch (e) {
         console.error(e);
+      } finally {
+        this.saveInProgress = false;
       }
     },
   },
