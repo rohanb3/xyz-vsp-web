@@ -256,10 +256,6 @@
   "email.is.not.registered":
     "This email is not registered in this system. Please, check and try again.",
   "something.went.wrong": "Opps, something went wrong :(",
-  "email.is.not.registered":
-    "This email is not registered in this system. Please, check and try again.",
-  "something.went.wrong": "Opps, something went wrong :(",
-
   "device.id": "Device Id",
   "history": "History",
   "branch.location": "Branch location",
@@ -292,8 +288,10 @@
   "template.list": "Template List",
   "synchronization": "Synchronization",
   "synchronize.users": "Synchronize your users",
-  "synchronize.users.description": "You can synchronize the users from the Cable Portal to XYZ system.",
-  "synchronize.users.description.hint": "Please, tap on the \"Synchronization\" button to start the synchronization process.",
+  "synchronize.users.description":
+    "You can synchronize the users from the Cable Portal to XYZ system.",
+  "synchronize.users.description.hint":
+    "Please, tap on the \"Synchronization\" button to start the synchronization process.",
   "synchronization.with.cable.portal": "Synchronization with Cable Portal",
   "synchronize": "Synchronize",
   "last.synchronization.date": "Last synchronization date",
@@ -306,14 +304,20 @@
   "settings.your.failed.to.upload.photo": "Failed to upload photo",
   "hexnodeUdid": "Hexnode UDID",
   "map": "Map",
-  "field.must.consist.only.digits.and.dots": "Field must consist only digits and dots",
+  "field.must.consist.only.digits.and.dots":
+    "Field must consist only digits and dots",
   "field.must.consist.only.digits": "Field must consist only digits",
-  "field.must.consist.only.digits.and.dots.and.dash": "Field must consist only digits and dots and dash",
+  "field.must.consist.only.digits.and.dots.and.dash":
+    "Field must consist only digits and dots and dash",
   "search.by.name.idfv": "Search by Name, IDFV",
   "device.name": "Device Name",
   "tenant": "Tenant",
   "user.login": "User login",
   "status.timestamp": "Status timestamp",
-  "tenant.not.specified": "Tenant is not specified for your Company. Please, contact support",
-  "login.failed": "Login failed"
+  "login.failed": "Login failed",
+  "identity.errors:Tenant is not specified for your Company. Please, contact support":
+    "Tenant is not specified for your Company. Please, contact support",
+  "identity.errors:This email is not registered in the system. Please, check and try again":
+    "This email is not registered in this system. Please, check and try again.",
+  "identity.errors:Email or password incorrect": "Email or password incorrect"
 }
