@@ -205,7 +205,7 @@ export default {
     onCallAcceptingSucceed() {
       this.$router.push({ name: 'call' });
     },
-    onCallAcceptingFailed(error) {
+    onCallAcceptingFailed(error = {}) {
       this.connectingError = this.$t(errorsHash[error.message] || DEFAULT_ACCEPTING_ERROR);
     },
     ignoreCall() {
