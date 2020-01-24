@@ -255,7 +255,10 @@ export const getCallInfo = () => api.get('/call/info').then(response => response
 
 function refreshToken() {
   store.dispatch(REFRESH_TOKEN).then(({ data }) => {
-    store.dispatch(UPDATE_TOKEN, data);
+    store.dispatch(UPDATE_TOKEN, {
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token,
+    });
     initializeOperator();
   });
 }
