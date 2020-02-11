@@ -10,6 +10,11 @@ export default class Emitter {
     return () => this.unsubscribe(eventName, listener);
   }
 
+  subscribeOnce(eventName, listener) {
+    this.emitter.once(eventName, listener);
+    return () => this.unsubscribe(eventName, listener);
+  }
+
   unsubscribe(eventName, listener) {
     return this.emitter.off(eventName, listener);
   }

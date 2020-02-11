@@ -1,50 +1,44 @@
-/* eslint-disable no-use-before-define */
-import io from 'socket.io-client';
+import store from '@/store';
 import { OPERATOR_SOCKET } from '@/constants';
+import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { log } from '@/services/sentry';
 
-const { NAMESPACE, CONNECTION_OPTIONS, EVENTS, ERROR_MESSAGES } = OPERATOR_SOCKET;
+import { SET_PENDING_CALLS_INFO } from '@/store/call/mutationTypes';
 
-let socket = null;
+import { ensureSocket, getSocket, pubSub as socketPubSub } from './transport';
+import './monitor';
 
-export function init(authData, onCallsChanged, onConnectionChanged) {
-  if (socket) {
-    socket.off();
-    socket.close();
+export { disconnect } from './transport';
+
+const { EVENTS, PUB_SUB_EVENTS, ERROR_MESSAGES, TOKEN_INVALID } = OPERATOR_SOCKET;
+
+export async function initCallsSocket(authData) {
+  try {
+    const authResponse = await ensureSocket(authData);
+    onAuthenticated(authResponse);
+  } catch (e) {
+    if (e.message !== TOKEN_INVALID) {
+      throw e;
+    }
   }
 
-  socket = io(NAMESPACE, CONNECTION_OPTIONS);
-
-  const promise = new Promise((resolve, reject) => {
-    const onAuthenticated = data => {
-      socket.on(EVENTS.CALLS_CHANGED, onCallsChanged);
-      resolve(data);
-    };
-    const onConnected = () => {
-      log('operatorSocket.js -> init()', authData);
-      socket.emit(EVENTS.AUTHENTICATION, authData);
-      socket.once(EVENTS.AUTHENTICATED, onAuthenticated);
-      socket.once(EVENTS.UNAUTHORIZED, reject);
-      onConnectionChanged(true);
-    };
-
-    socket.on(EVENTS.CONNECT, onConnected);
-    socket.on(EVENTS.DISCONNECT, () => onConnectionChanged(false));
-    socket.on(EVENTS.RECONNECT, () => onConnectionChanged(true));
-  });
-
-  return promise;
+  socketPubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, onAuthenticated);
 }
 
-export function disconnect() {
-  if (socket) {
-    socket.disconnect();
-    socket = null;
-  }
+function onAuthenticated() {
+  getSocket().off(EVENTS.CALLS_CHANGED, onCallsChanged);
+  getSocket().on(EVENTS.CALLS_CHANGED, onCallsChanged);
+}
+
+function onCallsChanged(data) {
+  store.commit(SET_PENDING_CALLS_INFO, data);
+  handleUpdateCallsInfo(data);
 }
 
 export function notifyAboutAcceptingCall() {
   log('operatorSocket.js -> notifyAboutAcceptingCall()');
+  const socket = getSocket();
+
   return new Promise((resolve, reject) => {
     socket.emit(EVENTS.CALL_ACCEPTED);
     socket.once(EVENTS.ROOM_CREATED, resolve);
@@ -55,32 +49,35 @@ export function notifyAboutAcceptingCall() {
 }
 
 export function notifyAboutFinishingCall(callId) {
-  socket.emit(EVENTS.CALL_FINISHED, callId);
+  getSocket().emit(EVENTS.CALL_FINISHED, callId);
 }
 
 export function notifyAboutLeavingRoomEmpty() {
-  socket.emit(EVENTS.ROOM_LEFT_EMPTY);
+  getSocket().emit(EVENTS.ROOM_LEFT_EMPTY);
 }
 
 export function requestCallback(callId) {
-  const promise = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
+    const socket = getSocket();
+
     socket.emit(EVENTS.CALLBACK_REQUESTED, callId);
     socket.once(EVENTS.CALLBACK_ACCEPTED, resolve);
     socket.once(EVENTS.CALLBACK_DECLINED, data => reject(new Error(data.reason)));
     socket.once(EVENTS.CALLBACK_REQUESTING_FAILED, () => reject(new Error()));
   });
-  return promise;
 }
 
 export function notifyAboutChangingStatusToOnline(data) {
-  socket.emit(EVENTS.STATUS_CHANGED_ONLINE, data);
+  getSocket().emit(EVENTS.STATUS_CHANGED_ONLINE, data);
 }
 
 export function notifyAboutChangingStatusToOffline() {
-  socket.emit(EVENTS.STATUS_CHANGED_OFFLINE);
+  getSocket().emit(EVENTS.STATUS_CHANGED_OFFLINE);
 }
 
 export function listenToCallFinishing() {
+  const socket = getSocket();
+
   return new Promise((resolve, reject) => {
     const onCallFinished = () => {
       socket.off(onCallFinished);
@@ -92,12 +89,12 @@ export function listenToCallFinishing() {
 
 export function listenToConnectionDropped() {
   return new Promise(resolve => {
-    socket.once(EVENTS.CONNECTION_DROPPED, resolve);
+    getSocket().once(EVENTS.CONNECTION_DROPPED, resolve);
   });
 }
 
 export function listenToUnauthorizedConnection() {
   return new Promise((resolve, reject) => {
-    socket.once(EVENTS.UNAUTHORIZED, reject);
+    getSocket().once(EVENTS.UNAUTHORIZED, reject);
   });
 }
