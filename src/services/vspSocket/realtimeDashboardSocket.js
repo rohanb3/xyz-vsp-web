@@ -36,7 +36,7 @@ export async function subscribe() {
   }
 }
 
-export function unsubscibe() {
+export function unsubscribe() {
   const socket = getSocket();
   if (socket) {
     socket.emit(EVENTS.REALTIME_DASHBOARD_UNSUBSCRIBE);

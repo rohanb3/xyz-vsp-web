@@ -104,9 +104,9 @@ const STATUS_CHANGED_OFFLINE = 'status.changed.offline';
 const CALLS_EMPTY = 'calls.empty';
 const CALL_ACCEPTING_FAILED = 'call.accepting.failed';
 const CALL_FINISED_BY_CUSTOMER = 'call.finished.by.customer';
-const REALTIME_DASHBOARD_SUBSCRIBE = 'realtimeDashboard.subscibe';
-const REALTIME_DASHBOARD_UNSUBSCRIBE = 'realtimeDashboard.unsubscibe';
-const REALTIME_DASHBOARD_SUBSCRIBED = 'realtimeDashboard.subscibed';
+const REALTIME_DASHBOARD_SUBSCRIBE = 'realtimeDashboard.subscribe';
+const REALTIME_DASHBOARD_UNSUBSCRIBE = 'realtimeDashboard.unsubscribe';
+const REALTIME_DASHBOARD_SUBSCRIBED = 'realtimeDashboard.subscribed';
 const REALTIME_DASHBOARD_SUBSCRIBTION_ERROR = 'realtimeDashboard.subscibtionError';
 const REALTIME_DASHBOARD_WAITING_CALLS_CHANGED = 'realtimeDashboard.waitingCalls.changed';
 

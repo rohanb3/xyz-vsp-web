@@ -98,7 +98,7 @@ export function waitPubSubEvent(event) {
   let resolver;
 
   function stop() {
-    pubSub.unsubscibe(event, resolver);
+    pubSub.unsubscribe(event, resolver);
   }
 
   const promise = new Promise(resolve => {

@@ -1,6 +1,6 @@
 import {
   subscribe as socketSubscribe,
-  unsubscibe as socketUnsubscribe,
+  unsubscribe as socketUnsubscribe,
   subscribeWaitingCallsChanged,
 } from '@/services/vspSocket/realtimeDashboardSocket';
 
