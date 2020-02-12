@@ -101,3 +101,52 @@ export function listenToUnauthorizedConnection() {
     socket.once(EVENTS.UNAUTHORIZED, reject);
   });
 }
+
+export function notifyAboutRealtimeDashboardSubscribe() {
+  console.log('xn13. notifyAboutRealtimeDashboardSubscribe');
+  return new Promise(resolve => {
+    socket.emit(EVENTS.REALTIME_DASHBOARD_SUBSCRIBE);
+    socket.once(EVENTS.REALTIME_DASHBOARD_SUBSCRIBED, resolve);
+  });
+}
+
+export function notifyAboutRealtimeDashboardUnsubscribe() {
+  console.log('xn13. notifyAboutRealtimeDashboardUnsubscribe');
+  return new Promise(resolve => {
+    socket.emit(EVENTS.REALTIME_DASHBOARD_UNSUBSCRIBE, resolve);
+  });
+}
+
+// ??? -- Why?
+export function realtimeDashboardSubscribed() {
+  console.log('xn13. realtimeDashboardSubscribed');
+  return new Promise(resolve => {
+    socket.once(EVENTS.REALTIME_DASHBOARD_SUBSCRIBED, resolve);
+  });
+}
+
+// ??? -- How?
+export function realtimeDashboardSubscribtionError() {
+  console.log('xn13. realtimeDashboardSubscribtionError');
+  return new Promise(resolve => {
+    socket.once(EVENTS.REALTIME_DASHBOARD_SUBSCRIBTION_ERROR, resolve);
+  });
+}
+
+export function listenRealtimeDashboardWaitingCallsChanged() {
+  console.log('xn13. listenRealtimeDashboardWaitingCallsChanged');
+  return new Promise(resolve => {
+    console.log('xn13. listenRealtimeDashboardWaitingCallsChanged > resolve:', resolve);
+    socket.once(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, ololo);
+  });
+}
+
+function ololo(data) {
+  console.log('ololo > data:', data);
+}
+
+// export function listenToRealTimeLiveCalls() {
+//   return new Promise(resolve => {
+//     socket.once(EVENTS.REAL_TIME_LIVE_CALLS, resolve);
+//   });
+// }

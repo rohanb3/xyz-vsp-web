@@ -58,9 +58,9 @@ module.exports = {
         target: process.env.VUE_APP_PROXY_CALL_WS_URL || 'ws://127.0.0.1:3000',
         ws: true,
         changeOrigin: true,
-        pathRewrite: {
-          '^/api/video/socket.io': '/socket.io',
-        },
+        // pathRewrite: {
+        //   '^/api/video/socket.io': '/socket.io',
+        // },
       },
       '/api/device-management-api/operatorSocket': {
         target: 'https://dev-portal.xyzvsp.com/',

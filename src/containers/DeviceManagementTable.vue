@@ -267,7 +267,6 @@ export default {
   letter-spacing: normal;
   color: $table-row-text-color;
 }
-
 .device-management-table-footer {
   display: flex;
   flex-flow: row;

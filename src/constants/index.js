@@ -112,6 +112,15 @@ const CONNECTION_DROPPED = 'connection.dropped';
 
 const TOKEN_INVALID = 'token.invalid';
 
+// const REAL_TIME_WAITING_CALLS = 'real.time.waiting.calls';
+// const REAL_TIME_LIVE_CALLS = 'real.time.live.calls';
+
+const REALTIME_DASHBOARD_SUBSCRIBE = 'realtimeDashboard.subscibe';
+const REALTIME_DASHBOARD_UNSUBSCRIBE = 'realtimeDashboard.unsubscibe';
+const REALTIME_DASHBOARD_SUBSCRIBED = 'realtimeDashboard.subscibed';
+const REALTIME_DASHBOARD_SUBSCRIBTION_ERROR = 'realtimeDashboard.subscibtionError';
+const REALTIME_DASHBOARD_WAITING_CALLS_CHANGED = 'realtimeDashboard.waitingCalls.changed';
+
 export const OPERATOR_SOCKET = {
   EVENTS: {
     CONNECT,
@@ -134,6 +143,12 @@ export const OPERATOR_SOCKET = {
     STATUS_CHANGED_ONLINE,
     STATUS_CHANGED_OFFLINE,
     CONNECTION_DROPPED,
+
+    REALTIME_DASHBOARD_SUBSCRIBE,
+    REALTIME_DASHBOARD_UNSUBSCRIBE,
+    REALTIME_DASHBOARD_SUBSCRIBED,
+    REALTIME_DASHBOARD_SUBSCRIBTION_ERROR,
+    REALTIME_DASHBOARD_WAITING_CALLS_CHANGED,
   },
   ERROR_MESSAGES: {
     CALLS_EMPTY,
