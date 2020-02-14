@@ -9,7 +9,6 @@ let socketAuthentificationPromise = null;
 export const pubSub = new Emitter();
 
 export async function ensureSocket(authData, enforceReconnect = false) {
-  console.log('transport.ensureSocket', authData);
   if (!socket || enforceReconnect) {
     return init(authData);
   }
