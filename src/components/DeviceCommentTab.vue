@@ -23,10 +23,10 @@ import DateCell from '@/components/tableCells/DateCell';
 
 import { submitComment } from '@/services/devicesRepository';
 import { ENTITY_TYPES } from '@/constants';
-import CommentArea from './CommentArea';
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
-import LazyLoadTable from '../containers/LazyLoadTable';
 import CommentCell from '@/components/tableCells/CommentCell';
+import CommentArea from './CommentArea';
+import LazyLoadTable from '../containers/LazyLoadTable';
 
 const { DEVICE_COMMENTS } = ENTITY_TYPES;
 

@@ -18,13 +18,12 @@
 </template>
 
 <script>
-import QuickSearch from './QuickSearch/index';
-
 import { LOAD_ITEMS, LOAD_MORE_ITEMS } from '@/store/storage/actionTypes';
 
 import { ENTITY_TYPES, FILTER_NAMES_COMPANY_LIST } from '@/constants';
 
 import { validateFieldCantBeEmpty } from '@/services/validators';
+import QuickSearch from './QuickSearch/index';
 
 export default {
   name: 'CompanySelect',

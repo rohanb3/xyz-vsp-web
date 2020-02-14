@@ -5,7 +5,8 @@ import { OPERATOR_SOCKET } from '@/constants';
 import // SET_PENDING_CALLS_INFO,
 '@/store/call/mutationTypes';
 
-import { ensureSocket, getSocket, pubSub as socketPubSub } from './transport';
+// import { ensureSocket, getSocket, pubSub as socketPubSub } from './transport';
+import * as transport from './transport';
 import { runOperation, justWaitPubSubEvent } from './utils';
 import './monitor';
 
@@ -16,7 +17,7 @@ const pubSub = new Emitter();
 export async function subscribe() {
   try {
     await _subscribe();
-    socketPubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
+    transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
     return;
   } catch (e) {
     console.error('realtimeDashboardSocket.subscribe error', e);
@@ -29,7 +30,7 @@ export async function subscribe() {
     await justWaitPubSubEvent(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED);
 
     await _subscribe();
-    socketPubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
+    transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
   } catch (e) {
     console.error('realtimeDashboardSocket.subscribe second lap error', e);
     throw e;
@@ -37,7 +38,7 @@ export async function subscribe() {
 }
 
 export function unsubscribe() {
-  const socket = getSocket();
+  const socket = transport.getSocket();
   if (socket) {
     socket.emit(EVENTS.REALTIME_DASHBOARD_UNSUBSCRIBE);
 
@@ -58,7 +59,7 @@ export function unsubscribeWaitingCallsChanged(handler) {
 async function _subscribe() {
   try {
     const authData = store.getters.vspSocketCredentials;
-    await ensureSocket(authData);
+    await transport.ensureSocket(authData);
 
     unsubscribeListeners();
     subscribeListeners();
@@ -76,11 +77,17 @@ async function _subscribe() {
 }
 
 function subscribeListeners() {
-  getSocket().on(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, onWaitingCallsChanged);
+  const socket = transport.getSocket();
+  if (socket) {
+    socket.on(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, onWaitingCallsChanged);
+  }
 }
 
 function unsubscribeListeners() {
-  getSocket().off(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, onWaitingCallsChanged);
+  const socket = transport.getSocket();
+  if (socket) {
+    socket.off(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, onWaitingCallsChanged);
+  }
 }
 
 function onWaitingCallsChanged(data) {

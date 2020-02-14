@@ -18,10 +18,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import HeaderUserMenu from './HeaderUserMenu';
 import OnlineStatusSwitcher from '@/components/OnlineStatusSwitcher';
 
 import { setOnlineStatus, setOfflineStatus } from '@/services/call';
+import HeaderUserMenu from './HeaderUserMenu';
 // import { ROLE_TYPES } from '@/constants';
 
 export default {

@@ -16,12 +16,11 @@
 </template>
 
 <script>
+import { ENTITY_TYPES } from '@/constants';
+import { validateFieldCantBeEmpty } from '@/services/validators';
 import QuickSearch from './QuickSearch/index';
 
-import { ENTITY_TYPES } from '@/constants';
 import { getBranches } from '../services/publicApiRepository';
-
-import { validateFieldCantBeEmpty } from '@/services/validators';
 
 export default {
   name: 'BranchSelect',

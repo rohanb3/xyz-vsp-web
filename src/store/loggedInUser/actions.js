@@ -1,4 +1,14 @@
 import {
+  getProfileData,
+  login,
+  getAvatar,
+  refreshToken as refreshTokenApi,
+  verifyCode,
+  updateAvatar,
+  deleteAvatar,
+} from '@/services/identityRepository';
+import { RESPONSE_STATUSES } from '@/constants';
+import {
   GET_PROFILE_DATA,
   LOGIN,
   REFRESH_TOKEN,
@@ -18,18 +28,6 @@ import {
   CLEAR_PROFILE_DATA,
   SET_PROMISE_REFRESH_TOKEN,
 } from './mutationTypes';
-
-import {
-  getProfileData,
-  login,
-  getAvatar,
-  refreshToken as refreshTokenApi,
-  verifyCode,
-  updateAvatar,
-  deleteAvatar,
-} from '@/services/identityRepository';
-
-import { RESPONSE_STATUSES } from '@/constants';
 
 export default {
   async [GET_PROFILE_DATA]({ commit }) {

@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import ConfigurableLazyLoadTable from './ConfigurableLazyLoadTable';
 import OperatorDetailsCard from '@/containers/OperatorDetailsCard';
 
 import { ENTITY_TYPES } from '@/constants';
+import ConfigurableLazyLoadTable from './ConfigurableLazyLoadTable';
 
 export default {
   name: 'SuperadminOperators',

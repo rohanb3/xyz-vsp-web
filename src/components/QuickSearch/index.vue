@@ -25,8 +25,8 @@
 <script>
 import debounce from 'lodash.debounce';
 import tableToolbarBalloon from '@/mixins/tableToolbarBalloon';
-import VAutocomplete from './VAutocomplete';
 import i18n from '@/i18n';
+import VAutocomplete from './VAutocomplete';
 
 const SEARCH_TIMEOUT = 500;
 
