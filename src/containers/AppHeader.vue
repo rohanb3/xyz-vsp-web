@@ -22,7 +22,6 @@ import OnlineStatusSwitcher from '@/components/OnlineStatusSwitcher';
 
 import { setOnlineStatus, setOfflineStatus } from '@/services/call';
 import HeaderUserMenu from './HeaderUserMenu';
-// import { ROLE_TYPES } from '@/constants';
 
 export default {
   name: 'AppHeader',
@@ -32,16 +31,6 @@ export default {
   },
   computed: {
     ...mapGetters(['isCallsAllowed']),
-    // ...mapGetters({
-    //   // role: 'role',
-    //   isCallsAllowed: 'isCallsAllowed'
-    // }),
-    // isSupportAdmin() {
-    //   return this.role === ROLE_TYPES.SUPPORT_ADMIN;
-    // },
-    // isSupervisorDashboardPage() {
-    //   return this.$route.name === 'supervisor-dashboard';
-    // },
     isOperatorOnline() {
       return this.$store.getters.isOperatorOnline;
     },

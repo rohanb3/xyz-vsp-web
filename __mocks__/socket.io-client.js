@@ -5,15 +5,6 @@ import Emitter from '@/services/Emitter';
 const pubSub = new Emitter();
 export const emulateAnswer = pubSub.emit.bind(pubSub);
 
-// export let emit = jest.fn(pubSub.emit.bind(pubSub));
-// export let on = jest.fn(pubSub.subscribe.bind(pubSub));
-// export let once = jest.fn(pubSub.subscribeOnce.bind(pubSub));
-// export let off = jest.fn(_off);
-//
-// export let disconnect = jest.fn();
-//
-// export let ioConstructor = jest.fn(_ioConstructor);
-
 export let emit;
 export let on;
 export let once;

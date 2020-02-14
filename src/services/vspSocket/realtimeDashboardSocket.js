@@ -2,10 +2,6 @@ import store from '@/store';
 import Emitter from '@/services/Emitter';
 import { OPERATOR_SOCKET } from '@/constants';
 
-import // SET_PENDING_CALLS_INFO,
-'@/store/call/mutationTypes';
-
-// import { ensureSocket, getSocket, pubSub as socketPubSub } from './transport';
 import * as transport from './transport';
 import { runOperation, justWaitPubSubEvent } from './utils';
 import './monitor';
