@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import SidebarMenu from '../components/SidebarMenu';
 import { ROLE_TYPES } from '@/constants';
+import SidebarMenu from '../components/SidebarMenu';
 
 const sidebarLinks = [
   {
