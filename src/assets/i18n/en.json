@@ -319,5 +319,6 @@
     "Tenant is not specified for your Company. Please, contact support",
   "identity.errors:This email is not registered in the system. Please, check and try again":
     "This email is not registered in this system. Please, check and try again.",
-  "identity.errors:Email or password incorrect": "Email or password incorrect"
+  "identity.errors:Email or password incorrect": "Email or password incorrect",
+  "live-dashboard": "Live dashboard"
 }

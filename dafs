@@ -1,0 +1,200 @@
+[1mdiff --git a/.env b/.env[m
+[1mindex 5486df9..f256c63 100644[m
+[1m--- a/.env[m
+[1m+++ b/.env[m
+[36m@@ -1,3 +1,2 @@[m
+ VUE_APP_I18N_LOCALE=en[m
+ VUE_APP_I18N_FALLBACK_LOCALE=en[m
+[31m-VUE_APP_PROXY_CALL_WS_URL=https://dev-portal.xyzvsp.com[m
+\ No newline at end of file[m
+[1mdiff --git a/src/constants/index.js b/src/constants/index.js[m
+[1mindex ac76d31..cc44926 100644[m
+[1m--- a/src/constants/index.js[m
+[1m+++ b/src/constants/index.js[m
+[36m@@ -112,15 +112,6 @@[m [mconst CONNECTION_DROPPED = 'connection.dropped';[m
+ [m
+ const TOKEN_INVALID = 'token.invalid';[m
+ [m
+[31m-// const REAL_TIME_WAITING_CALLS = 'real.time.waiting.calls';[m
+[31m-// const REAL_TIME_LIVE_CALLS = 'real.time.live.calls';[m
+[31m-[m
+[31m-const REALTIME_DASHBOARD_SUBSCRIBE = 'realtimeDashboard.subscibe';[m
+[31m-const REALTIME_DASHBOARD_UNSUBSCRIBE = 'realtimeDashboard.unsubscibe';[m
+[31m-const REALTIME_DASHBOARD_SUBSCRIBED = 'realtimeDashboard.subscibed';[m
+[31m-const REALTIME_DASHBOARD_SUBSCRIBTION_ERROR = 'realtimeDashboard.subscibtionError';[m
+[31m-const REALTIME_DASHBOARD_WAITING_CALLS_CHANGED = 'realtimeDashboard.waitingCalls.changed';[m
+[31m-[m
+ export const OPERATOR_SOCKET = {[m
+   EVENTS: {[m
+     CONNECT,[m
+[36m@@ -143,12 +134,6 @@[m [mexport const OPERATOR_SOCKET = {[m
+     STATUS_CHANGED_ONLINE,[m
+     STATUS_CHANGED_OFFLINE,[m
+     CONNECTION_DROPPED,[m
+[31m-[m
+[31m-    REALTIME_DASHBOARD_SUBSCRIBE,[m
+[31m-    REALTIME_DASHBOARD_UNSUBSCRIBE,[m
+[31m-    REALTIME_DASHBOARD_SUBSCRIBED,[m
+[31m-    REALTIME_DASHBOARD_SUBSCRIBTION_ERROR,[m
+[31m-    REALTIME_DASHBOARD_WAITING_CALLS_CHANGED,[m
+   },[m
+   ERROR_MESSAGES: {[m
+     CALLS_EMPTY,[m
+[1mdiff --git a/src/containers/DeviceManagementTable.vue b/src/containers/DeviceManagementTable.vue[m
+[1mindex ccb7818..093c3dc 100644[m
+[1m--- a/src/containers/DeviceManagementTable.vue[m
+[1m+++ b/src/containers/DeviceManagementTable.vue[m
+[36m@@ -267,6 +267,7 @@[m [mexport default {[m
+   letter-spacing: normal;[m
+   color: $table-row-text-color;[m
+ }[m
+[32m+[m
+ .device-management-table-footer {[m
+   display: flex;[m
+   flex-flow: row;[m
+[1mdiff --git a/src/services/operatorSocket.js b/src/services/operatorSocket.js[m
+[1mindex 0cc9e02..c94c59b 100644[m
+[1m--- a/src/services/operatorSocket.js[m
+[1m+++ b/src/services/operatorSocket.js[m
+[36m@@ -101,52 +101,3 @@[m [mexport function listenToUnauthorizedConnection() {[m
+     socket.once(EVENTS.UNAUTHORIZED, reject);[m
+   });[m
+ }[m
+[31m-[m
+[31m-export function notifyAboutRealtimeDashboardSubscribe() {[m
+[31m-  console.log('xn13. notifyAboutRealtimeDashboardSubscribe');[m
+[31m-  return new Promise(resolve => {[m
+[31m-    socket.emit(EVENTS.REALTIME_DASHBOARD_SUBSCRIBE);[m
+[31m-    socket.once(EVENTS.REALTIME_DASHBOARD_SUBSCRIBED, resolve);[m
+[31m-  });[m
+[31m-}[m
+[31m-[m
+[31m-export function notifyAboutRealtimeDashboardUnsubscribe() {[m
+[31m-  console.log('xn13. notifyAboutRealtimeDashboardUnsubscribe');[m
+[31m-  return new Promise(resolve => {[m
+[31m-    socket.emit(EVENTS.REALTIME_DASHBOARD_UNSUBSCRIBE, resolve);[m
+[31m-  });[m
+[31m-}[m
+[31m-[m
+[31m-// ??? -- Why?[m
+[31m-export function realtimeDashboardSubscribed() {[m
+[31m-  console.log('xn13. realtimeDashboardSubscribed');[m
+[31m-  return new Promise(resolve => {[m
+[31m-    socket.once(EVENTS.REALTIME_DASHBOARD_SUBSCRIBED, resolve);[m
+[31m-  });[m
+[31m-}[m
+[31m-[m
+[31m-// ??? -- How?[m
+[31m-export function realtimeDashboardSubscribtionError() {[m
+[31m-  console.log('xn13. realtimeDashboardSubscribtionError');[m
+[31m-  return new Promise(resolve => {[m
+[31m-    socket.once(EVENTS.REALTIME_DASHBOARD_SUBSCRIBTION_ERROR, resolve);[m
+[31m-  });[m
+[31m-}[m
+[31m-[m
+[31m-export function listenRealtimeDashboardWaitingCallsChanged() {[m
+[31m-  console.log('xn13. listenRealtimeDashboardWaitingCallsChanged');[m
+[31m-  return new Promise(resolve => {[m
+[31m-    console.log('xn13. listenRealtimeDashboardWaitingCallsChanged > resolve:', resolve);[m
+[31m-    socket.once(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, ololo);[m
+[31m-  });[m
+[31m-}[m
+[31m-[m
+[31m-function ololo(data) {[m
+[31m-  console.log('ololo > data:', data);[m
+[31m-}[m
+[31m-[m
+[31m-// export function listenToRealTimeLiveCalls() {[m
+[31m-//   return new Promise(resolve => {[m
+[31m-//     socket.once(EVENTS.REAL_TIME_LIVE_CALLS, resolve);[m
+[31m-//   });[m
+[31m-// }[m
+[1mdiff --git a/src/services/realTimeCall.js b/src/services/realTimeCall.js[m
+[1mdeleted file mode 100644[m
+[1mindex d3b0783..0000000[m
+[1m--- a/src/services/realTimeCall.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,30 +0,0 @@[m
+[31m-/* eslint-disable no-use-before-define, import/prefer-default-export */[m
+[31m-[m
+[31m-// import store from '@/store';[m
+[31m-[m
+[31m-// import { operatorStatuses } from '@/store/call/constants';[m
+[31m-import {[m
+[31m-  notifyAboutRealtimeDashboardSubscribe,[m
+[31m-  notifyAboutRealtimeDashboardUnsubscribe,[m
+[31m-  // realtimeDashboardSubscribed,[m
+[31m-  // realtimeDashboardSubscribtionError,[m
+[31m-  listenRealtimeDashboardWaitingCallsChanged,[m
+[31m-} from '@/services/operatorSocket';[m
+[31m-[m
+[31m-export function initRealTimeCalls() {[m
+[31m-  console.log('xn13. >>> initRealTimeCalls');[m
+[31m-  return notifyAboutRealtimeDashboardSubscribe().then(listenRealtimeDashboardWaitingCallsChanged);[m
+[31m-  // .then(data => {[m
+[31m-  //   console.log([m
+[31m-  //     'xn13. >>> notifyAboutRealtimeDashboardSubscribe > listenRealtimeDashboardWaitingCallsChanged > data:',[m
+[31m-  //     data[m
+[31m-  //   );[m
+[31m-  // });[m
+[31m-}[m
+[31m-[m
+[31m-export function clearRealTimeCalls() {[m
+[31m-  // console.log('xn13. >>> clearRealTimeCalls');[m
+[31m-  return notifyAboutRealtimeDashboardUnsubscribe().then(data => {[m
+[31m-    console.log('xn13. >>> notifyAboutRealtimeDashboardUnsubscribe > data:', data);[m
+[31m-  });[m
+[31m-}[m
+[1mdiff --git a/src/views/Dashboard.vue b/src/views/Dashboard.vue[m
+[1mindex 91f4ff6..d9d3258 100644[m
+[1m--- a/src/views/Dashboard.vue[m
+[1m+++ b/src/views/Dashboard.vue[m
+[36m@@ -1,31 +1,5 @@[m
+ <template>[m
+   <div class="container">[m
+[31m-    <span>LOL-0</span>[m
+     <h1>{{ $t('dashboard') }}</h1>[m
+   </div>[m
+ </template>[m
+[31m-[m
+[31m-<script>[m
+[31m-import { initRealTimeCalls, clearRealTimeCalls } from '@/services/realTimeCall';[m
+[31m-[m
+[31m-// import { initializeOperator } from '@/services/call';[m
+[31m-[m
+[31m-export default {[m
+[31m-  name: 'RealTimeCallsList',[m
+[31m-  components: {},[m
+[31m-  beforeMount() {[m
+[31m-    console.log('xn13. ++++ RealTimeCallsList > beforeMount');[m
+[31m-  },[m
+[31m-  mounted() {[m
+[31m-    console.log('xn13. ++++ RealTimeCallsList > mounted');[m
+[31m-    setTimeout(initRealTimeCalls, 2000);[m
+[31m-  },[m
+[31m-  destroyed() {[m
+[31m-    console.log('xn13. ++++ RealTimeCallsList > destroyed');[m
+[31m-    clearRealTimeCalls();[m
+[31m-  },[m
+[31m-};[m
+[31m-</script>[m
+[31m-[m
+[31m-<style lang="scss" scoped>[m
+[31m-</style>[m
+[1mdiff --git a/vue.config.js b/vue.config.js[m
+[1mindex 196089a..ac5a0f0 100644[m
+[1m--- a/vue.config.js[m
+[1m+++ b/vue.config.js[m
+[36m@@ -58,9 +58,9 @@[m [mmodule.exports = {[m
+         target: process.env.VUE_APP_PROXY_CALL_WS_URL || 'ws://127.0.0.1:3000',[m
+         ws: true,[m
+         changeOrigin: true,[m
+[31m-        // pathRewrite: {[m
+[31m-        //   '^/api/video/socket.io': '/socket.io',[m
+[31m-        // },[m
+[32m+[m[32m        pathRewrite: {[m
+[32m+[m[32m          '^/api/video/socket.io': '/socket.io',[m
+[32m+[m[32m        },[m
+       },[m
+       '/api/device-management-api/operatorSocket': {[m
+         target: 'https://dev-portal.xyzvsp.com/',[m

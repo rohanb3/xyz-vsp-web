@@ -3,6 +3,8 @@ import {
   unsubscribe as socketUnsubscribe,
   subscribeWaitingCallsChanged,
 } from '@/services/vspSocket/realtimeDashboardSocket';
+import store from '@/store';
+import { WAITING_CALLS_CHANGED } from '@/store/realtimeDashboard/mutationTypes';
 
 init();
 
@@ -19,5 +21,5 @@ function init() {
 }
 
 function onWaitingCallsChanged(data) {
-  console.log('realtimedashboard.onWaitingCallsChanged', data);
+  store.commit(WAITING_CALLS_CHANGED, data.count);
 }

@@ -311,5 +311,6 @@
   "identity.errors:This email is not registered in the system. Please, check and try again":
     "TBD This email is not registered in this system. Please, check and try again.",
   "identity.errors:Email or password incorrect":
-    "TBD Email or password incorrect"
+    "TBD Email or password incorrect",
+  "live-dashboard": "Live dashboard"
 }
