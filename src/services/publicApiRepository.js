@@ -1,9 +1,9 @@
-import publicApi from './publicApi';
 import {
   FILTER_NAMES_COMPANY_LIST,
   COMPANY_LIST_COLUMNS_SORTED,
   SORTING_DIRECTION,
 } from '@/constants';
+import publicApi from './publicApi';
 
 export const getBranches = (companyId, keyword) => {
   const params = { BranchNameFilter: keyword };

@@ -106,10 +106,10 @@
 import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 import moment from 'moment';
 import { DATE_FORMATS } from '@/constants';
+import MapIcon from '@/components/MapIcon';
 import FormInput from './FormInput';
 import BranchSelect from './BranchSelect';
 import CompanySelect from './CompanySelect';
-import MapIcon from '@/components/MapIcon';
 import PhoneInput from './PhoneInput';
 
 const GOOGLE_MAPS_URL = 'http://www.google.com/maps/place/';

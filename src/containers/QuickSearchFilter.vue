@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import QuickSearch from '../components/QuickSearchFilter';
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 import { FILTER_NAMES } from '@/constants';
+import QuickSearch from '../components/QuickSearchFilter';
 
 export default {
   name: 'QuickSearchFilter',

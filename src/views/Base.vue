@@ -5,8 +5,8 @@
       <router-view class="lhs" name="lhs" />
       <router-view class="app-content" name="main" />
     </div>
-    <router-view v-if="isSupportAdmin" class="incoming-call" name="incomingCall" />
-    <router-view v-if="isSupportAdmin" class="already-logged-in" name="alreadyLoggedIn" />
+    <router-view v-if="isCallsAllowed" class="incoming-call" name="incomingCall" />
+    <router-view v-if="isSocketConnectionNeeded" class="already-logged-in" name="alreadyLoggedIn" />
   </div>
 </template>
 
@@ -16,7 +16,8 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'Base',
   computed: {
-    ...mapGetters(['isSupportAdmin']),
+    // ...mapGetters(['isSupportAdmin']),
+    ...mapGetters(['isCallsAllowed', 'isSocketConnectionNeeded']),
   },
 };
 </script>

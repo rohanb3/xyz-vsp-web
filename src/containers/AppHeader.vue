@@ -1,10 +1,13 @@
 <template>
   <div class="app-header">
     <v-toolbar class="header-toolbar" flat color="primary" height="56px">
-      <div class="side-icon"></div>
+      <router-link :to="{ name: 'home' }" class="home-link">
+        <div class="side-icon"></div>
+      </router-link>
+
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down header-toolbar">
-        <div class="switcher-container" v-if="isSupportAdmin">
+        <div class="switcher-container" v-if="isCallsAllowed">
           <online-status-switcher :is-online="isOperatorOnline" @statusChanged="onStatusChanged"/>
         </div>
         <header-user-menu/>
@@ -15,11 +18,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import HeaderUserMenu from './HeaderUserMenu';
 import OnlineStatusSwitcher from '@/components/OnlineStatusSwitcher';
 
 import { setOnlineStatus, setOfflineStatus } from '@/services/call';
-import { ROLE_TYPES } from '@/constants';
+import HeaderUserMenu from './HeaderUserMenu';
 
 export default {
   name: 'AppHeader',
@@ -28,15 +30,7 @@ export default {
     OnlineStatusSwitcher,
   },
   computed: {
-    ...mapGetters({
-      role: 'role',
-    }),
-    isSupportAdmin() {
-      return this.role === ROLE_TYPES.SUPPORT_ADMIN;
-    },
-    isSupervisorDashboardPage() {
-      return this.$route.name === 'supervisor-dashboard';
-    },
+    ...mapGetters(['isCallsAllowed']),
     isOperatorOnline() {
       return this.$store.getters.isOperatorOnline;
     },
@@ -81,12 +75,17 @@ export default {
   letter-spacing: normal;
 }
 .side-icon {
-  margin-top: 10px;
   margin-left: -45px;
   height: 100%;
   width: 175px;
   background: url('../assets/icons/logo.png') center center;
   background-size: cover;
+}
+
+.home-link {
+  display: block;
+  height: 100%;
+  margin-top: 10px;
 }
 .switcher-container {
   margin: 0 10px;

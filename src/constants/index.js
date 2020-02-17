@@ -89,6 +89,7 @@ const RECONNECT = 'reconnect';
 const AUTHENTICATION = 'authentication';
 const AUTHENTICATED = 'authenticated';
 const UNAUTHORIZED = 'unauthorized';
+const FORBIDDEN = 'forbidden';
 const CALL_ACCEPTED = 'call.accepted';
 const CALL_FINISHED = 'call.finished';
 const CALLBACK_REQUESTED = 'callback.requested';
@@ -103,6 +104,17 @@ const STATUS_CHANGED_OFFLINE = 'status.changed.offline';
 const CALLS_EMPTY = 'calls.empty';
 const CALL_ACCEPTING_FAILED = 'call.accepting.failed';
 const CALL_FINISED_BY_CUSTOMER = 'call.finished.by.customer';
+const REALTIME_DASHBOARD_SUBSCRIBE = 'realtimeDashboard.subscribe';
+const REALTIME_DASHBOARD_UNSUBSCRIBE = 'realtimeDashboard.unsubscribe';
+const REALTIME_DASHBOARD_SUBSCRIBED = 'realtimeDashboard.subscribed';
+const REALTIME_DASHBOARD_SUBSCRIBTION_ERROR = 'realtimeDashboard.subscibtionError';
+const REALTIME_DASHBOARD_WAITING_CALLS_CHANGED = 'realtimeDashboard.waitingCalls.changed';
+
+const SOCKET_CONNECTED = 'socket.connected';
+const SOCKET_DISCONNECTED = 'socket.disconnected';
+const SOCKET_RECONNECTED = 'socket.reconnected';
+const SOCKET_AUTHENTIFICATED = 'socket.authentificated';
+const SOCKET_UNAUTHORIZED = 'socket.unauthorized';
 
 const PEER_OFFLINE = 'peer.offline';
 const PEER_BUSY = 'peer.busy';
@@ -120,6 +132,7 @@ export const OPERATOR_SOCKET = {
     AUTHENTICATION,
     AUTHENTICATED,
     UNAUTHORIZED,
+    FORBIDDEN,
     CALL_ACCEPTED,
     CALL_FINISHED,
     CALLBACK_REQUESTED,
@@ -134,6 +147,11 @@ export const OPERATOR_SOCKET = {
     STATUS_CHANGED_ONLINE,
     STATUS_CHANGED_OFFLINE,
     CONNECTION_DROPPED,
+    REALTIME_DASHBOARD_SUBSCRIBE,
+    REALTIME_DASHBOARD_UNSUBSCRIBE,
+    REALTIME_DASHBOARD_SUBSCRIBED,
+    REALTIME_DASHBOARD_SUBSCRIBTION_ERROR,
+    REALTIME_DASHBOARD_WAITING_CALLS_CHANGED,
   },
   ERROR_MESSAGES: {
     CALLS_EMPTY,
@@ -150,6 +168,13 @@ export const OPERATOR_SOCKET = {
     reconnectionDelay: 500,
   },
   TOKEN_INVALID,
+  PUB_SUB_EVENTS: {
+    SOCKET_CONNECTED,
+    SOCKET_DISCONNECTED,
+    SOCKET_RECONNECTED,
+    SOCKET_AUTHENTIFICATED,
+    SOCKET_UNAUTHORIZED,
+  },
 };
 
 export const ROLE_TYPES = {
@@ -214,3 +239,9 @@ export const CALL_DISPOSITIONS = [
 ];
 
 export const CALL_TYPES = ['info', 'help', 'sale'];
+
+export const PERMISSIONS = {
+  CALL_ANSWER: 'xyzies.vsp.call.answer',
+  REALTIME_DASHBOARD: 'xyzies.vsp.realtimedashboard.subscribe',
+  REALTIME_DASHBOARD_CHOOSE_TENANT: 'xyzies.vsp.realtimedashboard.choosetenant',
+};

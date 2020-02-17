@@ -4,20 +4,21 @@ import Router from 'vue-router';
 import Base from '@/views/Base';
 import Login from '@/views/Login';
 import AppContent from '@/views/AppContent';
+import Home from '@/views/Home';
 import Dashboard from '@/views/Dashboard';
 import Customers from '@/views/Customers';
 import Calls from '@/views/Calls';
 import Devices from '@/views/Devices';
-import OperatorReview from '@/views/OperatorReview';
-import Payments from '@/views/Payments';
-import SettingsPage from '@/views/SettingsPage';
+// import OperatorReview from '@/views/OperatorReview';
+// import Payments from '@/views/Payments';
+// import SettingsPage from '@/views/SettingsPage';
 import SupervisorSettings from '@/views/SupervisorSettings';
 import SupervisorSettingsProfile from '@/views/SupervisorSettingsProfile';
-import SynchronizationSettingsProfile from '@/views/SynchronizationSettingsProfile';
-import Operators from '@/views/Operators';
+// import SynchronizationSettingsProfile from '@/views/SynchronizationSettingsProfile';
+// import Operators from '@/views/Operators';
 import CallPage from '@/views/CallPage';
-import SupervisorDashboard from '@/views/SupervisorDashboard';
-import OperatorDashboard from '@/views/OperatorDashboard';
+// import SupervisorDashboard from '@/views/SupervisorDashboard';
+// import OperatorDashboard from '@/views/OperatorDashboard';
 import PasswordRecoveryPage from '@/containers/PasswordRecoveryPage';
 import VerificationCodePage from '@/containers/VerificationCodePage';
 import ResetPasswordPage from '@/containers/ResetPasswordPage';
@@ -40,11 +41,13 @@ import store from '@/store';
 import synchronizationApi from '@/services/synchronizationApi';
 import tenantApi from '@/services/tenantApi';
 
+import { subscribe as realtimeDashboardSubscribe } from '@/services/realtimeDashboard';
+
 Vue.use(Router);
 
 function loginGuard(to, from, next) {
   if (store.state.loggedInUser.token) {
-    next({ path: 'dashboard' });
+    next({ path: 'home' });
   } else {
     next();
   }
@@ -97,9 +100,23 @@ const router = new Router({
           },
           children: [
             {
+              path: '',
+              name: 'home',
+              component: Home,
+            },
+            {
               path: 'dashboard',
               name: 'dashboard',
               component: Dashboard,
+              beforeEnter(to, from, next) {
+                if (store.getters.isRealtimeDashboardAllowed) {
+                  realtimeDashboardSubscribe()
+                    .then(() => next())
+                    .catch(() => next(false));
+                } else {
+                  next({ name: 'home' });
+                }
+              },
             },
             {
               path: 'customers',
@@ -111,7 +128,7 @@ const router = new Router({
               name: 'calls',
               component: Calls,
               beforeEnter(to, from, next) {
-                next({ name: 'dashboard' });
+                next({ name: 'home' });
               },
             },
             {
@@ -120,32 +137,32 @@ const router = new Router({
               component: Devices,
               beforeEnter(to, from, next) {
                 if (store.getters.isSupportAdmin) {
-                  next({ path: 'dashboard' });
+                  next({ name: 'home' });
                 } else {
                   next();
                 }
               },
             },
-            {
-              path: 'operators',
-              name: 'operators',
-              component: Operators,
-            },
-            {
-              path: 'operator-review',
-              name: 'operatorReview',
-              component: OperatorReview,
-            },
-            {
-              path: 'payments',
-              name: 'payments',
-              component: Payments,
-            },
-            {
-              path: 'settings',
-              name: 'settings',
-              component: SettingsPage,
-            },
+            // {
+            //   path: 'operators',
+            //   name: 'operators',
+            //   component: Operators,
+            // },
+            // {
+            //   path: 'operator-review',
+            //   name: 'operatorReview',
+            //   component: OperatorReview,
+            // },
+            // {
+            //   path: 'payments',
+            //   name: 'payments',
+            //   component: Payments,
+            // },
+            // {
+            //   path: 'settings',
+            //   name: 'settings',
+            //   component: SettingsPage,
+            // },
             {
               path: 'supervisor-settings',
               name: 'supervisorSettings',
@@ -156,26 +173,26 @@ const router = new Router({
                   name: 'supervisorSettingsProfile',
                   component: SupervisorSettingsProfile,
                 },
-                {
-                  path: 'company',
-                  name: 'supervisorSettingsCompany',
-                  component: SupervisorSettingsProfile,
-                },
-                {
-                  path: 'plans',
-                  name: 'supervisorSettingsPlans',
-                  component: SupervisorSettingsProfile,
-                },
-                {
-                  path: 'template-list',
-                  name: 'supervisorSettingsTemplateList',
-                  component: SupervisorSettingsProfile,
-                },
-                {
-                  path: 'synchronization',
-                  name: 'supervisorSettingsSynchronization',
-                  component: SynchronizationSettingsProfile,
-                },
+                // {
+                //   path: 'company',
+                //   name: 'supervisorSettingsCompany',
+                //   component: SupervisorSettingsProfile,
+                // },
+                // {
+                //   path: 'plans',
+                //   name: 'supervisorSettingsPlans',
+                //   component: SupervisorSettingsProfile,
+                // },
+                // {
+                //   path: 'template-list',
+                //   name: 'supervisorSettingsTemplateList',
+                //   component: SupervisorSettingsProfile,
+                // },
+                // {
+                //   path: 'synchronization',
+                //   name: 'supervisorSettingsSynchronization',
+                //   component: SynchronizationSettingsProfile,
+                // },
               ],
             },
             {
@@ -191,25 +208,25 @@ const router = new Router({
                 if (store.getters.isOperatorOnCall) {
                   next();
                 } else {
-                  next({ name: 'dashboard' });
+                  next({ name: 'home' });
                 }
               },
             },
-            {
-              path: 'supervisor-dashboard',
-              name: 'supervisor-dashboard',
-              component: SupervisorDashboard,
-            },
-            {
-              path: 'operator-dashboard',
-              name: 'operator-dashboard',
-              component: OperatorDashboard,
-            },
+            // {
+            //   path: 'supervisor-dashboard',
+            //   name: 'supervisor-dashboard',
+            //   component: SupervisorDashboard,
+            // },
+            // {
+            //   path: 'operator-dashboard',
+            //   name: 'operator-dashboard',
+            //   component: OperatorDashboard,
+            // },
           ],
         },
       ],
     },
-    { path: '*', redirect: { name: 'dashboard' } },
+    { path: '*', redirect: { name: 'home' } },
   ],
 });
 

@@ -5,9 +5,8 @@
 </template>
 
 <script>
-import ConfigurableLazyLoadTable from './ConfigurableLazyLoadTable';
-
 import { ENTITY_TYPES } from '@/constants';
+import ConfigurableLazyLoadTable from './ConfigurableLazyLoadTable';
 
 export default {
   name: 'PaymentsTable',
