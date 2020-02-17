@@ -3,11 +3,11 @@
         <div class="offline-block">
           <span class="left-side">
             <img class="inline" src="../assets/icons/realtime-dashboard/operators-icon.svg">
-            <div class="real-time-title inline">Operators</div>
+            <div class="real-time-title inline">{{ $t('operators') }}</div>
           </span>
           <span class="right-side">
             <span class="gray-cnt-block">
-              <span>Offline</span>
+              <span>{{ $t('offline') }}</span>
               <span class="gray-font">{{offlineCount}}</span>
             </span>
           </span>
@@ -15,11 +15,11 @@
         <div class="details-block">
           <div class="on-call-details details">
             <div class="real-time-cnt">{{onCallCount}}</div>
-            <div class="gray">On Call</div>
+            <div class="gray">{{ $t('on.call') }}</div>
           </div>
           <div class="available-details details">
             <div class="real-time-cnt orange-font">{{availableCount}}</div>
-            <div class="gray">Available</div>
+            <div class="gray">{{ $t('available') }}</div>
           </div>
         </div>
       </div>

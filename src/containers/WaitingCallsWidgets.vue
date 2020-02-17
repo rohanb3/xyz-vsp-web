@@ -1,7 +1,7 @@
 <template>
       <div class="waiting-calls-widgets">
         <img src="../assets/icons/realtime-dashboard/waiting-calls-icon.svg">
-        <div class="real-time-title">Waiting calls</div>
+        <div class="real-time-title">{{ $t('waiting.calls') }}</div>
         <div class="real-time-cnt">{{waitingCallsCount}}</div>
       </div>
 </template>

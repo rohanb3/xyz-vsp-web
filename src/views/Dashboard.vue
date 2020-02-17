@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard container">
-    <h1>{{ $t('live-dashboard') }}</h1>
+    <h1>{{ $t('live.dashboard') }}</h1>
     <div class="widgets-row">
       <div class="widgets-column">
         <waiting-calls-widget/>

@@ -3,17 +3,17 @@
         <div class="offline-block">
           <span class="left-side">
             <img class="inline" src="../assets/icons/realtime-dashboard/response-time-icon.svg">
-            <div class="real-time-title inline">Response Time</div>
+            <div class="real-time-title inline">{{ $t('response.time') }}</div>
           </span>
         </div>
         <div class="details-block">
           <div class="on-call-details details">
             <div class="real-time-cnt">{{average}}</div>
-            <div class="gray">Average</div>
+            <div class="gray">{{ $t('average') }}</div>
           </div>
           <div class="available-details details">
             <div class="real-time-cnt red-font">{{longest}}</div>
-            <div class="gray">Longest</div>
+            <div class="gray">{{ $t('longest') }}</div>
           </div>
         </div>
       </div>

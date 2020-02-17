@@ -1,7 +1,7 @@
 <template>
       <div class="live-calls-widgets">
         <img src="../assets/icons/realtime-dashboard/live-calls-icon.svg">
-        <div class="real-time-title">Live calls</div>
+        <div class="real-time-title">{{ $t('live.calls') }}</div>
         <div class="real-time-cnt">{{liveCallsCount}}</div>
       </div>
 </template>
