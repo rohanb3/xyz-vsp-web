@@ -1,8 +1,8 @@
 <template>
       <div class="waiting-calls-widgets">
-        <img src="../assets/icons/realtime-dashboard/waiting-calls-icon.svg">
+        <img class="icon" src="../assets/icons/realtime-dashboard/waiting-calls-icon.svg">
         <div class="real-time-title">{{ $t('waiting.calls') }}</div>
-        <div class="real-time-cnt">{{waitingCalls}}</div>
+        <div class="real-time-cnt">{{waitingCalls.count}}</div>
       </div>
 </template>
 
@@ -11,15 +11,11 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'WaitingCallsWidget',
-  components: {},
   computed: {
     ...mapGetters({ waitingCallsCnt: 'waitingCallsCnt' }),
     waitingCalls() {
       return this.waitingCallsCnt;
     },
-  },
-  data() {
-    return {};
   },
 };
 </script>
@@ -32,8 +28,6 @@ export default {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   padding: 10px 30px;
-  /*height: 100%;*/
-  /*width: 25%;*/
   display: flex;
   align-items: center;
   & > * {
@@ -52,6 +46,10 @@ export default {
     font-size: 20px;
     line-height: 24px;
     align: left;
+  }
+
+  .icon {
+    width: 30px;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 export default {
-  waitingCallsCnt(state) {
-    return state.waitingCallsCnt;
+  waitingCalls(state) {
+    return state.waitingCalls;
   },
   activeCallsCnt(state) {
     return state.activeCallsCnt;

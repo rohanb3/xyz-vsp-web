@@ -2,42 +2,32 @@
       <div class="call-statistics-widgets">
         <div class="offline-block">
           <span class="left-side">
-            <img class="inline" src="../assets/icons/realtime-dashboard/call-statistics-icon.svg">
+            <img class="icon inline" src="../assets/icons/realtime-dashboard/call-statistics-icon.svg">
             <div class="real-time-title inline">{{ $t('call.statistics') }}</div>
           </span>
           <span class="right-side">
-            <span class="gray-cnt-block">
+            <span class="total-cnt-block">
               <span>{{ $t('total') }}</span>
-              <span class="gray-font">{{totalCount}}</span>
+              <span class="total-font">{{totalCount}}</span>
             </span>
           </span>
         </div>
         <div class="details-block">
           <div class="on-call-details details">
             <div class="real-time-cnt">{{answeredCount}}</div>
-            <div class="gray">{{ $t('answered') }}</div>
+            <div class="sub-title">{{ $t('answered') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt red-font">{{abandonedCount}}</div>
-            <div class="gray">{{ $t('abandoned') }}</div>
+            <div class="real-time-cnt abandoned-font">{{abandonedCount}}</div>
+            <div class="sub-title">{{ $t('abandoned') }}</div>
           </div>
         </div>
       </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
-
 export default {
   name: 'CallStatisticsWidget',
-  components: {},
-  //  computed: {
-  //    ...mapGetters({ waitingCallsCnt: 'waitingCallsCnt' }),
-  //    waitingCallsCount() {
-  // //      return this.$store.state.call.waitingCallsCnt;
-  //      return this.waitingCallsCnt;
-  //    },
-  //  },
   data() {
     return {
       totalCount: 125,
@@ -56,8 +46,7 @@ export default {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   padding: 10px 30px;
-  /*height: 100%;*/
-  /*width: 25%;*/
+  height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,7 +60,7 @@ export default {
     line-height: 42px;
     align: rigth;
 
-    &.red-font {
+    &.abandoned-font {
       color: #e02020;
     }
   }
@@ -89,7 +78,6 @@ export default {
     width: 100%;
     .left-side {
       width: 100%;
-      /*text-align: left;*/
     }
     .right-side {
       width: 70%;
@@ -106,14 +94,14 @@ export default {
       border-right: 1px solid grey;
     }
 
-    .gray {
+    .sub-title {
       color: gray;
     }
   }
-  .gray-cnt-block {
+  .total-cnt-block {
     float: right;
     color: grey;
-    .gray-font {
+    .total-font {
       font-size: x-large;
       font-weight: bold;
       margin-left: 5px;
@@ -121,6 +109,10 @@ export default {
   }
   .details {
     padding: 13px;
+  }
+
+  .icon {
+    width: 30px;
   }
 }
 </style>

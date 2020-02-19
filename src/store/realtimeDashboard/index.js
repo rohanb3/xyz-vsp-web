@@ -3,8 +3,8 @@ import getters from './getters';
 import actions from './actions';
 
 const state = {
-  waitingCallsCnt: null,
-  activeCallsCnt: null,
+  waitingCalls: null,
+  activeCalls: null,
   callFinishedData: null,
   callAcceptedData: null,
   operatorsOffline: null,
