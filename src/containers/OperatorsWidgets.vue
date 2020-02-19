@@ -14,12 +14,12 @@
         </div>
         <div class="details-block">
           <div class="on-call-details details">
-            <div class="real-time-cnt">{{operatorsOnCall}}</div>
-            <div class="sub-title">{{ $t('on.call') }}</div>
+            <div class="real-time-cnt center">{{operatorsOnCall}}</div>
+            <div class="sub-title center">{{ $t('on.call') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt available-font">{{operatorsAvailable}}</div>
-            <div class="sub-title">{{ $t('available') }}</div>
+            <div class="real-time-cnt available-font center">{{operatorsAvailable}}</div>
+            <div class="sub-title center">{{ $t('available') }}</div>
           </div>
         </div>
       </div>
@@ -32,18 +32,12 @@ export default {
   name: 'OperatorsWidget',
   components: {},
   computed: {
-    ...mapGetters({
-      operatorsOffline: 'operatorsOffline',
-      operatorsOnCall: 'operatorsOnCall',
-      operatorsAvailable: 'operatorsAvailable',
-    }),
+    ...mapGetters(['operatorsOffline', 'operatorsOnCall', 'operatorsAvailable']),
   },
 };
 </script>
 
 <style scoped lang="scss">
-@import '~@/assets/styles/variables.scss';
-
 .operators-widgets {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
@@ -59,6 +53,7 @@ export default {
   }
   & .real-time-cnt {
     color: #64b211;
+    font-weight: bold;
     font-size: 36px;
     line-height: 42px;
     align: rigth;
@@ -116,6 +111,11 @@ export default {
 
   .icon {
     width: 30px;
+  }
+
+  .center {
+    width: 100%;
+    text-align: center;
   }
 }
 </style>

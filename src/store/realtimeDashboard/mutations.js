@@ -20,8 +20,12 @@ export default {
 
   [REALTIME_DASHBOARD_CALL_FINISHED](state, data) {
     state.callFinishedData = data;
-    if (state.callStatisticsAbandoned && state.callFinishedData && state.callFinishedData.missedAt) {
-      state.callStatisticsAbandoned.total = state.callStatisticsAbandoned.total + 1;
+    if (
+      state.callStatisticsAbandoned &&
+      state.callFinishedData &&
+      state.callFinishedData.missedAt
+    ) {
+      state.callStatisticsAbandoned.total += 1;
     }
   },
   [REALTIME_DASHBOARD_CALL_ACCEPTED](state, data) {
@@ -29,9 +33,12 @@ export default {
     if (state.callStatisticsAnswered) {
       state.callStatisticsAnswered.averageWaitingDuration =
         (state.callStatisticsAnswered.totalWaitingDuration +
-        state.callAcceptedData.waitingDuration) / (state.callStatisticsAnswered.total + 1);
-      state.callStatisticsAnswered.total = state.callStatisticsAnswered.total + 1;
-      if (state.callStatisticsAnswered.maxWaitingDuration < state.callAcceptedData.waitingDuration) {
+          state.callAcceptedData.waitingDuration) /
+        (state.callStatisticsAnswered.total + 1);
+      state.callStatisticsAnswered.total += 1;
+      if (
+        state.callStatisticsAnswered.maxWaitingDuration < state.callAcceptedData.waitingDuration
+      ) {
         state.callStatisticsAnswered.maxWaitingDuration = state.callAcceptedData.waitingDuration;
       }
     }

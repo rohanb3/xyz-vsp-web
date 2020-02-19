@@ -64,3 +64,10 @@ export function secondsToHoursMinutesSeconds(data = 0) {
 
   return `${formattedHours}h ${minutes}m ${seconds}s`.trim();
 }
+
+export function getStartOfCurrentDayUTC() {
+  return moment()
+    .startOf('day')
+    .utc()
+    .format();
+}

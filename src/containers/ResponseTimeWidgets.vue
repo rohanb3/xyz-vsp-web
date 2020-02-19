@@ -8,12 +8,12 @@
         </div>
         <div class="details-block">
           <div class="on-call-details details">
-            <div class="real-time-cnt">{{average}}</div>
-            <div class="sub-title">{{ $t('average') }}</div>
+            <div class="real-time-cnt center">{{average}}</div>
+            <div class="sub-title center">{{ $t('average') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt longest-font">{{longest}}</div>
-            <div class="sub-title">{{ $t('longest') }}</div>
+            <div class="real-time-cnt longest-font center">{{longest}}</div>
+            <div class="sub-title center">{{ $t('longest') }}</div>
           </div>
         </div>
       </div>
@@ -21,8 +21,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import moment from 'moment';
 import { LOAD_DATA } from '../store/realtimeDashboard/actionTypes';
+import { getStartOfCurrentDayUTC } from '../services/dateHelper';
 
 export default {
   name: 'ResponseTimeWidget',
@@ -30,27 +30,24 @@ export default {
     this.loadData();
   },
   computed: {
-    ...mapGetters({ callStatisticsAnswered: 'callStatisticsAnswered' }),
+    ...mapGetters(['callStatisticsAnswered']),
     average() {
-        const aver = (this.callStatisticsAnswered && this.callStatisticsAnswered.averageWaitingDuration) || 0;
-        return aver.toFixed(2);
+      const aver =
+        (this.callStatisticsAnswered && this.callStatisticsAnswered.averageWaitingDuration) || 0;
+      return aver.toFixed(2);
     },
     longest() {
-        const secs = (this.callStatisticsAnswered && this.callStatisticsAnswered.maxWaitingDuration) || 0;
-        return Math.round(secs/60) + ':' + secs%60;
-    }
+      const secs =
+        (this.callStatisticsAnswered && this.callStatisticsAnswered.maxWaitingDuration) || 0;
+      return `${Math.round(secs / 60)}:${secs % 60}`;
+    },
   },
   methods: {
     loadData() {
       const data = {
         itemType: 'callStatisticsAnswered',
         filters: {
-          //          tenantId: 'b05666e5-2e9e-4262-895b-9017c7f91043', //'0ed21401-e0e6-4b22-aa89-4c5522212b67',
-          from: moment()
-            .startOf('day')
-            .add(-2, 'days')
-            .utc()
-            .format(),
+          from: getStartOfCurrentDayUTC(),
           callType: 'call.video',
           callStatus: 'call.answered',
         },
@@ -62,8 +59,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~@/assets/styles/variables.scss';
-
 .response-time-widgets {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
@@ -80,6 +75,7 @@ export default {
   & .real-time-cnt {
     color: #64b211;
     font-size: 36px;
+    font-weight: bold;
     line-height: 42px;
     align: rigth;
 
@@ -124,6 +120,11 @@ export default {
 
   .icon {
     width: 30px;
+  }
+
+  .center {
+    width: 100%;
+    text-align: center;
   }
 }
 </style>

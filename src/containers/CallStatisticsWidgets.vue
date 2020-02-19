@@ -14,12 +14,12 @@
         </div>
         <div class="details-block">
           <div class="on-call-details details">
-            <div class="real-time-cnt">{{answered}}</div>
-            <div class="sub-title">{{ $t('answered') }}</div>
+            <div class="real-time-cnt center">{{answered}}</div>
+            <div class="sub-title center">{{ $t('answered') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt abandoned-font">{{abandoned}}</div>
-            <div class="sub-title">{{ $t('abandoned') }}</div>
+            <div class="real-time-cnt abandoned-font center">{{abandoned}}</div>
+            <div class="sub-title center">{{ $t('abandoned') }}</div>
           </div>
         </div>
       </div>
@@ -27,8 +27,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import moment from 'moment';
 import { LOAD_DATA } from '../store/realtimeDashboard/actionTypes';
+import { getStartOfCurrentDayUTC } from '../services/dateHelper';
 
 export default {
   name: 'CallStatisticsWidget',
@@ -36,8 +36,7 @@ export default {
     this.loadData();
   },
   computed: {
-    ...mapGetters({ callStatisticsAnswered: 'callStatisticsAnswered',
-      callStatisticsAbandoned: 'callStatisticsAbandoned' }),
+    ...mapGetters(['callStatisticsAnswered', 'callStatisticsAbandoned']),
     answered() {
       return (this.callStatisticsAnswered && this.callStatisticsAnswered.total) || 0;
     },
@@ -47,19 +46,15 @@ export default {
     total() {
       const answered = (this.callStatisticsAnswered && this.callStatisticsAnswered.total) || 0;
       const abandoned = (this.callStatisticsAbandoned && this.callStatisticsAbandoned.total) || 0;
-      return answered + abandoned
-    }
+      return answered + abandoned;
+    },
   },
   methods: {
     loadData() {
       const dataAbandoned = {
         itemType: 'callStatisticsAbandoned',
         filters: {
-          from: moment()
-            .startOf('day')
-            .add(-2, 'days')
-            .utc()
-            .format(),
+          from: getStartOfCurrentDayUTC(),
           callType: 'call.video',
           callStatus: 'call.missed',
         },
@@ -71,8 +66,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~@/assets/styles/variables.scss';
-
 .call-statistics-widgets {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
@@ -89,6 +82,7 @@ export default {
   & .real-time-cnt {
     color: #64b211;
     font-size: 36px;
+    font-weight: bold;
     line-height: 42px;
     align: rigth;
 
@@ -145,6 +139,11 @@ export default {
 
   .icon {
     width: 30px;
+  }
+
+  .center {
+    width: 100%;
+    text-align: center;
   }
 }
 </style>

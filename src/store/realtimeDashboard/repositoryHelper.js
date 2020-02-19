@@ -1,10 +1,13 @@
 import { getDurations } from '@/services/realtimeDashboardRepository';
+import { ENTITY_TYPES } from '@/constants';
+
+const { CALL_STATISTICS_ANSWERED, CALL_STATISTICS_ABANDONED } = ENTITY_TYPES;
 
 const handlers = {
-  callStatisticsAnswered: {
+  [CALL_STATISTICS_ANSWERED]: {
     getAll: getDurations,
   },
-  callStatisticsAbandoned: {
+  [CALL_STATISTICS_ABANDONED]: {
     getAll: getDurations,
   },
 };

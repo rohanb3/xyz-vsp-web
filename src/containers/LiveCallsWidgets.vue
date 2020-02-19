@@ -13,14 +13,12 @@ export default {
   name: 'LiveCallsWidget',
   components: {},
   computed: {
-    ...mapGetters({ activeCalls: 'activeCalls' }),
+    ...mapGetters(['activeCalls']),
   },
 };
 </script>
 
 <style scoped lang="scss">
-@import '~@/assets/styles/variables.scss';
-
 .live-calls-widgets {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
@@ -36,6 +34,7 @@ export default {
   & .real-time-cnt {
     color: #64b211;
     font-size: 36px;
+    font-weight: bold;
     line-height: 42px;
     align: rigth;
   }

@@ -12,14 +12,12 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'WaitingCallsWidget',
   computed: {
-    ...mapGetters({ waitingCalls: 'waitingCalls' }),
+    ...mapGetters(['waitingCalls']),
   },
 };
 </script>
 
 <style scoped lang="scss">
-@import '~@/assets/styles/variables.scss';
-
 .waiting-calls-widgets {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
@@ -34,6 +32,7 @@ export default {
   & .real-time-cnt {
     color: #fa852e;
     font-size: 36px;
+    font-weight: bold;
     line-height: 42px;
     align: rigth;
   }
