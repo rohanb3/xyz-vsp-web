@@ -8,17 +8,17 @@
           <span class="right-side">
             <span class="total-cnt-block">
               <span>{{ $t('total') }}</span>
-              <span class="total-font">{{totalCount}}</span>
+              <span class="total-font">{{total}}</span>
             </span>
           </span>
         </div>
         <div class="details-block">
           <div class="on-call-details details">
-            <div class="real-time-cnt">{{answeredCount}}</div>
+            <div class="real-time-cnt">{{answered}}</div>
             <div class="sub-title">{{ $t('answered') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt abandoned-font">{{abandonedCount}}</div>
+            <div class="real-time-cnt abandoned-font">{{abandoned}}</div>
             <div class="sub-title">{{ $t('abandoned') }}</div>
           </div>
         </div>
@@ -26,14 +26,46 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import moment from 'moment';
+import { LOAD_DATA } from '../store/realtimeDashboard/actionTypes';
+
 export default {
   name: 'CallStatisticsWidget',
-  data() {
-    return {
-      totalCount: 125,
-      answeredCount: 85,
-      abandonedCount: 40,
-    };
+  mounted() {
+    this.loadData();
+  },
+  computed: {
+    ...mapGetters({ callStatisticsAnswered: 'callStatisticsAnswered',
+      callStatisticsAbandoned: 'callStatisticsAbandoned' }),
+    answered() {
+      return (this.callStatisticsAnswered && this.callStatisticsAnswered.total) || 0;
+    },
+    abandoned() {
+      return (this.callStatisticsAbandoned && this.callStatisticsAbandoned.total) || 0;
+    },
+    total() {
+      const answered = (this.callStatisticsAnswered && this.callStatisticsAnswered.total) || 0;
+      const abandoned = (this.callStatisticsAbandoned && this.callStatisticsAbandoned.total) || 0;
+      return answered + abandoned
+    }
+  },
+  methods: {
+    loadData() {
+      const dataAbandoned = {
+        itemType: 'callStatisticsAbandoned',
+        filters: {
+          from: moment()
+            .startOf('day')
+            .add(-2, 'days')
+            .utc()
+            .format(),
+          callType: 'call.video',
+          callStatus: 'call.missed',
+        },
+      };
+      this.$store.dispatch(LOAD_DATA, dataAbandoned);
+    },
   },
 };
 </script>

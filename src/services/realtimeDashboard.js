@@ -51,6 +51,5 @@ function onRealTimeDashboardCallAccepted(data) {
 }
 
 function onRealTimeDashboardOperatorsStatusesChanged(data) {
-  console.log('onRealTimeDashboardOperatorsStatusesChanged > data:', data);
   store.commit(REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, data);
 }

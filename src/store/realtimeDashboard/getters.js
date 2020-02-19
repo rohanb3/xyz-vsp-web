@@ -2,8 +2,8 @@ export default {
   waitingCalls(state) {
     return state.waitingCalls;
   },
-  activeCallsCnt(state) {
-    return state.activeCallsCnt;
+  activeCalls(state) {
+    return state.activeCalls;
   },
   callFinishedData(state) {
     return state.callFinishedData;
@@ -20,7 +20,10 @@ export default {
   operatorsAvailable(state) {
     return state.operatorsAvailable;
   },
-  duration(state) {
-    return state.durations.data;
+  callStatisticsAnswered(state) {
+    return state.callStatisticsAnswered;
+  },
+  callStatisticsAbandoned(state) {
+    return state.callStatisticsAbandoned;
   },
 };

@@ -6,14 +6,13 @@
             <div class="real-time-title inline">{{ $t('response.time') }}</div>
           </span>
         </div>
-        <!--<span>AA{{durations}}BB</span>-->
         <div class="details-block">
           <div class="on-call-details details">
-            <div class="real-time-cnt">{{responseTimeData.averageWaitingDuration}}</div>
+            <div class="real-time-cnt">{{average}}</div>
             <div class="sub-title">{{ $t('average') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt longest-font">{{responseTimeData.maxWaitingDuration}}</div>
+            <div class="real-time-cnt longest-font">{{longest}}</div>
             <div class="sub-title">{{ $t('longest') }}</div>
           </div>
         </div>
@@ -27,28 +26,24 @@ import { LOAD_DATA } from '../store/realtimeDashboard/actionTypes';
 
 export default {
   name: 'ResponseTimeWidget',
-  components: {},
   mounted() {
     this.loadData();
   },
   computed: {
-    ...mapGetters({ responseTimeDurations: 'responseTimeDurations' }),
-    durations() {
-      console.log('*** ** * durations > this.responseTimeDurations:', this.responseTimeDurations);
-      return this.responseTimeDurations;
+    ...mapGetters({ callStatisticsAnswered: 'callStatisticsAnswered' }),
+    average() {
+        const aver = (this.callStatisticsAnswered && this.callStatisticsAnswered.averageWaitingDuration) || 0;
+        return aver.toFixed(2);
     },
-    responseTimeData() {
-      console.log('responseTimeData > this.storageData:', this.storageData);
-      return (this.storageData && this.storageData.data) || {};
-    },
-    storageData() {
-      return this.$store.state.realtimeDashboard.responseTimeDurations || {};
-    },
+    longest() {
+        const secs = (this.callStatisticsAnswered && this.callStatisticsAnswered.maxWaitingDuration) || 0;
+        return Math.round(secs/60) + ':' + secs%60;
+    }
   },
   methods: {
     loadData() {
       const data = {
-        itemType: 'responseTimeDurations',
+        itemType: 'callStatisticsAnswered',
         filters: {
           //          tenantId: 'b05666e5-2e9e-4262-895b-9017c7f91043', //'0ed21401-e0e6-4b22-aa89-4c5522212b67',
           from: moment()
@@ -56,30 +51,12 @@ export default {
             .add(-2, 'days')
             .utc()
             .format(),
-          //          from: moment().startOf('day').utc().format(),
           callType: 'call.video',
           callStatus: 'call.answered',
         },
       };
-      console.log('this.$store:', this.$store);
-      return this.$store.dispatch(LOAD_DATA, data).finally(() => {
-        console.log('Response time is loaded');
-      });
+      this.$store.dispatch(LOAD_DATA, data);
     },
-  },
-  //  computed: {
-  //    ...mapGetters({ waitingCallsCnt: 'waitingCallsCnt' }),
-  //    waitingCallsCount() {
-  // //      return this.$store.state.call.waitingCallsCnt;
-  //      return this.waitingCallsCnt;
-  //    },
-  //  },
-  data() {
-    return {
-      offlineCount: 11,
-      average: '00:21',
-      longest: '00:45',
-    };
   },
 };
 </script>

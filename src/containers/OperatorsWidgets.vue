@@ -8,17 +8,17 @@
           <span class="right-side">
             <span class="offline-cnt-block">
               <span>{{ $t('offline') }}</span>
-              <span class="offline-font">{{offline}}</span>
+              <span class="offline-font">{{operatorsOffline}}</span>
             </span>
           </span>
         </div>
         <div class="details-block">
           <div class="on-call-details details">
-            <div class="real-time-cnt">{{onCall}}</div>
+            <div class="real-time-cnt">{{operatorsOnCall}}</div>
             <div class="sub-title">{{ $t('on.call') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt available-font">{{available}}</div>
+            <div class="real-time-cnt available-font">{{operatorsAvailable}}</div>
             <div class="sub-title">{{ $t('available') }}</div>
           </div>
         </div>
@@ -37,15 +37,6 @@ export default {
       operatorsOnCall: 'operatorsOnCall',
       operatorsAvailable: 'operatorsAvailable',
     }),
-    offline() {
-      return this.operatorsOffline;
-    },
-    onCall() {
-      return this.operatorsOnCall;
-    },
-    available() {
-      return this.operatorsAvailable;
-    },
   },
 };
 </script>

@@ -138,21 +138,17 @@ function onWaitingCallsChanged(data) {
 }
 
 function onActiveCallsChanged(data) {
-  console.log('onActiveCallsChanged > data:', data);
   pubSub.emit(EVENTS.REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED, data);
 }
 
 function onRealTimeDashboardCallFinished(data) {
-  console.log('onRealTimeDashboardCallFinished > data:', data);
   pubSub.emit(EVENTS.REALTIME_DASHBOARD_CALL_FINISHED, data);
 }
 
 function onRealTimeDashboardCallAccepted(data) {
-  console.log('onRealTimeDashboardCallAccepted > data:', data);
   pubSub.emit(EVENTS.REALTIME_DASHBOARD_CALL_ACCEPTED, data);
 }
 
 function onRealTimeDashboardOperatorsStatusesChanged(data) {
-  console.log('onRealTimeDashboardOperatorsStatusesChanged > data:', data);
   pubSub.emit(EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, data);
 }

@@ -1,7 +1,10 @@
 import { getDurations } from '@/services/realtimeDashboardRepository';
 
 const handlers = {
-  responseTimeDurations: {
+  callStatisticsAnswered: {
+    getAll: getDurations,
+  },
+  callStatisticsAbandoned: {
     getAll: getDurations,
   },
 };

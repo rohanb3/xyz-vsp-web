@@ -3,17 +3,16 @@ import getters from './getters';
 import actions from './actions';
 
 const state = {
-  waitingCalls: null,
-  activeCalls: null,
+  waitingCalls: {},
+  activeCalls: {},
   callFinishedData: null,
   callAcceptedData: null,
   operatorsOffline: null,
   operatorsOnline: null,
   operatorsOnCall: null,
   operatorsAvailable: null,
-  responseTimeDurations: {
-    data: {},
-  },
+  callStatisticsAnswered: {},
+  callStatisticsAbandoned: {},
 };
 
 export default {

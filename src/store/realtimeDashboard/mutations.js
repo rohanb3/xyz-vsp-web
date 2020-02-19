@@ -10,19 +10,31 @@ import {
 export default {
   /* eslint-disable no-param-reassign */
   [WAITING_CALLS_CHANGED](state, data) {
-    state.waitingCallsCnt = data.count;
+    state.waitingCalls = data;
   },
   [ACTIVE_CALLS_CHANGED](state, data) {
-    state.activeCallsCnt = data.count;
+    state.activeCalls = data;
     state.operatorsOnCall = data.count;
     state.operatorsAvailable = state.operatorsOnline - state.operatorsOnCall;
   },
 
   [REALTIME_DASHBOARD_CALL_FINISHED](state, data) {
     state.callFinishedData = data;
+    if (state.callStatisticsAbandoned && state.callFinishedData && state.callFinishedData.missedAt) {
+      state.callStatisticsAbandoned.total = state.callStatisticsAbandoned.total + 1;
+    }
   },
   [REALTIME_DASHBOARD_CALL_ACCEPTED](state, data) {
     state.callAcceptedData = data;
+    if (state.callStatisticsAnswered) {
+      state.callStatisticsAnswered.averageWaitingDuration =
+        (state.callStatisticsAnswered.totalWaitingDuration +
+        state.callAcceptedData.waitingDuration) / (state.callStatisticsAnswered.total + 1);
+      state.callStatisticsAnswered.total = state.callStatisticsAnswered.total + 1;
+      if (state.callStatisticsAnswered.maxWaitingDuration < state.callAcceptedData.waitingDuration) {
+        state.callStatisticsAnswered.maxWaitingDuration = state.callAcceptedData.waitingDuration;
+      }
+    }
   },
   [REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED](state, data) {
     state.operatorsOffline = data && data.inactiveOperators && data.inactiveOperators.count;
@@ -30,10 +42,7 @@ export default {
     state.operatorsAvailable = state.operatorsOnline - state.operatorsOnCall;
   },
   [INSERT_DATA](state, { itemType, data }) {
-    console.log('INSERT_DATA > itemType:', itemType);
-    console.log('INSERT_DATA > data:', data);
-    state[itemType].data = data;
-    console.log('INSERT_DATA > state:', state);
+    state[itemType] = data;
   },
   /* eslint-enable no-param-reassign */
 };
