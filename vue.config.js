@@ -67,6 +67,10 @@ module.exports = {
         ws: true,
         changeOrigin: true,
       },
+      '/api/video/dashboard/durations': {
+        target: process.env.VUE_APP_PROXY_CALLS_REST_URL || 'http://localhost:3000',
+        changeOrigin: true,
+      },
     },
   },
 };

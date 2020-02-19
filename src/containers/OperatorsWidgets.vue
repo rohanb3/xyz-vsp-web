@@ -8,17 +8,17 @@
           <span class="right-side">
             <span class="gray-cnt-block">
               <span>{{ $t('offline') }}</span>
-              <span class="gray-font">{{offlineCount}}</span>
+              <span class="gray-font">{{offline}}</span>
             </span>
           </span>
         </div>
         <div class="details-block">
           <div class="on-call-details details">
-            <div class="real-time-cnt">{{onCallCount}}</div>
+            <div class="real-time-cnt">{{onCall}}</div>
             <div class="gray">{{ $t('on.call') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt orange-font">{{availableCount}}</div>
+            <div class="real-time-cnt orange-font">{{available}}</div>
             <div class="gray">{{ $t('available') }}</div>
           </div>
         </div>
@@ -26,24 +26,29 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'OperatorsWidget',
   components: {},
-  //  computed: {
-  //    ...mapGetters({ waitingCallsCnt: 'waitingCallsCnt' }),
-  //    waitingCallsCount() {
-  // //      return this.$store.state.call.waitingCallsCnt;
-  //      return this.waitingCallsCnt;
-  //    },
-  //  },
+  computed: {
+    ...mapGetters({
+      operatorsOffline: 'operatorsOffline',
+      operatorsOnCall: 'operatorsOnCall',
+      operatorsAvailable: 'operatorsAvailable',
+    }),
+    offline() {
+      return this.operatorsOffline;
+    },
+    onCall() {
+      return this.operatorsOnCall;
+    },
+    available() {
+      return this.operatorsAvailable;
+    },
+  },
   data() {
-    return {
-      offlineCount: 11,
-      onCallCount: 43,
-      availableCount: 18,
-    };
+    return {};
   },
 };
 </script>

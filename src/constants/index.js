@@ -36,6 +36,7 @@ export const ENTITY_TYPES = {
   PAYMENTS: 'payments',
   COMPANY_LIST: 'COMPANY_LIST',
   DEVICE_COMMENTS: 'deviceComments',
+  DURATIONS: 'durations',
 };
 
 export const DATE_FORMATS = {
@@ -109,6 +110,12 @@ const REALTIME_DASHBOARD_UNSUBSCRIBE = 'realtimeDashboard.unsubscribe';
 const REALTIME_DASHBOARD_SUBSCRIBED = 'realtimeDashboard.subscribed';
 const REALTIME_DASHBOARD_SUBSCRIBTION_ERROR = 'realtimeDashboard.subscibtionError';
 const REALTIME_DASHBOARD_WAITING_CALLS_CHANGED = 'realtimeDashboard.waitingCalls.changed';
+const REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED = 'realtimeDashboard.activeCalls.changed';
+
+const REALTIME_DASHBOARD_CALL_FINISHED = 'realtimeDashboards.call.finished';
+const REALTIME_DASHBOARD_CALL_ACCEPTED = 'realtimeDashboards.call.accepted';
+const REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED =
+  'realtimeDashboards.operators.statusesChanged';
 
 const SOCKET_CONNECTED = 'socket.connected';
 const SOCKET_DISCONNECTED = 'socket.disconnected';
@@ -152,6 +159,10 @@ export const OPERATOR_SOCKET = {
     REALTIME_DASHBOARD_SUBSCRIBED,
     REALTIME_DASHBOARD_SUBSCRIBTION_ERROR,
     REALTIME_DASHBOARD_WAITING_CALLS_CHANGED,
+    REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED,
+    REALTIME_DASHBOARD_CALL_FINISHED,
+    REALTIME_DASHBOARD_CALL_ACCEPTED,
+    REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
   },
   ERROR_MESSAGES: {
     CALLS_EMPTY,

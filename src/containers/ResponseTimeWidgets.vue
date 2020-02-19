@@ -6,13 +6,14 @@
             <div class="real-time-title inline">{{ $t('response.time') }}</div>
           </span>
         </div>
+        <!--<span>AA{{durations}}BB</span>-->
         <div class="details-block">
           <div class="on-call-details details">
-            <div class="real-time-cnt">{{average}}</div>
+            <div class="real-time-cnt">{{responseTimeData.averageWaitingDuration}}</div>
             <div class="gray">{{ $t('average') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt red-font">{{longest}}</div>
+            <div class="real-time-cnt red-font">{{responseTimeData.maxWaitingDuration}}</div>
             <div class="gray">{{ $t('longest') }}</div>
           </div>
         </div>
@@ -20,11 +21,52 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
+import moment from 'moment';
+import { LOAD_DATA } from '../store/realtimeDashboard/actionTypes';
 
 export default {
   name: 'ResponseTimeWidget',
   components: {},
+  mounted() {
+    this.loadData();
+  },
+  computed: {
+    ...mapGetters({ responseTimeDurations: 'responseTimeDurations' }),
+    durations() {
+      console.log('*** ** * durations > this.responseTimeDurations:', this.responseTimeDurations);
+      return this.responseTimeDurations;
+    },
+    responseTimeData() {
+      console.log('responseTimeData > this.storageData:', this.storageData);
+      return (this.storageData && this.storageData.data) || {};
+    },
+    storageData() {
+      return this.$store.state.realtimeDashboard.responseTimeDurations || {};
+    },
+  },
+  methods: {
+    loadData() {
+      const data = {
+        itemType: 'responseTimeDurations',
+        filters: {
+          //          tenantId: 'b05666e5-2e9e-4262-895b-9017c7f91043', //'0ed21401-e0e6-4b22-aa89-4c5522212b67',
+          from: moment()
+            .startOf('day')
+            .add(-2, 'days')
+            .utc()
+            .format(),
+          //          from: moment().startOf('day').utc().format(),
+          callType: 'call.video',
+          callStatus: 'call.answered',
+        },
+      };
+      console.log('this.$store:', this.$store);
+      return this.$store.dispatch(LOAD_DATA, data).finally(() => {
+        console.log('Response time is loaded');
+      });
+    },
+  },
   //  computed: {
   //    ...mapGetters({ waitingCallsCnt: 'waitingCallsCnt' }),
   //    waitingCallsCount() {

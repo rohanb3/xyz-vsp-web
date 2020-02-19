@@ -1,42 +1,19 @@
-import api from '@/services/devicesApi';
+import api from '@/services/realtimeDashboardApi';
 import { paramsSerializer } from '@/services/repositoryUtils';
-
-export const getDevices = filters => {
+/* eslint-disable-next-line import/prefer-default-export */
+export const getDurations = filters => {
   const params = { ...filters };
-  return api
-    .get('/devices', { params, paramsSerializer })
-    .then(({ data }) => ({ data: data.result, count: data.total }));
+  return api.get('/durations', { params, paramsSerializer }).then(
+    ({ data }) => ({ data })
+    // return {data: {
+    //   _id: null,
+    //   total: 8,
+    //   maxCallDuration: 125,
+    //   averageCallDuration: 36,
+    //   totalCallDuration: 288,
+    //   maxWaitingDuration: 49,
+    //   averageWaitingDuration: 11.625,
+    //   totalWaitingDuration: 93,
+    // }};
+  );
 };
-
-export const getDeviceHistory = ({ deviceId, ...filters } = {}) => {
-  const params = { ...filters };
-  return deviceId
-    ? api
-        .get(`/devices/${deviceId}/history`, { params })
-        .then(({ data: { result: data, ...rest } }) => ({ data, ...rest }))
-    : Promise.resolve({ data: [], count: 0 });
-};
-
-export const createDevice = params => api.post('/devices', params).then(({ data }) => data);
-
-export const updateDevice = (id, params) =>
-  api.put(`/devices/${id}`, params).then(({ data }) => data);
-
-export const getCommentByDevice = ({ id, ...filters }) => {
-  const params = { ...filters };
-
-  return id
-    ? api
-        .get(`/devices/${id}/comments`, { params })
-        .then(({ data }) => ({ data: data.result, count: data.total }))
-    : Promise.resolve({ data: [], count: 0 });
-};
-
-export const submitComment = (id, comment) =>
-  api
-    .post(`/devices/${id}/comments`, comment, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then(data => data);

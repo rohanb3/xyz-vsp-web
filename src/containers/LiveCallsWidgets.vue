@@ -2,23 +2,22 @@
       <div class="live-calls-widgets">
         <img src="../assets/icons/realtime-dashboard/live-calls-icon.svg">
         <div class="real-time-title">{{ $t('live.calls') }}</div>
-        <div class="real-time-cnt">{{liveCallsCount}}</div>
+        <div class="real-time-cnt">{{activeCallsCount}}</div>
       </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'LiveCallsWidget',
   components: {},
-  //  computed: {
-  //    ...mapGetters({ waitingCallsCnt: 'waitingCallsCnt' }),
-  //    waitingCallsCount() {
-  // //      return this.$store.state.call.waitingCallsCnt;
-  //      return this.waitingCallsCnt;
-  //    },
-  //  },
+  computed: {
+    ...mapGetters({ activeCallsCnt: 'activeCallsCnt' }),
+    activeCallsCount() {
+      return this.activeCallsCnt;
+    },
+  },
   data() {
     return {
       liveCallsCount: 300,

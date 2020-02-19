@@ -2,7 +2,7 @@
       <div class="waiting-calls-widgets">
         <img src="../assets/icons/realtime-dashboard/waiting-calls-icon.svg">
         <div class="real-time-title">{{ $t('waiting.calls') }}</div>
-        <div class="real-time-cnt">{{waitingCallsCount}}</div>
+        <div class="real-time-cnt">{{waitingCalls}}</div>
       </div>
 </template>
 
@@ -14,8 +14,7 @@ export default {
   components: {},
   computed: {
     ...mapGetters({ waitingCallsCnt: 'waitingCallsCnt' }),
-    waitingCallsCount() {
-      //      return this.$store.state.call.waitingCallsCnt;
+    waitingCalls() {
       return this.waitingCallsCnt;
     },
   },
