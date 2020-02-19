@@ -2,42 +2,32 @@
       <div class="operators-widgets">
         <div class="offline-block">
           <span class="left-side">
-            <img class="inline" src="../assets/icons/realtime-dashboard/operators-icon.svg">
+            <img class="icon inline" src="../assets/icons/realtime-dashboard/operators-icon.svg">
             <div class="real-time-title inline">{{ $t('operators') }}</div>
           </span>
           <span class="right-side">
-            <span class="gray-cnt-block">
+            <span class="offline-cnt-block">
               <span>{{ $t('offline') }}</span>
-              <span class="gray-font">{{offlineCount}}</span>
+              <span class="offline-font">{{offlineCount}}</span>
             </span>
           </span>
         </div>
         <div class="details-block">
           <div class="on-call-details details">
             <div class="real-time-cnt">{{onCallCount}}</div>
-            <div class="gray">{{ $t('on.call') }}</div>
+            <div class="sub-title">{{ $t('on.call') }}</div>
           </div>
           <div class="available-details details">
             <div class="real-time-cnt orange-font">{{availableCount}}</div>
-            <div class="gray">{{ $t('available') }}</div>
+            <div class="sub-title">{{ $t('available') }}</div>
           </div>
         </div>
       </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
-
 export default {
   name: 'OperatorsWidget',
-  components: {},
-  //  computed: {
-  //    ...mapGetters({ waitingCallsCnt: 'waitingCallsCnt' }),
-  //    waitingCallsCount() {
-  // //      return this.$store.state.call.waitingCallsCnt;
-  //      return this.waitingCallsCnt;
-  //    },
-  //  },
   data() {
     return {
       offlineCount: 11,
@@ -56,8 +46,7 @@ export default {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   padding: 10px 30px;
-  /*height: 100%;*/
-  /*width: 25%;*/
+  height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -89,7 +78,6 @@ export default {
     width: 100%;
     .left-side {
       width: 100%;
-      /*text-align: left;*/
     }
     .right-side {
       width: 100%;
@@ -106,14 +94,14 @@ export default {
       border-right: 1px solid grey;
     }
 
-    .gray {
+    .sub-title {
       color: gray;
     }
   }
-  .gray-cnt-block {
+  .offline-cnt-block {
     float: right;
     color: grey;
-    .gray-font {
+    .offline-font {
       font-size: x-large;
       font-weight: bold;
       margin-left: 5px;
@@ -121,6 +109,10 @@ export default {
   }
   .details {
     padding: 13px;
+  }
+
+  .icon {
+    width: 30px;
   }
 }
 </style>

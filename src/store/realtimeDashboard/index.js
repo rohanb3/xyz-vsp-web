@@ -2,7 +2,7 @@ import mutations from './mutations';
 import getters from './getters';
 
 const state = {
-  waitingCallsCnt: null,
+  waitingCalls: {},
 };
 
 export default {

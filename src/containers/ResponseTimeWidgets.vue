@@ -2,36 +2,26 @@
       <div class="response-time-widgets">
         <div class="offline-block">
           <span class="left-side">
-            <img class="inline" src="../assets/icons/realtime-dashboard/response-time-icon.svg">
+            <img class="icon inline" src="../assets/icons/realtime-dashboard/response-time-icon.svg">
             <div class="real-time-title inline">{{ $t('response.time') }}</div>
           </span>
         </div>
         <div class="details-block">
           <div class="on-call-details details">
             <div class="real-time-cnt">{{average}}</div>
-            <div class="gray">{{ $t('average') }}</div>
+            <div class="sub-title">{{ $t('average') }}</div>
           </div>
           <div class="available-details details">
             <div class="real-time-cnt red-font">{{longest}}</div>
-            <div class="gray">{{ $t('longest') }}</div>
+            <div class="sub-title">{{ $t('longest') }}</div>
           </div>
         </div>
       </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex';
-
 export default {
   name: 'ResponseTimeWidget',
-  components: {},
-  //  computed: {
-  //    ...mapGetters({ waitingCallsCnt: 'waitingCallsCnt' }),
-  //    waitingCallsCount() {
-  // //      return this.$store.state.call.waitingCallsCnt;
-  //      return this.waitingCallsCnt;
-  //    },
-  //  },
   data() {
     return {
       offlineCount: 11,
@@ -50,8 +40,7 @@ export default {
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   padding: 10px 30px;
-  /*height: 100%;*/
-  /*width: 25%;*/
+  height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,7 +72,6 @@ export default {
     width: 100%;
     .left-side {
       width: 100%;
-      /*text-align: left;*/
     }
     .inline {
       display: inline;
@@ -97,12 +85,16 @@ export default {
       border-right: 1px solid grey;
     }
 
-    .gray {
+    .sub-title {
       color: gray;
     }
   }
   .details {
     padding: 13px;
+  }
+
+  .icon {
+    width: 30px;
   }
 }
 </style>

@@ -288,5 +288,6 @@
     "live.calls": "TBD Live calls",
     "response.time": "TBD Response Time",
     "longest": "TBD Longest",
-    "available": "TBD Available"
+    "available": "TBD Available",
+    "waiting.calls": "TBD Waiting calls"
 }

@@ -21,5 +21,5 @@ function init() {
 }
 
 function onWaitingCallsChanged(data) {
-  store.commit(WAITING_CALLS_CHANGED, data.count);
+  store.commit(WAITING_CALLS_CHANGED, data);
 }
