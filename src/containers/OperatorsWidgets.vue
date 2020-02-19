@@ -18,7 +18,7 @@
             <div class="sub-title">{{ $t('on.call') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt orange-font">{{availableCount}}</div>
+            <div class="real-time-cnt available-font">{{availableCount}}</div>
             <div class="sub-title">{{ $t('available') }}</div>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default {
     line-height: 42px;
     align: rigth;
 
-    &.orange-font {
+    &.available-font {
       color: #fa852e;
     }
   }

@@ -18,7 +18,7 @@
             <div class="sub-title">{{ $t('answered') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt red-font">{{abandonedCount}}</div>
+            <div class="real-time-cnt abandoned-font">{{abandonedCount}}</div>
             <div class="sub-title">{{ $t('abandoned') }}</div>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default {
     line-height: 42px;
     align: rigth;
 
-    &.red-font {
+    &.abandoned-font {
       color: #e02020;
     }
   }

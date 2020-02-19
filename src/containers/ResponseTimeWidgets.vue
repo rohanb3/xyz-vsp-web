@@ -12,7 +12,7 @@
             <div class="sub-title">{{ $t('average') }}</div>
           </div>
           <div class="available-details details">
-            <div class="real-time-cnt red-font">{{longest}}</div>
+            <div class="real-time-cnt longest-font">{{longest}}</div>
             <div class="sub-title">{{ $t('longest') }}</div>
           </div>
         </div>
@@ -54,7 +54,7 @@ export default {
     line-height: 42px;
     align: rigth;
 
-    &.red-font {
+    &.longest-font {
       color: #e02020;
     }
   }
