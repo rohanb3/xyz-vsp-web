@@ -5,12 +5,6 @@ export default {
   activeCalls(state) {
     return state.activeCalls;
   },
-  callFinishedData(state) {
-    return state.callFinishedData;
-  },
-  callAcceptedData(state) {
-    return state.callAcceptedData;
-  },
   operatorsOffline(state) {
     return state.operatorsOffline;
   },

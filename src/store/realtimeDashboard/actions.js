@@ -1,19 +1,24 @@
-import { LOAD_DATA } from './actionTypes';
-import { INSERT_DATA } from './mutationTypes';
-import { getEntityActions } from './repositoryHelper';
+import { LOAD_CALLS_ANSWERED_DATA, LOAD_CALLS_MISSED_DATA } from './actionTypes';
+import { INSERT_CALLS_ANSWERED_DATA, INSERT_CALLS_MISSED_DATA } from './mutationTypes';
+import { getDurations } from '@/services/realtimeDashboardRepository';
 
-async function loadData({ commit }, { itemType, filters = {} }) {
+async function loadCallsAnsweredData({ commit }, { filters = {} }) {
   const filtersToApply = {
     ...filters,
   };
+  const { data } = await getDurations(filtersToApply);
+  commit(INSERT_CALLS_ANSWERED_DATA, data);
+}
 
-  const { getAll } = getEntityActions(itemType);
-  const { data } = await getAll(filtersToApply);
-  commit(INSERT_DATA, { itemType, data });
+async function loadCallsMissedData({ commit }, { filters = {} }) {
+  const filtersToApply = {
+    ...filters,
+  };
+  const { data } = await getDurations(filtersToApply);
+  commit(INSERT_CALLS_MISSED_DATA, data);
 }
 
 export default {
-  [LOAD_DATA](store, data) {
-    return loadData(store, data);
-  },
+  [LOAD_CALLS_ANSWERED_DATA]: loadCallsAnsweredData,
+  [LOAD_CALLS_MISSED_DATA]: loadCallsMissedData,
 };

@@ -30,7 +30,6 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'OperatorsWidget',
-  components: {},
   computed: {
     ...mapGetters(['operatorsOffline', 'operatorsOnCall', 'operatorsAvailable']),
   },
@@ -110,7 +109,7 @@ export default {
   }
 
   .icon {
-    width: 30px;
+    width: 25px;
   }
 
   .center {

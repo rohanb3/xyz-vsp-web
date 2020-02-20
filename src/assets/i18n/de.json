@@ -282,7 +282,7 @@
     "identity.errors:Tenant is not specified for your Company. Please, contact support": "TBD Tenant is not specified for your Company. Please, contact support",
     "identity.errors:This email is not registered in the system. Please, check and try again": "TBD This email is not registered in this system. Please, check and try again.",
     "identity.errors:Email or password incorrect": "TBD Email or password incorrect",
-    "live.dashboard": "TBD Live dashboard",
+    "live.dashboard": "TBD Live Dashboard",
     "call.statistics": "TBD Call Statistics",
     "abandoned": "TBD Abandoned",
     "waiting-calls": "TBD Waiting calls",

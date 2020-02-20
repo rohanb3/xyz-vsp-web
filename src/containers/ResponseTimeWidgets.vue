@@ -21,38 +21,23 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { LOAD_DATA } from '../store/realtimeDashboard/actionTypes';
-import { getStartOfCurrentDayUTC } from '../services/dateHelper';
+import { getStartOfCurrentDayUTC, secondsToMinutesAndSeconds } from '../services/dateHelper';
 
 export default {
   name: 'ResponseTimeWidget',
-  mounted() {
-    this.loadData();
-  },
   computed: {
     ...mapGetters(['callStatisticsAnswered']),
     average() {
       const aver =
-        (this.callStatisticsAnswered && this.callStatisticsAnswered.averageWaitingDuration) || 0;
-      return aver.toFixed(2);
+        (this.callStatisticsAnswered &&
+          Math.round(this.callStatisticsAnswered.averageWaitingDuration)) ||
+        0;
+      return secondsToMinutesAndSeconds(aver);
     },
     longest() {
       const secs =
         (this.callStatisticsAnswered && this.callStatisticsAnswered.maxWaitingDuration) || 0;
-      return `${Math.round(secs / 60)}:${secs % 60}`;
-    },
-  },
-  methods: {
-    loadData() {
-      const data = {
-        itemType: 'callStatisticsAnswered',
-        filters: {
-          from: getStartOfCurrentDayUTC(),
-          callType: 'call.video',
-          callStatus: 'call.answered',
-        },
-      };
-      this.$store.dispatch(LOAD_DATA, data);
+      return secondsToMinutesAndSeconds(secs);
     },
   },
 };
@@ -119,7 +104,7 @@ export default {
   }
 
   .icon {
-    width: 30px;
+    width: 25px;
   }
 
   .center {

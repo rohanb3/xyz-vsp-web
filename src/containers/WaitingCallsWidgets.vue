@@ -45,7 +45,7 @@ export default {
   }
 
   .icon {
-    width: 30px;
+    width: 25px;
   }
 }
 </style>

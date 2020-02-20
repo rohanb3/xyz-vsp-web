@@ -15,6 +15,11 @@ import {
   REALTIME_DASHBOARD_CALL_ACCEPTED,
   REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
 } from '@/store/realtimeDashboard/mutationTypes';
+import {
+  LOAD_CALLS_ANSWERED_DATA,
+  LOAD_CALLS_MISSED_DATA,
+} from '@/store/realtimeDashboard/actionTypes';
+import { getStartOfCurrentDayUTC } from '@/services/dateHelper';
 
 init();
 
@@ -24,6 +29,11 @@ export async function subscribe() {
 
 export function unsubscribe() {
   return socketUnsubscribe();
+}
+
+export function loadCallsData() {
+  loadCallsAnsweredData();
+  loadCallsMissedData();
 }
 
 function init() {
@@ -52,4 +62,26 @@ function onRealTimeDashboardCallAccepted(data) {
 
 function onRealTimeDashboardOperatorsStatusesChanged(data) {
   store.commit(REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, data);
+}
+
+function loadCallsAnsweredData() {
+  const dataAnswered = {
+    filters: {
+      from: getStartOfCurrentDayUTC(),
+      callType: 'call.video',
+      callStatus: 'call.answered',
+    },
+  };
+  store.dispatch(LOAD_CALLS_ANSWERED_DATA, dataAnswered);
+}
+
+function loadCallsMissedData() {
+  const dataAbandoned = {
+    filters: {
+      from: getStartOfCurrentDayUTC(),
+      callType: 'call.video',
+      callStatus: 'call.missed',
+    },
+  };
+  store.dispatch(LOAD_CALLS_MISSED_DATA, dataAbandoned);
 }

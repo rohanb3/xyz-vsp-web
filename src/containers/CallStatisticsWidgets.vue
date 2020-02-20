@@ -27,14 +27,10 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { LOAD_DATA } from '../store/realtimeDashboard/actionTypes';
 import { getStartOfCurrentDayUTC } from '../services/dateHelper';
 
 export default {
   name: 'CallStatisticsWidget',
-  mounted() {
-    this.loadData();
-  },
   computed: {
     ...mapGetters(['callStatisticsAnswered', 'callStatisticsAbandoned']),
     answered() {
@@ -47,19 +43,6 @@ export default {
       const answered = (this.callStatisticsAnswered && this.callStatisticsAnswered.total) || 0;
       const abandoned = (this.callStatisticsAbandoned && this.callStatisticsAbandoned.total) || 0;
       return answered + abandoned;
-    },
-  },
-  methods: {
-    loadData() {
-      const dataAbandoned = {
-        itemType: 'callStatisticsAbandoned',
-        filters: {
-          from: getStartOfCurrentDayUTC(),
-          callType: 'call.video',
-          callStatus: 'call.missed',
-        },
-      };
-      this.$store.dispatch(LOAD_DATA, dataAbandoned);
     },
   },
 };
@@ -138,7 +121,7 @@ export default {
   }
 
   .icon {
-    width: 30px;
+    width: 25px;
   }
 
   .center {

@@ -5,8 +5,6 @@ import actions from './actions';
 const state = {
   waitingCalls: {},
   activeCalls: {},
-  callFinishedData: null,
-  callAcceptedData: null,
   operatorsOffline: null,
   operatorsOnline: null,
   operatorsOnCall: null,

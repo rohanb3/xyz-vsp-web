@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { unsubscribe } from '@/services/realtimeDashboard';
+import { unsubscribe, loadCallsData } from '@/services/realtimeDashboard';
 import WaitingCallsWidget from '@/containers/WaitingCallsWidgets';
 import LiveCallsWidget from '@/containers/LiveCallsWidgets';
 import OperatorsWidget from '@/containers/OperatorsWidgets';
@@ -37,8 +37,7 @@ export default {
     CallStatisticsWidget,
   },
   mounted() {
-    // subscribe moved to beforeEnter handler in router configuration
-    // subscribe();
+    loadCallsData();
   },
   destroyed() {
     unsubscribe();

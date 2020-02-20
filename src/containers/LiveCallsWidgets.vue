@@ -11,7 +11,6 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'LiveCallsWidget',
-  components: {},
   computed: {
     ...mapGetters(['activeCalls']),
   },
@@ -47,7 +46,7 @@ export default {
   }
 
   .icon {
-    width: 30px;
+    width: 25px;
   }
 }
 </style>

@@ -71,3 +71,17 @@ export function getStartOfCurrentDayUTC() {
     .utc()
     .format();
 }
+
+export function secondsToMinutesAndSeconds(duration = 0) {
+  if (!duration) {
+    return '00:00';
+  }
+
+  let seconds = parseInt(duration % 60, 10);
+  let minutes = parseInt((duration / 60) % 60, 10);
+
+  minutes = minutes < 10 ? `0${minutes}` : minutes;
+  seconds = seconds < 10 ? `0${seconds}` : seconds;
+
+  return `${minutes}:${seconds}`;
+}

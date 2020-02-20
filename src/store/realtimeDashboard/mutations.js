@@ -4,7 +4,8 @@ import {
   REALTIME_DASHBOARD_CALL_FINISHED,
   REALTIME_DASHBOARD_CALL_ACCEPTED,
   REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
-  INSERT_DATA,
+  INSERT_CALLS_ANSWERED_DATA,
+  INSERT_CALLS_MISSED_DATA,
 } from './mutationTypes';
 
 export default {
@@ -19,27 +20,22 @@ export default {
   },
 
   [REALTIME_DASHBOARD_CALL_FINISHED](state, data) {
-    state.callFinishedData = data;
-    if (
-      state.callStatisticsAbandoned &&
-      state.callFinishedData &&
-      state.callFinishedData.missedAt
-    ) {
+    const newMissedAt = data.missedAt;
+    if (newMissedAt) {
       state.callStatisticsAbandoned.total += 1;
     }
   },
   [REALTIME_DASHBOARD_CALL_ACCEPTED](state, data) {
-    state.callAcceptedData = data;
+    const newWaitingDuration = data.waitingDuration;
     if (state.callStatisticsAnswered) {
-      state.callStatisticsAnswered.averageWaitingDuration =
-        (state.callStatisticsAnswered.totalWaitingDuration +
-          state.callAcceptedData.waitingDuration) /
-        (state.callStatisticsAnswered.total + 1);
+      state.callStatisticsAnswered.totalWaitingDuration += newWaitingDuration;
       state.callStatisticsAnswered.total += 1;
-      if (
-        state.callStatisticsAnswered.maxWaitingDuration < state.callAcceptedData.waitingDuration
-      ) {
-        state.callStatisticsAnswered.maxWaitingDuration = state.callAcceptedData.waitingDuration;
+
+      state.callStatisticsAnswered.averageWaitingDuration =
+        state.callStatisticsAnswered.totalWaitingDuration / state.callStatisticsAnswered.total;
+
+      if (state.callStatisticsAnswered.maxWaitingDuration < newWaitingDuration) {
+        state.callStatisticsAnswered.maxWaitingDuration = newWaitingDuration;
       }
     }
   },
@@ -48,8 +44,12 @@ export default {
     state.operatorsOnline = data && data.activeOperators && data.activeOperators.count;
     state.operatorsAvailable = state.operatorsOnline - state.operatorsOnCall;
   },
-  [INSERT_DATA](state, { itemType, data }) {
-    state[itemType] = data;
+  [INSERT_CALLS_ANSWERED_DATA](state, data) {
+    state.callStatisticsAnswered = data;
   },
+  [INSERT_CALLS_MISSED_DATA](state, data) {
+    state.callStatisticsAbandoned = data;
+  },
+
   /* eslint-enable no-param-reassign */
 };
