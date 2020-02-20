@@ -27,7 +27,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { getStartOfCurrentDayUTC } from '../services/dateHelper';
 
 export default {
   name: 'CallStatisticsWidget',
