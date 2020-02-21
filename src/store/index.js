@@ -8,6 +8,7 @@ import storage from './storage';
 import tables from './tables';
 import call from './call';
 import network from './network';
+import realtimeDashboard from './realtimeDashboard';
 
 import { REMOVE_TOKEN } from './loggedInUser/mutationTypes';
 
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     tables,
     call,
     network,
+    realtimeDashboard,
   },
   plugins: [persistedStatePlugin, createMutationsSharer({ predicate: [REMOVE_TOKEN] })],
   strict: debug,

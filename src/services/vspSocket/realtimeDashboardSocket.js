@@ -52,6 +52,38 @@ export function unsubscribeWaitingCallsChanged(handler) {
   pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, handler);
 }
 
+export function subscribeActiveCallsChanged(handler) {
+  pubSub.subscribe(EVENTS.REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED, handler);
+}
+
+export function unsubscribeActiveCallsChanged(handler) {
+  pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED, handler);
+}
+
+export function subscribeRealTimeDashboardCallFinished(handler) {
+  pubSub.subscribe(EVENTS.REALTIME_DASHBOARD_CALL_FINISHED, handler);
+}
+
+export function unsubscribeRealTimeDashboardCallFinished(handler) {
+  pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_CALL_FINISHED, handler);
+}
+
+export function subscribeRealTimeDashboardCallAccepted(handler) {
+  pubSub.subscribe(EVENTS.REALTIME_DASHBOARD_CALL_ACCEPTED, handler);
+}
+
+export function unsubscribeRealTimeDashboardCallAccepted(handler) {
+  pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_CALL_ACCEPTED, handler);
+}
+
+export function subscribeRealTimeDashboardOperatorsStatusesChanged(handler) {
+  pubSub.subscribe(EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, handler);
+}
+
+export function unsubscribeRealTimeDashboardOperatorsStatusesChanged(handler) {
+  pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, handler);
+}
+
 async function _subscribe() {
   try {
     const authData = store.getters.vspSocketCredentials;
@@ -76,6 +108,14 @@ function subscribeListeners() {
   const socket = transport.getSocket();
   if (socket) {
     socket.on(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, onWaitingCallsChanged);
+    socket.on(EVENTS.REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED, onActiveCallsChanged);
+
+    socket.on(EVENTS.REALTIME_DASHBOARD_CALL_FINISHED, onRealTimeDashboardCallFinished);
+    socket.on(EVENTS.REALTIME_DASHBOARD_CALL_ACCEPTED, onRealTimeDashboardCallAccepted);
+    socket.on(
+      EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
+      onRealTimeDashboardOperatorsStatusesChanged
+    );
   }
 }
 
@@ -83,9 +123,32 @@ function unsubscribeListeners() {
   const socket = transport.getSocket();
   if (socket) {
     socket.off(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, onWaitingCallsChanged);
+    socket.off(EVENTS.REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED, onActiveCallsChanged);
+    socket.off(EVENTS.REALTIME_DASHBOARD_CALL_FINISHED, onRealTimeDashboardCallFinished);
+    socket.off(EVENTS.REALTIME_DASHBOARD_CALL_ACCEPTED, onRealTimeDashboardCallAccepted);
+    socket.off(
+      EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
+      onRealTimeDashboardOperatorsStatusesChanged
+    );
   }
 }
 
 function onWaitingCallsChanged(data) {
   pubSub.emit(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, data);
+}
+
+function onActiveCallsChanged(data) {
+  pubSub.emit(EVENTS.REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED, data);
+}
+
+function onRealTimeDashboardCallFinished(data) {
+  pubSub.emit(EVENTS.REALTIME_DASHBOARD_CALL_FINISHED, data);
+}
+
+function onRealTimeDashboardCallAccepted(data) {
+  pubSub.emit(EVENTS.REALTIME_DASHBOARD_CALL_ACCEPTED, data);
+}
+
+function onRealTimeDashboardOperatorsStatusesChanged(data) {
+  pubSub.emit(EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, data);
 }
