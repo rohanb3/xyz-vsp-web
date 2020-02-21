@@ -18,22 +18,35 @@ import {
 import {
   LOAD_CALLS_ANSWERED_DATA,
   LOAD_CALLS_MISSED_DATA,
+  GET_TENANTS_LIST,
+  CHANGE_TENANT,
 } from '@/store/realtimeDashboard/actionTypes';
 import { getStartOfCurrentDayUTC } from '@/services/dateHelper';
 
 init();
 
-export async function subscribe() {
-  return socketSubscribe();
+export async function subscribe(tenantId = null) {
+  return socketSubscribe(tenantId).then(data => {
+    store.dispatch(CHANGE_TENANT, data.tenantId);
+    loadCallsData(data.tenantId);
+  });
 }
 
 export function unsubscribe() {
   return socketUnsubscribe();
 }
 
-export function loadCallsData() {
-  loadCallsAnsweredData();
-  loadCallsMissedData();
+export function loadCallsData(tenantId = null) {
+  loadCallsAnsweredData(tenantId);
+  loadCallsMissedData(tenantId);
+}
+
+export function changeTenant(tenantId) {
+  subscribe(tenantId);
+}
+
+export function loadTenantsList() {
+  store.dispatch(GET_TENANTS_LIST);
 }
 
 function init() {
@@ -64,10 +77,11 @@ function onRealTimeDashboardOperatorsStatusesChanged(data) {
   store.commit(REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, data);
 }
 
-function loadCallsAnsweredData() {
+function loadCallsAnsweredData(tenantId = null) {
   const dataAnswered = {
     filters: {
       from: getStartOfCurrentDayUTC(),
+      tenantId,
       callType: 'call.video',
       callStatus: 'call.answered',
     },
@@ -75,10 +89,11 @@ function loadCallsAnsweredData() {
   store.dispatch(LOAD_CALLS_ANSWERED_DATA, dataAnswered);
 }
 
-function loadCallsMissedData() {
+function loadCallsMissedData(tenantId = null) {
   const dataAbandoned = {
     filters: {
       from: getStartOfCurrentDayUTC(),
+      tenantId,
       callType: 'call.video',
       callStatus: 'call.missed',
     },

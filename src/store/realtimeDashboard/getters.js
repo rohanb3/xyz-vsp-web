@@ -20,4 +20,10 @@ export default {
   callStatisticsAbandoned(state) {
     return state.callStatisticsAbandoned;
   },
+  tenantsList(state) {
+    return state.tenantsList;
+  },
+  tenantId(state) {
+    return state.tenantId;
+  },
 };

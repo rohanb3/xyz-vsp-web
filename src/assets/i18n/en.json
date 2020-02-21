@@ -311,7 +311,7 @@
     "Field must consist only digits and dots and dash",
   "search.by.name.idfv": "Search by Name, IDFV",
   "device.name": "Device Name",
-  "tenant": "Tenant",
+  "tenantId": "Tenant",
   "user.login": "User login",
   "status.timestamp": "Status timestamp",
   "login.failed": "Login failed",

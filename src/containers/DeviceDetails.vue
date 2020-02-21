@@ -168,7 +168,7 @@ export default {
 
         const { isInLocation, isOnline, ...rest } = this.selected;
 
-        const mixin = { ...rest, tenant: { ...this.selected.company.tenant } };
+        const mixin = { ...rest, tenant: { ...this.selected.company.tenantId } };
 
         await this.$store.dispatch(UPDATE_ITEM, {
           itemType: ENTITY_TYPES.DEVICES,

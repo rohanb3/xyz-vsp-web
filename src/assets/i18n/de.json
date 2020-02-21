@@ -275,7 +275,7 @@
     "search.by.name.idfv": "TBD Search by Name, IDFV",
     "device.name": "TBD Device Name",
     "hexnodeUdid": "TBD Hexnode UDID",
-    "tenant": "TBD Tenant",
+    "tenantId": "TBD Tenant",
     "user.login": "TBD User login",
     "status.timestamp": "TBD Status timestamp",
     "login.failed": "TBD Login failed",
