@@ -45,6 +45,8 @@ export default {
     CallStatisticsWidget,
   },
   mounted() {
+    // subscribe moved to beforeEnter handler in router configuration
+    // subscribe();
     loadCallsData();
   },
   destroyed() {

@@ -24,7 +24,7 @@ export default {
   [REALTIME_DASHBOARD_CALL_FINISHED](state, data) {
     const newMissedAt = data.missedAt;
     if (newMissedAt) {
-      state.callStatisticsAbandoned.total += 1;
+      state.callStatisticsAbandonedTotal += 1;
     }
   },
   [REALTIME_DASHBOARD_CALL_ACCEPTED](state, data) {
@@ -50,7 +50,7 @@ export default {
     state.callStatisticsAnswered = data;
   },
   [INSERT_CALLS_MISSED_DATA](state, data) {
-    state.callStatisticsAbandoned = data;
+    state.callStatisticsAbandonedTotal = data.total;
   },
   [SET_TENANT_LIST](state, data) {
     state.tenantsList = data;

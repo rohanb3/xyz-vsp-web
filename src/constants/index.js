@@ -36,7 +36,6 @@ export const ENTITY_TYPES = {
   PAYMENTS: 'payments',
   COMPANY_LIST: 'COMPANY_LIST',
   DEVICE_COMMENTS: 'deviceComments',
-  // DURATIONS: 'durations',
   CALL_STATISTICS_ANSWERED: 'callStatisticsAnswered',
   CALL_STATISTICS_ABANDONED: 'callStatisticsAbandoned',
 };

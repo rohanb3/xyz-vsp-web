@@ -39,9 +39,7 @@ export default {
       return (this.callStatisticsAbandoned && this.callStatisticsAbandoned.total) || 0;
     },
     total() {
-      const answered = (this.callStatisticsAnswered && this.callStatisticsAnswered.total) || 0;
-      const abandoned = (this.callStatisticsAbandoned && this.callStatisticsAbandoned.total) || 0;
-      return answered + abandoned;
+      return this.answered + this.abandoned;
     },
   },
 };
