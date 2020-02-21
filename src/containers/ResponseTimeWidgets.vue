@@ -21,7 +21,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { secondsToMinutesAndSeconds } from '../services/dateHelper';
+import { secondsToMinutesAndSeconds } from '@/services/dateHelper';
 
 export default {
   name: 'ResponseTimeWidget',

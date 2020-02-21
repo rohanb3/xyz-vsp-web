@@ -1,5 +1,6 @@
 /* eslint-disable-next-line import/prefer-default-export */
-import moment from 'moment';
+// import moment from 'moment';
+import moment from 'moment-timezone';
 import { addSpaceBetweenNumbers } from './stylesHelper';
 
 export function secondsToHuman(duration = 0) {
@@ -67,6 +68,7 @@ export function secondsToHoursMinutesSeconds(data = 0) {
 
 export function getStartOfCurrentDayUTC() {
   return moment()
+    .tz('America/Los_Angeles')
     .startOf('day')
     .utc()
     .format();
