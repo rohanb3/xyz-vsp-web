@@ -40,6 +40,7 @@ import locationApi from '@/services/locationApi';
 import store from '@/store';
 import synchronizationApi from '@/services/synchronizationApi';
 import tenantApi from '@/services/tenantApi';
+import realtimeDashboardApi from '@/services/realtimeDashboardApi';
 
 import { subscribe as realtimeDashboardSubscribe } from '@/services/realtimeDashboard';
 
@@ -247,5 +248,6 @@ applyAuthInterceptors(companiesApi, router);
 applyAuthInterceptors(locationApi, router);
 applyAuthInterceptors(synchronizationApi, router);
 applyAuthInterceptors(tenantApi, router);
+applyAuthInterceptors(realtimeDashboardApi, router);
 
 export default router;
