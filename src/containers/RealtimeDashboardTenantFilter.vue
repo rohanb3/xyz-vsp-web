@@ -3,7 +3,8 @@
     <div>Selected: {{selectedTenant}}</div>
     <select v-if="!loading"
             v-model="selectedTenant">
-      <option v-for="tenant in tenantsList" :value="tenant.id">{{tenant.name}}</option>
+      <!--<option v-for="tenant in tenantsList" :value="tenant.id">{{tenant.name}}</option>-->
+      <option v-for="tenant in tenantsList" v-bind:key="tenant.id">{{tenant.name}}</option>
     </select>
     <table-loader v-if="loading" slot="loader" />
   </div>
@@ -17,15 +18,15 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'RealtimeDashboardTenantFilter',
   components: {
-    TableLoader
+    TableLoader,
   },
   data() {
     return {
       tenants: [],
-    }
+    };
   },
   watch: {
-    selectedTenant: function(val) {
+    selectedTenant(val) {
       changeTenant(val);
     },
   },
@@ -41,14 +42,12 @@ export default {
       get() {
         return this.tenantId;
       },
-
     },
     loading() {
-        return !this.tenantsList || (this.tenantsList && !this.tenantsList.length);
+      return !this.tenantsList || (this.tenantsList && !this.tenantsList.length);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-
 </style>

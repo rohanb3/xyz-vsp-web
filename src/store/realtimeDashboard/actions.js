@@ -1,5 +1,15 @@
-import { LOAD_CALLS_ANSWERED_DATA, LOAD_CALLS_MISSED_DATA, GET_TENANTS_LIST, CHANGE_TENANT } from './actionTypes';
-import { INSERT_CALLS_ANSWERED_DATA, INSERT_CALLS_MISSED_DATA, SET_TENANT_LIST, SET_TENANT_ID } from './mutationTypes';
+import {
+  LOAD_CALLS_ANSWERED_DATA,
+  LOAD_CALLS_MISSED_DATA,
+  GET_TENANTS_LIST,
+  CHANGE_TENANT,
+} from './actionTypes';
+import {
+  INSERT_CALLS_ANSWERED_DATA,
+  INSERT_CALLS_MISSED_DATA,
+  SET_TENANT_LIST,
+  SET_TENANT_ID,
+} from './mutationTypes';
 import { getDurations } from '@/services/realtimeDashboardRepository';
 import { getTenantList } from '@/services/getRepository';
 import store from '@/store';
@@ -22,7 +32,7 @@ async function loadCallsMissedData({ commit }, { filters = {} }) {
 
 async function getTenantsList({ commit }) {
   const realState = store.state.realtimeDashboard;
-  let tenants = realState.tenantsList;
+  const tenants = realState.tenantsList;
   if (!tenants.length) {
     const data = await getTenantList();
     commit(SET_TENANT_LIST, data);
