@@ -28,7 +28,6 @@ export default {
   margin-top: 20px;
   & > * {
     margin-right: 10px;
-    /*flex-shrink: 0;*/
   }
   & .real-time-cnt {
     color: #64b211;
