@@ -10,6 +10,8 @@ const { EVENTS, PUB_SUB_EVENTS, TOKEN_INVALID } = OPERATOR_SOCKET;
 
 const pubSub = new Emitter();
 
+/* eslint consistent-return: "error" */
+/* eslint-disable */
 export async function subscribe(tenantId = null) {
   try {
     const data = await _subscribe(tenantId);
