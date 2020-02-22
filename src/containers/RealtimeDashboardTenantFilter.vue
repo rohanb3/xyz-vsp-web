@@ -1,11 +1,16 @@
 <template>
   <div class="filter-wrapper">
-    <div>Selected: {{selectedTenant}}</div>
-    <select v-if="!loading"
-            v-model="selectedTenant">
-      <!--<option v-for="tenant in tenantsList" :value="tenant.id">{{tenant.name}}</option>-->
-      <option v-for="tenant in tenantsList" v-bind:key="tenant.id">{{tenant.name}}</option>
-    </select>
+    <div v-if="!loading"
+         class="table-filter">
+      <select v-model="selectedTenant">
+        <option v-for="tenant in tenantsList"
+                v-bind:key="tenant.id"
+                :value="tenant.id">{{tenant.name}}</option>
+      </select>
+      <div slot="reference" class="datepicker-toggler">
+        <div class="caret"></div>
+      </div>
+    </div>
     <table-loader v-if="loading" slot="loader" />
   </div>
 </template>
@@ -50,4 +55,33 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '~@/assets/styles/variables.scss';
+.table-filter {
+  height: 20px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  /*cursor: pointer;*/
+  padding: 0 10px;
+  border: 1px solid $table-toolbar-section-border-color;
+  font-size: 12px;
+  color: $table-toolbar-section-color;
+  font-weight: 500;
+
+  select {
+    width: 150px;
+    option {
+      color: black;
+    }
+  }
+}
+.caret {
+  border: 1px solid $base-blue;
+  width: 7px;
+  height: 7px;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+  margin: -4px 0 0 5px;
+}
 </style>

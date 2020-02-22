@@ -40,7 +40,7 @@ export default {
 .operators-widgets {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   padding: 10px 30px;
   height: 150px;
   display: flex;
@@ -67,6 +67,7 @@ export default {
     font-size: 20px;
     line-height: 24px;
     margin-left: 10px;
+    font-weight: bold;
   }
 
   .offline-block {
@@ -75,6 +76,8 @@ export default {
     width: 100%;
     .left-side {
       width: 100%;
+      display: flex;
+      align-items: center;
     }
     .right-side {
       width: 100%;
@@ -86,9 +89,10 @@ export default {
   .details-block {
     display: flex;
     flex-direction: row;
+    width: 100%;
 
     .on-call-details {
-      border-right: 1px solid grey;
+      border-right: 1px solid lightgrey;
     }
 
     .sub-title {
@@ -106,10 +110,12 @@ export default {
   }
   .details {
     padding: 13px;
+    width: 50%;
   }
 
   .icon {
     width: 25px;
+    height: 25px;
   }
 
   .center {

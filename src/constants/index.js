@@ -256,4 +256,5 @@ export const PERMISSIONS = {
   CALL_ANSWER: 'xyzies.vsp.call.answer',
   REALTIME_DASHBOARD: 'xyzies.vsp.realtimedashboard.subscribe',
   REALTIME_DASHBOARD_CHOOSE_TENANT: 'xyzies.vsp.realtimedashboard.choosetenant',
+  DASHBOARD_CHOOSE_TENANT: 'xyzies.vsp.dashboard.choosetenant',
 };

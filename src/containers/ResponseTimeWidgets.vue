@@ -5,6 +5,12 @@
             <img class="icon inline" src="../assets/icons/realtime-dashboard/response-time-icon.svg">
             <div class="real-time-title inline">{{ $t('response.time') }}</div>
           </span>
+          <span class="right-side">
+            <span class="total-cnt-block">
+              <span></span>
+              <span class="total-font"></span>
+            </span>
+          </span>
         </div>
         <div class="details-block">
           <div class="on-call-details details">
@@ -47,7 +53,7 @@ export default {
 .response-time-widgets {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   padding: 10px 30px;
   height: 150px;
   display: flex;
@@ -74,6 +80,7 @@ export default {
     font-size: 20px;
     line-height: 24px;
     margin-left: 10px;
+    font-weight: bold;
   }
 
   .offline-block {
@@ -82,6 +89,11 @@ export default {
     width: 100%;
     .left-side {
       width: 100%;
+      display: flex;
+      align-items: center;
+    }
+    .right-side {
+      width: 70%;
     }
     .inline {
       display: inline;
@@ -90,21 +102,33 @@ export default {
   .details-block {
     display: flex;
     flex-direction: row;
+    width: 100%;
 
     .on-call-details {
-      border-right: 1px solid grey;
+      border-right: 1px solid lightgrey;
     }
 
     .sub-title {
       color: gray;
     }
   }
+  .total-cnt-block {
+    float: right;
+    color: grey;
+    .total-font {
+      font-size: x-large;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+  }
   .details {
     padding: 13px;
+    width: 50%;
   }
 
   .icon {
     width: 25px;
+    height: 25px;
   }
 
   .center {

@@ -35,7 +35,14 @@ async function getTenantsList({ commit }) {
   const tenants = realState.tenantsList;
   if (!tenants.length) {
     const data = await getTenantList();
-    commit(SET_TENANT_LIST, data);
+    const result = [];
+    data.forEach(t => {
+      result.push({
+        name: t.name,
+        id: t.id,
+      });
+    });
+    commit(SET_TENANT_LIST, result);
   }
 }
 

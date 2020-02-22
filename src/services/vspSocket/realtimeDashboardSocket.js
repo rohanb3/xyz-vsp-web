@@ -13,8 +13,6 @@ const pubSub = new Emitter();
 export async function subscribe(tenantId = null) {
   try {
     const data = await _subscribe(tenantId);
-    console.log('subscribe > tenantId:', tenantId);
-    console.log('subscribe > data:', data);
     transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
     return data;
   } catch (e) {
