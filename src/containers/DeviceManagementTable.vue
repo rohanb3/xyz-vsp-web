@@ -297,7 +297,6 @@ export default {
     height: 16px;
   }
 }
-
 .table-filter-container {
   display: flex;
   flex-wrap: wrap;

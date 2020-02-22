@@ -22,7 +22,7 @@ export default {
   [REALTIME_DASHBOARD_CALL_FINISHED](state, data) {
     const newMissedAt = data.missedAt;
     if (newMissedAt) {
-      state.callStatisticsAbandonedTotal += 1;
+      state.callStatisticsAbandoned.total += 1;
     }
   },
   [REALTIME_DASHBOARD_CALL_ACCEPTED](state, data) {
@@ -48,7 +48,7 @@ export default {
     state.callStatisticsAnswered = data;
   },
   [INSERT_CALLS_MISSED_DATA](state, data) {
-    state.callStatisticsAbandonedTotal = data.total;
+    state.callStatisticsAbandoned = data;
   },
 
   /* eslint-enable no-param-reassign */
