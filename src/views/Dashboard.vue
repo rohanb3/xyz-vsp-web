@@ -68,6 +68,7 @@ export default {
   overflow: auto;
   margin: 0px;
   max-width: 100%;
+  min-width: 1200px;
 
   .realtime-dashboard-page {
     width: 100%;
@@ -103,6 +104,7 @@ export default {
     display: inline-block;
     flex-grow: 1;
     padding: 10px;
+    max-width: 25%;
   }
 }
 </style>

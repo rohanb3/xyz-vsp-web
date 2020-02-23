@@ -41,7 +41,7 @@ export default {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  padding: 10px 30px;
+  padding: 10px;
   height: 150px;
   display: flex;
   flex-direction: column;
@@ -73,7 +73,7 @@ export default {
   .offline-block {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 95%;
     .left-side {
       width: 100%;
       display: flex;
