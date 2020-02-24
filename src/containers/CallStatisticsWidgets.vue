@@ -2,7 +2,7 @@
       <div class="call-statistics-widgets">
         <div class="offline-block">
           <span class="left-side">
-            <img class="icon inline" src="../assets/icons/realtime-dashboard/call-statistics-icon.svg">
+            <img class="icon inline" :src="icon">
             <div class="real-time-title inline">{{ $t('call.statistics') }}</div>
           </span>
           <span class="right-side">
@@ -27,11 +27,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import icon from '@/assets/icons/realtime-dashboard/call-statistics-icon.svg';
 
 export default {
   name: 'CallStatisticsWidget',
   computed: {
     ...mapGetters(['callStatisticsAnswered', 'callStatisticsAbandoned']),
+    icon() {
+      return icon;
+    },
     answered() {
       return (this.callStatisticsAnswered && this.callStatisticsAnswered.total) || 0;
     },

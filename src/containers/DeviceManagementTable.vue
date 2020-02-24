@@ -229,7 +229,6 @@ export default {
     background-color: #f3f1f1;
     position: relative;
     border-bottom: none;
-
     &:after {
       content: '';
       position: absolute;
@@ -256,7 +255,6 @@ export default {
   align-items: center;
   padding: 0;
 }
-
 .devices-amount {
   font-family: Roboto;
   font-size: 20px;

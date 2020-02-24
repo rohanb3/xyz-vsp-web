@@ -1,6 +1,6 @@
 <template>
       <div class="live-calls-widgets">
-        <img class="icon" src="../assets/icons/realtime-dashboard/live-calls-icon.svg">
+        <img class="icon" :src="icon">
         <div class="real-time-title">{{ $t('live.calls') }}</div>
         <div class="real-time-cnt">{{activeCalls && activeCalls.count}}</div>
       </div>
@@ -8,11 +8,15 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import icon from '@/assets/icons/realtime-dashboard/live-calls-icon.svg';
 
 export default {
   name: 'LiveCallsWidget',
   computed: {
     ...mapGetters(['activeCalls']),
+    icon() {
+      return icon;
+    },
   },
 };
 </script>
