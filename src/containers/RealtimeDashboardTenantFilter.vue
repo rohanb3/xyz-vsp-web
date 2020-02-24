@@ -37,9 +37,7 @@ export default {
     ...mapGetters(['tenantsList', 'tenantId']),
     selectedTenant: {
       set(val) {
-        changeTenant(val).then(data => {
-          console.log('selectedTenant > changeTenant > data:', data);
-        });
+        changeTenant(val);
       },
       get() {
         return this.tenantId;
