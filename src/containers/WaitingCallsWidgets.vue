@@ -1,6 +1,6 @@
 <template>
       <div class="waiting-calls-widgets">
-        <img class="icon" src="../assets/icons/realtime-dashboard/waiting-calls-icon.svg">
+        <span class="icon"></span>
         <div class="real-time-title">{{ $t('waiting.calls') }}</div>
         <div class="real-time-cnt">{{waitingCalls && waitingCalls.count}}</div>
       </div>
@@ -48,6 +48,8 @@ export default {
   .icon {
     width: 25px;
     height: 25px;
+    background: url('../assets/icons/realtime-dashboard/waiting-calls-icon.svg') center center;
+    background-size: cover;
   }
 }
 </style>
