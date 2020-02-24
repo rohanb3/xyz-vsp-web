@@ -6,6 +6,8 @@ import {
   REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
   INSERT_CALLS_ANSWERED_DATA,
   INSERT_CALLS_MISSED_DATA,
+  SET_TENANT_LIST,
+  SET_TENANT_ID,
 } from './mutationTypes';
 
 export default {
@@ -49,6 +51,12 @@ export default {
   },
   [INSERT_CALLS_MISSED_DATA](state, data) {
     state.callStatisticsAbandoned = data;
+  },
+  [SET_TENANT_LIST](state, data) {
+    state.tenantsList = data;
+  },
+  [SET_TENANT_ID](state, data) {
+    state.tenantId = data;
   },
 
   /* eslint-enable no-param-reassign */
