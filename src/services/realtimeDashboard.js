@@ -19,17 +19,17 @@ import {
   LOAD_CALLS_ANSWERED_DATA,
   LOAD_CALLS_MISSED_DATA,
   GET_TENANTS_LIST,
-  CHANGE_TENANT,
+  CHANGE_DASHBOARD_TENANT_FILTER,
 } from '@/store/realtimeDashboard/actionTypes';
 import { getStartOfCurrentDayUTC } from '@/services/dateHelper';
 
 init();
 
 export async function subscribe(tenantId = null) {
-  return socketSubscribe(tenantId).then(data => {
-    store.dispatch(CHANGE_TENANT, data.tenantId);
-    loadCallsData(data.tenantId);
-  });
+  const data = await socketSubscribe(tenantId);
+  store.dispatch(CHANGE_DASHBOARD_TENANT_FILTER, data.tenantId);
+  loadCallsData(data.tenantId);
+  return data;
 }
 
 export function unsubscribe() {
@@ -42,7 +42,7 @@ export function loadCallsData(tenantId = null) {
 }
 
 export function changeTenant(tenantId) {
-  subscribe(tenantId);
+  return subscribe(tenantId);
 }
 
 export function loadTenantsList() {

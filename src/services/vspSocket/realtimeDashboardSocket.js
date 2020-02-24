@@ -10,8 +10,6 @@ const { EVENTS, PUB_SUB_EVENTS, TOKEN_INVALID } = OPERATOR_SOCKET;
 
 const pubSub = new Emitter();
 
-/* eslint consistent-return: "error" */
-/* eslint-disable */
 export async function subscribe(tenantId = null) {
   try {
     const data = await _subscribe(tenantId);
@@ -26,9 +24,9 @@ export async function subscribe(tenantId = null) {
 
   try {
     await justWaitPubSubEvent(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED);
-
-    await _subscribe(tenantId);
+    const data = await _subscribe(tenantId);
     transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
+    return data;
   } catch (e) {
     console.error('realtimeDashboardSocket.subscribe second lap error', e);
     throw e;

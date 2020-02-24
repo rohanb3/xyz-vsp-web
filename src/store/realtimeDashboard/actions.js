@@ -2,7 +2,7 @@ import {
   LOAD_CALLS_ANSWERED_DATA,
   LOAD_CALLS_MISSED_DATA,
   GET_TENANTS_LIST,
-  CHANGE_TENANT,
+  CHANGE_DASHBOARD_TENANT_FILTER,
 } from './actionTypes';
 import {
   INSERT_CALLS_ANSWERED_DATA,
@@ -12,7 +12,6 @@ import {
 } from './mutationTypes';
 import { getDurations } from '@/services/realtimeDashboardRepository';
 import { getTenantList } from '@/services/getRepository';
-import store from '@/store';
 
 async function loadCallsAnsweredData({ commit }, { filters = {} }) {
   const filtersToApply = {
@@ -30,20 +29,14 @@ async function loadCallsMissedData({ commit }, { filters = {} }) {
   commit(INSERT_CALLS_MISSED_DATA, data);
 }
 
-async function getTenantsList({ commit }) {
-  const realState = store.state.realtimeDashboard;
-  const tenants = realState.tenantsList;
-  if (!tenants.length) {
+async function getTenantsList({ commit, state }) {
+  if (!state.tenantsList.length) {
     const data = await getTenantList();
-    const result = [];
-    data.forEach(t => {
-      result.push({
-        name: t.name,
-        id: t.id,
-      });
-    });
+    const result = data.map(t => ({ name: t.name, id: t.id }));
     commit(SET_TENANT_LIST, result);
+    return result;
   }
+  return state.tenantsList;
 }
 
 function fireTenantChanging({ commit }, tenantId) {
@@ -54,5 +47,5 @@ export default {
   [LOAD_CALLS_ANSWERED_DATA]: loadCallsAnsweredData,
   [LOAD_CALLS_MISSED_DATA]: loadCallsMissedData,
   [GET_TENANTS_LIST]: getTenantsList,
-  [CHANGE_TENANT]: fireTenantChanging,
+  [CHANGE_DASHBOARD_TENANT_FILTER]: fireTenantChanging,
 };

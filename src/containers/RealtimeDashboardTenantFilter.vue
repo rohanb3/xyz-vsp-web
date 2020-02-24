@@ -4,14 +4,14 @@
          class="table-filter">
       <select v-model="selectedTenant">
         <option v-for="tenant in tenantsList"
-                v-bind:key="tenant.id"
+                :key="tenant.id"
                 :value="tenant.id">{{tenant.name}}</option>
       </select>
       <div slot="reference" class="datepicker-toggler">
         <div class="caret"></div>
       </div>
     </div>
-    <table-loader v-if="loading" slot="loader" />
+    <table-loader v-else slot="loader" />
   </div>
 </template>
 
@@ -30,11 +30,6 @@ export default {
       tenants: [],
     };
   },
-  watch: {
-    selectedTenant(val) {
-      changeTenant(val);
-    },
-  },
   mounted() {
     loadTenantsList();
   },
@@ -42,14 +37,16 @@ export default {
     ...mapGetters(['tenantsList', 'tenantId']),
     selectedTenant: {
       set(val) {
-        changeTenant(val);
+        changeTenant(val).then(data => {
+          console.log('selectedTenant > changeTenant > data:', data);
+        });
       },
       get() {
         return this.tenantId;
       },
     },
     loading() {
-      return !this.tenantsList || (this.tenantsList && !this.tenantsList.length);
+      return !this.tenantsList || !this.tenantsList.length;
     },
   },
 };
@@ -61,7 +58,6 @@ export default {
   display: flex;
   flex-flow: row;
   align-items: center;
-  /*cursor: pointer;*/
   padding: 0 10px;
   border: 1px solid $table-toolbar-section-border-color;
   font-size: 12px;

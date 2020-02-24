@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard container">
     <div class="realtime-dashboard-page">
-      <div class="dash-header">
+      <div class="dashboard-header">
         <h1 class="dash-title">{{ $t('live.dashboard') }}</h1>
         <span class="dash-tenant-filter" v-if="isTenantFilterAllowed">
           <realtime-dashboard-tenant-filter/>
@@ -79,7 +79,7 @@ export default {
     padding: 10px !important;
   }
 
-  .dash-header {
+  .dashboard-header {
     padding-left: 10px;
     padding-top: 30px;
     padding-bottom: 30px;
