@@ -48,4 +48,11 @@ export default {
 
     return null;
   },
+  isTenantFilterAllowed({ profileData }) {
+    const { scopes = [] } = profileData;
+    return (
+      scopes.includes(PERMISSIONS.REALTIME_DASHBOARD_CHOOSE_TENANT) &&
+      scopes.includes(PERMISSIONS.DASHBOARD_CHOOSE_TENANT)
+    );
+  },
 };

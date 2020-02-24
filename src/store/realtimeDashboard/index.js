@@ -11,6 +11,8 @@ const state = {
   operatorsAvailable: null,
   callStatisticsAnswered: {},
   callStatisticsAbandoned: {},
+  tenantsList: [],
+  tenantId: null,
 };
 
 export default {

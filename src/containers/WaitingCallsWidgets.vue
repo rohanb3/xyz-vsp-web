@@ -21,20 +21,19 @@ export default {
 .waiting-calls-widgets {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  padding: 10px 30px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  padding: 10px;
   display: flex;
   align-items: center;
   & > * {
     margin-right: 10px;
-    flex-shrink: 0;
   }
   & .real-time-cnt {
     color: #fa852e;
     font-size: 36px;
     font-weight: bold;
     line-height: 42px;
-    align: rigth;
+    float: right;
   }
 
   & .real-time-title {
@@ -42,10 +41,13 @@ export default {
     font-size: 20px;
     line-height: 24px;
     align: left;
+    font-weight: bold;
+    width: 100%;
   }
 
   .icon {
     width: 25px;
+    height: 25px;
   }
 }
 </style>

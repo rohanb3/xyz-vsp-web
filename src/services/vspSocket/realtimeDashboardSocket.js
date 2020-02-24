@@ -10,11 +10,11 @@ const { EVENTS, PUB_SUB_EVENTS, TOKEN_INVALID } = OPERATOR_SOCKET;
 
 const pubSub = new Emitter();
 
-export async function subscribe() {
+export async function subscribe(tenantId = null) {
   try {
-    await _subscribe();
+    const data = await _subscribe(tenantId);
     transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
-    return;
+    return data;
   } catch (e) {
     console.error('realtimeDashboardSocket.subscribe error', e);
     if (e.message !== TOKEN_INVALID) {
@@ -24,9 +24,9 @@ export async function subscribe() {
 
   try {
     await justWaitPubSubEvent(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED);
-
-    await _subscribe();
+    const data = await _subscribe(tenantId);
     transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
+    return data;
   } catch (e) {
     console.error('realtimeDashboardSocket.subscribe second lap error', e);
     throw e;
@@ -84,7 +84,7 @@ export function unsubscribeRealTimeDashboardOperatorsStatusesChanged(handler) {
   pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, handler);
 }
 
-async function _subscribe() {
+async function _subscribe(tenantId = null) {
   try {
     const authData = store.getters.vspSocketCredentials;
     await transport.ensureSocket(authData);
@@ -94,7 +94,7 @@ async function _subscribe() {
 
     return await runOperation(
       EVENTS.REALTIME_DASHBOARD_SUBSCRIBE,
-      undefined,
+      { tenantId },
       EVENTS.REALTIME_DASHBOARD_SUBSCRIBED,
       EVENTS.REALTIME_DASHBOARD_SUBSCRIBTION_ERROR
     );
