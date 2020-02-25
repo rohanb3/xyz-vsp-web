@@ -58,11 +58,6 @@ export default {
   destroyed() {
     unsubscribe();
   },
-  methods: {
-    toggleItem(item) {
-      console.log('toggleItem', item);
-    },
-  },
 };
 </script>
 
