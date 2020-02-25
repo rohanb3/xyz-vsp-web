@@ -6,7 +6,6 @@
 
         <span class="dash-tenant-filter" v-if="isTenantFilterAllowed">
           <realtime-dashboard-tenant-filter/>
-
         </span>
       </div>
       <div class="widgets-row">
@@ -37,7 +36,6 @@ import LiveCallsWidget from '@/containers/LiveCallsWidgets';
 import OperatorsWidget from '@/containers/OperatorsWidgets';
 import ResponseTimeWidget from '@/containers/ResponseTimeWidgets';
 import CallStatisticsWidget from '@/containers/CallStatisticsWidgets';
-import TableFilter from '@/components/TableFilter';
 
 export default {
   name: 'dashboard',
@@ -48,7 +46,6 @@ export default {
     OperatorsWidget,
     ResponseTimeWidget,
     CallStatisticsWidget,
-    TableFilter,
   },
   computed: {
     ...mapGetters(['isTenantFilterAllowed']),
@@ -64,8 +61,8 @@ export default {
   methods: {
     toggleItem(item) {
       console.log('toggleItem', item);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -82,8 +79,8 @@ export default {
   .realtime-dashboard-page {
     width: 100%;
     border-radius: 8px;
-    -webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12);
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12);
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
     background-color: #fff;
   }
 
@@ -94,7 +91,6 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
-
 
     h1 {
       font-size: 20px;
@@ -122,7 +118,7 @@ export default {
     max-width: 25%;
   }
   .widget-item {
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.12);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
   }
 }
 </style>

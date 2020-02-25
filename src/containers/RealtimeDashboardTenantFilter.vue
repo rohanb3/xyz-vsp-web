@@ -31,7 +31,7 @@ export default {
   computed: {
     ...mapGetters(['tenantsList', 'tenantId']),
     items() {
-      return this.tenantsList.map(item => ({...item, selected: item.id === this.tenantId}))
+      return this.tenantsList.map(item => ({ ...item, selected: item.id === this.tenantId }));
     },
     loading() {
       return !this.tenantsList || !this.tenantsList.length;
