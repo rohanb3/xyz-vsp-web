@@ -2,7 +2,7 @@
       <div class="response-time-widgets">
         <div class="offline-block">
           <span class="left-side">
-            <img class="icon inline" src="../assets/icons/realtime-dashboard/response-time-icon.svg">
+            <img class="icon inline" :src="icon">
             <div class="real-time-title inline">{{ $t('response.time') }}</div>
           </span>
           <span class="right-side">
@@ -28,11 +28,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import { secondsToMinutesAndSeconds } from '@/services/dateHelper';
+import icon from '@/assets/icons/realtime-dashboard/response-time-icon.svg';
 
 export default {
   name: 'ResponseTimeWidget',
   computed: {
     ...mapGetters(['callStatisticsAnswered']),
+    icon() {
+      return icon;
+    },
     average() {
       const aver =
         (this.callStatisticsAnswered &&
