@@ -3,23 +3,24 @@
     <div class="realtime-dashboard-page">
       <div class="dashboard-header">
         <h1 class="dash-title">{{ $t('live.dashboard') }}</h1>
+
         <span class="dash-tenant-filter" v-if="isTenantFilterAllowed">
           <realtime-dashboard-tenant-filter/>
         </span>
       </div>
       <div class="widgets-row">
         <div class="widgets-column">
-          <waiting-calls-widget/>
-          <live-calls-widget/>
+          <waiting-calls-widget class="widget-item" />
+          <live-calls-widget class="widget-item" />
         </div>
         <div class="widgets-column">
-          <operators-widget/>
+          <operators-widget class="widget-item" />
         </div>
         <div class="widgets-column">
-          <response-time-widget/>
+          <response-time-widget class="widget-item" />
         </div>
         <div class="widgets-column">
-          <call-statistics-widget/>
+          <call-statistics-widget class="widget-item" />
         </div>
       </div>
     </div>
@@ -73,38 +74,46 @@ export default {
   .realtime-dashboard-page {
     width: 100%;
     border-radius: 8px;
-    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.22);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.22);
+    -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
     background-color: #fff;
-    padding: 10px !important;
   }
 
   .dashboard-header {
-    padding-left: 10px;
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding: 0 20px;
+    height: 60px;
+    line-height: 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
     h1 {
-      font-size: large;
+      font-size: 20px;
       font-weight: bold;
+      color: #4a4a4a;
     }
     .dash-title {
       display: inline-block;
     }
     .dash-tenant-filter {
       display: inline-block;
-      padding-left: 50px;
+      padding-left: 33px;
     }
   }
   .widgets-row {
     display: flex;
     align-items: stretch;
     justify-content: space-around;
+    padding: 0 10px 10px 10px;
   }
   .widgets-column {
     display: inline-block;
     flex-grow: 1;
     padding: 10px;
     max-width: 25%;
+  }
+  .widget-item {
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
   }
 }
 </style>
