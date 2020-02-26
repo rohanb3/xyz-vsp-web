@@ -1,3 +1,5 @@
+import { getDurations } from '@/services/realtimeDashboardRepository';
+import { getTenantList } from '@/services/getRepository';
 import {
   LOAD_CALLS_ANSWERED_DATA,
   LOAD_CALLS_MISSED_DATA,
@@ -10,8 +12,6 @@ import {
   SET_TENANT_LIST,
   SET_TENANT_ID,
 } from './mutationTypes';
-import { getDurations } from '@/services/realtimeDashboardRepository';
-import { getTenantList } from '@/services/getRepository';
 
 async function loadCallsAnsweredData({ commit }, { filters = {} }) {
   const filtersToApply = {
