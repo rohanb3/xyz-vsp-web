@@ -35,7 +35,7 @@ export default {
 @import '~@/assets/styles/variables.scss';
 
 .supervisor-widgets {
-  padding: 10px 30px;
+  padding: 10px;
   height: 100%;
   display: flex;
   align-items: center;

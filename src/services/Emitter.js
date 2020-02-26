@@ -1,4 +1,5 @@
 import ee from 'event-emitter';
+import allOff from 'event-emitter/all-off';
 
 export default class Emitter {
   constructor() {
@@ -10,8 +11,17 @@ export default class Emitter {
     return () => this.unsubscribe(eventName, listener);
   }
 
+  subscribeOnce(eventName, listener) {
+    this.emitter.once(eventName, listener);
+    return () => this.unsubscribe(eventName, listener);
+  }
+
   unsubscribe(eventName, listener) {
     return this.emitter.off(eventName, listener);
+  }
+
+  unsubscribeAll() {
+    allOff(this.emitter);
   }
 
   emit(eventName, ...args) {

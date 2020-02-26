@@ -1,5 +1,5 @@
-import api from './identityApi';
 import { imageEncode } from '@/services/utils';
+import api from './identityApi';
 
 const scope = 'xyzies.authorization.vsp.web';
 

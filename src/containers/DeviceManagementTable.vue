@@ -65,14 +65,12 @@ import DeviceStatusCell from '@/components/tableCells/DeviceStatusCell';
 import DeviceLocationStatusCell from '@/components/tableCells/DeviceLocationStatusCell';
 import DeviceStatusSinceCell from '@/components/tableCells/DeviceStatusSinceCell';
 import DeviceCommentsCell from '@/components/tableCells/DeviceCommentsCell';
-import IdCell from '../components/tableCells/IdCell';
 import DeviceManagementUpdates from '@/containers/DeviceManagementUpdates';
 import AddDevicePopup from '@/containers/AddDevicePopup';
 import DeviceNameCell from '@/components/tableCells/DeviceNameCell';
 
 import { APPLY_FILTERS } from '@/store/tables/actionTypes';
 import { ENTITY_TYPES } from '@/constants';
-import DeviceDetails from './DeviceDetails';
 
 import { SET_FILTER, APPLYING_FILTERS_DONE } from '@/store/tables/mutationTypes';
 
@@ -80,6 +78,8 @@ import { addBackgroundShadow, removeBackgroundShadow } from '@/services/backgrou
 
 import { updateDevice } from '@/services/devicesRepository';
 import { errorMessage } from '@/services/notifications';
+import DeviceDetails from './DeviceDetails';
+import IdCell from '../components/tableCells/IdCell';
 import TableToolbar from '../components/TableToolbar';
 import QuickSearchFilter from './QuickSearchFilter';
 import DeviceStatus from './DeviceStatus';
@@ -229,7 +229,6 @@ export default {
     background-color: #f3f1f1;
     position: relative;
     border-bottom: none;
-
     &:after {
       content: '';
       position: absolute;
@@ -256,7 +255,6 @@ export default {
   align-items: center;
   padding: 0;
 }
-
 .devices-amount {
   font-family: Roboto;
   font-size: 20px;
@@ -267,7 +265,6 @@ export default {
   letter-spacing: normal;
   color: $table-row-text-color;
 }
-
 .device-management-table-footer {
   display: flex;
   flex-flow: row;
@@ -298,7 +295,6 @@ export default {
     height: 16px;
   }
 }
-
 .table-filter-container {
   display: flex;
   flex-wrap: wrap;

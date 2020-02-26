@@ -55,9 +55,9 @@ import TableFullHeightBalloon from '@/components/TableFullHeightBalloon';
 import DeviceDetailsTab from '@/components/DeviceDetailsTab';
 import DeviceHistoryTable from '@/containers/DeviceHistoryTable';
 import { DEVICE_DETAILS_TABS, ENTITY_TYPES } from '@/constants';
-import DeviceCommentTab from '../components/DeviceCommentTab';
 import { UPDATE_ITEM } from '@/store/storage/actionTypes';
 import { addBackgroundShadow, removeBackgroundShadow } from '@/services/background';
+import DeviceCommentTab from '../components/DeviceCommentTab';
 
 export default {
   name: 'DeviceDetails',

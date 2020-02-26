@@ -1,3 +1,4 @@
+import { getCallsTypes } from '@/services/callRepository';
 import {
   LOAD_ITEMS,
   LOAD_MORE_ITEMS,
@@ -17,7 +18,6 @@ import {
 } from './mutationTypes';
 import { getEntityActions } from './repositoryHelper';
 import { ITEMS_TO_LOAD } from './constants';
-import { getCallsTypes } from '@/services/callRepository';
 
 async function loadItems({ commit, state }, { itemType, filters = {} }, resetPrevious) {
   const { items } = state[itemType];

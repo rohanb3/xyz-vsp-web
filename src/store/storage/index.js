@@ -1,7 +1,7 @@
+import { ENTITY_TYPES } from '@/constants';
 import getters from './getters';
 import actions from './actions';
 import mutations from './mutations';
-import { ENTITY_TYPES } from '@/constants';
 
 const { CALLS, DEVICES, DEVICE_COMMENTS, COMPANY_LIST, DEVICE_HISTORY } = ENTITY_TYPES;
 
