@@ -2,7 +2,7 @@
       <div class="waiting-calls-widgets">
         <img class="icon" :src="icon">
         <div class="real-time-title">{{ $t('waiting.calls') }}</div>
-        <div class="real-time-cnt">{{waitingCalls && waitingCalls.count}}</div>
+        <div class="real-time-cnt">{{ waitingCallsCount }}</div>
       </div>
 </template>
 
@@ -13,7 +13,7 @@ import icon from '@/assets/icons/realtime-dashboard/waiting-calls-icon.svg';
 export default {
   name: 'WaitingCallsWidget',
   computed: {
-    ...mapGetters(['waitingCalls']),
+    ...mapGetters(['waitingCallsCount']),
     icon() {
       return icon;
     },
