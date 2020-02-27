@@ -119,6 +119,7 @@ const REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED =
   'realtimeDashboards.operators.statusesChanged';
 
 const SOCKET_CONNECTED = 'socket.connected';
+const SOCKET_DISCONNECTING = 'socket.disconnecting';
 const SOCKET_DISCONNECTED = 'socket.disconnected';
 const SOCKET_RECONNECTED = 'socket.reconnected';
 const SOCKET_AUTHENTIFICATED = 'socket.authentificated';
@@ -182,6 +183,7 @@ export const OPERATOR_SOCKET = {
   TOKEN_INVALID,
   PUB_SUB_EVENTS: {
     SOCKET_CONNECTED,
+    SOCKET_DISCONNECTING,
     SOCKET_DISCONNECTED,
     SOCKET_RECONNECTED,
     SOCKET_AUTHENTIFICATED,

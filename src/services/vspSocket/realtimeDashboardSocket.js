@@ -9,14 +9,17 @@ import './monitor';
 const { EVENTS, PUB_SUB_EVENTS, TOKEN_INVALID } = OPERATOR_SOCKET;
 
 const pubSub = new Emitter();
+let subscriptionStatus = false;
+
+init();
 
 export async function subscribe(tenantId = null) {
   try {
     const data = await _subscribe(tenantId);
-    transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
     return data;
   } catch (e) {
     console.error('realtimeDashboardSocket.subscribe error', e);
+    subscriptionStatus = false;
     if (e.message !== TOKEN_INVALID) {
       throw e;
     }
@@ -25,10 +28,10 @@ export async function subscribe(tenantId = null) {
   try {
     await justWaitPubSubEvent(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED);
     const data = await _subscribe(tenantId);
-    transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
     return data;
   } catch (e) {
     console.error('realtimeDashboardSocket.subscribe second lap error', e);
+    subscriptionStatus = false;
     throw e;
   }
 }
@@ -37,11 +40,11 @@ export function unsubscribe() {
   const socket = transport.getSocket();
   if (socket) {
     socket.emit(EVENTS.REALTIME_DASHBOARD_UNSUBSCRIBE);
-
-    unsubscribeListeners();
-
-    pubSub.unsubscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, _subscribe);
   }
+
+  unsubscribeListeners();
+
+  subscriptionStatus = false;
 }
 
 export function subscribeWaitingCallsChanged(handler) {
@@ -84,6 +87,20 @@ export function unsubscribeRealTimeDashboardOperatorsStatusesChanged(handler) {
   pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, handler);
 }
 
+function init() {
+  transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED, onSocketAuthentificated);
+
+  transport.pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_DISCONNECTING, () => {
+    unsubscribe();
+  });
+}
+
+function onSocketAuthentificated() {
+  if (subscriptionStatus) {
+    _subscribe();
+  }
+}
+
 async function _subscribe(tenantId = null) {
   try {
     const authData = store.getters.vspSocketCredentials;
@@ -92,14 +109,19 @@ async function _subscribe(tenantId = null) {
     unsubscribeListeners();
     subscribeListeners();
 
-    return await runOperation(
+    const data = await runOperation(
       EVENTS.REALTIME_DASHBOARD_SUBSCRIBE,
       { tenantId },
       EVENTS.REALTIME_DASHBOARD_SUBSCRIBED,
       EVENTS.REALTIME_DASHBOARD_SUBSCRIBTION_ERROR
     );
+
+    subscriptionStatus = true;
+
+    return data;
   } catch (e) {
     console.error('realtimeDashboardSocket._subscribe error', e);
+    subscriptionStatus = false;
     throw e;
   }
 }

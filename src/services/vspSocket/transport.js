@@ -18,6 +18,7 @@ export async function ensureSocket(authData, enforceReconnect = false) {
 
 export function disconnect() {
   if (socket) {
+    pubSub.emit(PUB_SUB_EVENTS.SOCKET_DISCONNECTING);
     socket.off();
     socket.disconnect();
 
