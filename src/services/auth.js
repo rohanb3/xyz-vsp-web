@@ -1,7 +1,6 @@
 import store from '@/store';
 import { disconnect as disconnectVSPSocket } from '@/services/vspSocket/transport';
 
-
 import { REMOVE_TOKEN, CLEAR_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
 
 import api from './api';

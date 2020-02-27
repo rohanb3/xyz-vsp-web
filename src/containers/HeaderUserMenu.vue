@@ -44,7 +44,6 @@
 </template>
 
 <script>
-// import { REMOVE_TOKEN, CLEAR_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
 import { GET_PHOTO } from '@/store/loggedInUser/actionTypes';
 import getVesrion from '@/services/appVersion';
 import { logout } from '@/services/auth';
@@ -70,8 +69,6 @@ export default {
   },
   methods: {
     logout() {
-      // this.$store.commit(REMOVE_TOKEN);
-      // this.$store.commit(CLEAR_PROFILE_DATA);
       logout();
       this.$router.replace({ name: 'login' });
     },
