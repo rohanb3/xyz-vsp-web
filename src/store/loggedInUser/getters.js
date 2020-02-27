@@ -31,7 +31,6 @@ export default {
   },
   isRealtimeDashboardAllowed({ profileData }) {
     const { scopes = [] } = profileData;
-
     return scopes.includes(PERMISSIONS.REALTIME_DASHBOARD);
   },
   isSocketConnectionNeeded(state, { isCallsAllowed, isRealtimeDashboardAllowed }) {
