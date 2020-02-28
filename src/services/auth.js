@@ -1,5 +1,4 @@
 import store from '@/store';
-import { disconnect as disconnectVSPSocket } from '@/services/vspSocket/transport';
 
 import { USER_LOGOUT } from '@/store/loggedInUser/actionTypes';
 
@@ -11,6 +10,4 @@ export function login(userName, password) {
 
 export const logout = async () => {
   await store.dispatch(USER_LOGOUT);
-
-  disconnectVSPSocket();
 };

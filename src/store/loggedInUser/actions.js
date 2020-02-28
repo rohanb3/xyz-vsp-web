@@ -7,6 +7,7 @@ import {
   updateAvatar,
   deleteAvatar,
 } from '@/services/identityRepository';
+import { disconnect as disconnectVSPSocket } from '@/services/vspSocket/transport';
 import { RESPONSE_STATUSES } from '@/constants';
 import {
   GET_PROFILE_DATA,
@@ -67,6 +68,8 @@ export default {
   [USER_LOGOUT]({ commit }) {
     commit(REMOVE_TOKEN);
     commit(CLEAR_PROFILE_DATA);
+
+    disconnectVSPSocket();
   },
   async [UPDATE_PHOTO]({ state, dispatch }, formData) {
     const { status } = await updateAvatar(state.profileData.objectId, formData);
