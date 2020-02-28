@@ -29,7 +29,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { unsubscribe, loadCallsData } from '@/services/realtimeDashboard';
+import { subscribe, unsubscribe } from '@/services/realtimeDashboard';
 import RealtimeDashboardTenantFilter from '@/containers/RealtimeDashboardTenantFilter';
 import WaitingCallsWidget from '@/containers/WaitingCallsWidgets';
 import LiveCallsWidget from '@/containers/LiveCallsWidgets';
@@ -51,9 +51,7 @@ export default {
     ...mapGetters(['isTenantFilterAllowed']),
   },
   mounted() {
-    // subscribe moved to beforeEnter handler in router configuration
-    // subscribe();
-    loadCallsData();
+    subscribe().catch(() => this.$router.replace({ name: 'home' }));
   },
   destroyed() {
     unsubscribe();

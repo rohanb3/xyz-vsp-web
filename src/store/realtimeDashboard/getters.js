@@ -5,6 +5,12 @@ export default {
   activeCalls(state) {
     return state.activeCalls;
   },
+  waitingCallsCount(state) {
+    return (state.waitingCalls && state.waitingCalls.count) || 0;
+  },
+  activeCallsCount(state) {
+    return (state.activeCalls && state.activeCalls.count) || 0;
+  },
   operatorsOffline(state) {
     return state.operatorsOffline;
   },

@@ -2,7 +2,7 @@
       <div class="live-calls-widgets">
         <img class="icon" :src="icon">
         <div class="real-time-title">{{ $t('live.calls') }}</div>
-        <div class="real-time-cnt">{{activeCalls && activeCalls.count}}</div>
+        <div class="real-time-cnt">{{ activeCallsCount }}</div>
       </div>
 </template>
 
@@ -13,7 +13,7 @@ import icon from '@/assets/icons/realtime-dashboard/live-calls-icon.svg';
 export default {
   name: 'LiveCallsWidget',
   computed: {
-    ...mapGetters(['activeCalls']),
+    ...mapGetters(['activeCallsCount']),
     icon() {
       return icon;
     },
