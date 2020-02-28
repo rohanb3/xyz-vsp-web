@@ -1,6 +1,8 @@
 import {
   subscribe as socketSubscribe,
   unsubscribe as socketUnsubscribe,
+  getSubscriptionStatus,
+  getSubscriptionTenant,
   subscribeWaitingCallsChanged,
   subscribeActiveCallsChanged,
   subscribeRealTimeDashboardCallFinished,
@@ -14,6 +16,7 @@ import {
   REALTIME_DASHBOARD_CALL_FINISHED,
   REALTIME_DASHBOARD_CALL_ACCEPTED,
   REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
+  REALTIME_DASHBOARD_CLEAR_DATA,
 } from '@/store/realtimeDashboard/mutationTypes';
 import {
   LOAD_CALLS_ANSWERED_DATA,
@@ -33,6 +36,7 @@ export async function subscribe(tenantId = null) {
 }
 
 export function unsubscribe() {
+  store.commit(REALTIME_DASHBOARD_CLEAR_DATA);
   return socketUnsubscribe();
 }
 
@@ -42,6 +46,7 @@ export function loadCallsData(tenantId = null) {
 }
 
 export function changeTenant(tenantId) {
+  store.commit(REALTIME_DASHBOARD_CLEAR_DATA);
   return subscribe(tenantId);
 }
 
@@ -55,6 +60,14 @@ function init() {
   subscribeRealTimeDashboardCallFinished(onRealTimeDashboardCallFinished);
   subscribeRealTimeDashboardCallAccepted(onRealTimeDashboardCallAccepted);
   subscribeRealTimeDashboardOperatorsStatusesChanged(onRealTimeDashboardOperatorsStatusesChanged);
+
+  window.addEventListener('online', onBrowserBecomeOnline);
+}
+
+function onBrowserBecomeOnline() {
+  if (getSubscriptionStatus()) {
+    subscribe(getSubscriptionTenant());
+  }
 }
 
 function onWaitingCallsChanged(data) {

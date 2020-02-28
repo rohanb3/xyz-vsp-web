@@ -10,6 +10,7 @@ const { EVENTS, PUB_SUB_EVENTS, TOKEN_INVALID } = OPERATOR_SOCKET;
 
 const pubSub = new Emitter();
 let subscriptionStatus = false;
+let subscriptionTenant = null;
 
 init();
 
@@ -20,6 +21,7 @@ export async function subscribe(tenantId = null) {
   } catch (e) {
     console.error('realtimeDashboardSocket.subscribe error', e);
     subscriptionStatus = false;
+    subscriptionTenant = null;
     if (e.message !== TOKEN_INVALID) {
       throw e;
     }
@@ -32,6 +34,7 @@ export async function subscribe(tenantId = null) {
   } catch (e) {
     console.error('realtimeDashboardSocket.subscribe second lap error', e);
     subscriptionStatus = false;
+    subscriptionTenant = null;
     throw e;
   }
 }
@@ -45,6 +48,15 @@ export function unsubscribe() {
   unsubscribeListeners();
 
   subscriptionStatus = false;
+  subscriptionTenant = null;
+}
+
+export function getSubscriptionStatus() {
+  return subscriptionStatus;
+}
+
+export function getSubscriptionTenant() {
+  return subscriptionTenant;
 }
 
 export function subscribeWaitingCallsChanged(handler) {
@@ -117,11 +129,13 @@ async function _subscribe(tenantId = null) {
     );
 
     subscriptionStatus = true;
+    subscriptionTenant = tenantId;
 
     return data;
   } catch (e) {
     console.error('realtimeDashboardSocket._subscribe error', e);
     subscriptionStatus = false;
+    subscriptionTenant = null;
     throw e;
   }
 }
