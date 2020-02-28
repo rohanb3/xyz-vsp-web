@@ -16,6 +16,10 @@ function init() {
     onEvent.bind(null, PUB_SUB_EVENTS.SOCKET_CONNECTED)
   );
   pubSub.subscribe(
+    PUB_SUB_EVENTS.SOCKET_DISCONNECTING,
+    onEvent.bind(null, PUB_SUB_EVENTS.SOCKET_DISCONNECTING)
+  );
+  pubSub.subscribe(
     PUB_SUB_EVENTS.SOCKET_DISCONNECTED,
     onEvent.bind(null, PUB_SUB_EVENTS.SOCKET_DISCONNECTED)
   );
