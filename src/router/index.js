@@ -42,8 +42,6 @@ import synchronizationApi from '@/services/synchronizationApi';
 import tenantApi from '@/services/tenantApi';
 import realtimeDashboardApi from '@/services/realtimeDashboardApi';
 
-import { subscribe as realtimeDashboardSubscribe } from '@/services/realtimeDashboard';
-
 Vue.use(Router);
 
 function loginGuard(to, from, next) {
@@ -111,9 +109,7 @@ const router = new Router({
               component: Dashboard,
               beforeEnter(to, from, next) {
                 if (store.getters.isRealtimeDashboardAllowed) {
-                  realtimeDashboardSubscribe()
-                    .then(() => next())
-                    .catch(() => next(false));
+                  next();
                 } else {
                   next({ name: 'home' });
                 }

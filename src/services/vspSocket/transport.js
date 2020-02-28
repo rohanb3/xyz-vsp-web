@@ -17,13 +17,9 @@ export async function ensureSocket(authData, enforceReconnect = false) {
 }
 
 export function disconnect() {
-  if (socket) {
-    socket.off();
-    socket.disconnect();
+  pubSub.emit(PUB_SUB_EVENTS.SOCKET_DISCONNECTING);
 
-    socket = null;
-    socketAuthentificationPromise = null;
-  }
+  _disconnect();
 }
 
 export function getSocket() {
@@ -31,7 +27,7 @@ export function getSocket() {
 }
 
 function init(authData) {
-  disconnect();
+  _disconnect();
 
   socket = io(NAMESPACE, CONNECTION_OPTIONS);
 
@@ -61,6 +57,16 @@ function init(authData) {
   });
 
   return socketAuthentificationPromise;
+}
+
+function _disconnect() {
+  if (socket) {
+    socket.off();
+    socket.disconnect();
+
+    socket = null;
+    socketAuthentificationPromise = null;
+  }
 }
 
 function onSocketDisconnected(data) {
