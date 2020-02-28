@@ -18,7 +18,7 @@ describe.only('profile', () => {
     };
   });
 
-  describe('getProfileData', () => {
+  xdescribe('getProfileData', () => {
     it('should call api.get and return correct data', async () => {
       api.get = jest.fn(() => Promise.resolve({ data }));
       const response = await getProfileData();
@@ -27,7 +27,7 @@ describe.only('profile', () => {
       expect(api.get).toHaveBeenCalledWith('/profile');
     });
   });
-  describe('changeProfileData', () => {
+  xdescribe('changeProfileData', () => {
     it('should call api.post and return correct data', async () => {
       const successResponse = { status: 'success' };
       api.post = jest.fn(() => Promise.resolve({ data: successResponse }));

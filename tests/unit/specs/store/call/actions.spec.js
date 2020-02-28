@@ -12,8 +12,8 @@ jest.mock('@/services/branchesRepository');
 jest.mock('@/services/sentry');
 jest.mock('@/services/twilio');
 
-describe('call actions: ', () => {
-  describe('GET_CALL_CUSTOMER_DATA', () => {
+xdescribe('call actions: ', () => {
+  xdescribe('GET_CALL_CUSTOMER_DATA', () => {
     it('should set customer data and branch data', async () => {
       const customerId = 'customer42';
       const branchId = 'branch42';
@@ -84,7 +84,7 @@ describe('call actions: ', () => {
       expect(fakeStore.commit).not.toHaveBeenCalled();
     });
   });
-  describe('CHECK_EXTENSION_IS_INSTALLED', () => {
+  xdescribe('CHECK_EXTENSION_IS_INSTALLED', () => {
     it('should call commit with params', async () => {
       const fakeStore = {
         commit: jest.fn(),

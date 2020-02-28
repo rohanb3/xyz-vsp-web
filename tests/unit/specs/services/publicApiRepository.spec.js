@@ -6,8 +6,8 @@ import {
   SORTING_DIRECTION,
 } from '@/constants';
 
-describe('publicApiRepository', () => {
-  describe('getBranches', () => {
+xdescribe('publicApiRepository', () => {
+  xdescribe('getBranches', () => {
     it('should call api.get and return data', async () => {
       const companyId = 1;
       const keyword = 'keyword';
@@ -24,7 +24,7 @@ describe('publicApiRepository', () => {
       expect(result).toEqual(data);
     });
   });
-  describe('getCompanies', () => {
+  xdescribe('getCompanies', () => {
     it('should call api.get and return data', async () => {
       const filters = {};
       const params = {

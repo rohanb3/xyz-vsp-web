@@ -7,8 +7,8 @@ import {
   secondsToHoursMinutesSeconds,
 } from '@/services/dateHelper';
 
-describe('dateHelper', () => {
-  describe('secondsToHuman', () => {
+xdescribe('dateHelper', () => {
+  xdescribe('secondsToHuman', () => {
     it('should return "00:00:00" if no value was passed', () => {
       expect(secondsToHuman()).toBe('00:00:00');
     });
@@ -34,7 +34,7 @@ describe('dateHelper', () => {
     });
   });
 
-  describe('filterByDateRange', () => {
+  xdescribe('filterByDateRange', () => {
     let data = null;
 
     beforeEach(() => {
@@ -55,13 +55,13 @@ describe('dateHelper', () => {
       expect(filterByDateRange([], range)).toEqual([]);
     });
 
-    describe('no startDate, no endDate', () => {
+    xdescribe('no startDate, no endDate', () => {
       it('should return all data, if both startDate and endDate in range are missing ', () => {
         expect(filterByDateRange(data, {})).toEqual(data);
       });
     });
 
-    describe('only startDate', () => {
+    xdescribe('only startDate', () => {
       it('startDate is before earliest date in all data', () => {
         const range = {
           startDate: '2018-12-09T00:00:00Z',
@@ -114,7 +114,7 @@ describe('dateHelper', () => {
       });
     });
 
-    describe('only endDate', () => {
+    xdescribe('only endDate', () => {
       it('endDate is before earliest date in all data', () => {
         const range = {
           endDate: '2018-12-09T00:00:00Z',
@@ -159,7 +159,7 @@ describe('dateHelper', () => {
       });
     });
 
-    describe('startDate and endDate exist', () => {
+    xdescribe('startDate and endDate exist', () => {
       it('startDate and endDate range includes all dates in data', () => {
         const range = {
           startDate: '2018-12-09T00:00:00Z',
@@ -207,7 +207,7 @@ describe('dateHelper', () => {
     });
   });
 
-  describe('secondsToMinutesSeconds', () => {
+  xdescribe('secondsToMinutesSeconds', () => {
     it('should return "" if no value was passed', () => {
       expect(secondsToMinutesSeconds()).toBe('');
     });
@@ -237,7 +237,7 @@ describe('dateHelper', () => {
     });
   });
 
-  describe('secondsToHoursMinutes', () => {
+  xdescribe('secondsToHoursMinutes', () => {
     it('should return "0h 00m" if no value was passed', () => {
       expect(secondsToHoursMinutes()).toBe('0h 00m');
     });
@@ -259,7 +259,7 @@ describe('dateHelper', () => {
     });
   });
 
-  describe('secondToMinutes', () => {
+  xdescribe('secondToMinutes', () => {
     it('should return null if no value was passed', () => {
       expect(secondToMinutes()).toBe(null);
     });
@@ -277,7 +277,7 @@ describe('dateHelper', () => {
     });
   });
 
-  describe('secondsToHoursMinutesSeconds', () => {
+  xdescribe('secondsToHoursMinutesSeconds', () => {
     it('should return "0h 0m 0s" if no value was passed', () => {
       expect(secondsToHoursMinutesSeconds()).toBe('0h 0m 0s');
     });

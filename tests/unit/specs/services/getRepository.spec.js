@@ -11,8 +11,8 @@ import {
 } from '@/services/getRepository';
 import { RESPONSE_STATUSES } from '@/constants';
 
-describe('geoRepository', () => {
-  describe('getCompanyList', () => {
+xdescribe('geoRepository', () => {
+  xdescribe('getCompanyList', () => {
     it('should call api.get and return corect data', async () => {
       const data = { id: '777' };
       api.get = jest.fn(() => Promise.resolve({ data }));
@@ -47,7 +47,7 @@ describe('geoRepository', () => {
     });
   });
 
-  describe('getStateList', async () => {
+  xdescribe('getStateList', async () => {
     it('should call getStateList and return corect data', async () => {
       const data = { id: '777' };
       locationApi.get = jest.fn(() => Promise.resolve({ data }));
@@ -59,7 +59,7 @@ describe('geoRepository', () => {
     });
   });
 
-  describe('getCityList', async () => {
+  xdescribe('getCityList', async () => {
     it('should call getCityList and return corect data', async () => {
       const data = { id: '777' };
       locationApi.get = jest.fn(() => Promise.resolve({ data }));
@@ -71,7 +71,7 @@ describe('geoRepository', () => {
     });
   });
 
-  describe('getCompany', async () => {
+  xdescribe('getCompany', async () => {
     it('should call getCompany and return corect data', async () => {
       const id = '132';
       const data = { data: { id: '777' }, status: RESPONSE_STATUSES.OK };
@@ -83,7 +83,7 @@ describe('geoRepository', () => {
       expect(api.get).toHaveBeenCalledWith(`/${id}`);
     });
   });
-  describe('getBranchList', () => {
+  xdescribe('getBranchList', () => {
     it('should call branchesApi.get and return data', async () => {
       const skip = 0;
       const take = 20;
@@ -98,7 +98,7 @@ describe('geoRepository', () => {
       expect(branchesApi.get).toHaveBeenCalledWith('/', { params });
     });
   });
-  describe('getBranch', () => {
+  xdescribe('getBranch', () => {
     it('should call branchesApi.get and return data', async () => {
       const id = 1;
       const name = 'branch #1';

@@ -19,8 +19,8 @@ import {
 
 import * as identityRepository from '@/services/identityRepository';
 
-describe('loggedInUser actions: ', () => {
-  describe('GET_PROFILE_DATA: ', () => {
+xdescribe('loggedInUser actions: ', () => {
+  xdescribe('GET_PROFILE_DATA: ', () => {
     it('should load profile', async () => {
       const fakeStore = {
         commit: jest.fn(),
@@ -43,7 +43,7 @@ describe('loggedInUser actions: ', () => {
       expect(identityRepository.getProfileData).toHaveBeenCalled();
     });
   });
-  describe('LOGIN: ', () => {
+  xdescribe('LOGIN: ', () => {
     it('should get token according to email and login', async () => {
       const fakeStore = {
         commit: jest.fn(),
@@ -72,7 +72,7 @@ describe('loggedInUser actions: ', () => {
       expect(identityRepository.login).toHaveBeenCalled();
     });
   });
-  describe('REFRESH_TOKEN: ', () => {
+  xdescribe('REFRESH_TOKEN: ', () => {
     it('should get new Promise', async () => {
       const refreshToken = '123';
 
@@ -95,7 +95,7 @@ describe('loggedInUser actions: ', () => {
     });
   });
 
-  describe('GET_PHOTO: ', () => {
+  xdescribe('GET_PHOTO: ', () => {
     it('should get url photo', async () => {
       const objectId = '23gh234jhhwej';
       const avatarBase64Url = 'data:image/jpeg;base64,iVBORw0KGg...';
@@ -122,7 +122,7 @@ describe('loggedInUser actions: ', () => {
     });
   });
 
-  describe('GET_RESET_TOKEN: ', () => {
+  xdescribe('GET_RESET_TOKEN: ', () => {
     it('should get remove token', async () => {
       const resetToken = 'fdg234ger56fer';
       const code = 5793;
@@ -140,7 +140,7 @@ describe('loggedInUser actions: ', () => {
     });
   });
 
-  describe('USER_LOGOUT: ', () => {
+  xdescribe('USER_LOGOUT: ', () => {
     it('should user logout', async () => {
       const fakeStore = {
         commit: jest.fn(),

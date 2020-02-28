@@ -1,8 +1,8 @@
 import filterAutocomplete from '@/mixins/filterAutocomplete';
 
-describe('filterAutocomplete mixin', () => {
-  describe('computed:', () => {
-    describe('selectedItems', () => {
+xdescribe('filterAutocomplete mixin', () => {
+  xdescribe('computed:', () => {
+    xdescribe('selectedItems', () => {
       it('should return selected items', () => {
         const filterName = 'NAME';
         const mockedThis = {
@@ -31,7 +31,7 @@ describe('filterAutocomplete mixin', () => {
         expect(selectedItems).toEqual(expectedResult);
       });
     });
-    describe('tableData', () => {
+    xdescribe('tableData', () => {
       it('should return data', () => {
         const tableName = 'tableName';
         const mockedThis = {
@@ -58,7 +58,7 @@ describe('filterAutocomplete mixin', () => {
         expect(result).toEqual(expectedResult);
       });
     });
-    describe('filters', () => {
+    xdescribe('filters', () => {
       it('should return filters', () => {
         const mockedThis = {
           tableData: {
@@ -76,7 +76,7 @@ describe('filterAutocomplete mixin', () => {
         expect(result).toEqual(expectedResult);
       });
     });
-    describe('preselectedItems', () => {
+    xdescribe('preselectedItems', () => {
       it('should return preselectedItems', () => {
         const filterName = 'filterName';
         const mockedThis = {
@@ -102,8 +102,8 @@ describe('filterAutocomplete mixin', () => {
       });
     });
   });
-  describe('filterAutocomplete methods', () => {
-    describe('toggleItem', () => {
+  xdescribe('filterAutocomplete methods', () => {
+    xdescribe('toggleItem', () => {
       it('should call method selectOneItem and applyFilter', () => {
         const filterName = 'filter';
         const mockedThis = {
@@ -125,7 +125,7 @@ describe('filterAutocomplete mixin', () => {
         expect(mockedThis.applyFilter).toHaveBeenCalledWith(mockedThis.selectedItems);
       });
     });
-    describe('selectOneItem', () => {
+    xdescribe('selectOneItem', () => {
       it('should call $set', () => {
         const filterName = 'filter';
         const mockedThis = {
@@ -139,7 +139,7 @@ describe('filterAutocomplete mixin', () => {
         expect(mockedThis.$set).toHaveBeenCalled();
       });
     });
-    describe('selectAllItem', () => {
+    xdescribe('selectAllItem', () => {
       it('should call $set and applyFilters', () => {
         const filterName = 'filter';
         const mockedThis = {
@@ -166,7 +166,7 @@ describe('filterAutocomplete mixin', () => {
         expect(mockedThis.applyFilter).toHaveBeenCalled();
       });
     });
-    describe('onSelectAllItemDisplayed', () => {
+    xdescribe('onSelectAllItemDisplayed', () => {
       it('should call selectAllItem with right params', () => {
         const mockedThis = {
           selectAllItem: jest.fn(),
@@ -187,7 +187,7 @@ describe('filterAutocomplete mixin', () => {
         expect(mockedThis.selectAllItem).toHaveBeenCalledWith(itemKeyName, items, status);
       });
     });
-    describe('onClearAllItemDisplayed', () => {
+    xdescribe('onClearAllItemDisplayed', () => {
       it('should call selectAllItem with right params', () => {
         const mockedThis = {
           selectAllItem: jest.fn(),
@@ -208,7 +208,7 @@ describe('filterAutocomplete mixin', () => {
         expect(mockedThis.selectAllItem).toHaveBeenCalledWith(itemKeyName, items, status);
       });
     });
-    describe('displayPreselectItems', () => {
+    xdescribe('displayPreselectItems', () => {
       it('should call toggleItem method', () => {
         const mockedThis = {
           preselectedItems: [
@@ -226,7 +226,7 @@ describe('filterAutocomplete mixin', () => {
         expect(mockedThis.toggleItem).toHaveBeenCalled();
       });
     });
-    describe('onNotFoundItem', () => {
+    xdescribe('onNotFoundItem', () => {
       it('should call getItemList with right params', () => {
         const mockedThis = {
           loading: false,
@@ -245,7 +245,7 @@ describe('filterAutocomplete mixin', () => {
         expect(getItemList).toHaveBeenCalledWith(searchField);
       });
     });
-    describe('loadingPreselectedItems', () => {
+    xdescribe('loadingPreselectedItems', () => {
       it('should call getItemById', async () => {
         const displayedFieldName = 'displayedFieldName';
         const itemKeyName = 'id';
