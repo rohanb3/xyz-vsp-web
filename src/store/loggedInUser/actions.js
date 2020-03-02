@@ -46,11 +46,15 @@ export default {
     commit(SET_PROMISE_REFRESH_TOKEN, null);
   },
   async [REFRESH_TOKEN]({ commit, state }) {
-    const { refreshToken: currentRefreshToken } = state.token;
-    if (!(state.refreshTokenPromise instanceof Promise)) {
-      commit(SET_PROMISE_REFRESH_TOKEN, refreshTokenApi(currentRefreshToken));
+    if (state.token) {
+      const { refreshToken: currentRefreshToken } = state.token;
+      if (!(state.refreshTokenPromise instanceof Promise)) {
+        commit(SET_PROMISE_REFRESH_TOKEN, refreshTokenApi(currentRefreshToken));
+      }
+      return state.refreshTokenPromise;
     }
-    return state.refreshTokenPromise;
+
+    return Promise.reject(new Error({ message: 'Token was null' }));
   },
   async [GET_PHOTO]({ commit, state }) {
     const { data: avatarBase64Url } = await getAvatar(state.profileData.objectId);
