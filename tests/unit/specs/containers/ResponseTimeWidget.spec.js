@@ -11,7 +11,7 @@ describe('ResponseTimeWidget:', () => {
 
   beforeEach(() => {
     getters = {
-      callStatisticsAnswered: () => ({ averageWaitingDuration: 21, maxWaitingDuration: 45, })
+      callStatisticsAnswered: () => ({ averageWaitingDuration: 21, maxWaitingDuration: 45 }),
     };
 
     store = new Vuex.Store({
@@ -32,5 +32,4 @@ describe('ResponseTimeWidget:', () => {
     const expected = '00:45';
     expect(actual).toBe(expected);
   });
-
 });
