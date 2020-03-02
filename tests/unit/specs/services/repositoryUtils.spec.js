@@ -1,8 +1,8 @@
 import qs from 'qs';
 import { paramsSerializer } from '@/services/repositoryUtils';
 
-xdescribe('repositoryUtils', () => {
-  xdescribe('paramsSerializer', () => {
+describe('repositoryUtils', () => {
+  describe('paramsSerializer', () => {
     it('should return formatted string if passed parameters', () => {
       qs.stringify = jest.fn();
       const options = { skipNulls: true, arrayFormat: 'repeat' };

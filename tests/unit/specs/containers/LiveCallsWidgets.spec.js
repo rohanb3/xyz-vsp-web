@@ -11,7 +11,7 @@ describe('LiveCallsWidgets:', () => {
 
   beforeEach(() => {
     getters = {
-      activeCalls: () => ({ count: 13 }),
+      activeCallsCount: () => 300,
     };
 
     store = new Vuex.Store({
@@ -22,7 +22,7 @@ describe('LiveCallsWidgets:', () => {
   it('should show data from store', () => {
     const wrapper = shallowMount(LiveCallsWidgets, { store, localVue, mocks: { $t: () => {} } });
     const actual = wrapper.find('.real-time-cnt').text();
-    const expected = getters.activeCalls().count.toString();
+    const expected = '300';
     expect(actual).toBe(expected);
   });
 });

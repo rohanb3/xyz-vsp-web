@@ -23,8 +23,8 @@ import * as repositoryHelper from '@/store/storage/repositoryHelper';
 
 const itemType = 'SOME_TYPE';
 
-xdescribe('storage actions: ', () => {
-  xdescribe('LOAD_ITEMS: ', () => {
+describe('storage actions: ', () => {
+  describe('LOAD_ITEMS: ', () => {
     it('should load items', async () => {
       let result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
       result = result.concat(result).concat(result);
@@ -77,7 +77,7 @@ xdescribe('storage actions: ', () => {
     });
   });
 
-  xdescribe('LOAD_MORE_ITEMS: ', () => {
+  describe('LOAD_MORE_ITEMS: ', () => {
     it('should load more items', async () => {
       let result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
       result = result.concat(result).concat(result);
@@ -131,7 +131,7 @@ xdescribe('storage actions: ', () => {
     });
   });
 
-  xdescribe('CREATE_ITEM: ', () => {
+  describe('CREATE_ITEM: ', () => {
     it('should create item', async () => {
       const item = { id: 123, _new: true };
       const fakeStore = {
@@ -150,7 +150,7 @@ xdescribe('storage actions: ', () => {
     });
   });
 
-  xdescribe('UPDATE_ITEM: ', () => {
+  describe('UPDATE_ITEM: ', () => {
     it('should update item', async () => {
       const item = { id: 1, title: 'Foxtrot' };
       const fakeStore = {
@@ -166,7 +166,7 @@ xdescribe('storage actions: ', () => {
     });
   });
 
-  xdescribe('DELETE_ITEM: ', () => {
+  describe('DELETE_ITEM: ', () => {
     it('should delete item', async () => {
       const id = 2;
 

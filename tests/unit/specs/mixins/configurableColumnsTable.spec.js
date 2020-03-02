@@ -3,7 +3,7 @@ import { SET_COLUMNS, RESET_COLUMNS, SHOW_COLUMN, HIDE_COLUMN } from '@/store/ta
 
 let fakeThis;
 
-xdescribe('configurableColumnsTable mixin', () => {
+describe('configurableColumnsTable mixin', () => {
   beforeEach(() => {
     fakeThis = {
       tableName: 'hawkwind',
@@ -13,7 +13,7 @@ xdescribe('configurableColumnsTable mixin', () => {
     };
   });
 
-  xdescribe('onColumnsReordered()', () => {
+  describe('onColumnsReordered()', () => {
     it('should commit columns to store', async () => {
       const columns = [{ id: 123 }, { id: 321 }];
 
@@ -28,7 +28,7 @@ xdescribe('configurableColumnsTable mixin', () => {
     });
   });
 
-  xdescribe('onColumnsResized()', () => {
+  describe('onColumnsResized()', () => {
     it('should commit columns to store', async () => {
       const columns = [
         { id: 123, width: 200, name: 'user' },
@@ -57,7 +57,7 @@ xdescribe('configurableColumnsTable mixin', () => {
     });
   });
 
-  xdescribe('onColumnVisibilityChanged()', () => {
+  describe('onColumnVisibilityChanged()', () => {
     it('should show column if visible', () => {
       const expectedData = {
         tableName: 'hawkwind',
@@ -87,7 +87,7 @@ xdescribe('configurableColumnsTable mixin', () => {
     });
   });
 
-  xdescribe('setDefaultColumns()', () => {
+  describe('setDefaultColumns()', () => {
     it('should commit to store', () => {
       configurableColumnsTable.methods.setDefaultColumns.call(fakeThis);
       expect(fakeThis.$store.commit).toHaveBeenCalledWith(RESET_COLUMNS, 'hawkwind');

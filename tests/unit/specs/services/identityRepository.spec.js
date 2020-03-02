@@ -16,8 +16,8 @@ import { RESPONSE_STATUSES } from '@/constants';
 
 const { OK } = RESPONSE_STATUSES;
 
-xdescribe('identityRepository', () => {
-  xdescribe('getAvatar', () => {
+describe('identityRepository', () => {
+  describe('getAvatar', () => {
     it('should call api.get and return correct data', async () => {
       const id = '0e4a5c89-d3b0-42ba-bf68-e207391ce30c';
       const data = { status: 200, data: '123' };
@@ -35,7 +35,7 @@ xdescribe('identityRepository', () => {
     });
   });
 
-  xdescribe('requestVerificationCode', () => {
+  describe('requestVerificationCode', () => {
     it('should call api.post and return corect data', async () => {
       const email = 'example@example.com';
 
@@ -49,7 +49,7 @@ xdescribe('identityRepository', () => {
     });
   });
 
-  xdescribe('verifyCode', () => {
+  describe('verifyCode', () => {
     it('should call api.post and return corect data', async () => {
       const email = 'example@example.com';
       const code = 456;
@@ -67,7 +67,7 @@ xdescribe('identityRepository', () => {
     });
   });
 
-  xdescribe('resetPassword', () => {
+  describe('resetPassword', () => {
     it('should call api.post and return corect data', async () => {
       const resetToken = 'erter34h5rb34it34n';
       const password = '12345456';
@@ -84,7 +84,7 @@ xdescribe('identityRepository', () => {
       });
     });
   });
-  xdescribe('updateAvatar', () => {
+  describe('updateAvatar', () => {
     it('should call api.put', async () => {
       const id = 1;
       const updates = {};
@@ -101,7 +101,7 @@ xdescribe('identityRepository', () => {
     });
   });
 
-  xdescribe('deleteAvatar', () => {
+  describe('deleteAvatar', () => {
     it('should cal api.delete', async () => {
       const id = 1;
 
@@ -112,7 +112,7 @@ xdescribe('identityRepository', () => {
       expect(api.delete).toHaveBeenCalledWith(`/users/${id}/avatar`);
     });
   });
-  xdescribe('getUser', () => {
+  describe('getUser', () => {
     it('should call api.get and return data', async () => {
       const id = 1;
       const name = 'user';
@@ -126,7 +126,7 @@ xdescribe('identityRepository', () => {
       expect(result).toEqual(data);
     });
   });
-  xdescribe('refreshToken', () => {
+  describe('refreshToken', () => {
     it('should call api.post and return data', async () => {
       /* eslint-disable */
       const refresh_token = 'refresh_token';
@@ -141,7 +141,7 @@ xdescribe('identityRepository', () => {
       expect(response).toEqual(data);
     });
   });
-  xdescribe('login', () => {
+  describe('login', () => {
     it('should call api.post and return data', async () => {
       const email = 'email';
       const password = 'password';
@@ -160,7 +160,7 @@ xdescribe('identityRepository', () => {
       expect(result).toEqual(data);
     });
   });
-  xdescribe('getProfileData', () => {
+  describe('getProfileData', () => {
     it('should call api.get and return data', async () => {
       const data = {
         id: 1,

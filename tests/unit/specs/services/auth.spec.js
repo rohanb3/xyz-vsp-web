@@ -1,8 +1,8 @@
 import api from '@/services/api';
 import { login } from '@/services/auth';
 
-xdescribe('auth', () => {
-  xdescribe('login', () => {
+describe('auth', () => {
+  describe('login', () => {
     it('should call api.post and return correct data', async () => {
       const [userName, password] = ['userName', 'password'];
       const data = { role: 'admin' };

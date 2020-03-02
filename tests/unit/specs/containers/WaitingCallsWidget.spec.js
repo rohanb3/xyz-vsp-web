@@ -11,7 +11,7 @@ describe('WaitingCallsWidgets:', () => {
 
   beforeEach(() => {
     getters = {
-      waitingCalls: () => ({ count: 12 }),
+      waitingCallsCount: () => 250,
     };
 
     store = new Vuex.Store({
@@ -22,7 +22,7 @@ describe('WaitingCallsWidgets:', () => {
   it('should show data from store', () => {
     const wrapper = shallowMount(WaitingCallsWidgets, { store, localVue, mocks: { $t: () => {} } });
     const actual = wrapper.find('.real-time-cnt').text();
-    const expected = getters.waitingCalls().count.toString();
+    const expected = '250';
     expect(actual).toBe(expected);
   });
 });

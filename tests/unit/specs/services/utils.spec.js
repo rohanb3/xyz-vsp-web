@@ -1,7 +1,7 @@
 import { extractPropertiesFromArrObj, getStringFromValuesByKey } from '@/services/utils';
 
-xdescribe('utils', () => {
-  xdescribe('extractPropertiesFromArrObj', () => {
+describe('utils', () => {
+  describe('extractPropertiesFromArrObj', () => {
     it('should return array id ', () => {
       const stateArray = [{ id: 1, name: 'Alabama' }, { id: 2, name: 'Alaska' }];
 
@@ -29,7 +29,7 @@ xdescribe('utils', () => {
       expect([]).toEqual(result);
     });
   });
-  xdescribe('getStringFromValuesByKey: ', () => {
+  describe('getStringFromValuesByKey: ', () => {
     it('should return empty string if passed empty itemKey', () => {
       const items = [
         { id: 1, name: 'Alabama', value: 'AL', selected: true },

@@ -1,7 +1,7 @@
 import nestedFieldCell from '@/mixins/nestedFieldCell';
 
-xdescribe('nestedFieldCell mixin', () => {
-  xdescribe('fields', () => {
+describe('nestedFieldCell mixin', () => {
+  describe('fields', () => {
     it('should return correct array if delimiter presents', () => {
       const fakeThis = {
         column: { field: 'car.model' },
@@ -38,7 +38,7 @@ xdescribe('nestedFieldCell mixin', () => {
     });
   });
 
-  xdescribe('value', () => {
+  describe('value', () => {
     it('should return correct string if fields coincide', () => {
       const fakeThis = {
         fields: ['car', 'model'],

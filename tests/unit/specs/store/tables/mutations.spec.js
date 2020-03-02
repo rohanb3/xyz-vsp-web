@@ -10,8 +10,8 @@ import mutations from '@/store/tables/mutations';
 import * as types from '@/store/tables/mutationTypes';
 import { ENTITY_TYPES } from '@/constants';
 
-xdescribe('tables mutations', () => {
-  xdescribe('SET_COLUMNS', () => {
+describe('tables mutations', () => {
+  describe('SET_COLUMNS', () => {
     it('should set columns by tableName', () => {
       const state = {
         [ENTITY_TYPES.CALLS]: {
@@ -30,7 +30,7 @@ xdescribe('tables mutations', () => {
     });
   });
 
-  xdescribe('HIDE_COLUMN', () => {
+  describe('HIDE_COLUMN', () => {
     it('should remove column', () => {
       const columns = [
         { name: 'clientFeedback' },
@@ -54,7 +54,7 @@ xdescribe('tables mutations', () => {
     });
   });
 
-  xdescribe('SET_DATE_RANGE', () => {
+  describe('SET_DATE_RANGE', () => {
     it('should set date range', () => {
       const dateRange = {
         startDate: '2018-12-19T00:00:00Z',
@@ -79,7 +79,7 @@ xdescribe('tables mutations', () => {
     });
   });
 
-  xdescribe('SET_FILTER', () => {
+  describe('SET_FILTER', () => {
     it('should set filter', () => {
       const state = {
         [ENTITY_TYPES.CALLS]: {

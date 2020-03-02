@@ -2,8 +2,8 @@ import api from '@/services/callsApi';
 import { getCalls, getCallsTypes, saveFeedback } from '@/services/callRepository';
 import { CALL_DISPOSITIONS, CALL_TYPES } from '@/constants';
 
-xdescribe('callRepository', () => {
-  xdescribe('getCalls', () => {
+describe('callRepository', () => {
+  describe('getCalls', () => {
     it('should call api get with params', async () => {
       const params = {
         direction: 'desc',
@@ -20,7 +20,7 @@ xdescribe('callRepository', () => {
       expect(api.get).toHaveBeenCalledWith('/calls', { params });
     });
   });
-  xdescribe('getCallsTypes', () => {
+  describe('getCallsTypes', () => {
     it('should return data', () => {
       const expectedResult = Promise.resolve({
         callTypes: [...CALL_TYPES],
@@ -32,7 +32,7 @@ xdescribe('callRepository', () => {
       expect(result).toEqual(expectedResult);
     });
   });
-  xdescribe('saveFeedback', () => {
+  describe('saveFeedback', () => {
     it('should call api.post and return data', async () => {
       const data = {
         rating: 5,

@@ -1,7 +1,7 @@
 import { getInitials, getRandomColor } from '@/services/stylesHelper';
 
-xdescribe('stylesHelper', () => {
-  xdescribe('getInitials', () => {
+describe('stylesHelper', () => {
+  describe('getInitials', () => {
     it('should return empty string if params absent', () => {
       expect(getInitials()).toBe('');
     });
@@ -22,7 +22,7 @@ xdescribe('stylesHelper', () => {
       expect(getInitials('George', 'Smith')).toBe('GS');
     });
   });
-  xdescribe('getRandomColor', () => {
+  describe('getRandomColor', () => {
     it('should return hex color', () => {
       const result = getRandomColor();
       const hexPattern = /#[A-Fa-f0-9]{6}/;

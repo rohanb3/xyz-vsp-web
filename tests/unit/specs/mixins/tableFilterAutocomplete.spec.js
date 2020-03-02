@@ -5,9 +5,9 @@ const _ = require('lodash.debounce');
 
 jest.useFakeTimers();
 
-xdescribe('tableFilterAutocomplete mixin', () => {
-  xdescribe('tableFilterAutocomplete computed', () => {
-    xdescribe('selectedItems', () => {
+describe('tableFilterAutocomplete mixin', () => {
+  describe('tableFilterAutocomplete computed', () => {
+    describe('selectedItems', () => {
       it('should return selectedItems', () => {
         const filterName = 'filter';
         const mockedThis = {
@@ -32,7 +32,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
       });
     });
 
-    xdescribe('tableData', () => {
+    describe('tableData', () => {
       it('should return tableData', () => {
         const tableName = 'tableName';
         const mockedThis = {
@@ -66,7 +66,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
       });
     });
 
-    xdescribe('filters', () => {
+    describe('filters', () => {
       it('should return filters', () => {
         const tableName = 'tableName';
         const mockedThis = {
@@ -87,7 +87,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
       });
     });
 
-    xdescribe('preselectedItems', () => {
+    describe('preselectedItems', () => {
       it('should return preselected items', () => {
         const filterName = 'filterName';
         const mockedThis = {
@@ -105,8 +105,8 @@ xdescribe('tableFilterAutocomplete mixin', () => {
       });
     });
   });
-  xdescribe('tableFilterAutocomplete methods', () => {
-    xdescribe('toggleItem', () => {
+  describe('tableFilterAutocomplete methods', () => {
+    describe('toggleItem', () => {
       it('should call method selectOneItem and applyFilter', () => {
         const filterName = 'filter';
         const mockedThis = {
@@ -128,7 +128,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
         expect(mockedThis.applyFilter).toHaveBeenCalledWith(mockedThis.selectedItems);
       });
     });
-    xdescribe('selectOneItem', () => {
+    describe('selectOneItem', () => {
       it('should call $set', () => {
         const filterName = 'filter';
         const mockedThis = {
@@ -142,7 +142,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
         expect(mockedThis.$set).toHaveBeenCalled();
       });
     });
-    xdescribe('selectAllItem', () => {
+    describe('selectAllItem', () => {
       it('should call $set and applyFilters', () => {
         const filterName = 'filter';
         const mockedThis = {
@@ -174,7 +174,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
         expect(mockedThis.applyFilter).toHaveBeenCalled();
       });
     });
-    xdescribe('onSelectAllItemDisplayed', () => {
+    describe('onSelectAllItemDisplayed', () => {
       it('should call selectAllItem with right params', () => {
         const mockedThis = {
           selectAllItem: jest.fn(),
@@ -195,7 +195,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
         expect(mockedThis.selectAllItem).toHaveBeenCalledWith(itemKeyName, items, status);
       });
     });
-    xdescribe('onClearAllItemDisplayed', () => {
+    describe('onClearAllItemDisplayed', () => {
       it('should call selectAllItem with right params', () => {
         const mockedThis = {
           selectAllItem: jest.fn(),
@@ -216,7 +216,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
         expect(mockedThis.selectAllItem).toHaveBeenCalledWith(itemKeyName, items, status);
       });
     });
-    xdescribe('applyFilter', () => {
+    describe('applyFilter', () => {
       let clock;
 
       beforeEach(() => {
@@ -240,7 +240,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
         expect(func).toHaveBeenCalledTimes(1);
       });
     });
-    xdescribe('displayPreselectItems', () => {
+    describe('displayPreselectItems', () => {
       it('should call toggleItem method', () => {
         const mockedThis = {
           preselectedItems: [
@@ -258,7 +258,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
         expect(mockedThis.toggleItem).toHaveBeenCalled();
       });
     });
-    xdescribe('onNotFoundItem', () => {
+    describe('onNotFoundItem', () => {
       it('should call getItemList with right params', () => {
         const mockedThis = {
           loading: false,
@@ -277,7 +277,7 @@ xdescribe('tableFilterAutocomplete mixin', () => {
         expect(getItemList).toHaveBeenCalledWith(searchField);
       });
     });
-    xdescribe('loadingPreselectedItems', () => {
+    describe('loadingPreselectedItems', () => {
       it('should call getItemById', async () => {
         const displayedFieldName = 'displayedFieldName';
         const itemKeyName = 'id';

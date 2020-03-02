@@ -12,13 +12,13 @@ export default {
     return (state.activeCalls && state.activeCalls.count) || 0;
   },
   operatorsOffline(state) {
-    return state.operatorsOffline;
+    return state.operatorsOffline || 0;
   },
   operatorsOnCall(state) {
-    return state.operatorsOnCall;
+    return state.operatorsOnCall || 0;
   },
   operatorsAvailable(state) {
-    return state.operatorsAvailable;
+    return state.operatorsAvailable || 0;
   },
   callStatisticsAnswered(state) {
     return state.callStatisticsAnswered;

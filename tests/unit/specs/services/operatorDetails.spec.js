@@ -3,7 +3,7 @@ import { getOperatorDetails } from '@/services/operatorDetails';
 
 let data;
 
-xdescribe('should call api.get and return corect data', () => {
+describe('should call api.get and return corect data', () => {
   beforeEach(() => {
     data = {
       id: '99838',
@@ -22,7 +22,7 @@ xdescribe('should call api.get and return corect data', () => {
     };
   });
 
-  xdescribe('getOperatorDetails', () => {
+  describe('getOperatorDetails', () => {
     it('should call api.get and return correct data', async () => {
       api.get = jest.fn(() => Promise.resolve({ data }));
       const response = await getOperatorDetails();

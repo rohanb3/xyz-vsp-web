@@ -6,8 +6,8 @@ import { RESET_FILTERS } from '@/store/tables/mutationTypes';
 
 const tableName = 'test';
 
-xdescribe('lazyLoadTable mixin: ', () => {
-  xdescribe('checkAndLoadItems(): ', () => {
+describe('lazyLoadTable mixin: ', () => {
+  describe('checkAndLoadItems(): ', () => {
     it('should do nothing if all aitems were loaded', () => {
       const mockedThis = {
         allItemsLoaded: true,
@@ -31,7 +31,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
       expect(mockedThis.loadMoreItems).toHaveBeenCalled();
     });
   });
-  xdescribe('loadItems(): ', () => {
+  describe('loadItems(): ', () => {
     it('should load actions', () => {
       const filters = {};
       const mockedThis = {
@@ -56,7 +56,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
       });
     });
   });
-  xdescribe('loadMoreItems(): ', () => {
+  describe('loadMoreItems(): ', () => {
     it('should call actions LOAD_MORE_ITEMS', () => {
       const filters = { date: '2019.06.01' };
       const mockedThis = {
@@ -96,7 +96,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
       expect(mockedThis.loading).toBeFalsy();
     });
   });
-  xdescribe('resetItems(): ', () => {
+  describe('resetItems(): ', () => {
     it('should call mutation RESET_ITEMS', () => {
       const mockedThis = {
         $store: {
@@ -110,7 +110,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
       expect(mockedThis.$store.commit).toHaveBeenCalledWith(RESET_ITEMS, tableName);
     });
   });
-  xdescribe('applyFilters(): ', () => {
+  describe('applyFilters(): ', () => {
     it('should call action APPLY_FILTERS with parameters', () => {
       const mockedThis = {
         $store: {
@@ -131,7 +131,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
       expect(mockedThis.$store.dispatch).toHaveBeenCalledWith(APPLY_FILTERS, expectedData);
     });
   });
-  xdescribe('resetFilters(): ', () => {
+  describe('resetFilters(): ', () => {
     it('should call mutation RESET_FILTERS', () => {
       const mockedThis = {
         $store: {
@@ -145,7 +145,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
       expect(mockedThis.$store.commit).toHaveBeenCalledWith(RESET_FILTERS, tableName);
     });
   });
-  xdescribe('onFiltersApplied(): ', () => {
+  describe('onFiltersApplied(): ', () => {
     it('should call applyFilters with params', () => {
       const mockedThis = {
         applyFilters: jest.fn(),
@@ -159,8 +159,8 @@ xdescribe('lazyLoadTable mixin: ', () => {
     });
   });
 
-  xdescribe('computed', () => {
-    xdescribe('totalItems', () => {
+  describe('computed', () => {
+    describe('totalItems', () => {
       it('should return total items', () => {
         const mockedThis = {
           tableName,
@@ -172,7 +172,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
         expect(result).toEqual(7);
       });
     });
-    xdescribe('filters', () => {
+    describe('filters', () => {
       it('should return object with filters if filters is not empty', () => {
         const filters = { id: 7 };
         const mockedThis = {
@@ -196,7 +196,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
         expect(result).toEqual({});
       });
     });
-    xdescribe('role', () => {
+    describe('role', () => {
       it('should return role name', () => {
         const mockedThis = {
           $store: {
@@ -211,7 +211,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
         expect(result).toEqual('admin');
       });
     });
-    xdescribe('applyingFilters', () => {
+    describe('applyingFilters', () => {
       it('should return boolean value', () => {
         const mockedThis = {
           tableData: { applyingFilters: true },
@@ -222,7 +222,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
         expect(result).toBeTruthy();
       });
     });
-    xdescribe('storageData', () => {
+    describe('storageData', () => {
       it('should return data', () => {
         const table = 'tableName';
         const mockedThis = {
@@ -243,7 +243,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
         expect(result).toEqual({ id: 1 });
       });
     });
-    xdescribe('tableData', () => {
+    describe('tableData', () => {
       it('should return tableData', () => {
         const data = 'table';
         const mockedThis = {
@@ -263,7 +263,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
         expect(result).toEqual(expectedResult);
       });
     });
-    xdescribe('rows', () => {
+    describe('rows', () => {
       it('should return data', () => {
         const mockedThis = {
           storageData: {
@@ -280,7 +280,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
         expect(result).toEqual([{ id: 1 }]);
       });
     });
-    xdescribe('allItemsLoaded', () => {
+    describe('allItemsLoaded', () => {
       it('should return data', () => {
         const mockedThis = {
           storageData: {
@@ -293,7 +293,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
         expect(result).toBeTruthy();
       });
     });
-    xdescribe('usersDashboardStatistics', () => {
+    describe('usersDashboardStatistics', () => {
       it('should return data', () => {
         const mockedThis = {
           storageData: {
@@ -310,7 +310,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
     });
   });
 
-  xdescribe('beforeDestroy', () => {
+  describe('beforeDestroy', () => {
     it('should call resetItems and resetFilters if defined resetDataBeforeLeave as true', () => {
       const mockedThis = {
         resetItems: jest.fn(),
@@ -324,7 +324,7 @@ xdescribe('lazyLoadTable mixin: ', () => {
       expect(mockedThis.resetFilters).toHaveBeenCalled();
     });
   });
-  xdescribe('mounted', () => {
+  describe('mounted', () => {
     it('should call loadItems if defined initialLoad as true', () => {
       const mockedThis = {
         loadItems: jest.fn(),

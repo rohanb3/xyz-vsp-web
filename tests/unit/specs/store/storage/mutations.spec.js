@@ -11,8 +11,8 @@ import {
 } from '@/store/storage/mutationTypes';
 import { ENTITY_TYPES } from '@/constants';
 
-xdescribe('storage mutations: ', () => {
-  xdescribe('INSERT_ITEMS: ', () => {
+describe('storage mutations: ', () => {
+  describe('INSERT_ITEMS: ', () => {
     it('should insert items', () => {
       const state = {
         [ENTITY_TYPES.CALLS]: {
@@ -31,7 +31,7 @@ xdescribe('storage mutations: ', () => {
     });
   });
 
-  xdescribe('UPSERT_ITEMS: ', () => {
+  describe('UPSERT_ITEMS: ', () => {
     it('should upsert items', () => {
       const state = {
         [ENTITY_TYPES.CALLS]: {
@@ -50,7 +50,7 @@ xdescribe('storage mutations: ', () => {
     });
   });
 
-  xdescribe('RESET_ITEMS: ', () => {
+  describe('RESET_ITEMS: ', () => {
     it('should reset items', () => {
       const state = {
         [ENTITY_TYPES.CALLS]: {
@@ -66,7 +66,7 @@ xdescribe('storage mutations: ', () => {
     });
   });
 
-  xdescribe('SET_ALL_ITEMS_LOADED: ', () => {
+  describe('SET_ALL_ITEMS_LOADED: ', () => {
     it('should set items loaded', () => {
       const state = {
         [ENTITY_TYPES.CALLS]: {
@@ -80,7 +80,7 @@ xdescribe('storage mutations: ', () => {
     });
   });
 
-  xdescribe('CHANGE_ITEM: ', () => {
+  describe('CHANGE_ITEM: ', () => {
     it('should change item', () => {
       const state = {
         [ENTITY_TYPES.CALLS]: {
@@ -144,7 +144,7 @@ xdescribe('storage mutations: ', () => {
     });
   });
 
-  xdescribe('REMOVE_ITEM: ', () => {
+  describe('REMOVE_ITEM: ', () => {
     it('item should be deleted', () => {
       const state = {
         [ENTITY_TYPES.CALLS]: {

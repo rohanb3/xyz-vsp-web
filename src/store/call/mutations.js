@@ -15,6 +15,8 @@ export default {
   },
   [SET_CALL_TOKEN](state, token) {
     state.token = token;
+    console.log('SET_CALL_TOKEN > state:', state);
+    console.log('SET_CALL_TOKEN > token:', token);
   },
   [SET_CALL_DATA](state, callData) {
     if (state.activeCallData) {

@@ -1,8 +1,8 @@
 import { hubConnection, hubConnectionBuilder, HttpTransportType, LogLevel } from '@aspnet/signalr';
 import * as deviceManagementSocket from '@/services/deviceManagementSocket';
 
-xdescribe('deviceManagementSocket: ', () => {
-  xdescribe('initialization: ', () => {
+describe('deviceManagementSocket: ', () => {
+  describe('initialization: ', () => {
     it('should set url and options', () => {
       const expectedUrl = '/api/device-management-api/operatorSocket';
       const expectedOptons = {
@@ -21,7 +21,7 @@ xdescribe('deviceManagementSocket: ', () => {
     });
   });
 
-  xdescribe('connect(): ', () => {
+  describe('connect(): ', () => {
     it('should start connection and register updates listener', () => {
       const onDeviceUpdated = jest.fn();
       return deviceManagementSocket.connect(onDeviceUpdated).then(() => {
@@ -34,7 +34,7 @@ xdescribe('deviceManagementSocket: ', () => {
     });
   });
 
-  xdescribe('subscribeToDeviceChanges(): ', () => {
+  describe('subscribeToDeviceChanges(): ', () => {
     it('should invoke correct method with correct params', () => {
       const ids = ['1', '2', '42'];
       const expectedParams = { Udids: ids };
@@ -47,7 +47,7 @@ xdescribe('deviceManagementSocket: ', () => {
     });
   });
 
-  xdescribe('unsubscribeFromDeviceChanges(): ', () => {
+  describe('unsubscribeFromDeviceChanges(): ', () => {
     it('should invoke correct methods with correct params', () => {
       const expectedParams = { Udids: [] };
       return deviceManagementSocket.unsubscribeFromDeviceChanges().then(() => {
@@ -59,7 +59,7 @@ xdescribe('deviceManagementSocket: ', () => {
     });
   });
 
-  xdescribe('pickNeededFields(): ', () => {
+  describe('pickNeededFields(): ', () => {
     it('should return only needed fields if json is correct', () => {
       const data = {
         device: {
@@ -87,7 +87,7 @@ xdescribe('deviceManagementSocket: ', () => {
       expect(deviceManagementSocket.pickNeededFields(invalidJson)).toEqual({});
     });
   });
-  xdescribe('addedDeviceFunc', () => {
+  describe('addedDeviceFunc', () => {
     it('should return parsed data', () => {
       const result = deviceManagementSocket.addedDeviceFunc(JSON.stringify({ id: 1 }));
 

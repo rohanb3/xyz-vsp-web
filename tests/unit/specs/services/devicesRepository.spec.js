@@ -8,8 +8,8 @@ import {
   submitComment,
 } from '@/services/devicesRepository';
 
-xdescribe('devicesRepository', () => {
-  xdescribe('getDevices(): ', () => {
+describe('devicesRepository', () => {
+  describe('getDevices(): ', () => {
     it('should make request and return data', () => {
       const response = {
         data: {
@@ -28,7 +28,7 @@ xdescribe('devicesRepository', () => {
       });
     });
   });
-  xdescribe('getDeviceHistory(): ', () => {
+  describe('getDeviceHistory(): ', () => {
     it('should do nothing if no device id was specified', () => {
       const expectedResponse = {
         data: [],
@@ -81,7 +81,7 @@ xdescribe('devicesRepository', () => {
       });
     });
   });
-  xdescribe('createDevice', () => {
+  describe('createDevice', () => {
     it('should call api.post and return corect data', async () => {
       const data = {
         id: 123,
@@ -95,7 +95,7 @@ xdescribe('devicesRepository', () => {
       expect(api.post).toHaveBeenCalledWith('/devices', data);
     });
   });
-  xdescribe('updateDevice', () => {
+  describe('updateDevice', () => {
     it('should call api.put and return data', async () => {
       const id = 1;
       const params = { name: 'device 1' };
@@ -110,7 +110,7 @@ xdescribe('devicesRepository', () => {
       expect(result).toEqual(data);
     });
   });
-  xdescribe('getCommentByDevice', () => {
+  describe('getCommentByDevice', () => {
     it('should call api.get and return data', async () => {
       const data = { result: [], total: 0 };
       const params = { sortDirection: 'desc' };
@@ -125,7 +125,7 @@ xdescribe('devicesRepository', () => {
       expect(result).toEqual(expectedResult);
     });
   });
-  xdescribe('submitComment', () => {
+  describe('submitComment', () => {
     it('should call api.post and return data', async () => {
       const id = 1;
       const comment = 'comment';

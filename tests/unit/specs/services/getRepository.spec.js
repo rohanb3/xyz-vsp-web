@@ -11,8 +11,8 @@ import {
 } from '@/services/getRepository';
 import { RESPONSE_STATUSES } from '@/constants';
 
-xdescribe('geoRepository', () => {
-  xdescribe('getCompanyList', () => {
+describe('geoRepository', () => {
+  describe('getCompanyList', () => {
     it('should call api.get and return corect data', async () => {
       const data = { id: '777' };
       api.get = jest.fn(() => Promise.resolve({ data }));
@@ -47,7 +47,7 @@ xdescribe('geoRepository', () => {
     });
   });
 
-  xdescribe('getStateList', async () => {
+  describe('getStateList', async () => {
     it('should call getStateList and return corect data', async () => {
       const data = { id: '777' };
       locationApi.get = jest.fn(() => Promise.resolve({ data }));
@@ -59,7 +59,7 @@ xdescribe('geoRepository', () => {
     });
   });
 
-  xdescribe('getCityList', async () => {
+  describe('getCityList', async () => {
     it('should call getCityList and return corect data', async () => {
       const data = { id: '777' };
       locationApi.get = jest.fn(() => Promise.resolve({ data }));
@@ -71,7 +71,7 @@ xdescribe('geoRepository', () => {
     });
   });
 
-  xdescribe('getCompany', async () => {
+  describe('getCompany', async () => {
     it('should call getCompany and return corect data', async () => {
       const id = '132';
       const data = { data: { id: '777' }, status: RESPONSE_STATUSES.OK };
@@ -83,7 +83,7 @@ xdescribe('geoRepository', () => {
       expect(api.get).toHaveBeenCalledWith(`/${id}`);
     });
   });
-  xdescribe('getBranchList', () => {
+  describe('getBranchList', () => {
     it('should call branchesApi.get and return data', async () => {
       const skip = 0;
       const take = 20;
@@ -98,7 +98,7 @@ xdescribe('geoRepository', () => {
       expect(branchesApi.get).toHaveBeenCalledWith('/', { params });
     });
   });
-  xdescribe('getBranch', () => {
+  describe('getBranch', () => {
     it('should call branchesApi.get and return data', async () => {
       const id = 1;
       const name = 'branch #1';

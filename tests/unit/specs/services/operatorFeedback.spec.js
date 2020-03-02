@@ -4,7 +4,7 @@ import * as callRepository from '@/services/callRepository';
 
 const FEEDBACKS_TO_SAVE = 'FEEDBACKS_TO_SAVE';
 
-xdescribe('operatorFeedback: ', () => {
+describe('operatorFeedback: ', () => {
   beforeEach(() => {
     localStorage.removeItem(FEEDBACKS_TO_SAVE);
     localStorage.getItem.mockClear();
@@ -21,7 +21,7 @@ xdescribe('operatorFeedback: ', () => {
     jest.restoreAllMocks();
   });
 
-  xdescribe('saveFeedback(): ', () => {
+  describe('saveFeedback(): ', () => {
     it('should save feedback', () => {
       const feedback = {
         callId: '42',
@@ -107,7 +107,7 @@ xdescribe('operatorFeedback: ', () => {
     });
   });
 
-  xdescribe('checkAndSaveWaitingFeedbacks(): ', () => {
+  describe('checkAndSaveWaitingFeedbacks(): ', () => {
     it('should do anything if no waiting feedbacks', () => {
       const expectedFeedbacks = JSON.stringify([]);
 

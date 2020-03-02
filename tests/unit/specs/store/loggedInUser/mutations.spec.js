@@ -8,8 +8,8 @@ import {
   SET_EMAIL,
 } from '@/store/loggedInUser/mutationTypes';
 
-xdescribe('loggedInUser mutations: ', () => {
-  xdescribe('SET_PROFILE_DATA: ', () => {
+describe('loggedInUser mutations: ', () => {
+  describe('SET_PROFILE_DATA: ', () => {
     it('should insert profile', () => {
       const state = {
         profileData: {},
@@ -28,7 +28,7 @@ xdescribe('loggedInUser mutations: ', () => {
     });
   });
 
-  xdescribe('CLEAR_PROFILE_DATA: ', () => {
+  describe('CLEAR_PROFILE_DATA: ', () => {
     it('should clear profile', () => {
       const state = {
         profileData: {},
@@ -40,7 +40,7 @@ xdescribe('loggedInUser mutations: ', () => {
       expect(state.profileData).toEqual(expectedProfile);
     });
   });
-  xdescribe('SET_TOKEN: ', () => {
+  describe('SET_TOKEN: ', () => {
     it('should set token', () => {
       const state = {
         token: null,
@@ -55,7 +55,7 @@ xdescribe('loggedInUser mutations: ', () => {
     });
   });
 
-  xdescribe('REMOVE_TOKEN: ', () => {
+  describe('REMOVE_TOKEN: ', () => {
     it('should reset token', () => {
       const state = {
         token: {
@@ -71,7 +71,7 @@ xdescribe('loggedInUser mutations: ', () => {
     });
   });
 
-  xdescribe('SET_RESET_TOKEN: ', () => {
+  describe('SET_RESET_TOKEN: ', () => {
     it('should set reset token', () => {
       const state = {
         resetToken: null,
@@ -84,7 +84,7 @@ xdescribe('loggedInUser mutations: ', () => {
     });
   });
 
-  xdescribe('SET_EMAIL: ', () => {
+  describe('SET_EMAIL: ', () => {
     it('should set email', () => {
       const state = {
         email: null,

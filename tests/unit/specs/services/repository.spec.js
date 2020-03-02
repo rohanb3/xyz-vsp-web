@@ -15,8 +15,8 @@ import {
   getAllPaymentsLength,
 } from '@/services/repository';
 
-xdescribe('repository', () => {
-  xdescribe('getCustomers', () => {
+describe('repository', () => {
+  describe('getCustomers', () => {
     it('should call api.get and return correct data', async () => {
       const startFrom = 10;
       const count = 20;
@@ -38,7 +38,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getAllCustomersLength', () => {
+  describe('getAllCustomersLength', () => {
     it('should call api.get and return correct data', async () => {
       const length = 4;
       const data = {
@@ -54,7 +54,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getSuperadminCompanies', () => {
+  describe('getSuperadminCompanies', () => {
     it('should call api.get and return correct data', async () => {
       const startFrom = 10;
       const count = 20;
@@ -76,7 +76,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getAllSuperadminCompaniesLength', () => {
+  describe('getAllSuperadminCompaniesLength', () => {
     it('should call api.get and return correct data', async () => {
       const length = 4;
       const data = {
@@ -92,7 +92,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getCalls', () => {
+  describe('getCalls', () => {
     it('should call api.get and return correct data', async () => {
       const startFrom = 10;
       const count = 20;
@@ -114,7 +114,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getAllCallsLength', () => {
+  describe('getAllCallsLength', () => {
     it('should call api.get and return correct data', async () => {
       const length = 4;
       const data = {
@@ -130,7 +130,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getOperatorReview', () => {
+  describe('getOperatorReview', () => {
     it('should call api.get and return correct data', async () => {
       const data = {
         items: [1, 2, 3],
@@ -144,7 +144,7 @@ xdescribe('repository', () => {
       expect(api.get).toHaveBeenCalledWith('/operator-review');
     });
   });
-  xdescribe('getCallsDuration', () => {
+  describe('getCallsDuration', () => {
     it('should call api.get and return correct data', async () => {
       const data = {
         items: [1, 2, 3],
@@ -159,7 +159,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getCallsFeedback', () => {
+  describe('getCallsFeedback', () => {
     it('should call api.get and return correct data', async () => {
       const data = {
         items: [1, 2, 3],
@@ -174,7 +174,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getSuperadminOperators', () => {
+  describe('getSuperadminOperators', () => {
     it('should call api.get and return correct data', async () => {
       const startFrom = 10;
       const count = 20;
@@ -196,7 +196,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getAllSuperadminOperatorsLength', () => {
+  describe('getAllSuperadminOperatorsLength', () => {
     it('should call api.get and return correct data', async () => {
       const length = 4;
       const data = {
@@ -212,7 +212,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getPayments', () => {
+  describe('getPayments', () => {
     it('should call api.get and return correct data', async () => {
       const startFrom = 10;
       const count = 20;
@@ -234,7 +234,7 @@ xdescribe('repository', () => {
     });
   });
 
-  xdescribe('getAllPaymentsLength', () => {
+  describe('getAllPaymentsLength', () => {
     it('should call api.get and return correct data', async () => {
       const length = 5;
       const data = {

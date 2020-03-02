@@ -5,8 +5,8 @@ import { CHANGE_ITEM, UPSERT_ITEMS } from '@/store/storage/mutationTypes';
 
 jest.mock('@/services/deviceManagementSocket');
 
-xdescribe('DeviceManagementUpdates', () => {
-  xdescribe('mounted() ', () => {
+describe('DeviceManagementUpdates', () => {
+  describe('mounted() ', () => {
     it('should connect to device management socket on mounting', () => {
       const fakeThis = {
         updateDevice: () => {},
@@ -24,8 +24,8 @@ xdescribe('DeviceManagementUpdates', () => {
     });
   });
 
-  xdescribe('computed: ', () => {
-    xdescribe('devicesUdids(): ', () => {
+  describe('computed: ', () => {
+    describe('devicesUdids(): ', () => {
       it('should return array of device udids', () => {
         const fakeThis = {
           devices: [{ udid: 1 }, { udid: 2 }, { udid: 3 }],
@@ -37,7 +37,7 @@ xdescribe('DeviceManagementUpdates', () => {
       });
     });
 
-    xdescribe('devicesTableData(): ', () => {
+    describe('devicesTableData(): ', () => {
       it('should return correct table data from store', () => {
         const deviceHistoryTableData = {
           1: {},
@@ -58,7 +58,7 @@ xdescribe('DeviceManagementUpdates', () => {
       });
     });
 
-    xdescribe('selectedDeviceId(): ', () => {
+    describe('selectedDeviceId(): ', () => {
       it('should return id from table data', () => {
         const deviceId = 'device42';
         const fakeThis = {
@@ -75,8 +75,8 @@ xdescribe('DeviceManagementUpdates', () => {
     });
   });
 
-  xdescribe('watch: ', () => {
-    xdescribe('devicesUdids(): ', () => {
+  describe('watch: ', () => {
+    describe('devicesUdids(): ', () => {
       it('should subscribe to devices changes with udids', () => {
         const udids = [1, 2, 3];
 
@@ -89,7 +89,7 @@ xdescribe('DeviceManagementUpdates', () => {
     });
   });
 
-  xdescribe('beforeDestroy(): ', () => {
+  describe('beforeDestroy(): ', () => {
     it('should unsubscribe from device changes and disconnect if it succeed', () => {
       deviceManagementSocket.disconnect = jest.fn();
       deviceManagementSocket.unsubscribeFromDeviceChanges = jest.fn(() => Promise.resolve());
@@ -111,8 +111,8 @@ xdescribe('DeviceManagementUpdates', () => {
     });
   });
 
-  xdescribe('methods: ', () => {
-    xdescribe('updateDevice(): ', () => {
+  describe('methods: ', () => {
+    describe('updateDevice(): ', () => {
       it('should commit to store device updates', () => {
         const fakeThis = {
           $store: {
@@ -169,7 +169,7 @@ xdescribe('DeviceManagementUpdates', () => {
         expect(fakeThis.$store.commit).toHaveBeenCalledWith(UPSERT_ITEMS, expectedPayload);
       });
     });
-    xdescribe('addDevice()', () => {
+    describe('addDevice()', () => {
       it('should commit to store new device', () => {
         const fakeThis = {
           $store: {

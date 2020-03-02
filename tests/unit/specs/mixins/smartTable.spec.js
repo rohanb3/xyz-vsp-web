@@ -9,7 +9,7 @@ import {
 
 let fakeThis;
 
-xdescribe('smartTable mixin', () => {
+describe('smartTable mixin', () => {
   beforeEach(() => {
     fakeThis = {
       tableName: 'hawkwind',
@@ -19,7 +19,7 @@ xdescribe('smartTable mixin', () => {
     };
   });
 
-  xdescribe('onColumnsReordered()', () => {
+  describe('onColumnsReordered()', () => {
     it('should commit columns to store', async () => {
       const columns = [{ id: 123 }, { id: 321 }];
 
@@ -34,7 +34,7 @@ xdescribe('smartTable mixin', () => {
     });
   });
 
-  xdescribe('onColumnsResized()', () => {
+  describe('onColumnsResized()', () => {
     it('should commit columns to store', async () => {
       const columns = [
         { id: 123, width: 200, name: 'user' },
@@ -63,7 +63,7 @@ xdescribe('smartTable mixin', () => {
     });
   });
 
-  xdescribe('onColumnVisibilityChanged()', () => {
+  describe('onColumnVisibilityChanged()', () => {
     it('should show column if visible', () => {
       const expectedData = {
         tableName: 'hawkwind',
@@ -93,14 +93,14 @@ xdescribe('smartTable mixin', () => {
     });
   });
 
-  xdescribe('setDefaultColumns()', () => {
+  describe('setDefaultColumns()', () => {
     it('should commit to store', () => {
       smartTable.methods.setDefaultColumns.call(fakeThis);
       expect(fakeThis.$store.commit).toHaveBeenCalledWith(RESET_COLUMNS, 'hawkwind');
     });
   });
 
-  xdescribe('setDateRange()', () => {
+  describe('setDateRange()', () => {
     it('should commit to store', () => {
       const dateRange = {
         startDate: '2018-12-19T00:00:00Z',

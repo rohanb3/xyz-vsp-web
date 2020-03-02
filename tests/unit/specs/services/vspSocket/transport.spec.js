@@ -14,7 +14,7 @@ import { OPERATOR_SOCKET } from '@/constants';
 
 const { EVENTS, PUB_SUB_EVENTS } = OPERATOR_SOCKET;
 
-xdescribe('vspSocket/transport.js', () => {
+describe('vspSocket/transport.js', () => {
   const identity = 'vsp-operator-1';
   const token = 'some-secure-token';
 
@@ -26,7 +26,7 @@ xdescribe('vspSocket/transport.js', () => {
     transport.disconnect();
   });
 
-  xdescribe('ensureSocket(): ', () => {
+  describe('ensureSocket(): ', () => {
     it('should initialize instance on Socket.io, bind handlers and resolves when server answer with authentificated event', async () => {
       const promise = transport.ensureSocket(authData);
 
@@ -95,7 +95,7 @@ xdescribe('vspSocket/transport.js', () => {
     });
   });
 
-  xdescribe('pubSub', () => {
+  describe('pubSub', () => {
     let handler;
     let data;
 
@@ -157,7 +157,7 @@ xdescribe('vspSocket/transport.js', () => {
     });
   });
 
-  xdescribe('getSocket(): ', () => {
+  describe('getSocket(): ', () => {
     it('should return socket object', async () => {
       expect(transport.getSocket()).toBe(null);
 
@@ -175,7 +175,7 @@ xdescribe('vspSocket/transport.js', () => {
     });
   });
 
-  xdescribe('disconnect(): ', () => {
+  describe('disconnect(): ', () => {
     it('should disconnect and cleanup', async () => {
       const promise = transport.ensureSocket(authData);
 

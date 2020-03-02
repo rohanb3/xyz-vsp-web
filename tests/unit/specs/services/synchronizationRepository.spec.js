@@ -1,8 +1,8 @@
 import api from '@/services/synchronizationApi';
 import { lastSyncTime, migrateUsers } from '@/services/synchronizationRepository';
 
-xdescribe('synchronizationRepository', () => {
-  xdescribe('lastSyncTime', () => {
+describe('synchronizationRepository', () => {
+  describe('lastSyncTime', () => {
     it('should call api.get and return correct data', async () => {
       const data = {
         time: '2019-07-01T09:43:26',
@@ -16,7 +16,7 @@ xdescribe('synchronizationRepository', () => {
       expect(response).toEqual(data.time);
     });
   });
-  xdescribe('migrateUsers', () => {
+  describe('migrateUsers', () => {
     it('should call api.get and return correct data', async () => {
       api.get = jest.fn(() => Promise.resolve());
 
