@@ -236,6 +236,7 @@ export default {
     logout() {
       this.$store.dispatch(USER_LOGOUT);
       this.$router.replace({ name: 'login' });
+      console.log('USER_LOGOUT emitted from IncomingCallPopup');
     },
   },
 };

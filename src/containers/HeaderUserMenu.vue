@@ -33,11 +33,9 @@
       </div>
       <div class="footer">
         <!-- <a class="footer-link">{{ $t('upgrade.plan') }}</a>
-        <a class="footer-link">{{ $t('support') }}</a> -->
-        <a class="footer-link-blue" @click="logout">
-          {{ $t('log.out') }}
-        </a>
-        <p class ="app-version">v.{{ version }}</p>
+        <a class="footer-link">{{ $t('support') }}</a>-->
+        <a class="footer-link-blue" @click="logout">{{ $t('log.out') }}</a>
+        <p class="app-version">v.{{ version }}</p>
       </div>
     </div>
   </v-menu>
@@ -70,6 +68,7 @@ export default {
   methods: {
     logout() {
       logout();
+      console.log('USER_LOGOUT emitted from HeaderUserMenu');
       this.$router.replace({ name: 'login' });
     },
     getUserAvatar() {
