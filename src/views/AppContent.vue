@@ -12,6 +12,6 @@ export default {
 
 <style scoped>
 .app-content {
-  overflow: hidden;
+  overflow: auto;
 }
 </style>

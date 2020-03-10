@@ -41,7 +41,7 @@
       </div>
     </router-link>-->
 
-    <router-link :to="{ name: 'dashboard' }" :title="dashboardTitle" class="lhs-item-link">
+    <router-link v-if="isRealtimeDashboardAllowed" :to="{ name: 'dashboard' }" :title="dashboardTitle" class="lhs-item-link">
       <div class="lhs-item">
         <v-icon class="item-icon">view_compact</v-icon>
       </div>
@@ -72,7 +72,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'lhs',
   computed: {
-    ...mapGetters(['isSupportAdmin']),
+    ...mapGetters(['isSupportAdmin', 'isRealtimeDashboardAllowed']),
     dashboardTitle() {
       return this.$t('dashboard');
     },

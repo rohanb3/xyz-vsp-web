@@ -52,6 +52,7 @@ async function errorResponseInterceptor(error, router) {
       });
     } catch {
       await store.dispatch(USER_LOGOUT);
+      console.log("USER_LOGOUT emitted from authInterceptor' catch");
       router.push({ name: ROUTE_NAMES.LOGIN });
     }
   }

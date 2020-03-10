@@ -33,20 +33,18 @@
       </div>
       <div class="footer">
         <!-- <a class="footer-link">{{ $t('upgrade.plan') }}</a>
-        <a class="footer-link">{{ $t('support') }}</a> -->
-        <a class="footer-link-blue" @click="logout">
-          {{ $t('log.out') }}
-        </a>
-        <p class ="app-version">v.{{ version }}</p>
+        <a class="footer-link">{{ $t('support') }}</a>-->
+        <a class="footer-link-blue" @click="logout">{{ $t('log.out') }}</a>
+        <p class="app-version">v.{{ version }}</p>
       </div>
     </div>
   </v-menu>
 </template>
 
 <script>
-import { REMOVE_TOKEN, CLEAR_PROFILE_DATA } from '@/store/loggedInUser/mutationTypes';
 import { GET_PHOTO } from '@/store/loggedInUser/actionTypes';
 import getVesrion from '@/services/appVersion';
+import { logout } from '@/services/auth';
 
 import UserAvatar from '@/components/UserAvatar';
 
@@ -69,8 +67,8 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.commit(REMOVE_TOKEN);
-      this.$store.commit(CLEAR_PROFILE_DATA);
+      logout();
+      console.log('USER_LOGOUT emitted from HeaderUserMenu');
       this.$router.replace({ name: 'login' });
     },
     getUserAvatar() {

@@ -1,5 +1,6 @@
 /* eslint-disable-next-line import/prefer-default-export */
-import moment from 'moment';
+// import moment from 'moment';
+import moment from 'moment-timezone';
 import { addSpaceBetweenNumbers } from './stylesHelper';
 
 export function secondsToHuman(duration = 0) {
@@ -63,4 +64,26 @@ export function secondsToHoursMinutesSeconds(data = 0) {
   const formattedHours = addSpaceBetweenNumbers(hours);
 
   return `${formattedHours}h ${minutes}m ${seconds}s`.trim();
+}
+
+export function getStartOfCurrentDayUTC() {
+  return moment()
+    .tz('America/Los_Angeles')
+    .startOf('day')
+    .utc()
+    .format();
+}
+
+export function secondsToMinutesAndSeconds(duration = 0) {
+  if (!duration) {
+    return '00:00';
+  }
+
+  let seconds = parseInt(duration % 60, 10);
+  let minutes = parseInt((duration / 60) % 60, 10);
+
+  minutes = minutes < 10 ? `0${minutes}` : minutes;
+  seconds = seconds < 10 ? `0${seconds}` : seconds;
+
+  return `${minutes}:${seconds}`;
 }

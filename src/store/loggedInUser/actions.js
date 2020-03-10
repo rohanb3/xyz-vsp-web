@@ -1,4 +1,15 @@
 import {
+  getProfileData,
+  login,
+  getAvatar,
+  refreshToken as refreshTokenApi,
+  verifyCode,
+  updateAvatar,
+  deleteAvatar,
+} from '@/services/identityRepository';
+import { disconnect as disconnectVSPSocket } from '@/services/vspSocket/transport';
+import { RESPONSE_STATUSES } from '@/constants';
+import {
   GET_PROFILE_DATA,
   LOGIN,
   REFRESH_TOKEN,
@@ -19,18 +30,6 @@ import {
   SET_PROMISE_REFRESH_TOKEN,
 } from './mutationTypes';
 
-import {
-  getProfileData,
-  login,
-  getAvatar,
-  refreshToken as refreshTokenApi,
-  verifyCode,
-  updateAvatar,
-  deleteAvatar,
-} from '@/services/identityRepository';
-
-import { RESPONSE_STATUSES } from '@/constants';
-
 export default {
   async [GET_PROFILE_DATA]({ commit }) {
     const profileData = await getProfileData();
@@ -47,11 +46,15 @@ export default {
     commit(SET_PROMISE_REFRESH_TOKEN, null);
   },
   async [REFRESH_TOKEN]({ commit, state }) {
-    const { refreshToken: currentRefreshToken } = state.token;
-    if (!(state.refreshTokenPromise instanceof Promise)) {
-      commit(SET_PROMISE_REFRESH_TOKEN, refreshTokenApi(currentRefreshToken));
+    if (state.token) {
+      const { refreshToken: currentRefreshToken } = state.token;
+      if (!(state.refreshTokenPromise instanceof Promise)) {
+        commit(SET_PROMISE_REFRESH_TOKEN, refreshTokenApi(currentRefreshToken));
+      }
+      return state.refreshTokenPromise;
     }
-    return state.refreshTokenPromise;
+
+    return Promise.reject(new Error({ message: 'Token was null' }));
   },
   async [GET_PHOTO]({ commit, state }) {
     const { data: avatarBase64Url } = await getAvatar(state.profileData.objectId);
@@ -69,6 +72,8 @@ export default {
   [USER_LOGOUT]({ commit }) {
     commit(REMOVE_TOKEN);
     commit(CLEAR_PROFILE_DATA);
+
+    disconnectVSPSocket();
   },
   async [UPDATE_PHOTO]({ state, dispatch }, formData) {
     const { status } = await updateAvatar(state.profileData.objectId, formData);

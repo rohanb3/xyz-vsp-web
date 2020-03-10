@@ -6,13 +6,12 @@ import {
   SET_OPERATOR_STATUS,
   SET_CALL_TOKEN,
   SET_CALL_DATA,
-  SET_CONNECTION_TO_CALL_SOCKET,
-  SET_PENDING_CALLS_INFO,
   SET_CONNECTION_DROPPED,
 } from '@/store/call/mutationTypes';
 import { operatorStatuses } from '@/store/call/constants';
+
 import {
-  init as initiOperatorSocker,
+  initCallsSocket,
   notifyAboutAcceptingCall,
   notifyAboutFinishingCall,
   notifyAboutLeavingRoomEmpty,
@@ -22,19 +21,15 @@ import {
   notifyAboutChangingStatusToOffline,
   listenToCallFinishing,
   listenToConnectionDropped,
-  listenToUnauthorizedConnection,
-} from '@/services/operatorSocket';
+} from '@/services/vspSocket/callsSocket';
 import { connect as connectToRoom, disconnect as disconnectFromRoom } from '@/services/twilio';
 import { TWILIO, OPERATOR_SOCKET, USER_MEDIA_ERROR_MESSAGES } from '@/constants';
 import api from '@/services/api';
 
-import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { checkAndRequestCallPermissions } from '@/services/callPermissions';
 import { checkAndSaveWaitingFeedbacks } from '@/services/operatorFeedback';
 import { getUserMediaStreams } from '@/services/userMedia';
 import { log } from '@/services/sentry';
-
-import { REFRESH_TOKEN, UPDATE_TOKEN } from '@/store/loggedInUser/actionTypes';
 
 const { VIDEO } = TWILIO;
 
@@ -47,15 +42,13 @@ export function initializeOperator() {
   return checkAndRequestCallPermissions()
     .then(checkConnectAvailability)
     .then(() => {
-      const { identity, credentials, displayName, userName } = getOperatorData();
+      const { credentials, displayName, userName } = getOperatorData();
 
-      log('call.js -> initializeOperator()', identity, displayName, userName);
-      return initiOperatorSocker(credentials, checkAndUpdateCallsInfo, setConnectedToSocket);
+      log('call.js -> initCallsSocket()', credentials, displayName, userName);
+      return initCallsSocket(credentials);
     })
     .then(trackConnectionAvailability)
-    .then(checkAndSaveWaitingFeedbacks)
-    .then(listenToUnauthorizedConnection)
-    .catch(onConnectionError);
+    .then(checkAndSaveWaitingFeedbacks);
 }
 
 function checkConnectAvailability() {
@@ -196,11 +189,6 @@ function onRoomEmptied() {
 
 // store actors
 
-function checkAndUpdateCallsInfo(data) {
-  store.commit(SET_PENDING_CALLS_INFO, data);
-  handleUpdateCallsInfo(data);
-}
-
 function setConnectingStatus() {
   store.commit(SET_OPERATOR_STATUS, operatorStatuses.CONNECTING_TO_CALL);
 }
@@ -219,11 +207,6 @@ function setFinishedCallOperatorStatus() {
 
 function setToken(token) {
   store.commit(SET_CALL_TOKEN, token);
-}
-
-function setConnectedToSocket(connected) {
-  console.log('log4', connected);
-  store.commit(SET_CONNECTION_TO_CALL_SOCKET, connected);
 }
 
 function onCallAcceptingFailed(err) {
@@ -246,44 +229,25 @@ function getAcceptingCallError(err) {
     acceptingCallError = new Error(errors.CALL_ACCEPTING_FAILED);
   }
 
-  log('Call accepting failed', { originalError: err, error: acceptingCallError });
+  log('Call accepting failed', {
+    originalError: err,
+    error: acceptingCallError,
+  });
 
   return acceptingCallError;
 }
 
 export const getCallInfo = () => api.get('/call/info').then(response => response.data);
 
-function refreshToken() {
-  store.dispatch(REFRESH_TOKEN).then(({ data }) => {
-    store.dispatch(UPDATE_TOKEN, {
-      accessToken: data.access_token,
-      refreshToken: data.refresh_token,
-    });
-    initializeOperator();
-  });
-}
-
-function onConnectionError(error) {
-  const { message } = error;
-  if (message === OPERATOR_SOCKET.TOKEN_INVALID) {
-    return refreshToken();
-  }
-
-  return Promise.reject(error);
-}
-
 function getOperatorData() {
-  const identity = store.getters.userId;
   const {
-    token: { accessToken },
     profileData: { userName, displayName },
   } = store.state.loggedInUser;
-  const credentials = { identity, token: accessToken };
+  const credentials = store.getters.vspSocketCredentials;
 
   return {
     userName,
     displayName,
     credentials,
-    identity,
   };
 }
