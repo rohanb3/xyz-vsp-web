@@ -31,7 +31,7 @@ init();
 export async function subscribe(tenantId = null) {
   const data = await socketSubscribe(tenantId);
   store.dispatch(CHANGE_DASHBOARD_TENANT_FILTER, data.tenantId);
-  loadCallsData(data.tenantId);
+  self.loadCallsData(data.tenantId);
   return data;
 }
 
@@ -47,7 +47,7 @@ export function loadCallsData(tenantId = null) {
 
 export function changeTenant(tenantId) {
   store.commit(REALTIME_DASHBOARD_CLEAR_DATA);
-  return subscribe(tenantId);
+  return self.subscribe(tenantId);
 }
 
 export function loadTenantsList() {
@@ -113,3 +113,8 @@ function loadCallsMissedData(tenantId = null) {
   };
   store.dispatch(LOAD_CALLS_MISSED_DATA, dataAbandoned);
 }
+
+export const self = {
+  loadCallsData,
+  subscribe,
+};

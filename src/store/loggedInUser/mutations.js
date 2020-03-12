@@ -17,12 +17,9 @@ export default {
     state.profileData = {};
   },
   [SET_TOKEN](state, token) {
-    console.log('SET_TOKEN > state:', state);
-    console.log('SET_TOKEN > token:', token);
     state.token = token;
   },
   [REMOVE_TOKEN](state) {
-    console.log('REMOVE_TOKEN > state:', state);
     state.token = null;
   },
   [SET_RESET_TOKEN](state, resetToken) {
