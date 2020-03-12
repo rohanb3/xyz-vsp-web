@@ -11,16 +11,14 @@ import {
   CHANGE_DASHBOARD_TENANT_FILTER,
 } from '@/store/realtimeDashboard/actionTypes';
 
-import {
-  REALTIME_DASHBOARD_CLEAR_DATA,
-} from '@/store/realtimeDashboard/mutationTypes';
+import { REALTIME_DASHBOARD_CLEAR_DATA } from '@/store/realtimeDashboard/mutationTypes';
 
 const { PUB_SUB_EVENTS } = OPERATOR_SOCKET;
 
 describe('realtimeDashboard: ', () => {
   describe('realtimeDashboard.subscribe: ', async () => {
     it('should fire realtimeDashboardSocket.subscribe with right tenantId', async () => {
-      realtimeDashboardSocket.subscribe = jest.fn((id) => Promise.resolve({tenantId: id}));
+      realtimeDashboardSocket.subscribe = jest.fn(id => Promise.resolve({ tenantId: id }));
       transport.pubSub.emit(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED);
       const tenantId = 13;
       await realtimeDashboard.subscribe(tenantId);
@@ -29,7 +27,7 @@ describe('realtimeDashboard: ', () => {
 
     it('should fire loadCallsData with right tenantId', async () => {
       realtimeDashboard.self.loadCallsData = jest.fn();
-      realtimeDashboardSocket.subscribe = jest.fn((id) => Promise.resolve({tenantId: id}));
+      realtimeDashboardSocket.subscribe = jest.fn(id => Promise.resolve({ tenantId: id }));
       transport.pubSub.emit(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED);
       const tenantId = 13;
       await realtimeDashboard.subscribe(tenantId);
@@ -37,7 +35,7 @@ describe('realtimeDashboard: ', () => {
     });
 
     it('should fire store.dispatch CHANGE_DASHBOARD_TENANT_FILTER event with right tenantId', async () => {
-      realtimeDashboardSocket.subscribe = jest.fn((id) => Promise.resolve({tenantId: id}));
+      realtimeDashboardSocket.subscribe = jest.fn(id => Promise.resolve({ tenantId: id }));
       transport.pubSub.emit(PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED);
       const tenantId = 13;
       store.dispatch = jest.fn();

@@ -2,7 +2,7 @@ import mutations from '@/store/realtimeDashboard/mutations';
 import getters from '@/store/realtimeDashboard/getters';
 import actions from '@/store/realtimeDashboard/actions';
 
-export default function createRealTimeDashboardStoreConfig () {
+export default function createRealTimeDashboardStoreConfig() {
   const state = {
     waitingCalls: {},
     activeCalls: {},

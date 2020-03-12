@@ -1,6 +1,5 @@
 import { createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import createRealTimeDashboardStoreConfig from './create-realtime-dashboard-store-config';
 import { cloneDeep } from 'lodash';
 
 import {
@@ -15,6 +14,7 @@ import {
   ACTIVE_CALLS_CHANGED,
   WAITING_CALLS_CHANGED,
 } from '@/store/realtimeDashboard/mutationTypes';
+import createRealTimeDashboardStoreConfig from './create-realtime-dashboard-store-config';
 
 describe('realtimeDashboardStore: ', () => {
   let localVue;
@@ -38,17 +38,16 @@ describe('realtimeDashboardStore: ', () => {
 
   describe('store.commit REALTIME_DASHBOARD_CLEAR_DATA: ', async () => {
     it('should reset all need records in store.state', async () => {
-
       const fullState = {
-        waitingCalls: {count: 22},
-        activeCalls: {count: 11},
+        waitingCalls: { count: 22 },
+        activeCalls: { count: 11 },
         operatorsOffline: 10,
         operatorsOnline: 20,
         operatorsOnCall: 5,
         operatorsAvailable: 5,
-        callStatisticsAnswered: {averageWaitingDuration: 1000, maxWaitingDuration: 5000},
-        callStatisticsAbandoned: {total: 10000},
-        tenantsList: [{id: 101010, name: 'Galaxy Tenant'}],
+        callStatisticsAnswered: { averageWaitingDuration: 1000, maxWaitingDuration: 5000 },
+        callStatisticsAbandoned: { total: 10000 },
+        tenantsList: [{ id: 101010, name: 'Galaxy Tenant' }],
         tenantId: 151515,
       };
 
@@ -63,15 +62,23 @@ describe('realtimeDashboardStore: ', () => {
       expect(store.getters.operatorsAvailable).toEqual(0);
       expect(store.getters.callStatisticsAnswered).toEqual({});
       expect(store.getters.callStatisticsAbandoned).toEqual({});
-      expect(store.getters.tenantsList).toEqual([{id: 101010, name: 'Galaxy Tenant'}]);
+      expect(store.getters.tenantsList).toEqual([{ id: 101010, name: 'Galaxy Tenant' }]);
       expect(store.getters.tenantId).toEqual(151515);
     });
   });
 
   describe('store.commit SET_TENANT_LIST: ', async () => {
     it('should set correct data into state.tenantsList', async () => {
-      const actualTenantList = [{id: 101011, name: 'Dark Universe Tenant'}, {id: 101012, name: 'Light Universe Tenant'}, {id: 101013, name: 'His Shadow Tenant'}];
-      const expectedTenantList = [{id: 101011, name: 'Dark Universe Tenant'}, {id: 101012, name: 'Light Universe Tenant'}, {id: 101013, name: 'His Shadow Tenant'}];
+      const actualTenantList = [
+        { id: 101011, name: 'Dark Universe Tenant' },
+        { id: 101012, name: 'Light Universe Tenant' },
+        { id: 101013, name: 'His Shadow Tenant' },
+      ];
+      const expectedTenantList = [
+        { id: 101011, name: 'Dark Universe Tenant' },
+        { id: 101012, name: 'Light Universe Tenant' },
+        { id: 101013, name: 'His Shadow Tenant' },
+      ];
       store.commit(SET_TENANT_LIST, actualTenantList);
       expect(store.getters.tenantsList).toEqual(cloneDeep(expectedTenantList));
     });
@@ -79,7 +86,7 @@ describe('realtimeDashboardStore: ', () => {
 
   describe('store.commit INSERT_CALLS_MISSED_DATA: ', async () => {
     it('should set correct data into state.callStatisticsAbandoned', async () => {
-      const expected = {total: 666};
+      const expected = { total: 666 };
       store.commit(INSERT_CALLS_MISSED_DATA, expected);
       expect(store.getters.callStatisticsAbandoned).toEqual(expected);
     });
@@ -87,7 +94,7 @@ describe('realtimeDashboardStore: ', () => {
 
   describe('store.commit INSERT_CALLS_ANSWERED_DATA: ', async () => {
     it('should set correct data into state.callStatisticsAnswered', async () => {
-      const expected = {total: 777};
+      const expected = { total: 777 };
       store.commit(INSERT_CALLS_ANSWERED_DATA, expected);
       expect(store.getters.callStatisticsAnswered).toEqual(expected);
     });
@@ -95,7 +102,6 @@ describe('realtimeDashboardStore: ', () => {
 
   describe('store.commit REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED: ', async () => {
     it('should set correct data into state.operatorsOffline', async () => {
-
       const input = {
         inactiveOperators: {
           count: 150,
@@ -106,7 +112,6 @@ describe('realtimeDashboardStore: ', () => {
     });
 
     it('should set correct data into state.operatorsAvailable', async () => {
-
       const fullState = {
         operatorsOnCall: 5,
       };
@@ -125,7 +130,6 @@ describe('realtimeDashboardStore: ', () => {
 
   describe('store.commit REALTIME_DASHBOARD_CALL_ACCEPTED: ', async () => {
     it('should set correct data into state.callStatisticsAnswered if old maxWaitingDuration === new maxWaitingDuration', async () => {
-
       const customState = {
         callStatisticsAnswered: {
           totalWaitingDuration: 100,
@@ -138,8 +142,8 @@ describe('realtimeDashboardStore: ', () => {
       store.replaceState(customState);
 
       const input = {
-          waitingDuration: 10,
-        };
+        waitingDuration: 10,
+      };
 
       const expected = {
         callStatisticsAnswered: {
@@ -154,7 +158,6 @@ describe('realtimeDashboardStore: ', () => {
     });
 
     it('should set correct data into state.callStatisticsAnswered if old maxWaitingDuration < new maxWaitingDuration', async () => {
-
       const customState = {
         callStatisticsAnswered: {
           totalWaitingDuration: 100,
@@ -176,11 +179,12 @@ describe('realtimeDashboardStore: ', () => {
         },
       };
       store.commit(REALTIME_DASHBOARD_CALL_ACCEPTED, input);
-      expect(store.getters.callStatisticsAnswered.maxWaitingDuration).toEqual(expected.callStatisticsAnswered.maxWaitingDuration);
+      expect(store.getters.callStatisticsAnswered.maxWaitingDuration).toEqual(
+        expected.callStatisticsAnswered.maxWaitingDuration
+      );
     });
 
     it('should set correct data into state.callStatisticsAnswered if old maxWaitingDuration > new maxWaitingDuration', async () => {
-
       const customState = {
         callStatisticsAnswered: {
           totalWaitingDuration: 100,
@@ -202,7 +206,9 @@ describe('realtimeDashboardStore: ', () => {
         },
       };
       store.commit(REALTIME_DASHBOARD_CALL_ACCEPTED, input);
-      expect(store.getters.callStatisticsAnswered.maxWaitingDuration).toEqual(expected.callStatisticsAnswered.maxWaitingDuration);
+      expect(store.getters.callStatisticsAnswered.maxWaitingDuration).toEqual(
+        expected.callStatisticsAnswered.maxWaitingDuration
+      );
     });
   });
 
@@ -219,9 +225,11 @@ describe('realtimeDashboardStore: ', () => {
         },
       };
       store.replaceState(customState);
-      const input = {missedAt: '12-jan-2020'};
+      const input = { missedAt: '12-jan-2020' };
       store.commit(REALTIME_DASHBOARD_CALL_FINISHED, input);
-      expect(store.getters.callStatisticsAbandoned.total).toEqual(expected.callStatisticsAbandoned.total);
+      expect(store.getters.callStatisticsAbandoned.total).toEqual(
+        expected.callStatisticsAbandoned.total
+      );
     });
 
     it('should not increment state.callStatisticsAnswered if missedAt field is not present in input data', async () => {
@@ -238,7 +246,9 @@ describe('realtimeDashboardStore: ', () => {
       store.replaceState(customState);
       const input = {};
       store.commit(REALTIME_DASHBOARD_CALL_FINISHED, input);
-      expect(store.getters.callStatisticsAbandoned.total).toEqual(expected.callStatisticsAbandoned.total);
+      expect(store.getters.callStatisticsAbandoned.total).toEqual(
+        expected.callStatisticsAbandoned.total
+      );
     });
   });
 
@@ -272,12 +282,11 @@ describe('realtimeDashboardStore: ', () => {
 
   describe('store.commit WAITING_CALLS_CHANGED: ', async () => {
     it('should set right value into state.waitingCalls', async () => {
-      const input = {count: 22};
-      const expected = {count: 22};
+      const input = { count: 22 };
+      const expected = { count: 22 };
       store.commit(WAITING_CALLS_CHANGED, input);
       expect(store.getters.waitingCalls).toEqual(expected);
       expect(store.getters.waitingCallsCount).toEqual(expected.count);
     });
   });
-
 });
