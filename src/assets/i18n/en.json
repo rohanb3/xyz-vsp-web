@@ -323,9 +323,12 @@
   "live.dashboard": "Live Dashboard",
   "call.statistics": "Call Statistics",
   "abandoned": "Abandoned",
-  "waiting.calls": "Waiting calls",
+  "waiting.calls": "Waiting Calls",
   "live.calls": "Live calls",
   "response.time": "Response Time",
   "longest": "Longest",
-  "available": "Available"
+  "available": "Available",
+  "sales.rep": "Sales Rep",
+  "waiting.time": "Waiting Time",
+  "device": "Device"
 }

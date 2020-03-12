@@ -25,7 +25,8 @@
   margin-top: 7%;
   height: 100vh;
   max-height: calc(
-    100vh - #{$header-height} - #{$table-toolbar-height} - #{$table-header-height} - #{$no-result-found-height}
+    100vh - #{$header-height} - #{$table-toolbar-height} - #{$table-header-height} -
+      #{$no-result-found-height}
   );
   overflow: hidden;
 }

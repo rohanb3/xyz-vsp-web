@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard container">
-    <div class="realtime-dashboard-page">
+    <div class="realtime-dashboard-container">
       <div class="dashboard-header">
         <h1 class="dash-title">{{ $t('live.dashboard') }}</h1>
 
         <span class="dash-tenant-filter" v-if="isTenantFilterAllowed">
-          <realtime-dashboard-tenant-filter/>
+          <realtime-dashboard-tenant-filter />
         </span>
       </div>
       <div class="widgets-row">
@@ -23,29 +23,38 @@
           <call-statistics-widget class="widget-item" />
         </div>
       </div>
+      <div class="realtime-dashboard-tables-wrapper">
+        <waiting-calls-table />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+
 import { subscribe, unsubscribe } from '@/services/realtimeDashboard';
-import RealtimeDashboardTenantFilter from '@/containers/RealtimeDashboardTenantFilter';
-import WaitingCallsWidget from '@/containers/WaitingCallsWidgets';
+
+import WaitingCallsTable from '@/containers/WaitingCallsTable';
+
 import LiveCallsWidget from '@/containers/LiveCallsWidgets';
 import OperatorsWidget from '@/containers/OperatorsWidgets';
+import WaitingCallsWidget from '@/containers/WaitingCallsWidgets';
 import ResponseTimeWidget from '@/containers/ResponseTimeWidgets';
 import CallStatisticsWidget from '@/containers/CallStatisticsWidgets';
+
+import RealtimeDashboardTenantFilter from '@/containers/RealtimeDashboardTenantFilter';
 
 export default {
   name: 'dashboard',
   components: {
-    RealtimeDashboardTenantFilter,
-    WaitingCallsWidget,
     LiveCallsWidget,
     OperatorsWidget,
+    WaitingCallsTable,
+    WaitingCallsWidget,
     ResponseTimeWidget,
     CallStatisticsWidget,
+    RealtimeDashboardTenantFilter,
   },
   computed: {
     ...mapGetters(['isTenantFilterAllowed']),
@@ -68,8 +77,15 @@ export default {
   margin: 0px;
   max-width: 100%;
   min-width: 1200px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
 
-  .realtime-dashboard-page {
+  .realtime-dashboard-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     width: 100%;
     border-radius: 8px;
     -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
@@ -112,6 +128,12 @@ export default {
   }
   .widget-item {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  }
+  .realtime-dashboard-tables-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    flex: 1;
   }
 }
 </style>

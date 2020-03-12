@@ -34,6 +34,8 @@ export const ENTITY_TYPES = {
   CALLS_FEEDBACK: 'callsFeedback',
   SUPERADMIN_OPERATORS: 'superAdminOperators',
   PAYMENTS: 'payments',
+  REALTIME_WAITING_CALLS: 'realtimeWaitingCalls',
+  REALTIME_ACTIVE_CALLS: 'realtimeActiveCalls',
   COMPANY_LIST: 'COMPANY_LIST',
   DEVICE_COMMENTS: 'deviceComments',
   CALL_STATISTICS_ANSWERED: 'callStatisticsAnswered',

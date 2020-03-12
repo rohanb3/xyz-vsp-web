@@ -3,6 +3,7 @@ import {
   getDevicesTablecolumns,
   getCommentTableColumns,
   getDeviceHistoryTableColumns,
+  getRealtimeWaitingCallsTableColumns,
 } from '@/services/tablesColumnsList';
 
 import { ENTITY_TYPES } from '@/constants';
@@ -12,11 +13,16 @@ import actions from './actions';
 import getters from './getters';
 import getDefaultFilters from './filtersHelper';
 
-const { CALLS, DEVICES, DEVICE_COMMENTS, DEVICE_HISTORY } = ENTITY_TYPES;
+const { CALLS, DEVICES, DEVICE_COMMENTS, DEVICE_HISTORY, REALTIME_WAITING_CALLS } = ENTITY_TYPES;
 
 const state = {
   [CALLS]: {
     columns: getCallsTableColumns(),
+    filters: {},
+    applyingFilters: false,
+  },
+  [REALTIME_WAITING_CALLS]: {
+    columns: getRealtimeWaitingCallsTableColumns(),
     filters: {},
     applyingFilters: false,
   },

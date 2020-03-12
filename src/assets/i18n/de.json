@@ -290,5 +290,8 @@
     "response.time": "TBD Response Time",
     "longest": "TBD Longest",
     "available": "TBD Available",
-    "waiting.calls": "TBD Waiting calls"
+    "waiting.calls": "TBD Waiting calls",
+    "sales.rep": "TBD Sales Rep",
+    "waiting.time": "TBD Waiting Time",
+    "device": "TBD Device"
 }

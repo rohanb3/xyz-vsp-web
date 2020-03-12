@@ -1,0 +1,38 @@
+export default () => [
+  {
+    name: 'requestedBy',
+    field: 'requestedBy',
+    fieldType: 'requestedBy',
+    title: 'retailer',
+    width: '1',
+    class: 'text',
+    minWidth: '140px',
+  },
+  {
+    name: 'salesRepId',
+    field: 'salesRepId',
+    fieldType: 'salesRepId',
+    class: 'text',
+    title: 'sales.rep',
+    width: '2',
+    minWidth: '230px',
+  },
+  {
+    name: 'deviceId',
+    field: 'deviceId',
+    fieldType: 'deviceId',
+    class: 'text',
+    title: 'device',
+    width: '1',
+    minWidth: '140px',
+  },
+  {
+    name: 'waitingTime',
+    field: 'requestedAt',
+    fieldType: 'requestedAt',
+    class: 'text',
+    title: 'waiting.time',
+    width: '1',
+    minWidth: '140px',
+  },
+];

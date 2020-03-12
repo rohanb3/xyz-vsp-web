@@ -1,12 +1,15 @@
 <template>
-  <div class="default-cell" :title="getValue">{{ getValue }}</div>
+  <div class="time-counter-cell" :title="getValue">
+    <time-counter :value="getValue" />
+  </div>
 </template>
-
 <script>
 import nestedFieldCell from '@/mixins/nestedFieldCell';
+import TimeCounter from '@/components/TimeCounter';
 
 export default {
-  name: 'DefaultCell',
+  name: 'TimeCounterCell',
+  components: { TimeCounter },
   mixins: [nestedFieldCell],
   computed: {
     getValue() {
