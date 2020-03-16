@@ -73,18 +73,12 @@ export default {
 
 .dashboard {
   padding: $devices-list-padding;
-  overflow: auto;
   margin: 0px;
   max-width: 100%;
   min-width: 1200px;
   min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
 
   .realtime-dashboard-container {
-    display: flex;
-    flex-direction: column;
     flex: 1;
     width: 100%;
     border-radius: 8px;

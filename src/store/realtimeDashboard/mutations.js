@@ -1,3 +1,4 @@
+import { correctDateFault, getDifference } from '@/services/dateHelper';
 import {
   WAITING_CALLS_CHANGED,
   ACTIVE_CALLS_CHANGED,
@@ -14,11 +15,40 @@ import {
 export default {
   /* eslint-disable no-param-reassign */
   [WAITING_CALLS_CHANGED](state, data) {
-    state.waitingCalls = data;
+    const localizedData = data.items.length
+      ? {
+          ...data,
+          items: data.items
+            .map(item => ({
+              ...item,
+              requestedAt: correctDateFault(
+                item.requestedAt,
+                getDifference(new Date(), data.serverTime)
+              ),
+            }))
+            .sort(item => item.requestedAt),
+        }
+      : data;
+
+    state.waitingCalls = localizedData;
   },
   [ACTIVE_CALLS_CHANGED](state, data) {
-    state.activeCalls = data;
-    state.operatorsOnCall = data.count;
+    const secondsDiff = getDifference(new Date(), data.serverTime);
+    const localizedData = data.items.length
+      ? {
+          ...data,
+          items: data.items
+            .map(item => ({
+              ...item,
+              requestedAt: correctDateFault(item.requestedAt, secondsDiff),
+              acceptedAt: correctDateFault(item.acceptedAt, secondsDiff),
+            }))
+            .sort(item => item.acceptedAt),
+        }
+      : data;
+
+    state.activeCalls = localizedData;
+    state.operatorsOnCall = localizedData.count;
     state.operatorsAvailable = state.operatorsOnline - state.operatorsOnCall;
   },
 

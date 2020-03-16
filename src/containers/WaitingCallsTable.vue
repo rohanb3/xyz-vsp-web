@@ -3,13 +3,13 @@
     <span class="waiting-calls-table-title">{{ $t('waiting.calls') }}</span>
     <div class="waiting-calls-table-wrapper">
       <wombat-table
+        class="realtime-waiting-calls-wombat-table"
         :name="tableName"
         :items="rows"
         :columns="columns"
-        :item-height="50"
-        :columnsReorder="false"
-        :loadingItems="false"
         :resize="false"
+        :loadingItems="false"
+        :columnsReorder="false"
       >
         <default-header-cell
           slot="header-cell"
@@ -72,9 +72,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.waiting-calls-table-container {
-  display: flex;
-  flex-direction: column;
+@import '~@/assets/styles/variables.scss';
+@import '~@/assets/styles/mixins.scss';
+
+.waiting-calls-table-container /deep/ {
+  .waiting-calls-table-wrapper {
+    .realtime-waiting-calls-wombat-table .virtual-list {
+      max-height: calc(100vh - #{$header-height} - #{$realtime-dashboard-widgets-height} - 150px);
+    }
+    .realtime-waiting-calls-wombat-table .no-result-found {
+      max-height: calc(100vh - #{$header-height} - #{$realtime-dashboard-widgets-height} - 190px);
+    }
+  }
 }
 
 .waiting-calls-table-title {
@@ -109,7 +118,16 @@ export default {
 </style>
 
 <style>
-.waiting-calls-table-container .waiting-calls-table-wrapper .realtimeWaitingCalls .no-result-found {
+/* .waiting-calls-table-container
+  .waiting-calls-table-wrapper
+  .realtimeWaitingCalls
+  .no-result-found {
   height: 100% !important;
 }
+.waiting-calls-table-container
+  .waiting-calls-table-wrapper
+  .realtimeWaitingCalls
+  .scroller {
+  max-height: 100%;
+} */
 </style>
