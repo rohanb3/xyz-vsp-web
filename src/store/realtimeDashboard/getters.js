@@ -15,10 +15,10 @@ export default {
     return state.operatorsOffline;
   },
   operatorsOnCall(state) {
-    return state.operatorsOnCall;
+    return state.operatorsOnCall || 0;
   },
   operatorsAvailable(state) {
-    return state.operatorsAvailable;
+    return state.operatorsAvailable || 0;
   },
   callStatisticsAnswered(state) {
     return state.callStatisticsAnswered;
