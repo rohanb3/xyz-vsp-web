@@ -11,8 +11,6 @@ import {
 } from '@/services/vspSocket/realtimeDashboardSocket';
 import store from '@/store';
 import {
-  WAITING_CALLS_CHANGED,
-  ACTIVE_CALLS_CHANGED,
   REALTIME_DASHBOARD_CALL_FINISHED,
   REALTIME_DASHBOARD_CALL_ACCEPTED,
   REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
@@ -23,6 +21,8 @@ import {
   LOAD_CALLS_MISSED_DATA,
   GET_TENANTS_LIST,
   CHANGE_DASHBOARD_TENANT_FILTER,
+  CHANGE_WAITING_CALLS,
+  CHANGE_ACTIVE_CALLS,
 } from '@/store/realtimeDashboard/actionTypes';
 import { getStartOfCurrentDayUTC } from '@/services/dateHelper';
 
@@ -71,11 +71,11 @@ function onBrowserBecomeOnline() {
 }
 
 function onWaitingCallsChanged(data) {
-  store.commit(WAITING_CALLS_CHANGED, data);
+  store.dispatch(CHANGE_WAITING_CALLS, data);
 }
 
 function onActiveCallsChanged(data) {
-  store.commit(ACTIVE_CALLS_CHANGED, data);
+  store.dispatch(CHANGE_ACTIVE_CALLS, data);
 }
 
 function onRealTimeDashboardCallFinished(data) {

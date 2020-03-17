@@ -1,4 +1,5 @@
 import { imageEncode } from '@/services/utils';
+import { paramsSerializer } from '@/services/repositoryUtils';
 import api from './identityApi';
 
 const scope = 'xyzies.authorization.vsp.web';
@@ -13,6 +14,17 @@ export const refreshToken = refresh_token =>
   api.post('/authorize/refresh', { refresh_token }).then(response => response);
 
 export const getUser = id => api.get(`/users/${id}`).then(({ data }) => data);
+
+export const getMinifiedUsersByTenants = tenantIds =>
+  api
+    .get(`/users/simple/bytenant`, {
+      params: {
+        tenantIds,
+      },
+      paramsSerializer,
+    })
+    .then(({ data }) => data);
+
 export const getAvatar = id =>
   api
     .get(`/users/${id}/avatar`, { responseType: 'arraybuffer' })

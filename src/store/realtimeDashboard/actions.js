@@ -5,12 +5,16 @@ import {
   LOAD_CALLS_MISSED_DATA,
   GET_TENANTS_LIST,
   CHANGE_DASHBOARD_TENANT_FILTER,
+  CHANGE_WAITING_CALLS,
+  CHANGE_ACTIVE_CALLS,
 } from './actionTypes';
 import {
   INSERT_CALLS_ANSWERED_DATA,
   INSERT_CALLS_MISSED_DATA,
   SET_TENANT_LIST,
   SET_TENANT_ID,
+  WAITING_CALLS_CHANGED,
+  ACTIVE_CALLS_CHANGED,
 } from './mutationTypes';
 
 async function loadCallsAnsweredData({ commit }, { filters = {} }) {
@@ -43,9 +47,47 @@ function fireTenantChanging({ commit }, tenantId) {
   commit(SET_TENANT_ID, tenantId);
 }
 
+function changeWaitingCalls({ commit, rootGetters }, data) {
+  const currentTenantUsers = rootGetters.tenantUsers.items.find(
+    tenantUsers => tenantUsers.id === rootGetters.tenantId
+  );
+
+  const currentTenantCompanies = rootGetters.tenantCompanies.items.find(
+    tenantCompanies => tenantCompanies.id === rootGetters.tenantId
+  );
+
+  const expandedData = {
+    ...data,
+    items: data.items.map(item => {
+      const salesRep =
+        currentTenantUsers.users.find(user => user.objectId === item.salesRepId) || {};
+
+      const company =
+        currentTenantCompanies.companies.find(
+          cmp => Number(cmp.id) === Number(salesRep.companyId)
+        ) || {};
+      const device = rootGetters.allDevices.items.find(dev => dev.udid === item.deviceId) || {};
+
+      return {
+        ...item,
+        deviceName: device.deviceName || 'N/A',
+        companyName: company.companyName || 'N/A',
+        salesRepName: salesRep.userName || item.salesRepId,
+      };
+    }),
+  };
+
+  commit(WAITING_CALLS_CHANGED, expandedData);
+}
+function changeActiveCalls({ commit }, data) {
+  commit(ACTIVE_CALLS_CHANGED, data);
+}
+
 export default {
   [LOAD_CALLS_ANSWERED_DATA]: loadCallsAnsweredData,
   [LOAD_CALLS_MISSED_DATA]: loadCallsMissedData,
   [GET_TENANTS_LIST]: getTenantsList,
   [CHANGE_DASHBOARD_TENANT_FILTER]: fireTenantChanging,
+  [CHANGE_WAITING_CALLS]: changeWaitingCalls,
+  [CHANGE_ACTIVE_CALLS]: changeActiveCalls,
 };

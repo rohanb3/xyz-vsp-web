@@ -1,9 +1,9 @@
 export default {
   waitingCalls(state) {
-    return state.waitingCalls || {};
+    return state.waitingCalls;
   },
   activeCalls(state) {
-    return state.activeCalls || {};
+    return state.activeCalls;
   },
   waitingCallsCount(state) {
     return (state.waitingCalls && state.waitingCalls.count) || 0;

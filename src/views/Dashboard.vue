@@ -44,6 +44,11 @@ import ResponseTimeWidget from '@/containers/ResponseTimeWidgets';
 import CallStatisticsWidget from '@/containers/CallStatisticsWidgets';
 
 import RealtimeDashboardTenantFilter from '@/containers/RealtimeDashboardTenantFilter';
+import {
+  LOAD_FULL_DEVICES_LIST,
+  LOAD_TENANT_MINIFIED_USERS,
+  LOAD_TENANT_MINIFIED_COMPANIES,
+} from '@/store/storage/actionTypes';
 
 export default {
   name: 'dashboard',
@@ -57,10 +62,20 @@ export default {
     RealtimeDashboardTenantFilter,
   },
   computed: {
-    ...mapGetters(['isTenantFilterAllowed']),
+    ...mapGetters(['allDevices', 'tenantUsers', 'tenantCompanies', 'isTenantFilterAllowed']),
   },
   mounted() {
     subscribe().catch(() => this.$router.replace({ name: 'home' }));
+
+    if (!this.tenantUsers.items.length) {
+      this.$store.dispatch(LOAD_TENANT_MINIFIED_USERS);
+    }
+    if (!this.tenantCompanies.items.length) {
+      this.$store.dispatch(LOAD_TENANT_MINIFIED_COMPANIES);
+    }
+    if (!this.allDevices.items.length) {
+      this.$store.dispatch(LOAD_FULL_DEVICES_LIST);
+    }
   },
   destroyed() {
     unsubscribe();

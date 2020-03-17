@@ -79,6 +79,7 @@ export default {
   .waiting-calls-table-wrapper {
     .realtime-waiting-calls-wombat-table .virtual-list {
       max-height: calc(100vh - #{$header-height} - #{$realtime-dashboard-widgets-height} - 150px);
+      min-height: calc(100vh - #{$header-height} - #{$realtime-dashboard-widgets-height} - 150px);
     }
     .realtime-waiting-calls-wombat-table .no-result-found {
       max-height: calc(100vh - #{$header-height} - #{$realtime-dashboard-widgets-height} - 190px);
