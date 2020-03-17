@@ -51,19 +51,37 @@ export default {
     state.dispositions = data.dispositions;
   },
   [SET_TENANT_MINIFIED_COMPANIES](state, data) {
-    state.tenantCompanies = {
-      items: data,
-    };
+    console.log(SET_TENANT_MINIFIED_COMPANIES, { data });
+    state.tenantCompanies = data.reduce(
+      (hash, tenantWithCompanies) => ({
+        ...hash,
+        [tenantWithCompanies.id]: tenantWithCompanies.companies.reduce(
+          (companiesHash, company) => ({ ...companiesHash, [company.id]: company }),
+          {}
+        ),
+      }),
+      {}
+    );
+    console.log(SET_TENANT_MINIFIED_COMPANIES, { after: state.tenantCompanies });
   },
   [SET_TENANT_MINIFIED_USERS](state, data) {
-    state.tenantUsers = {
-      items: data,
-    };
+    console.log(SET_TENANT_MINIFIED_USERS, { data });
+    state.tenantUsers = data.reduce(
+      (hash, tenantWithUsers) => ({
+        ...hash,
+        [tenantWithUsers.id]: tenantWithUsers.users.reduce(
+          (usersHash, user) => ({ ...usersHash, [user.objectId]: user }),
+          {}
+        ),
+      }),
+      {}
+    );
+    console.log(SET_TENANT_MINIFIED_USERS, { after: state.tenantUsers });
   },
   [SET_FULL_DEVICES_LIST](state, data) {
-    state.allDevices = {
-      items: data,
-    };
+    console.log(SET_FULL_DEVICES_LIST, { data });
+    state.allDevices = data.reduce((hash, device) => ({ ...hash, [device.udid]: device }), {});
+    console.log(SET_FULL_DEVICES_LIST, { after: state.allDevices });
   },
   /* eslint-enable no-param-reassign */
 };

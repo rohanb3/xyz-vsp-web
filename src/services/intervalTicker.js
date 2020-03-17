@@ -11,7 +11,6 @@ const startTick = () => {
 
 export const unsubscribeTicker = observer => {
   const removeIndex = observers.indexOf(observer);
-  console.log({ removeIndex });
   if (removeIndex !== -1) {
     observers = observers.slice(removeIndex, 1);
   }

@@ -27,15 +27,9 @@ export default {
       items: [],
       allItemsLoaded: false,
     },
-    tenantUsers: {
-      items: [],
-    },
-    tenantCompanies: {
-      items: [],
-    },
-    allDevices: {
-      items: [],
-    },
+    tenantUsers: {},
+    tenantCompanies: {},
+    allDevices: {},
   },
   getters,
   actions,

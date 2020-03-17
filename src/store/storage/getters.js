@@ -19,6 +19,5 @@ export default {
     return [...CALL_DISPOSITIONS];
   },
   getItemById: state => (itemId, tableName, getItemId = defaultItemGetter) =>
-    console.log({ [tableName]: state[tableName] }) ||
     state[tableName].items.find(item => getItemId(item) === itemId),
 };

@@ -34,11 +34,11 @@
 import { mapGetters } from 'vuex';
 import { ENTITY_TYPES } from '@/constants';
 
+import WombatTable from '@/components/WombatTable/Table';
+
 import DefaultCell from '@/components/tableCells/DefaultCell';
 import TimeCounterCell from '@/components/tableCells/TimeCounterCell';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
-
-import WombatTable from '@/components/WombatTable/Table';
 
 import smartTable from '@/mixins/smartTable';
 
@@ -92,17 +92,20 @@ export default {
   margin-left: 20px;
 }
 
-.requestedBy-table-cell,
-.requestedBy-table-header-cell {
+.companyName-table-cell,
+.companyName-table-header-cell {
   margin-left: 15px;
 }
 
-.deviceId-table-cell,
+.deviceName-table-cell,
 .waitingTime-table-cell,
-.deviceId-table-header-cell,
-.waitingTime-table-header-cell {
+.deviceName-table-header-cell,
+.requestedAt-table-header-cell {
   display: flex;
   justify-content: center;
+}
+.requestedAt-table-header-cell {
+  text-align: center;
 }
 
 .time-counter-cell {
@@ -116,19 +119,4 @@ export default {
   border: 1px solid rgb(216, 216, 216);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
 }
-</style>
-
-<style>
-/* .waiting-calls-table-container
-  .waiting-calls-table-wrapper
-  .realtimeWaitingCalls
-  .no-result-found {
-  height: 100% !important;
-}
-.waiting-calls-table-container
-  .waiting-calls-table-wrapper
-  .realtimeWaitingCalls
-  .scroller {
-  max-height: 100%;
-} */
 </style>

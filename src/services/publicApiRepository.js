@@ -9,9 +9,7 @@ import publicApi from './publicApi';
 export const getBranches = (companyId, keyword) => {
   const params = { BranchNameFilter: keyword };
 
-  return publicApi
-    .get(`/company/${companyId}/branch`, { params, paramsSerializer })
-    .then(({ data }) => data);
+  return publicApi.get(`/company/${companyId}/branch`, { params }).then(({ data }) => data);
 };
 
 export const getCompanies = filters => {
@@ -30,5 +28,5 @@ export const getMinifiedCompaniesByTenants = tenantIds => {
     tenantIds,
   };
 
-  return publicApi.get('/tenant/simple', { params }).then(({ data }) => data);
+  return publicApi.get('/tenant/simple', { params, paramsSerializer }).then(({ data }) => data);
 };

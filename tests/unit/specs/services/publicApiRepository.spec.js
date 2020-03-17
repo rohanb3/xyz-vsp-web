@@ -1,6 +1,5 @@
 import api from '@/services/publicApi';
 import { getBranches, getCompanies } from '@/services/publicApiRepository';
-import { paramsSerializer } from '@/services/repositoryUtils';
 import {
   FILTER_NAMES_COMPANY_LIST,
   COMPANY_LIST_COLUMNS_SORTED,
@@ -21,10 +20,7 @@ describe('publicApiRepository', () => {
       api.get = jest.fn(() => Promise.resolve({ data }));
       const result = await getBranches(companyId, keyword);
 
-      expect(api.get).toHaveBeenCalledWith(`/company/${companyId}/branch`, {
-        params,
-        paramsSerializer,
-      });
+      expect(api.get).toHaveBeenCalledWith(`/company/${companyId}/branch`, { params });
       expect(result).toEqual(data);
     });
   });

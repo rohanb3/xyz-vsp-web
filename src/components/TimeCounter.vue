@@ -31,16 +31,16 @@ export default {
       return secondsToMinutesAndSeconds(deltaSeconds);
     },
   },
-  methods: {
-    repaint() {
-      this.time = new Date();
-    },
-  },
   mounted() {
     this.unsibscribe = subscribeTicker(this.repaint);
   },
   beforeDestroy() {
     this.unsibscribe();
+  },
+  methods: {
+    repaint() {
+      this.time = new Date();
+    },
   },
 };
 </script>

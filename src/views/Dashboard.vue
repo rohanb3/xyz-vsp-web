@@ -65,20 +65,25 @@ export default {
     ...mapGetters(['allDevices', 'tenantUsers', 'tenantCompanies', 'isTenantFilterAllowed']),
   },
   mounted() {
-    subscribe().catch(() => this.$router.replace({ name: 'home' }));
-
-    if (!this.tenantUsers.items.length) {
-      this.$store.dispatch(LOAD_TENANT_MINIFIED_USERS);
-    }
-    if (!this.tenantCompanies.items.length) {
-      this.$store.dispatch(LOAD_TENANT_MINIFIED_COMPANIES);
-    }
-    if (!this.allDevices.items.length) {
-      this.$store.dispatch(LOAD_FULL_DEVICES_LIST);
-    }
+    subscribe()
+      .then(this.loadAdditionalData)
+      .catch(() => this.$router.replace({ name: 'home' }));
   },
   destroyed() {
     unsubscribe();
+  },
+  methods: {
+    loadAdditionalData() {
+      if (!Object.keys(this.tenantUsers).length) {
+        this.$store.dispatch(LOAD_TENANT_MINIFIED_USERS);
+      }
+      if (!Object.keys(!this.tenantCompanies).length) {
+        this.$store.dispatch(LOAD_TENANT_MINIFIED_COMPANIES);
+      }
+      if (!Object.keys(!this.allDevices).length) {
+        this.$store.dispatch(LOAD_FULL_DEVICES_LIST);
+      }
+    },
   },
 };
 </script>
@@ -94,7 +99,6 @@ export default {
   min-height: 100%;
 
   .realtime-dashboard-container {
-    flex: 1;
     width: 100%;
     border-radius: 8px;
     -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);

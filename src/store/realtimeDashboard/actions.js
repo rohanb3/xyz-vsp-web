@@ -48,25 +48,16 @@ function fireTenantChanging({ commit }, tenantId) {
 }
 
 function changeWaitingCalls({ commit, rootGetters }, data) {
-  const currentTenantUsers = rootGetters.tenantUsers.items.find(
-    tenantUsers => tenantUsers.id === rootGetters.tenantId
-  );
-
-  const currentTenantCompanies = rootGetters.tenantCompanies.items.find(
-    tenantCompanies => tenantCompanies.id === rootGetters.tenantId
-  );
+  const currentTenantUsers = rootGetters.tenantUsers[rootGetters.tenantId] || {};
+  const currentTenantCompanies = rootGetters.tenantCompanies[rootGetters.tenantId] || {};
 
   const expandedData = {
     ...data,
     items: data.items.map(item => {
-      const salesRep =
-        currentTenantUsers.users.find(user => user.objectId === item.salesRepId) || {};
+      const salesRep = currentTenantUsers[item.salesRepId] || {};
 
-      const company =
-        currentTenantCompanies.companies.find(
-          cmp => Number(cmp.id) === Number(salesRep.companyId)
-        ) || {};
-      const device = rootGetters.allDevices.items.find(dev => dev.udid === item.deviceId) || {};
+      const company = currentTenantCompanies[salesRep.companyId] || {};
+      const device = rootGetters.allDevices[item.deviceId] || {};
 
       return {
         ...item,
