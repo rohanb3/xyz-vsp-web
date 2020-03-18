@@ -15,22 +15,19 @@ import {
 export default {
   /* eslint-disable no-param-reassign */
   [WAITING_CALLS_CHANGED](state, data) {
-    const localizedData = data.items.length
+    const secondsDiff = getDifference(new Date(), data.serverTime);
+
+    state.waitingCalls = data.items.length
       ? {
           ...data,
           items: data.items
             .map(item => ({
               ...item,
-              requestedAt: correctDateFault(
-                item.requestedAt,
-                getDifference(new Date(), data.serverTime)
-              ),
+              requestedAt: correctDateFault(item.requestedAt, secondsDiff),
             }))
             .sort(item => item.requestedAt),
         }
       : data;
-
-    state.waitingCalls = localizedData;
   },
   [ACTIVE_CALLS_CHANGED](state, data) {
     const secondsDiff = getDifference(new Date(), data.serverTime);
