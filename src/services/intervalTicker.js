@@ -1,12 +1,14 @@
 let observers = [];
 
+let intervalMS = 1000;
+
 const startTick = () => {
   setTimeout(() => {
     if (observers.length > 0) {
       observers.forEach(observer => observer());
       startTick();
     }
-  }, 1000);
+  }, intervalMS);
 };
 
 export const unsubscribeTicker = observer => {
@@ -25,4 +27,8 @@ export const subscribeTicker = observer => {
   }
 
   return () => unsubscribeTicker(observer);
+};
+
+export const changeInterval = newIntervalMS => {
+  intervalMS = newIntervalMS;
 };
