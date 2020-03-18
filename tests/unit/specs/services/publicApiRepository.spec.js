@@ -1,10 +1,15 @@
 import api from '@/services/publicApi';
-import { getBranches, getCompanies } from '@/services/publicApiRepository';
+import {
+  getBranches,
+  getCompanies,
+  getMinifiedCompaniesByTenants,
+} from '@/services/publicApiRepository';
 import {
   FILTER_NAMES_COMPANY_LIST,
   COMPANY_LIST_COLUMNS_SORTED,
   SORTING_DIRECTION,
 } from '@/constants';
+import { paramsSerializer } from '@/services/repositoryUtils';
 
 describe('publicApiRepository', () => {
   describe('getBranches', () => {
@@ -42,6 +47,31 @@ describe('publicApiRepository', () => {
       const result = await getCompanies(filters);
 
       expect(api.get).toHaveBeenCalledWith('/company', { params });
+      expect(result).toEqual(data);
+    });
+  });
+  describe('getMinifiedCompaniesByTenants', () => {
+    it('should call api.get and return data', async () => {
+      const data = [
+        {
+          id: 1,
+          companies: [{ id: 1, companyName: '1' }],
+        },
+        {
+          id: 2,
+          companies: [{ id: 2, companyName: '2' }],
+        },
+        {
+          id: 3,
+          companies: [{ id: 3, companyName: '1' }],
+        },
+      ];
+      const params = { tenantIds: [1, 2, 3] };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+      const result = await getMinifiedCompaniesByTenants([1, 2, 3]);
+
+      expect(api.get).toHaveBeenCalledWith('/tenant/simple', { params, paramsSerializer });
       expect(result).toEqual(data);
     });
   });

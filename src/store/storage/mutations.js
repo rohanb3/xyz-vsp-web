@@ -51,7 +51,6 @@ export default {
     state.dispositions = data.dispositions;
   },
   [SET_TENANT_MINIFIED_COMPANIES](state, data) {
-    console.log(SET_TENANT_MINIFIED_COMPANIES, { data });
     state.tenantCompanies = data.reduce(
       (hash, tenantWithCompanies) => ({
         ...hash,
@@ -62,10 +61,8 @@ export default {
       }),
       {}
     );
-    console.log(SET_TENANT_MINIFIED_COMPANIES, { after: state.tenantCompanies });
   },
   [SET_TENANT_MINIFIED_USERS](state, data) {
-    console.log(SET_TENANT_MINIFIED_USERS, { data });
     state.tenantUsers = data.reduce(
       (hash, tenantWithUsers) => ({
         ...hash,
@@ -76,12 +73,9 @@ export default {
       }),
       {}
     );
-    console.log(SET_TENANT_MINIFIED_USERS, { after: state.tenantUsers });
   },
   [SET_FULL_DEVICES_LIST](state, data) {
-    console.log(SET_FULL_DEVICES_LIST, { data });
     state.allDevices = data.reduce((hash, device) => ({ ...hash, [device.udid]: device }), {});
-    console.log(SET_FULL_DEVICES_LIST, { after: state.allDevices });
   },
   /* eslint-enable no-param-reassign */
 };

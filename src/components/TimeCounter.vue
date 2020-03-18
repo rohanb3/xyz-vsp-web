@@ -1,5 +1,5 @@
 <template>
-  <span class="time-counter">{{ foramttedDate }}</span>
+  <span class="time-counter">{{ formattedDate }}</span>
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
     };
   },
   computed: {
-    foramttedDate() {
+    formattedDate() {
       const date = new Date(this.value);
       if (date.toDateString() === 'Invalid Date') {
         return null;

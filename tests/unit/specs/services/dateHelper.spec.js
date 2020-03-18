@@ -4,6 +4,8 @@ import {
   secondsToMinutesSeconds,
   secondsToHoursMinutes,
   secondToMinutes,
+  correctDateFault,
+  getDifference,
   secondsToHoursMinutesSeconds,
 } from '@/services/dateHelper';
 
@@ -296,6 +298,38 @@ describe('dateHelper', () => {
 
     it('should return "6h 45m 20s" if 24320 was passed', () => {
       expect(secondsToHoursMinutesSeconds(24320)).toBe('6h 45m 20s');
+    });
+  });
+
+  describe('correctDateFault', () => {
+    it('should return correct date for passed fault and entities', () => {
+      expect(correctDateFault('2020-03-10T00:00:00Z', 5, 'seconds')).toBe('2020-03-10T00:00:05Z');
+      expect(correctDateFault('2020-03-10T00:00:00Z', 5, 'minutes')).toBe('2020-03-10T00:05:00Z');
+      expect(correctDateFault('2020-03-10T00:00:00Z', -5, 'hours')).toBe('2020-03-09T19:00:00Z');
+      expect(correctDateFault('2020-03-10T00:00:00Z', 5, 'days')).toBe('2020-03-15T00:00:00Z');
+    });
+    it('should return same date if no else params were specified', () => {
+      expect(correctDateFault('2020-03-10T00:00:00Z')).toBe('2020-03-10T00:00:00Z');
+    });
+    it('should return invalid date if param was in wrong format', () => {
+      expect(correctDateFault('secret123')).toBe('Invalid date');
+    });
+  });
+
+  describe('getDifference', () => {
+    it('should return correct difference between dates', () => {
+      expect(getDifference('2020-03-10T00:00:00Z', '2020-03-10T00:03:00Z')).toBe(-180);
+      expect(getDifference('2020-03-10T00:00:00Z', '2020-03-10T00:03:00Z', 'milliseconds')).toBe(
+        -180000
+      );
+      expect(getDifference('2020-03-10T00:00:00Z', '2020-03-10T00:03:00Z', 'minutes')).toBe(-3);
+      expect(getDifference('2020-03-10T05:00:00Z', '2020-03-10T00:00:00Z', 'hours')).toBe(5);
+    });
+    it('should return 0 if no params specified', () => {
+      expect(getDifference()).toBe(0);
+    });
+    it('should return NaN if param was in wrong format', () => {
+      expect(getDifference('secret123', '2020-03-10T00:00:00Z')).toBe(NaN);
     });
   });
 });
