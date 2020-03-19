@@ -293,5 +293,8 @@
     "waiting.calls": "TBD Waiting calls",
     "sales.rep": "TBD Sales Rep",
     "waiting.time": "TBD Waiting Time",
-    "device": "TBD Device"
+    "device": "TBD Device",
+    "operator.name": "TBD Operator",
+    "call.duration": "TBD Call Duration",
+    "waiting.duration": "TBD Waiting Duration"
 }

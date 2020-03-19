@@ -1,9 +1,9 @@
 <template>
-  <div class="waiting-calls-table-container">
-    <span class="waiting-calls-table-title">{{ $t('waiting.calls') }}</span>
-    <div class="waiting-calls-table-wrapper">
+  <div class="active-calls-table-container">
+    <span class="active-calls-table-title">{{ $t('live.calls') }}</span>
+    <div class="active-calls-table-wrapper">
       <wombat-table
-        class="realtime-waiting-calls-wombat-table"
+        class="realtime-active-calls-wombat-table"
         :name="tableName"
         :items="rows"
         :columns="columns"
@@ -37,35 +37,38 @@ import { ENTITY_TYPES } from '@/constants';
 import WombatTable from '@/components/WombatTable/Table';
 
 import DefaultCell from '@/components/tableCells/DefaultCell';
-import MinutesTimeCounterCell from '@/components/tableCells/MinutesTimeCounterCell';
+import HoursTimeCounterCell from '@/components/tableCells/HoursTimeCounterCell';
+import WaitingDurationCell from '@/components/tableCells/WaitingDurationCell';
 import DefaultHeaderCell from '@/components/tableHeaderCells/DefaultHeaderCell';
 
 import smartTable from '@/mixins/smartTable';
 
-const { REALTIME_WAITING_CALLS } = ENTITY_TYPES;
+const { REALTIME_ACTIVE_CALLS } = ENTITY_TYPES;
 
 export default {
-  name: 'WaitingCallsTable',
+  name: 'activeCallsTable',
   components: {
     DefaultCell,
     WombatTable,
-    MinutesTimeCounterCell,
+    HoursTimeCounterCell,
     DefaultHeaderCell,
+    WaitingDurationCell,
   },
   mixins: [smartTable],
   data() {
     return {
-      tableName: REALTIME_WAITING_CALLS,
+      tableName: REALTIME_ACTIVE_CALLS,
       rowComponentsHash: {
         default: 'DefaultCell',
-        requestedAt: 'MinutesTimeCounterCell',
+        acceptedAt: 'HoursTimeCounterCell',
+        waitingDuration: 'WaitingDurationCell',
       },
     };
   },
   computed: {
-    ...mapGetters(['waitingCalls']),
+    ...mapGetters(['activeCalls']),
     rows() {
-      return this.waitingCalls.items || [];
+      return this.activeCalls.items || [];
     },
   },
 };
@@ -75,22 +78,22 @@ export default {
 @import '~@/assets/styles/variables.scss';
 @import '~@/assets/styles/mixins.scss';
 
-.waiting-calls-table-container /deep/ {
-  flex: 1;
-
-  .waiting-calls-table-wrapper {
-    .realtime-waiting-calls-wombat-table .virtual-list {
+.active-calls-table-container /deep/ {
+  flex: 1.6;
+  margin-left: 20px;
+  .active-calls-table-wrapper {
+    .realtime-active-calls-wombat-table .virtual-list {
       max-height: calc(100vh - #{$header-height} - #{$realtime-dashboard-widgets-height} - 150px);
       min-height: calc(100vh - #{$header-height} - #{$realtime-dashboard-widgets-height} - 150px);
     }
-    .realtime-waiting-calls-wombat-table .no-result-found {
+    .realtime-active-calls-wombat-table .no-result-found {
       margin-top: 35px;
       max-height: calc(100vh - #{$header-height} - #{$realtime-dashboard-widgets-height} - 190px);
     }
   }
 }
 
-.waiting-calls-table-title {
+.active-calls-table-title {
   font-weight: bold;
   margin-left: 20px;
 }
@@ -101,13 +104,15 @@ export default {
 }
 
 .deviceName-table-cell,
-.waitingTime-table-cell,
+.acceptedAt-table-cell,
+.operatorName-table-cell,
+.waitingDuration-table-cell,
 .deviceName-table-header-cell,
-.requestedAt-table-header-cell {
+.acceptedAt-table-header-cell,
+.operatorName-table-header-cell,
+.waitingDuration-table-header-cell {
   display: flex;
   justify-content: center;
-}
-.requestedAt-table-header-cell {
   text-align: center;
 }
 
@@ -115,7 +120,7 @@ export default {
   text-align: center;
 }
 
-.waiting-calls-table-wrapper {
+.active-calls-table-wrapper {
   flex: 1;
   margin: 10px 0px 20px 20px;
   border-radius: 3px;

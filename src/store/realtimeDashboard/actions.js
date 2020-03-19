@@ -70,8 +70,30 @@ function changeWaitingCalls({ commit, rootGetters }, data) {
 
   commit(WAITING_CALLS_CHANGED, expandedData);
 }
-function changeActiveCalls({ commit }, data) {
-  commit(ACTIVE_CALLS_CHANGED, data);
+function changeActiveCalls({ commit, rootGetters }, data) {
+  const currentTenantUsers = rootGetters.tenantUsers[rootGetters.tenantId] || {};
+  const currentTenantCompanies = rootGetters.tenantCompanies[rootGetters.tenantId] || {};
+
+  const expandedData = {
+    ...data,
+    items: data.items.map(item => {
+      const salesRep = currentTenantUsers[item.salesRepId] || {};
+      const operator = currentTenantUsers[item.acceptedBy] || {};
+
+      const company = currentTenantCompanies[salesRep.companyId] || {};
+      const device = rootGetters.allDevices[item.deviceId] || {};
+
+      return {
+        ...item,
+        deviceName: device.deviceName || 'N/A',
+        companyName: company.companyName || 'N/A',
+        salesRepName: salesRep.userName || item.salesRepId,
+        operatorName: operator.userName || item.acceptedBy,
+      };
+    }),
+  };
+
+  commit(ACTIVE_CALLS_CHANGED, expandedData);
 }
 
 export default {

@@ -25,6 +25,7 @@
       </div>
       <div class="realtime-dashboard-tables-wrapper">
         <waiting-calls-table />
+        <active-calls-table />
       </div>
     </div>
   </div>
@@ -36,6 +37,7 @@ import { mapGetters } from 'vuex';
 import { subscribe, unsubscribe } from '@/services/realtimeDashboard';
 
 import WaitingCallsTable from '@/containers/WaitingCallsTable';
+import ActiveCallsTable from '@/containers/ActiveCallsTable';
 
 import LiveCallsWidget from '@/containers/LiveCallsWidgets';
 import OperatorsWidget from '@/containers/OperatorsWidgets';
@@ -55,6 +57,7 @@ export default {
   components: {
     LiveCallsWidget,
     OperatorsWidget,
+    ActiveCallsTable,
     WaitingCallsTable,
     WaitingCallsWidget,
     ResponseTimeWidget,
@@ -143,8 +146,10 @@ export default {
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
   }
   .realtime-dashboard-tables-wrapper {
+    padding-right: 20px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: stretch;
     flex: 1;
   }

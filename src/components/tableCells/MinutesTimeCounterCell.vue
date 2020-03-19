@@ -1,6 +1,6 @@
 <template>
   <div class="time-counter-cell" :title="getValue">
-    <time-counter :value="getValue" />
+    <time-counter :value="getValue" format="MINUTES" />
   </div>
 </template>
 <script>
@@ -8,7 +8,7 @@ import nestedFieldCell from '@/mixins/nestedFieldCell';
 import TimeCounter from '@/components/TimeCounter';
 
 export default {
-  name: 'TimeCounterCell',
+  name: 'MinutesTimeCounterCell',
   components: { TimeCounter },
   mixins: [nestedFieldCell],
   computed: {

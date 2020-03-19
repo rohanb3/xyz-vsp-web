@@ -4,7 +4,18 @@
 
 <script>
 import { subscribeTicker } from '@/services/intervalTicker';
-import { secondsToMinutesAndSeconds } from '@/services/dateHelper';
+import { secondsToMinutesAndSeconds, secondsToHuman } from '@/services/dateHelper';
+
+const formats = {
+  SECONDS: 'SECONDS',
+  MINUTES: 'MINUTES',
+  HOURS: 'HOURS',
+};
+const formatters = {
+  [formats.SECONDS]: val => val,
+  [formats.MINUTES]: secondsToMinutesAndSeconds,
+  [formats.HOURS]: secondsToHuman,
+};
 
 export default {
   name: 'TimeCounter',
@@ -12,6 +23,11 @@ export default {
     value: {
       type: String,
       required: true,
+    },
+    format: {
+      type: String,
+      validator: value => Object.values(formats).includes(value),
+      default: formats.MINUTES,
     },
   },
   data() {
@@ -28,7 +44,7 @@ export default {
       }
 
       const deltaSeconds = Math.abs(((this.time - date) / 1000).toFixed(0));
-      return secondsToMinutesAndSeconds(deltaSeconds);
+      return formatters[this.format](deltaSeconds);
     },
   },
   mounted() {

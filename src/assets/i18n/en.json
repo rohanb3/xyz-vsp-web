@@ -324,11 +324,14 @@
   "call.statistics": "Call Statistics",
   "abandoned": "Abandoned",
   "waiting.calls": "Waiting Calls",
-  "live.calls": "Live calls",
+  "live.calls": "Live Calls",
   "response.time": "Response Time",
   "longest": "Longest",
   "available": "Available",
   "sales.rep": "Sales Rep",
+  "operator.name": "Operator",
   "waiting.time": "Waiting Time",
+  "call.duration": "Call Duration",
+  "waiting.duration": "Waiting Duration",
   "device": "Device"
 }
