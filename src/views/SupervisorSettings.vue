@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { ROLE_TYPES } from '@/constants';
 import SidebarMenu from '../components/SidebarMenu';
 
 const sidebarLinks = [
@@ -29,11 +28,11 @@ const sidebarLinks = [
   //   titleKey: 'template.list',
   //   link: 'template-list',
   // },
-  {
-    titleKey: 'synchronization',
-    link: 'synchronization',
-    hide: [ROLE_TYPES.SUPPORT_ADMIN],
-  },
+  // {
+  //  titleKey: 'synchronization',
+  //  link: 'synchronization',
+  //  hide: [ROLE_TYPES.SUPPORT_ADMIN],
+  // },
 ];
 
 export default {

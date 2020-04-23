@@ -87,3 +87,12 @@ export function secondsToMinutesAndSeconds(duration = 0) {
 
   return `${minutes}:${seconds}`;
 }
+
+export const correctDateFault = (date, fault, units = 'milliseconds') =>
+  moment
+    .utc(date)
+    .add(fault, units)
+    .format();
+
+export const getDifference = (dateFrom, dateTo, units = 'milliseconds') =>
+  moment.utc(dateFrom).diff(moment.utc(dateTo), units);

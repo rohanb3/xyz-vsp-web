@@ -287,8 +287,18 @@
     "abandoned": "TBD Abandoned",
     "waiting-calls": "TBD Waiting calls",
     "live.calls": "TBD Live calls",
-    "response.time": "TBD Response Time",
+    "response.time": "TBD Customer Wait Time",
     "longest": "TBD Longest",
     "available": "TBD Available",
-    "waiting.calls": "TBD Waiting calls"
+    "waiting.calls": "TBD Waiting calls",
+    "sales.rep": "TBD Sales Rep",
+    "waiting.time": "TBD Waiting Time",
+    "device": "TBD Device",
+    "operator.name": "TBD Operator",
+    "call.duration": "TBD Call Duration",
+    "callback.tooltip": "TBD Callback",
+    "waiting.duration": "TBD Waiting Duration",
+    "operation.canceled": "TBD Operation was cancelled",
+    "operator.calls": "TBD Operator Calls",
+    "callbacks": "TBD Callbacks"
 }

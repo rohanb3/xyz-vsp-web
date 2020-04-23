@@ -1,10 +1,12 @@
 import store from '@/store';
-import { OPERATOR_SOCKET } from '@/constants';
+import { successEvent, failureEvent } from '@/constants/utils';
+import { OPERATOR_SOCKET, OPERATION_CANCELLED } from '@/constants';
 import { handleUpdateCallsInfo } from '@/services/callNotifications';
 import { log } from '@/services/sentry';
 
 import { SET_PENDING_CALLS_INFO } from '@/store/call/mutationTypes';
 
+import { runOperation } from './utils';
 import { ensureSocket, getSocket, pubSub as socketPubSub } from './transport';
 import './monitor';
 
@@ -57,14 +59,41 @@ export function notifyAboutLeavingRoomEmpty() {
 }
 
 export function requestCallback(callId) {
-  return new Promise((resolve, reject) => {
+  let onCallbackAccepted = null;
+  let onCallbackDeclined = null;
+  let onCallbackCanceled = null;
+  let onCallbackRequestingFailed = null;
+
+  const promise = new Promise((resolve, reject) => {
     const socket = getSocket();
 
+    onCallbackAccepted = resolve;
+    onCallbackCanceled = () => reject(new Error(OPERATION_CANCELLED));
+    onCallbackDeclined = data => reject(new Error(data.reason));
+    onCallbackRequestingFailed = () => reject(new Error());
+
     socket.emit(EVENTS.CALLBACK_REQUESTED, callId);
-    socket.once(EVENTS.CALLBACK_ACCEPTED, resolve);
-    socket.once(EVENTS.CALLBACK_DECLINED, data => reject(new Error(data.reason)));
-    socket.once(EVENTS.CALLBACK_REQUESTING_FAILED, () => reject(new Error()));
+    socket.once(EVENTS.CALLBACK_ACCEPTED, onCallbackAccepted);
+    socket.once(EVENTS.CALLBACK_DECLINED, onCallbackDeclined);
+    socket.once(EVENTS.CALLBACK_REQUESTING_FAILED, onCallbackRequestingFailed);
   });
+
+  const cancellation = () => {
+    const socket = getSocket();
+
+    socket.off(EVENTS.CALLBACK_ACCEPTED, onCallbackAccepted);
+    socket.off(EVENTS.CALLBACK_DECLINED, onCallbackDeclined);
+    socket.off(EVENTS.CALLBACK_REQUESTING_FAILED, onCallbackRequestingFailed);
+
+    return runOperation(
+      EVENTS.CALLBACK_REQUESTING_ABORTED,
+      callId,
+      successEvent(EVENTS.CALLBACK_REQUESTING_ABORTED),
+      failureEvent(EVENTS.CALLBACK_REQUESTING_ABORTED)
+    ).then(onCallbackCanceled);
+  };
+
+  return { promise, cancellation };
 }
 
 export function notifyAboutChangingStatusToOnline(data) {

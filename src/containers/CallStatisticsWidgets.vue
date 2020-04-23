@@ -1,40 +1,44 @@
 <template>
       <div class="call-statistics-widgets">
-        <div class="offline-block">
-          <span class="left-side">
-            <img class="icon inline" :src="icon">
-            <div class="real-time-title inline">{{ $t('call.statistics') }}</div>
-          </span>
-          <span class="right-side">
-            <span class="total-cnt-block">
-              <span>{{ $t('total') }}</span>
-              <span class="total-font">{{total}}</span>
-            </span>
-          </span>
-        </div>
-        <div class="details-block">
-          <div class="on-call-details details">
-            <div class="real-time-cnt center">{{answered}}</div>
-            <div class="sub-title center">{{ $t('answered') }}</div>
-          </div>
-          <div class="available-details details">
-            <div class="real-time-cnt abandoned-font center">{{abandoned}}</div>
-            <div class="sub-title center">{{ $t('abandoned') }}</div>
-          </div>
-        </div>
+        <realtime-dashboard-complex-widget
+          :title="$t('call.statistics')"
+          :headerSubTitle="$t('total')"
+          :headerData="total"
+          :leftSubTitle="$t('answered')"
+          :leftData="answeredTotal"
+          :rightSubTitle="$t('abandoned')"
+          :rightData="abandonedTotal"
+          :leftAdditionalSubDataList="leftAdditionalSubDataList"
+          :rightAdditionalSubDataList="rightAdditionalSubDataList"
+          :icon="icon"/>
       </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import icon from '@/assets/icons/realtime-dashboard/call-statistics-icon.svg';
+import RealtimeDashboardComplexWidget from '@/components/RealtimeDashboardComplexWidget';
 
 export default {
   name: 'CallStatisticsWidget',
+  components: {
+    RealtimeDashboardComplexWidget,
+  },
   computed: {
-    ...mapGetters(['callStatisticsAnswered', 'callStatisticsAbandoned']),
+    ...mapGetters([
+      'callStatisticsAnswered',
+      'callStatisticsAbandoned',
+      'callStatisticsCallbacksMissed',
+      'callStatisticsCallbacksAnswered',
+    ]),
     icon() {
       return icon;
+    },
+    answeredTotal() {
+      return this.answered + this.answeredCallbacks;
+    },
+    abandonedTotal() {
+      return this.abandoned + this.abandonedCallbacks;
     },
     answered() {
       return (this.callStatisticsAnswered && this.callStatisticsAnswered.total) || 0;
@@ -42,8 +46,26 @@ export default {
     abandoned() {
       return (this.callStatisticsAbandoned && this.callStatisticsAbandoned.total) || 0;
     },
+    answeredCallbacks() {
+      return this.callStatisticsCallbacksAnswered || 0;
+    },
+    abandonedCallbacks() {
+      return this.callStatisticsCallbacksMissed || 0;
+    },
     total() {
-      return this.answered + this.abandoned;
+      return this.answeredTotal + this.abandonedTotal;
+    },
+    leftAdditionalSubDataList() {
+      return [
+        { data: this.answered, title: this.$t('operator.calls') },
+        { data: this.answeredCallbacks, title: this.$t('callbacks') },
+      ];
+    },
+    rightAdditionalSubDataList() {
+      return [
+        { data: this.abandoned, title: this.$t('operator.calls') },
+        { data: this.abandonedCallbacks, title: this.$t('callbacks') },
+      ];
     },
   },
 };
@@ -54,86 +76,11 @@ export default {
   border: 1px solid rgba(151, 151, 151, 0.19);
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  height: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  & > * {
-    margin-right: 10px;
-    flex-shrink: 0;
-  }
-  & .real-time-cnt {
-    color: #64b211;
-    font-size: 36px;
-    font-weight: bold;
-    line-height: 42px;
-    align: rigth;
+}
+</style>
 
-    &.abandoned-font {
-      color: #e02020;
-    }
-  }
-
-  & .real-time-title {
-    color: #524d4b;
-    font-size: 20px;
-    line-height: 24px;
-    margin-left: 10px;
-    font-weight: bold;
-  }
-
-  .offline-block {
-    display: flex;
-    flex-direction: row;
-    width: 95%;
-    .left-side {
-      width: 100%;
-      display: flex;
-      align-items: center;
-    }
-    .right-side {
-      width: 70%;
-    }
-    .inline {
-      display: inline;
-    }
-  }
-  .details-block {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-
-    .on-call-details {
-      border-right: 1px solid lightgrey;
-    }
-
-    .sub-title {
-      color: gray;
-    }
-  }
-  .total-cnt-block {
-    float: right;
-    color: grey;
-    .total-font {
-      font-size: x-large;
-      font-weight: bold;
-      margin-left: 5px;
-    }
-  }
-  .details {
-    padding: 13px;
-    width: 50%;
-  }
-
-  .icon {
-    width: 25px;
-    height: 25px;
-  }
-
-  .center {
-    width: 100%;
-    text-align: center;
-  }
+<style>
+.call-statistics-widgets .realtime-dashboard-complex-widget .right-data-details .right-data-font {
+  color: #e02020 !important;
 }
 </style>

@@ -1,7 +1,11 @@
 <template>
   <v-dialog content-class="call-feedback-popup-wrapper" v-model="showModal" persistent>
     <div class="call-feedback-popup">
-      <call-connecting-loader v-if="connectingToCallback" :title="connectingLoaderTitle" />
+      <call-connecting-loader v-if="connectingToCallback" :title="connectingLoaderTitle">
+        <template v-slot:additional>
+          <v-icon color="white" class="end-call" @click="cancelCallback">call_end</v-icon>
+        </template>
+      </call-connecting-loader>
       <template v-else>
         <div class="header section">
           <div class="name">{{$t("call.info")}}</div>
@@ -37,7 +41,7 @@
         </div>
         <div class="rating section">
           <p class="title">{{$t("system.quality.rating")}}</p>
-          <v-rating color="#fff" background-color="grey lighten-1" v-model="feedback.quality"/>
+          <v-rating color="#fff" background-color="grey lighten-1" v-model="feedback.quality" />
         </div>
         <div class="note-feedback section">
           <p class="title">{{$t("note.feedback")}}</p>
@@ -165,12 +169,27 @@ export default {
         this.$emit('callback');
       }
     },
+    cancelCallback() {
+      this.$emit('cancelCallback');
+    },
+    finishCall() {
+      this.$emit('finishCall');
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import '~@/assets/styles/variables.scss';
+
+.end-call {
+  min-width: 50px;
+  min-height: 50px;
+  margin: 15px;
+  border-radius: 50%;
+  background-color: $call-controls-end-call-background-color;
+}
+
 .call-feedback-popup {
   width: 250px;
   border-radius: 11px;

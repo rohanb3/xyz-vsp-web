@@ -34,6 +34,8 @@ export const ENTITY_TYPES = {
   CALLS_FEEDBACK: 'callsFeedback',
   SUPERADMIN_OPERATORS: 'superAdminOperators',
   PAYMENTS: 'payments',
+  REALTIME_WAITING_CALLS: 'realtimeWaitingCalls',
+  REALTIME_ACTIVE_CALLS: 'realtimeActiveCalls',
   COMPANY_LIST: 'COMPANY_LIST',
   DEVICE_COMMENTS: 'deviceComments',
   CALL_STATISTICS_ANSWERED: 'callStatisticsAnswered',
@@ -95,6 +97,7 @@ const FORBIDDEN = 'forbidden';
 const CALL_ACCEPTED = 'call.accepted';
 const CALL_FINISHED = 'call.finished';
 const CALLBACK_REQUESTED = 'callback.requested';
+const CALLBACK_REQUESTING_ABORTED = 'callback.requesting.aborted';
 const CALLBACK_REQUESTING_FAILED = 'callback.requesting.failed';
 const CALLBACK_ACCEPTED = 'callback.accepted';
 const CALLBACK_DECLINED = 'callback.declined';
@@ -111,12 +114,16 @@ const REALTIME_DASHBOARD_UNSUBSCRIBE = 'realtimeDashboard.unsubscribe';
 const REALTIME_DASHBOARD_SUBSCRIBED = 'realtimeDashboard.subscribed';
 const REALTIME_DASHBOARD_SUBSCRIBTION_ERROR = 'realtimeDashboard.subscibtionError';
 const REALTIME_DASHBOARD_WAITING_CALLS_CHANGED = 'realtimeDashboard.waitingCalls.changed';
+const REALTIME_DASHBOARD_WAITING_CALLBACKS_CHANGED = 'realtimeDashboard.waitingCallbacks.changed';
 const REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED = 'realtimeDashboard.activeCalls.changed';
 
 const REALTIME_DASHBOARD_CALL_FINISHED = 'realtimeDashboards.call.finished';
 const REALTIME_DASHBOARD_CALL_ACCEPTED = 'realtimeDashboards.call.accepted';
+const REALTIME_DASHBOARD_CALLBACK_ACCEPTED = 'realtimeDashboards.callback.accepted';
 const REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED =
   'realtimeDashboards.operators.statusesChanged';
+
+const REALTIME_DASHBOARD_CALLBACK_DECLINED = 'realtimeDashboards.callback.declined';
 
 const SOCKET_CONNECTED = 'socket.connected';
 const SOCKET_DISCONNECTING = 'socket.disconnecting';
@@ -148,6 +155,7 @@ export const OPERATOR_SOCKET = {
     CALLBACK_ACCEPTED,
     CALLBACK_DECLINED,
     CALLBACK_REQUESTING_FAILED,
+    CALLBACK_REQUESTING_ABORTED,
     CALLS_CHANGED,
     CALLS_EMPTY,
     CALL_ACCEPTING_FAILED,
@@ -161,10 +169,13 @@ export const OPERATOR_SOCKET = {
     REALTIME_DASHBOARD_SUBSCRIBED,
     REALTIME_DASHBOARD_SUBSCRIBTION_ERROR,
     REALTIME_DASHBOARD_WAITING_CALLS_CHANGED,
+    REALTIME_DASHBOARD_WAITING_CALLBACKS_CHANGED,
     REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED,
     REALTIME_DASHBOARD_CALL_FINISHED,
     REALTIME_DASHBOARD_CALL_ACCEPTED,
+    REALTIME_DASHBOARD_CALLBACK_ACCEPTED,
     REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
+    REALTIME_DASHBOARD_CALLBACK_DECLINED,
   },
   ERROR_MESSAGES: {
     CALLS_EMPTY,
@@ -254,9 +265,15 @@ export const CALL_DISPOSITIONS = [
 
 export const CALL_TYPES = ['info', 'help', 'sale'];
 
+export const BE_CALL_TYPES = {
+  VIDEO_CALLBACK: 'call.video.callback',
+};
+
 export const PERMISSIONS = {
   CALL_ANSWER: 'xyzies.vsp.call.answer',
   REALTIME_DASHBOARD: 'xyzies.vsp.realtimedashboard.subscribe',
   REALTIME_DASHBOARD_CHOOSE_TENANT: 'xyzies.vsp.realtimedashboard.choosetenant',
   DASHBOARD_CHOOSE_TENANT: 'xyzies.vsp.dashboard.choosetenant',
 };
+
+export const OPERATION_CANCELLED = 'operation.canceled';

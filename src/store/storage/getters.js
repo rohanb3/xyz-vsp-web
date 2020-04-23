@@ -6,6 +6,15 @@ export default {
   callTypes() {
     return [...CALL_TYPES];
   },
+  tenantCompanies(state) {
+    return state.tenantCompanies;
+  },
+  tenantUsers(state) {
+    return state.tenantUsers;
+  },
+  allDevices(state) {
+    return state.allDevices;
+  },
   callDispositions() {
     return [...CALL_DISPOSITIONS];
   },

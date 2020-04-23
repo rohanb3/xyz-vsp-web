@@ -1,23 +1,8 @@
 <template>
-  <div
-    class="comment-cell"
-    :class="dynamicClass"
-  >
-    <p
-      class="comment-title isClickable"
-      ref="comment"
-      @click="showComment"
-    >
-      {{ getValue }}
-    </p>
+  <div class="comment-cell" :class="dynamicClass">
+    <p class="comment-title isClickable" ref="comment" @click="showComment">{{ preparedValue }}</p>
 
-    <v-dialog
-      v-model="show"
-      persistent
-      width="600px"
-      scrollable
-    >
-
+    <v-dialog v-model="show" persistent width="600px" scrollable>
       <v-card>
         <v-card-text class="comment-info">
           <div>
@@ -37,20 +22,14 @@
 
         <v-card-text>
           <p class="field-title">{{ $t('comment') }}:</p>
-          <p>{{ getValue }}</p>
+          <p>{{ preparedValue }}</p>
         </v-card-text>
 
         <v-divider></v-divider>
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            flat
-            @click="show = false"
-          >
-            Close
-          </v-btn>
+          <v-btn color="primary" flat @click="show = false">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -80,7 +59,7 @@ export default {
     getDate() {
       return moment(this.item.createOn).format(DEFAULT_DATE_FORMAT);
     },
-    getValue() {
+    preparedValue() {
       return this.value || this.column.placeholder;
     },
     dynamicClass() {

@@ -6,6 +6,8 @@ import Notifications from 'vue-notification';
 import 'vue-popperjs/dist/css/vue-popper.css';
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
 
+import IconCallback from '@/components/icons/IconCallback';
+
 import { init as listenNetworkStatusChange } from '@/services/networkStatus';
 import { init as initSentry } from '@/services/sentry';
 import App from './App';
@@ -23,6 +25,11 @@ Vue.use(Vuetify, {
   theme: {
     primary: '#3c91f7',
     success: '#7ed321',
+  },
+  icons: {
+    callback: {
+      component: IconCallback,
+    },
   },
 });
 

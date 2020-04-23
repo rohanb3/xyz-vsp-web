@@ -323,9 +323,19 @@
   "live.dashboard": "Live Dashboard",
   "call.statistics": "Call Statistics",
   "abandoned": "Abandoned",
-  "waiting.calls": "Waiting calls",
-  "live.calls": "Live calls",
-  "response.time": "Response Time",
+  "waiting.calls": "Waiting Calls",
+  "live.calls": "Live Calls",
+  "response.time": "Customer Wait Time",
   "longest": "Longest",
-  "available": "Available"
+  "available": "Available",
+  "sales.rep": "Sales Rep",
+  "operator.name": "Operator",
+  "waiting.time": "Waiting Time",
+  "call.duration": "Call Duration",
+  "waiting.duration": "Waiting Duration",
+  "callback.tooltip": "Callback",
+  "device": "Device",
+  "operation.canceled": "Operation was cancelled",
+  "operator.calls": "Operator Calls",
+  "callbacks": "Callbacks"
 }

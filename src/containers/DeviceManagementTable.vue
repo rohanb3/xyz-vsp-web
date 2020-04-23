@@ -224,7 +224,6 @@ export default {
       justify-content: center;
     }
   }
-
   .wombat-row.disabled {
     background-color: #f3f1f1;
     position: relative;
@@ -240,14 +239,12 @@ export default {
     }
   }
 }
-
 .device-management-table {
   width: 100%;
   border-radius: 8px;
   box-shadow: 0 2px 4px 0 $table-shadow-color;
   background-color: #fff;
 }
-
 .device-management-table-toolbar {
   display: flex;
   flex-flow: row;

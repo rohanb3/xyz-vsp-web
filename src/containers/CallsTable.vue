@@ -148,7 +148,6 @@ export default {
   }
   .wombat-row.call-missed {
     background-color: $calls-missed-call-background-color;
-
     .column-type {
       @include inactive-cell;
     }
@@ -163,14 +162,12 @@ export default {
     }
   }
 }
-
 .calls-table {
   width: 100%;
   border-radius: 8px;
   box-shadow: 0 2px 4px 0 $table-shadow-color;
   background-color: #fff;
 }
-
 .calls-table-toolbar {
   display: flex;
   flex-flow: row;
@@ -178,7 +175,6 @@ export default {
   align-items: center;
   padding: 0px 29px;
 }
-
 .calls-amount {
   font-family: Roboto;
   font-size: 20px;
@@ -189,7 +185,6 @@ export default {
   letter-spacing: normal;
   color: $table-row-text-color;
 }
-
 .calls-table-footer {
   display: flex;
   flex-flow: row;

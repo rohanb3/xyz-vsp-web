@@ -45,6 +45,8 @@
         :callback-available="callbackAvailable"
         @saveFeedback="saveFeedback"
         @callback="requestCallback"
+        @cancelCallback="cancelCallback"
+        @finishCall="finishCall"
       />
 
       <call-connection-error-popup
@@ -107,6 +109,7 @@ export default {
   },
   data() {
     return {
+      callbackCancellation: null,
       connectedToRoom: true,
       connectingToRoom: false,
       localParticipantNetworkLevel: 5,
@@ -310,12 +313,23 @@ export default {
     },
     requestCallback() {
       this.connectingToCallback = true;
-      return callBack()
+      const { promise, cancellation } = callBack();
+
+      this.callbackCancellation = cancellation;
+
+      return promise
         .then(this.onRequestingCallbackSucceed)
         .catch(this.onRequestingCallbackFailed)
         .finally(() => {
           this.connectingToCallback = false;
         });
+    },
+    cancelCallback() {
+      if (this.callbackCancellation) {
+        this.callbackCancellation();
+      } else {
+        throw new Error('Cancellation method was null');
+      }
     },
     onRequestingCallbackSucceed() {
       this.hideFeedbackPopup();

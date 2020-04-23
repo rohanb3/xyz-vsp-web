@@ -10,9 +10,11 @@ import {
   login,
   refreshToken,
   getUser,
+  getMinifiedUsersByTenants,
 } from '@/services/identityRepository';
 import * as utils from '@/services/utils';
 import { RESPONSE_STATUSES } from '@/constants';
+import { paramsSerializer } from '@/services/repositoryUtils';
 
 const { OK } = RESPONSE_STATUSES;
 
@@ -171,6 +173,31 @@ describe('identityRepository', () => {
       const result = await getProfileData();
 
       expect(api.get).toHaveBeenCalledWith('/users/profile');
+      expect(result).toEqual(data);
+    });
+  });
+  describe('getMinifiedUsersByTenants', () => {
+    it('should call api.get and return data', async () => {
+      const data = [
+        {
+          id: 1,
+          users: [{ objectId: 1, usersName: '1' }],
+        },
+        {
+          id: 2,
+          users: [{ objectId: 2, usersName: '2' }],
+        },
+        {
+          id: 3,
+          users: [{ objectId: 3, usersName: '1' }],
+        },
+      ];
+      const params = { tenantIds: [1, 2, 3] };
+
+      api.get = jest.fn(() => Promise.resolve({ data }));
+      const result = await getMinifiedUsersByTenants([1, 2, 3]);
+
+      expect(api.get).toHaveBeenCalledWith('/users/simple/bytenant', { params, paramsSerializer });
       expect(result).toEqual(data);
     });
   });

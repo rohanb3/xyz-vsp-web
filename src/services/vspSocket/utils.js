@@ -8,18 +8,18 @@ export function runOperation(operation, data, successEvent, errorEvent = null) {
   return new Promise((resolve, reject) => {
     getSocket().emit(operation, data);
 
-    const { promise: successPromise, stop: stopWaitingSuccess } = waitForEvent(successEvent);
-    const { promise: unauthorizedPromise, stop: stopWaitingUnauthorized } = waitForEvent(
+    const { promise: successPromise, stop: stopWaitingSuccess } = self.waitForEvent(successEvent);
+    const { promise: unauthorizedPromise, stop: stopWaitingUnauthorized } = self.waitForEvent(
       EVENTS.UNAUTHORIZED
     );
-    const { promise: forbiddenPromise, stop: stopWaitingForbidden } = waitOperationForbidden(
+    const { promise: forbiddenPromise, stop: stopWaitingForbidden } = self.waitOperationForbidden(
       operation
     );
 
     let stopWaitingError = null;
 
     if (errorEvent) {
-      const wait = waitForEvent(errorEvent);
+      const wait = self.waitForEvent(errorEvent);
       stopWaitingError = wait.stop;
 
       wait.promise.then(reason => {
@@ -103,7 +103,7 @@ export function waitPubSubEvent(event) {
 
   const promise = new Promise(resolve => {
     resolver = resolve;
-    pubSub.subscribe(event, resolve);
+    pubSub.subscribeOnce(event, resolve);
   });
 
   return { promise, stop };
@@ -123,3 +123,14 @@ export function justWaitPubSubEvent(event) {
   const { promise } = waitPubSubEvent(event);
   return promise;
 }
+
+// Unit-tests purposes
+export const self = {
+  runOperation,
+  waitForEvent,
+  waitOperationForbidden,
+  waitPubSubEvent,
+  justWaitForEvent,
+  justWaitOperationForbidden,
+  justWaitPubSubEvent,
+};

@@ -34,7 +34,7 @@ describe('repository', () => {
       const response = await getCustomers(startFrom, count);
 
       expect(response).toEqual(items);
-      expect(api.get).toHaveBeenCalledWith('/customers', { params });
+      await expect(api.get).toHaveBeenCalledWith('/customers', { params });
     });
   });
 

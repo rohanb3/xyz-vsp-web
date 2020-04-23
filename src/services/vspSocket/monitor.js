@@ -31,6 +31,10 @@ function init() {
     PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED,
     onEvent.bind(null, PUB_SUB_EVENTS.SOCKET_AUTHENTIFICATED)
   );
+  pubSub.subscribe(
+    PUB_SUB_EVENTS.SOCKET_UNAUTHORIZED,
+    onEvent.bind(null, PUB_SUB_EVENTS.SOCKET_UNAUTHORIZED)
+  );
 
   pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_CONNECTED, onSocketStatusChanged.bind(null, true));
   pubSub.subscribe(PUB_SUB_EVENTS.SOCKET_DISCONNECTED, onSocketStatusChanged.bind(null, false));
@@ -41,7 +45,7 @@ function init() {
 
 async function onUnauthorized(data) {
   if (data.message === TOKEN_INVALID) {
-    await refreshToken();
+    await self.refreshToken();
 
     const credentials = store.getters.vspSocketCredentials;
     if (credentials) {
@@ -65,3 +69,9 @@ async function refreshToken() {
 function onSocketStatusChanged(connected) {
   store.commit(SET_CONNECTION_TO_CALL_SOCKET, connected);
 }
+
+// Unit-tests purposes
+// eslint-disable-next-line import/prefer-default-export
+export const self = {
+  refreshToken,
+};

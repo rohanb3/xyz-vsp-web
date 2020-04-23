@@ -9,6 +9,7 @@ import './monitor';
 const { EVENTS, PUB_SUB_EVENTS, TOKEN_INVALID } = OPERATOR_SOCKET;
 
 const pubSub = new Emitter();
+
 let subscriptionStatus = false;
 let subscriptionTenant = null;
 
@@ -67,6 +68,14 @@ export function unsubscribeWaitingCallsChanged(handler) {
   pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, handler);
 }
 
+export function subscribeWaitingCallbacksChanged(handler) {
+  pubSub.subscribe(EVENTS.REALTIME_DASHBOARD_WAITING_CALLBACKS_CHANGED, handler);
+}
+
+export function unsubscribeWaitingCallbacksChanged(handler) {
+  pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_WAITING_CALLBACKS_CHANGED, handler);
+}
+
 export function subscribeActiveCallsChanged(handler) {
   pubSub.subscribe(EVENTS.REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED, handler);
 }
@@ -97,6 +106,22 @@ export function subscribeRealTimeDashboardOperatorsStatusesChanged(handler) {
 
 export function unsubscribeRealTimeDashboardOperatorsStatusesChanged(handler) {
   pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED, handler);
+}
+
+export function subscribeRealTimeDashboardCallBackAccepted(handler) {
+  pubSub.subscribe(EVENTS.REALTIME_DASHBOARD_CALLBACK_ACCEPTED, handler);
+}
+
+export function unsubscribeRealTimeDashboardCallBackAccepted(handler) {
+  pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_CALLBACK_ACCEPTED, handler);
+}
+
+export function subscribeRealTimeDashboardCallBackDeclined(handler) {
+  pubSub.subscribe(EVENTS.REALTIME_DASHBOARD_CALLBACK_DECLINED, handler);
+}
+
+export function unsubscribeRealTimeDashboardCallBackDeclined(handler) {
+  pubSub.unsubscribe(EVENTS.REALTIME_DASHBOARD_CALLBACK_DECLINED, handler);
 }
 
 function init() {
@@ -144,10 +169,15 @@ function subscribeListeners() {
   const socket = transport.getSocket();
   if (socket) {
     socket.on(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, onWaitingCallsChanged);
+    socket.on(EVENTS.REALTIME_DASHBOARD_WAITING_CALLBACKS_CHANGED, onWaitingCallbacksChanged);
     socket.on(EVENTS.REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED, onActiveCallsChanged);
 
     socket.on(EVENTS.REALTIME_DASHBOARD_CALL_FINISHED, onRealTimeDashboardCallFinished);
     socket.on(EVENTS.REALTIME_DASHBOARD_CALL_ACCEPTED, onRealTimeDashboardCallAccepted);
+
+    socket.on(EVENTS.REALTIME_DASHBOARD_CALLBACK_DECLINED, onRealTimeDashboardCallbackDeclined);
+    socket.on(EVENTS.REALTIME_DASHBOARD_CALLBACK_ACCEPTED, onRealTimeDashboardCallbackAccepted);
+
     socket.on(
       EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
       onRealTimeDashboardOperatorsStatusesChanged
@@ -159,9 +189,12 @@ function unsubscribeListeners() {
   const socket = transport.getSocket();
   if (socket) {
     socket.off(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, onWaitingCallsChanged);
+    socket.off(EVENTS.REALTIME_DASHBOARD_WAITING_CALLBACKS_CHANGED, onWaitingCallbacksChanged);
     socket.off(EVENTS.REALTIME_DASHBOARD_ACTIVE_CALLS_CHANGED, onActiveCallsChanged);
     socket.off(EVENTS.REALTIME_DASHBOARD_CALL_FINISHED, onRealTimeDashboardCallFinished);
     socket.off(EVENTS.REALTIME_DASHBOARD_CALL_ACCEPTED, onRealTimeDashboardCallAccepted);
+    socket.off(EVENTS.REALTIME_DASHBOARD_CALLBACK_DECLINED, onRealTimeDashboardCallbackDeclined);
+    socket.off(EVENTS.REALTIME_DASHBOARD_CALLBACK_ACCEPTED, onRealTimeDashboardCallbackAccepted);
     socket.off(
       EVENTS.REALTIME_DASHBOARD_OPERATORS_STATUSES_CHANGED,
       onRealTimeDashboardOperatorsStatusesChanged
@@ -171,6 +204,10 @@ function unsubscribeListeners() {
 
 function onWaitingCallsChanged(data) {
   pubSub.emit(EVENTS.REALTIME_DASHBOARD_WAITING_CALLS_CHANGED, data);
+}
+
+function onWaitingCallbacksChanged(data) {
+  pubSub.emit(EVENTS.REALTIME_DASHBOARD_WAITING_CALLBACKS_CHANGED, data);
 }
 
 function onActiveCallsChanged(data) {
@@ -183,6 +220,14 @@ function onRealTimeDashboardCallFinished(data) {
 
 function onRealTimeDashboardCallAccepted(data) {
   pubSub.emit(EVENTS.REALTIME_DASHBOARD_CALL_ACCEPTED, data);
+}
+
+function onRealTimeDashboardCallbackDeclined(data) {
+  pubSub.emit(EVENTS.REALTIME_DASHBOARD_CALLBACK_DECLINED, data);
+}
+
+function onRealTimeDashboardCallbackAccepted(data) {
+  pubSub.emit(EVENTS.REALTIME_DASHBOARD_CALLBACK_ACCEPTED, data);
 }
 
 function onRealTimeDashboardOperatorsStatusesChanged(data) {

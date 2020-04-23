@@ -74,7 +74,7 @@ export function disconnectOperator() {
 }
 
 export function acceptCall() {
-  setConnectingStatus();
+  self.setConnectingStatus();
   const identity = store.getters.userId;
   log('call.js -> acceptCall()', identity);
 
@@ -154,8 +154,15 @@ export function finishCall() {
 export function callBack() {
   const { activeCallData, userId } = store.getters;
   log('call.js -> callBack()', userId, activeCallData);
-  setConnectingStatus();
-  return requestCallback(activeCallData.id)
+  self.setConnectingStatus();
+  const { promise, cancellation } = requestCallback(activeCallData.id);
+
+  const cancelCallback = async () => {
+    await disconnectFromRoom();
+    await cancellation();
+  };
+
+  promise
     .then(call => {
       const credentials = { name: call.id, token: store.state.call.token };
       const handlers = {
@@ -165,6 +172,8 @@ export function callBack() {
       return connectToRoom(credentials, { handlers });
     })
     .then(setOnCallOperatorStatus);
+
+  return { promise, cancellation: cancelCallback };
 }
 
 export function setOnlineStatus() {
@@ -251,3 +260,7 @@ function getOperatorData() {
     credentials,
   };
 }
+
+export const self = {
+  setConnectingStatus,
+};

@@ -3,7 +3,7 @@ import { getProfileData, changeProfileData } from '@/services/profile';
 
 let data;
 
-describe.only('profile', () => {
+describe('profile', () => {
   beforeEach(() => {
     data = {
       firstName: 'Robert',

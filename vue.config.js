@@ -71,6 +71,10 @@ module.exports = {
         target: process.env.VUE_APP_PROXY_CALLS_REST_URL || 'http://localhost:3000',
         changeOrigin: true,
       },
+      '/api/video/dashboard/callbacks': {
+        target: process.env.VUE_APP_PROXY_CALLS_REST_URL || 'http://localhost:3000',
+        changeOrigin: true,
+      },
     },
   },
 };

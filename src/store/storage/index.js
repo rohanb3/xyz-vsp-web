@@ -3,7 +3,7 @@ import getters from './getters';
 import actions from './actions';
 import mutations from './mutations';
 
-const { CALLS, DEVICES, DEVICE_COMMENTS, COMPANY_LIST, DEVICE_HISTORY } = ENTITY_TYPES;
+const { CALLS, DEVICES, COMPANY_LIST, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 export default {
   state: {
@@ -27,6 +27,9 @@ export default {
       items: [],
       allItemsLoaded: false,
     },
+    tenantUsers: {},
+    tenantCompanies: {},
+    allDevices: {},
   },
   getters,
   actions,

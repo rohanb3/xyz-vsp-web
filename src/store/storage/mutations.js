@@ -7,7 +7,10 @@ import {
   RESET_ITEMS,
   SET_ALL_ITEMS_LOADED,
   SET_ITEMS_TOTAL,
+  SET_TENANT_MINIFIED_USERS,
+  SET_TENANT_MINIFIED_COMPANIES,
   SET_CALL_TYPES_AND_DISPOSITIONS,
+  SET_FULL_DEVICES_LIST,
 } from './mutationTypes';
 
 export default {
@@ -46,6 +49,33 @@ export default {
   [SET_CALL_TYPES_AND_DISPOSITIONS](state, data) {
     state.callTypes = data.types;
     state.dispositions = data.dispositions;
+  },
+  [SET_TENANT_MINIFIED_COMPANIES](state, data) {
+    state.tenantCompanies = data.reduce(
+      (hash, tenantWithCompanies) => ({
+        ...hash,
+        [tenantWithCompanies.id]: tenantWithCompanies.companies.reduce(
+          (companiesHash, company) => ({ ...companiesHash, [company.id]: company }),
+          {}
+        ),
+      }),
+      {}
+    );
+  },
+  [SET_TENANT_MINIFIED_USERS](state, data) {
+    state.tenantUsers = data.reduce(
+      (hash, tenantWithUsers) => ({
+        ...hash,
+        [tenantWithUsers.id]: tenantWithUsers.users.reduce(
+          (usersHash, user) => ({ ...usersHash, [user.objectId]: user }),
+          {}
+        ),
+      }),
+      {}
+    );
+  },
+  [SET_FULL_DEVICES_LIST](state, data) {
+    state.allDevices = data.reduce((hash, device) => ({ ...hash, [device.udid]: device }), {});
   },
   /* eslint-enable no-param-reassign */
 };

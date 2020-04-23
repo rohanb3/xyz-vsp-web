@@ -1,14 +1,14 @@
 import { getCalls } from '@/services/callRepository';
 import {
   getDevices,
-  getCommentByDevice,
-  getDeviceHistory,
   updateDevice,
+  getDeviceHistory,
+  getCommentByDevice,
 } from '@/services/devicesRepository';
 import { getCompanies } from '@/services/publicApiRepository';
 import { ENTITY_TYPES } from '@/constants';
 
-const { CALLS, DEVICES, DEVICE_COMMENTS, COMPANY_LIST, DEVICE_HISTORY } = ENTITY_TYPES;
+const { CALLS, DEVICES, COMPANY_LIST, DEVICE_HISTORY, DEVICE_COMMENTS } = ENTITY_TYPES;
 
 const handlers = {
   [CALLS]: {

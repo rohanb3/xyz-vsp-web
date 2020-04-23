@@ -8,6 +8,8 @@ import operatorsTableColumns from './operatorsTable';
 import callsDurationTableColumns from './callsDurationTable';
 import callsFeedbackTableColumns from './callsFeedbackTable';
 import paymentsTableColumns from './paymentsTable';
+import realtimeActiveCallsTable from './realtimeActiveCallsTable';
+import realtimeWaitingCallsTable from './realtimeWaitingCallsTable';
 import commentTable from './commentTable';
 
 export const getCallsTableColumns = callsTableColumns;
@@ -21,3 +23,5 @@ export const getCallsDurationTableColumns = callsDurationTableColumns;
 export const getCallsFeedbackTableColumns = callsFeedbackTableColumns;
 export const getPaymentsTableColumns = paymentsTableColumns;
 export const getCommentTableColumns = commentTable;
+export const getRealtimeWaitingCallsTableColumns = realtimeWaitingCallsTable;
+export const getRealtimeActiveCallsTableColumns = realtimeActiveCallsTable;

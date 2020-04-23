@@ -1,65 +1,40 @@
 <template>
-  <nav class="lhs">
-    <!-- <router-link :to="{ name: 'customers' }" class="lhs-item-link">
-      <div class="lhs-item" :class="{ active: activeIndex === 0 }" @click="setActive(0)">
-        <v-icon class="item-icon">account_box</v-icon>
+  <nav class="lhs" :class="{ opened : this.isOpened, closed: !this.isOpened }">
+    <div class="lhs-item" @click="this.toggleMenu">
+      <div>
+        <v-icon class="item-icon large">{{ this.arrowIcon }}</v-icon>
       </div>
-    </router-link>
-    <router-link :to="{ name: 'operators' }" class="lhs-item-link">
-      <div class="lhs-item" :class="{ active: activeIndex === 1 }" @click="setActive(1)">
-        <v-icon class="item-icon">group</v-icon>
-      </div>
-    </router-link>
-    <router-link class="lhs-item-link" :to="{ name: 'operatorReview' }">
-      <div class="lhs-item" :class="{ active: activeIndex === 3 }" @click="setActive(3)">
-        <v-icon class="item-icon">insert_chart</v-icon>
-      </div>
-    </router-link>
-
-    <div class="lhs-item" :class="{ active: activeIndex === 4 }" @click="setActive(4)">
-      <v-icon class="item-icon">list_alt</v-icon>
     </div>
-    <router-link :to="{ name: 'payments' }" class="lhs-item-link">
-      <div class="lhs-item" :class="{ active: activeIndex === 5 }" @click="setActive(5)">
-        <v-icon class="item-icon">credit_card</v-icon>
-      </div>
-    </router-link>
-    <router-link :to="{ name: 'operator-dashboard' }" class="lhs-item-link">
-      <div class="lhs-item" :class="{ active: activeIndex === 6 }" @click="setActive(6)">
+    <router-link
+      v-if="isRealtimeDashboardAllowed"
+      :to="{ name: 'dashboard' }"
+      :title="dashboardTitle"
+      class="lhs-item-link"
+    >
+      <div class="lhs-item">
+        <div class="item-title" v-if="this.isOpened">{{ dashboardTitle }}</div>
         <v-icon class="item-icon">view_compact</v-icon>
       </div>
     </router-link>
-    <v-spacer class="spacer"/>
-    <router-link :to="{ name: 'supervisorSettingsProfile' }" class="lhs-item-link">
-      <div class="lhs-item" :class="{ active: activeIndex === 7 }" @click="setActive(7)">
-        <v-icon class="item-icon">settings</v-icon>
-      </div>
-    </router-link>
-    <router-link :to="{ name: 'settings' }" class="lhs-item-link">
-      <div class="lhs-item" :class="{ active: activeIndex === 8 }" @click="setActive(8)">
-        <v-icon class="item-icon">settings</v-icon>
-      </div>
-    </router-link>-->
-
-    <router-link v-if="isRealtimeDashboardAllowed" :to="{ name: 'dashboard' }" :title="dashboardTitle" class="lhs-item-link">
+    <router-link
+      v-if="!isSupportAdmin"
+      :to="{ name: 'devices' }"
+      :title="deviceManagmentTitle"
+      class="lhs-item-link"
+    >
       <div class="lhs-item">
-        <v-icon class="item-icon">view_compact</v-icon>
-      </div>
-    </router-link>
-    <!--<router-link :to="{ name: 'calls' }" class="lhs-item-link">-->
-      <!--<div class="lhs-item call">-->
-        <!--<v-icon class="item-icon">call</v-icon>-->
-        <!--<v-icon class="item-icon secondary-icon">list</v-icon>-->
-      <!--</div>-->
-    <!--</router-link>-->
-    <router-link v-if="!isSupportAdmin" :to="{ name: 'devices' }" :title="deviceManagmentTitle" class="lhs-item-link">
-      <div class="lhs-item">
+        <div class="item-title" v-if="this.isOpened">{{ deviceManagmentTitle }}</div>
         <v-icon class="item-icon">tablet_mac</v-icon>
       </div>
     </router-link>
-    <v-spacer class="spacer"/>
-    <router-link :to="{ name: 'supervisorSettingsProfile' }" :title="settingsTitle" class="lhs-item-link">
+    <v-spacer class="spacer" />
+    <router-link
+      :to="{ name: 'supervisorSettingsProfile' }"
+      :title="settingsTitle"
+      class="lhs-item-link"
+    >
       <div class="lhs-item">
+        <div class="item-title" v-if="this.isOpened">{{ settingsTitle }}</div>
         <v-icon class="item-icon">settings</v-icon>
       </div>
     </router-link>
@@ -71,6 +46,11 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'lhs',
+  data() {
+    return {
+      isOpened: false,
+    };
+  },
   computed: {
     ...mapGetters(['isSupportAdmin', 'isRealtimeDashboardAllowed']),
     dashboardTitle() {
@@ -82,6 +62,14 @@ export default {
     settingsTitle() {
       return this.$t('settings');
     },
+    arrowIcon() {
+      return this.isOpened ? 'arrow_back' : 'arrow_forward';
+    },
+  },
+  methods: {
+    toggleMenu() {
+      this.isOpened = !this.isOpened;
+    },
   },
 };
 </script>
@@ -92,12 +80,29 @@ export default {
 .lhs {
   display: flex;
   flex-flow: column;
-  align-items: center;
+  align-items: flex-end;
   box-shadow: 3px 0 4px 0 $lhs-shadow-color;
   z-index: 2;
+  transition: width 0.7s;
 
   a {
     text-decoration: none;
+  }
+
+  &.opened {
+    width: 300px;
+
+    .item-title {
+      min-width: 250px;
+    }
+  }
+
+  &.closed {
+    width: 50px !important;
+
+    .item-title {
+      min-width: 0px;
+    }
   }
 }
 
@@ -105,14 +110,20 @@ export default {
   width: 100%;
   height: $lhs-width;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  padding: 5px 0;
+  padding: 5px 12px;
   cursor: pointer;
   border-bottom: 2px solid $lhs-delimiter-color;
 
   .item-icon {
     color: $lhs-icon-color;
+  }
+
+  .item-title {
+    transition: width 0.7s;
+    color: black;
+    font-weight: bold;
   }
 }
 
@@ -123,6 +134,10 @@ export default {
 
 .router-link-active {
   .item-icon {
+    color: $lhs-active-icon-color;
+  }
+
+  .item-title {
     color: $lhs-active-icon-color;
   }
 }

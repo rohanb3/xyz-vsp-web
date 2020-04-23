@@ -3,6 +3,7 @@ import {
   COMPANY_LIST_COLUMNS_SORTED,
   SORTING_DIRECTION,
 } from '@/constants';
+import { paramsSerializer } from '@/services/repositoryUtils';
 import publicApi from './publicApi';
 
 export const getBranches = (companyId, keyword) => {
@@ -20,4 +21,12 @@ export const getCompanies = filters => {
   };
 
   return publicApi.get('/company', { params }).then(({ data }) => data);
+};
+
+export const getMinifiedCompaniesByTenants = tenantIds => {
+  const params = {
+    tenantIds,
+  };
+
+  return publicApi.get('/tenant/simple', { params, paramsSerializer }).then(({ data }) => data);
 };

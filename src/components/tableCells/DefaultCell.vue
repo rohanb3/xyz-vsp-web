@@ -1,7 +1,5 @@
 <template>
-  <div class="default-cell" :title="getValue">
-    {{ getValue }}
-  </div>
+  <div class="default-cell" :title="preparedValue">{{ preparedValue }}</div>
 </template>
 
 <script>
@@ -11,7 +9,7 @@ export default {
   name: 'DefaultCell',
   mixins: [nestedFieldCell],
   computed: {
-    getValue() {
+    preparedValue() {
       return this.value || this.column.placeholder;
     },
   },

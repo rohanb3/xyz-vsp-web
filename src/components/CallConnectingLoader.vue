@@ -1,13 +1,9 @@
 <template>
   <div class="call-conecting-loader">
     <p class="loader-title">{{ title }}</p>
-    <p v-if="subtitle" class="loader-subtitle">
-      {{ subtitle }}
-    </p>
-    <v-progress-circular
-      indeterminate
-      color="primary"
-      size="60" />
+    <p v-if="subtitle" class="loader-subtitle">{{ subtitle }}</p>
+    <v-progress-circular indeterminate color="primary" size="60" />
+    <slot name="additional"></slot>
   </div>
 </template>
 
